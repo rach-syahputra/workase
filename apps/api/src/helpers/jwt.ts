@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-import { UserToken } from '@/interfaces/users/user.interface';
+import { UserToken } from '@/interfaces/user.interface';
 import { JWT_ACCESS_SECRET } from '@/config';
 
 export const putAccessToken = async (data: UserToken) => {

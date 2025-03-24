@@ -1,0 +1,22 @@
+export interface CompanyReviewRating {
+  workCulture: number;
+  workLifeBalance: number;
+  facilities: number;
+  careerGrowth: number;
+}
+
+export interface AddCompanyReviewRequest {
+  jobId: string;
+  userId: string;
+  companyId: string;
+  title: string;
+  salaryEstimate: number;
+  rating: CompanyReviewRating;
+  content: string;
+}
+
+export interface VerifyUserEmploymentRequest {
+  userId: string;
+  jobId: string;
+  companyId: string;
+}
