@@ -15,6 +15,14 @@ export interface AddCompanyReviewRequest {
   content: string;
 }
 
+export interface AddCompanyReviewRequestTest {
+  companyId: string;
+  title: string;
+  salaryEstimate: number;
+  rating: CompanyReviewRating;
+  content: string;
+}
+
 export interface VerifyUserEmploymentRequest {
   userId: string;
   jobId: string;
