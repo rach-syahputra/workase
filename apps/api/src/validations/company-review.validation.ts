@@ -28,7 +28,7 @@ export const addCompanyReviewSchema = yup
       facilities: yup
         .number()
         .typeError('Facilities rating must be a number')
-        .required('Work culture rating is required'),
+        .required('Facilities rating is required'),
       careerGrowth: yup
         .number()
         .typeError('Career growth rating must be a number')
@@ -38,6 +38,6 @@ export const addCompanyReviewSchema = yup
       .string()
       .typeError('Content must be a string')
       .required('Content is required')
-      .min(20, 'Title must be at least 20 characters'),
+      .min(20, 'Content must be at least 20 characters'),
   })
   .strict(true);

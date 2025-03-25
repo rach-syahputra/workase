@@ -19,7 +19,7 @@ class CompanyReviewService {
       await this.companyReviewRepository.verifyUserEmployment(req);
 
     if (!isUserVerified) {
-      throw new ResponseError(400, 'User does not belong to the company');
+      throw new ResponseError(403, 'User does not belong to the company');
     }
   };
 
