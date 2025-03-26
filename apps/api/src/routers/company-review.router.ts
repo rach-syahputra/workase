@@ -19,6 +19,10 @@ class CompanyReviewRouter {
       verifyToken,
       this.companyReviewController.addCompanyReview,
     );
+    this.router.get(
+      '/:companyId/reviews',
+      this.companyReviewController.getCompanyReviews,
+    );
   }
 
   getRouter(): Router {

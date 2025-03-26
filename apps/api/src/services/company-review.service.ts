@@ -1,5 +1,6 @@
 import {
   AddCompanyReviewRequest,
+  GetCompanyReviewsRequest,
   VerifyUserEmploymentRequest,
 } from '@/interfaces/company-review.interface';
 import CompanyReviewRepository from '@/repositories/company-review.repository';
@@ -47,6 +48,10 @@ class CompanyReviewService {
       salaryEstimate: req.salaryEstimate,
       title: req.title,
     });
+  };
+
+  getCompanyReviews = async (req: GetCompanyReviewsRequest) => {
+    return this.companyReviewRepository.getCompanyReviews(req);
   };
 }
 

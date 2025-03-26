@@ -1,3 +1,5 @@
+import { IFilter } from './filter.interface';
+
 export interface CompanyReviewRating {
   workCulture: number;
   workLifeBalance: number;
@@ -26,5 +28,9 @@ export interface AddCompanyReviewRequestTest {
 export interface VerifyUserEmploymentRequest {
   userId: string;
   jobId: string;
+  companyId: string;
+}
+
+export interface GetCompanyReviewsRequest extends IFilter {
   companyId: string;
 }

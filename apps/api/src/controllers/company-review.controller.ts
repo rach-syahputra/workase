@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from 'express';
 import CompanyReviewService from '@/services/company-review.service';
 import { UserRequest } from '@/interfaces/middleware.interface';
 import { AddCompanyReviewRequest } from '@/interfaces/company-review.interface';
+import { OrderType } from '@/interfaces/filter.interface';
 import { ApiResponse } from '@/helpers/api-response';
 import { ResponseError } from '@/helpers/error';
 
@@ -54,9 +55,13 @@ class CompanyReviewController {
     next: NextFunction,
   ) => {
     try {
-      const data = await this.companyReviewService.getCompanyReviews(
-        req.params.companyId,
-      );
+      const data = await this.companyReviewService.getCompanyReviews({
+        companyId: req.params.companyId,
+        q: req.query.q as string,
+        order: req.query.order as OrderType,
+        cursor: req.query.cursor as string,
+        limit: req.query.limit ? Number(req.query.limit) : undefined,
+      });
 
       ApiResponse({
         res,
