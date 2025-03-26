@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 
 import CompanyReviewService from '@/services/company-review.service';
-import { UserRequest } from '@/interfaces/user.interface';
+import { UserRequest } from '@/interfaces/middleware.interface';
 import { AddCompanyReviewRequest } from '@/interfaces/company-review.interface';
 import { ApiResponse } from '@/helpers/api-response';
 import { ResponseError } from '@/helpers/error';
@@ -41,6 +41,27 @@ class CompanyReviewController {
         res,
         statusCode: 201,
         message: 'Company review created successfully.',
+        data,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  getCompanyReviews = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const data = await this.companyReviewService.getCompanyReviews(
+        req.params.companyId,
+      );
+
+      ApiResponse({
+        res,
+        statusCode: 200,
+        message: `Reviews by company with id ${req.params.companyId} retrieved successfully.`,
         data,
       });
     } catch (err) {
