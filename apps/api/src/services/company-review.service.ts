@@ -3,21 +3,24 @@ import {
   GetCompanyReviewsRequest,
   VerifyUserEmploymentRequest,
 } from '@/interfaces/company-review.interface';
-import CompanyReviewRepository from '@/repositories/company-review.repository';
+import AddCompanyReviewRepository from '@/repositories/add-company-review.repository';
+import GetCompanyReviewRepository from '@/repositories/get-company-review.repository';
 import { addCompanyReviewSchema } from '@/validations/company-review.validation';
 import { ResponseError } from '@/helpers/error';
 import { validate } from '@/helpers/validation';
 
 class CompanyReviewService {
-  private companyReviewRepository: CompanyReviewRepository;
+  private addCompanyReviewRepository: AddCompanyReviewRepository;
+  private getCompanyReviewRepository: GetCompanyReviewRepository;
 
   constructor() {
-    this.companyReviewRepository = new CompanyReviewRepository();
+    this.addCompanyReviewRepository = new AddCompanyReviewRepository();
+    this.getCompanyReviewRepository = new GetCompanyReviewRepository();
   }
 
   verifyUserEmployment = async (req: VerifyUserEmploymentRequest) => {
     const isUserVerified =
-      await this.companyReviewRepository.verifyUserEmployment(req);
+      await this.addCompanyReviewRepository.verifyUserEmployment(req);
 
     if (!isUserVerified) {
       throw new ResponseError(403, 'User does not belong to the company');
@@ -39,7 +42,7 @@ class CompanyReviewService {
       companyId: req.companyId,
     });
 
-    return this.companyReviewRepository.addCompanyReview({
+    return this.addCompanyReviewRepository.addCompanyReview({
       userId: req.userId,
       jobId: req.jobId,
       companyId: req.companyId,
@@ -51,7 +54,7 @@ class CompanyReviewService {
   };
 
   getCompanyReviews = async (req: GetCompanyReviewsRequest) => {
-    return this.companyReviewRepository.getCompanyReviews(req);
+    return this.getCompanyReviewRepository.getCompanyReviews(req);
   };
 }
 
