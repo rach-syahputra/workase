@@ -1,5 +1,6 @@
 import {
   AddCompanyReviewRequest,
+  GetCompaniesReviewsRequest,
   GetCompanyReviewsRequest,
   VerifyUserEmploymentRequest,
 } from '@/interfaces/company-review.interface';
@@ -55,6 +56,10 @@ class CompanyReviewService {
 
   getCompanyReviews = async (req: GetCompanyReviewsRequest) => {
     return this.getCompanyReviewRepository.getCompanyReviews(req);
+  };
+
+  getCompaniesReviews = async (req: GetCompaniesReviewsRequest) => {
+    return this.getCompanyReviewRepository.getCompaniesReviews(req);
   };
 }
 

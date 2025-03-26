@@ -34,3 +34,5 @@ export interface VerifyUserEmploymentRequest {
 export interface GetCompanyReviewsRequest extends IFilter {
   companyId: string;
 }
+
+export interface GetCompaniesReviewsRequest extends IFilter {}

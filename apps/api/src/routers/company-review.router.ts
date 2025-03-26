@@ -14,6 +14,10 @@ class CompanyReviewRouter {
   }
 
   private initializeRoutes(): void {
+    this.router.get(
+      '/reviews',
+      this.companyReviewController.getCompaniesReviews,
+    );
     this.router.post(
       '/:companyId/reviews',
       verifyToken,
