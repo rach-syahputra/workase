@@ -73,6 +73,27 @@ class CompanyReviewController {
     }
   };
 
+  getCompanyRating = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const data = await this.companyReviewService.getCompanyRating({
+        companyId: req.params.companyId,
+      });
+
+      ApiResponse({
+        res,
+        statusCode: 200,
+        message: `Rating for company with id ${req.params.companyId} retrieved successfully.`,
+        data,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
   getCompaniesReviews = async (
     req: Request,
     res: Response,

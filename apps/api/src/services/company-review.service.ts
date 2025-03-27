@@ -1,22 +1,26 @@
 import {
   AddCompanyReviewRequest,
   GetCompaniesReviewsRequest,
+  GetCompanyRatingRequest,
   GetCompanyReviewsRequest,
   VerifyUserEmploymentRequest,
 } from '@/interfaces/company-review.interface';
-import AddCompanyReviewRepository from '@/repositories/add-company-review.repository';
-import GetCompanyReviewRepository from '@/repositories/get-company-review.repository';
+import AddCompanyReviewRepository from '@/repositories/company-reviews/add-company-review.repository';
+import GetCompanyReviewRepository from '@/repositories/company-reviews/get-company-review.repository';
 import { addCompanyReviewSchema } from '@/validations/company-review.validation';
 import { ResponseError } from '@/helpers/error';
 import { validate } from '@/helpers/validation';
+import GetCompanyRatingRepository from '@/repositories/company-reviews/get-company-rating.repository';
 
 class CompanyReviewService {
   private addCompanyReviewRepository: AddCompanyReviewRepository;
   private getCompanyReviewRepository: GetCompanyReviewRepository;
+  private getCompanyRatingRepository: GetCompanyRatingRepository;
 
   constructor() {
     this.addCompanyReviewRepository = new AddCompanyReviewRepository();
     this.getCompanyReviewRepository = new GetCompanyReviewRepository();
+    this.getCompanyRatingRepository = new GetCompanyRatingRepository();
   }
 
   verifyUserEmployment = async (req: VerifyUserEmploymentRequest) => {
@@ -51,6 +55,12 @@ class CompanyReviewService {
       rating: req.rating,
       salaryEstimate: req.salaryEstimate,
       title: req.title,
+    });
+  };
+
+  getCompanyRating = async (req: GetCompanyRatingRequest) => {
+    return this.getCompanyRatingRepository.getCompanyRating({
+      companyId: req.companyId,
     });
   };
 

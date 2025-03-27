@@ -3,7 +3,7 @@ import {
   VerifyUserEmploymentRequest,
 } from '@/interfaces/company-review.interface';
 import { prisma } from '@/helpers/prisma';
-import { calculateOverallRating } from '@/helpers/utils';
+import { calculateRating } from '@/helpers/company-reviews/company-review.util';
 
 class AddCompanyReviewRepository {
   private prisma: typeof prisma;
@@ -39,7 +39,12 @@ class AddCompanyReviewRepository {
           },
         });
 
-        const overallRating = calculateOverallRating(req.rating);
+        const overallRating = calculateRating([
+          req.rating.workCulture,
+          req.rating.workLifeBalance,
+          req.rating.facilities,
+          req.rating.careerGrowth,
+        ]);
 
         const companyReviewRating = await trx.companyReviewRatings.create({
           data: {

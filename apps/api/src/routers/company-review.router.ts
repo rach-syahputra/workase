@@ -18,6 +18,10 @@ class CompanyReviewRouter {
       '/reviews',
       this.companyReviewController.getCompaniesReviews,
     );
+    this.router.get(
+      '/:companyId/rating',
+      this.companyReviewController.getCompanyRating,
+    );
     this.router.post(
       '/:companyId/reviews',
       verifyToken,

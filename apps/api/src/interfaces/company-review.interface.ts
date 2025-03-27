@@ -1,6 +1,7 @@
 import { IFilter } from './filter.interface';
 
 export interface CompanyReviewRating {
+  overallRating?: number;
   workCulture: number;
   workLifeBalance: number;
   facilities: number;
@@ -28,6 +29,10 @@ export interface AddCompanyReviewRequestTest {
 export interface VerifyUserEmploymentRequest {
   userId: string;
   jobId: string;
+  companyId: string;
+}
+
+export interface GetCompanyRatingRequest {
   companyId: string;
 }
 
