@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "@types/axios": "^0.14.0",
-    "axios": "^1.7.2"
+    "axios": "^1.7.2",
+    "cloudinary": "^2.6.0"
   }
 }
