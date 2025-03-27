@@ -32,6 +32,10 @@ export interface VerifyUserEmploymentRequest {
   companyId: string;
 }
 
+export interface GetCompanyHeaderRequest {
+  companyId: string;
+}
+
 export interface GetCompanyRatingRequest {
   companyId: string;
 }

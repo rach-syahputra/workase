@@ -19,6 +19,10 @@ class CompanyReviewRouter {
       this.companyReviewController.getCompaniesReviews,
     );
     this.router.get(
+      '/:companyId/header',
+      this.companyReviewController.getCompanyHeader,
+    );
+    this.router.get(
       '/:companyId/rating',
       this.companyReviewController.getCompanyRating,
     );
