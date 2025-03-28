@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 
 export default function Sidebar() {
   const [mounted, setMounted] = useState(false);
-  const [active, setActive] = useState('Find salaries');
+  const [active, setActive] = useState('Home');
 
   useEffect(() => {
     setMounted(true);
@@ -16,7 +16,7 @@ export default function Sidebar() {
   if (!mounted) return null; // Hindari rendering di server
 
   const menuItems = ['Home', 'Jobs', 'Companies'];
-
+  const loginItems = ['Sign in', 'Employers/Post Job'];
   return (
     <Sheet>
       {/* Hamburger Button */}
@@ -33,6 +33,20 @@ export default function Sidebar() {
           <SheetTrigger asChild></SheetTrigger>
         </div>
 
+        {/* Login */}
+        <nav className="space-y-1 border-b-[10px] border-t-[1px]">
+          {loginItems.map((item) => (
+            <button
+              key={item}
+              onClick={() => {}}
+              className={`text-md ${item === 'Sign in' ? 'text-primary-dark-blue' : 'text-gray-600'} flex w-full items-center justify-between border-b-[1px] px-5 py-3 text-left font-semibold hover:bg-gray-100`}
+            >
+              {item}
+              <span>{'>'}</span>
+            </button>
+          ))}
+        </nav>
+
         {/* Menu List */}
         <nav className="space-y-1">
           {menuItems.map((item) => (
@@ -40,8 +54,10 @@ export default function Sidebar() {
               key={item}
               onClick={() => setActive(item)}
               className={`text-md flex w-full items-center justify-between px-5 py-3 text-left font-medium ${
-                active === item ? 'font-semibold text-blue-600' : 'text-black'
-              } hover:bg-gray-100`}
+                active === item
+                  ? 'text-primary-dark font-semibold'
+                  : 'text-primary-gray'
+              } border-b-[1px] hover:bg-gray-100`}
             >
               {item}
               <span>{'>'}</span>
