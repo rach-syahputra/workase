@@ -1,7 +1,8 @@
-import { Star } from 'lucide-react';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
 
 import { cn } from '@/lib/utils';
 import { Label } from '../shadcn-ui/label';
+import Icon from './icon';
 
 interface RatingFormInputProps {
   label: string;
@@ -30,9 +31,10 @@ const RatingFormInput: React.FC<RatingFormInputProps> = ({
             onClick={() => onChange(star)}
             className="focus:outline-none"
           >
-            <Star
-              className={cn('cursor-pointer text-gray-300', {
-                'fill-yellow-500 text-yellow-500': star <= value,
+            <Icon
+              icon={faStar}
+              className={cn('w-4 text-gray-300', {
+                'fill-yellow-400 text-yellow-400': star <= value,
               })}
             />
           </button>

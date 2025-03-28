@@ -2,7 +2,7 @@
 
 import { useFormik } from 'formik';
 
-import { AddCompanyReview } from '@/lib/apis/company-reviews';
+import { addCompanyReview } from '@/lib/apis/company-reviews';
 import { AddCompanyReviewFormValues } from '@/lib/interfaces/form/company-review';
 import { useAppToast } from '@/hooks/use-app-toast';
 import { addCompanyReviewSchema } from '@/validations/company-review';
@@ -40,7 +40,7 @@ const CreateCompanyReviewForm = ({
     onSubmit: async (values: AddCompanyReviewFormValues, { resetForm }) => {
       formik.setStatus('');
 
-      const response = await AddCompanyReview(values);
+      const response = await addCompanyReview(values);
 
       if (response.success) {
         resetForm();

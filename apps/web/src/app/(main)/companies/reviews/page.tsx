@@ -2,7 +2,7 @@ import Container from '@/components/layout/container';
 import SearchInput from './_components/search-input';
 import CreateCompanyReviewModal from './_components/create-company-review-modal';
 
-const CompanyReviewsPage = async () => {
+const CompanyReviewsPage = () => {
   return (
     <Container>
       <section className="mx-auto max-w-screen-md">
