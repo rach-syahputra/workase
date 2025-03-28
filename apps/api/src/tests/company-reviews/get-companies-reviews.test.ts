@@ -13,7 +13,7 @@ describe('GET /api/companies/reviews', () => {
         success: true,
         message: expect.any(String),
         data: expect.objectContaining({
-          companiesReviews: expect.arrayContaining([expect.any(Object)]),
+          reviews: expect.arrayContaining([expect.any(Object)]),
           pagination: expect.any(Object),
         }),
       }),
@@ -21,7 +21,9 @@ describe('GET /api/companies/reviews', () => {
   });
 
   it(`should retrieve companies' reviews with names containing 'akame'`, async () => {
-    const response = await request(app).get('/api/companies/reviews?q=akame');
+    const response = await request(app).get(
+      '/api/companies/reviews?jobTitle=graphic',
+    );
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual(
@@ -29,9 +31,9 @@ describe('GET /api/companies/reviews', () => {
         success: true,
         message: expect.any(String),
         data: expect.objectContaining({
-          companiesReviews: expect.arrayContaining([
+          reviews: expect.arrayContaining([
             expect.objectContaining({
-              companyName: expect.stringMatching(/akame/i),
+              jobTitle: expect.stringMatching(/graphic/i),
             }),
           ]),
           pagination: expect.any(Object),

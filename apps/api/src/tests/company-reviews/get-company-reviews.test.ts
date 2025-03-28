@@ -13,7 +13,7 @@ describe('GET /api/companies/:companyId/reviews', () => {
         success: true,
         message: expect.any(String),
         data: expect.objectContaining({
-          companyReviews: expect.arrayContaining([expect.any(Object)]),
+          reviews: expect.arrayContaining([expect.any(Object)]),
           pagination: expect.any(Object),
         }),
       }),
@@ -32,11 +32,11 @@ describe('GET /api/companies/:companyId/reviews', () => {
         success: true,
         message: expect.any(String),
         data: expect.objectContaining({
-          companyReviews: expect.arrayContaining([expect.any(Object)]),
+          reviews: expect.arrayContaining([expect.any(Object)]),
           pagination: expect.any(Object),
         }),
       }),
     );
-    expect(response.body.data.companyReviews).toHaveLength(limit);
+    expect(response.body.data.reviews).toHaveLength(limit);
   });
 });
