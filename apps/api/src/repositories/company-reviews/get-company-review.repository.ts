@@ -3,7 +3,7 @@ import {
   GetCompanyReviewsRequest,
 } from '@/interfaces/company-review.interface';
 import { prisma } from '@/helpers/prisma';
-import { IFilter } from '@/interfaces/filter.interface';
+import { convertDateToUTC7 } from '@/helpers/utils';
 
 class GetCompanyReviewRepository {
   private prisma: typeof prisma;
@@ -58,7 +58,7 @@ class GetCompanyReviewRepository {
         companyLogoUrl: review.company.logoUrl,
         salaryEstimate: review.salaryEstimate,
         content: review.content,
-        createdAt: review.createdAt,
+        createdAt: convertDateToUTC7(review.createdAt),
         isDeleted: review.isDeleted,
         rating: review.CompanyReviewRatings,
       })),
@@ -84,12 +84,22 @@ class GetCompanyReviewRepository {
       await this.prisma.$transaction([
         this.prisma.companyReview.count({
           where: {
-            company: {
-              name: {
-                contains: req.q,
-                mode: 'insensitive',
+            OR: [
+              {
+                jobTitle: {
+                  contains: req.q,
+                  mode: 'insensitive',
+                },
               },
-            },
+              {
+                company: {
+                  name: {
+                    contains: req.q,
+                    mode: 'insensitive',
+                  },
+                },
+              },
+            ],
           },
         }),
         this.prisma.companyReview.findMany({
@@ -98,12 +108,22 @@ class GetCompanyReviewRepository {
             company: true,
           },
           where: {
-            company: {
-              name: {
-                contains: req.q,
-                mode: 'insensitive',
+            OR: [
+              {
+                jobTitle: {
+                  contains: req.q,
+                  mode: 'insensitive',
+                },
               },
-            },
+              {
+                company: {
+                  name: {
+                    contains: req.q,
+                    mode: 'insensitive',
+                  },
+                },
+              },
+            ],
           },
           orderBy: orderConfig,
           cursor: cursorConfig,
@@ -122,7 +142,7 @@ class GetCompanyReviewRepository {
         companyLogoUrl: review.company.logoUrl,
         salaryEstimate: review.salaryEstimate,
         content: review.content,
-        createdAt: review.createdAt,
+        createdAt: convertDateToUTC7(review.createdAt),
         isDeleted: review.isDeleted,
         rating: review.CompanyReviewRatings,
       })),

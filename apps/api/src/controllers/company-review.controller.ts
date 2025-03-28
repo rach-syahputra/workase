@@ -131,7 +131,7 @@ class CompanyReviewController {
       ApiResponse({
         res,
         statusCode: 200,
-        message: `Reviews for companies with names containing '${req.query.q || ''}' retrieved successfully.`,
+        message: `Companies's Reviews with name or job title containing '${req.query.q || ''}' retrieved successfully.`,
         data,
       });
     } catch (err) {

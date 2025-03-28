@@ -44,4 +44,6 @@ export interface GetCompanyReviewsRequest extends IFilter {
   companyId: string;
 }
 
-export interface GetCompaniesReviewsRequest extends IFilter {}
+export interface GetCompaniesReviewsRequest extends IFilter {
+  q: string;
+}
