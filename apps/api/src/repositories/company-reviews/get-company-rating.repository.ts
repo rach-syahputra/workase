@@ -39,39 +39,30 @@ class GetCompanyRatingRepository {
     ]);
 
     return {
-      company: {
-        id: company?.id,
-        name: company?.name,
-        logoUrl: company?.logoUrl,
-        rating: {
-          overall: calculateRating(
-            ratings.map((rating) => rating.overallRating),
-          ),
-          workCulture: calculateRating(
-            ratings.map((rating) => rating.workCulture),
-          ),
-          workLifeBalance: calculateRating(
-            ratings.map((rating) => rating.workLifeBalance),
-          ),
-          facilities: calculateRating(
-            ratings.map((rating) => rating.facilities),
-          ),
-          careerGrowth: calculateRating(
-            ratings.map((rating) => rating.careerGrowth),
-          ),
+      rating: {
+        overall: calculateRating(ratings.map((rating) => rating.overallRating)),
+        workCulture: calculateRating(
+          ratings.map((rating) => rating.workCulture),
+        ),
+        workLifeBalance: calculateRating(
+          ratings.map((rating) => rating.workLifeBalance),
+        ),
+        facilities: calculateRating(ratings.map((rating) => rating.facilities)),
+        careerGrowth: calculateRating(
+          ratings.map((rating) => rating.careerGrowth),
+        ),
 
-          percentage: calculateRatingPercentages(
-            ratings.map((rating) => ({
-              overallRating: rating.overallRating,
-              workCulture: rating.workCulture,
-              workLifeBalance: rating.workLifeBalance,
-              facilities: rating.facilities,
-              careerGrowth: rating.careerGrowth,
-            })),
-          ),
-        },
-        totalReviews,
+        percentage: calculateRatingPercentages(
+          ratings.map((rating) => ({
+            overallRating: rating.overallRating,
+            workCulture: rating.workCulture,
+            workLifeBalance: rating.workLifeBalance,
+            facilities: rating.facilities,
+            careerGrowth: rating.careerGrowth,
+          })),
+        ),
       },
+      totalReviews,
     };
   };
 }

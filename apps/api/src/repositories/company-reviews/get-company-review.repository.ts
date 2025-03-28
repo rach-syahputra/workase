@@ -49,21 +49,19 @@ class GetCompanyReviewRepository {
       ]);
 
     return {
-      company: {
-        id: companyReviews[0].company.id,
-        name: companyReviews[0].company.name,
-        logoUrl: companyReviews[0].company.logoUrl,
-        reviews: companyReviews.map((review) => ({
-          id: review.id,
-          title: review.title,
-          jobTitle: review.jobTitle,
-          salaryEstimate: review.salaryEstimate,
-          content: review.content,
-          createdAt: review.createdAt,
-          isDeleted: review.isDeleted,
-          rating: review.CompanyReviewRatings,
-        })),
-      },
+      reviews: companyReviews.map((review) => ({
+        id: review.id,
+        title: review.title,
+        jobTitle: review.jobTitle,
+        companyId: review.company.id,
+        companyName: review.company.name,
+        companyLogoUrl: review.company.logoUrl,
+        salaryEstimate: review.salaryEstimate,
+        content: review.content,
+        createdAt: review.createdAt,
+        isDeleted: review.isDeleted,
+        rating: review.CompanyReviewRatings,
+      })),
       pagination: {
         totalCompanyReviews,
         cursor:
@@ -115,22 +113,18 @@ class GetCompanyReviewRepository {
       ]);
 
     return {
-      companies: companiesReviews.map((review) => ({
-        company: {
-          id: review.company.id,
-          name: review.company.name,
-          logoUrl: review.company.logoUrl,
-          review: {
-            id: review.id,
-            title: review.title,
-            jobTitle: review.jobTitle,
-            salaryEstimate: review.salaryEstimate,
-            content: review.content,
-            createdAt: review.createdAt,
-            isDeleted: review.isDeleted,
-            rating: review.CompanyReviewRatings,
-          },
-        },
+      reviews: companiesReviews.map((review) => ({
+        id: review.id,
+        title: review.title,
+        jobTitle: review.jobTitle,
+        companyId: review.company.id,
+        companyName: review.company.name,
+        companyLogoUrl: review.company.logoUrl,
+        salaryEstimate: review.salaryEstimate,
+        content: review.content,
+        createdAt: review.createdAt,
+        isDeleted: review.isDeleted,
+        rating: review.CompanyReviewRatings,
       })),
       pagination: {
         totalCompaniesReviews,
