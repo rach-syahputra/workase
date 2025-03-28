@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 
-import { cn, formatRelativeTime } from '@/lib/utils';
+import { cn, formatCurrency, formatRelativeTime } from '@/lib/utils';
 import { ICompanyReview } from '@/lib/interfaces/company-review';
 import { Card } from '../../shadcn-ui/card';
 import Icon from '../../ui/icon';
@@ -50,6 +50,9 @@ const CompanyReviewCard = ({ review, className }: CompanyReviewCardProps) => {
             careerGrowth: review.rating.careerGrowth,
           }}
         />
+        <p className="text-primary-gray mt-1 text-sm font-medium">
+          {formatCurrency(review.salaryEstimate)}
+        </p>
       </div>
       <div className="flex flex-col gap-1">
         <p>{review.content}</p>

@@ -28,21 +28,25 @@ const CompanyReviewRating = ({ rating }: CompanyReviewRatingProps) => {
         <Rating
           label="Work Culture"
           value={rating.workCulture}
+          showValue
           className="w-full justify-between"
         />
         <Rating
           label="Work-life Balance"
           value={rating.workLifeBalance}
+          showValue
           className="w-full justify-between"
         />
         <Rating
           label="Facilities"
           value={rating.facilities}
+          showValue
           className="w-full justify-between"
         />
         <Rating
           label="Career Growth"
           value={rating.careerGrowth}
+          showValue
           className="w-full justify-between"
         />
       </HoverCardContent>

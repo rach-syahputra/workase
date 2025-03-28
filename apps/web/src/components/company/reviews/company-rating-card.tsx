@@ -19,7 +19,7 @@ const CompanyRatingCard = ({
       <div className="flex w-full items-center justify-between gap-4 border-gray-200 md:border-r md:pr-4">
         <div className="flex flex-col items-center justify-center gap-2">
           <span className="text-4xl font-bold">{rating.overall}</span>
-          <Rating value={rating.overall} size={20} />
+          <Rating value={rating.overall} size="lg" />
           <span className="text-primary-gray text-xs">
             {totalReviews} reviews
           </span>
@@ -41,25 +41,29 @@ const CompanyRatingCard = ({
         <Rating
           label="Work Culture"
           value={rating.workCulture}
-          size={16}
+          size="md"
+          showValue
           className="w-full justify-between"
         />
         <Rating
           label="Work-life Balance"
           value={rating.workLifeBalance}
-          size={16}
+          size="md"
+          showValue
           className="w-full justify-between"
         />
         <Rating
           label="Facilities"
           value={rating.facilities}
-          size={16}
+          size="md"
+          showValue
           className="w-full justify-between"
         />
         <Rating
           label="Career Growth"
           value={rating.careerGrowth}
-          size={16}
+          size="md"
+          showValue
           className="w-full justify-between"
         />
       </div>

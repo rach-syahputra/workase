@@ -77,7 +77,7 @@ const DetailPageHeaderLoading = ({
   return (
     <div
       className={cn(
-        'sticky top-0 flex min-h-9 w-full items-center justify-center px-1 py-2 md:px-0',
+        'sticky top-0 flex min-h-9 w-full items-center justify-center bg-white px-1 py-2 md:px-0',
         className,
       )}
     >
