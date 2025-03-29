@@ -15,6 +15,7 @@ import { corsOptions, PORT } from './config';
 import { ResponseError } from './helpers/error';
 import SampleRouter from './routers/sample/sample.router';
 import CompanyReviewRouter from './routers/company-review.router';
+import SearchCompanyReviewRouter from './routers/search-company-review.router';
 
 export default class App {
   private app: Express;
@@ -100,6 +101,7 @@ export default class App {
   private routes(): void {
     const sampleRouter = new SampleRouter();
     const companyReviewRouter = new CompanyReviewRouter();
+    const searchCompanyReviewRouter = new SearchCompanyReviewRouter();
 
     this.app.get('/api', (req: Request, res: Response) => {
       res.send(`Hello, Purwadhika Student API!`);
@@ -107,6 +109,7 @@ export default class App {
 
     this.app.use('/api/samples', sampleRouter.getRouter());
     this.app.use('/api/companies', companyReviewRouter.getRouter());
+    this.app.use('/api/search', searchCompanyReviewRouter.getRouter());
   }
 
   public getServer(): Express {
