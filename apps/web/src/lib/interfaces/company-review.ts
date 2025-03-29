@@ -50,3 +50,11 @@ interface ICompanyReviewRating {
   facilities: number;
   careerGrowth: number;
 }
+
+export interface ISearchCompanyReview {
+  id: string;
+  name: string;
+  logoUrl: string;
+  overallRating: number;
+  totalReviews: number;
+}

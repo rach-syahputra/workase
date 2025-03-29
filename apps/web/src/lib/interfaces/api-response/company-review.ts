@@ -2,6 +2,7 @@ import {
   ICompanyHeader,
   ICompanyRating,
   ICompanyReview,
+  ISearchCompanyReview,
 } from '../company-review';
 import { APIResponse } from './response';
 
@@ -34,6 +35,10 @@ export interface GetCompanyReviewData {
   reviews: ICompanyReview[];
 }
 
+export interface SearchCompanyReviewsData {
+  companies: ISearchCompanyReview[];
+}
+
 export interface AddCompanyReviewResponse extends APIResponse {
   data?: AddCompanyReviewData;
 }
@@ -48,4 +53,8 @@ export interface GetCompanyRatingResponse extends APIResponse {
 
 export interface GetCompanyReviewsResponse extends APIResponse {
   data?: GetCompanyReviewData;
+}
+
+export interface SearchCompanyReviewsResponse extends APIResponse {
+  data?: SearchCompanyReviewsData;
 }
