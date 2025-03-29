@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 
 import { cn, formatCurrency, formatRelativeTime } from '@/lib/utils';
@@ -16,7 +17,10 @@ const CompanyReviewCard = ({ review, className }: CompanyReviewCardProps) => {
   return (
     <Card className={cn('flex w-full flex-col gap-2 p-4', className)}>
       <div className="flex flex-row items-start justify-between">
-        <div className="flex items-center justify-center gap-2">
+        <Link
+          href={`/companies/${review.companyId}`}
+          className="flex items-center justify-center gap-2"
+        >
           <Image
             src={review.companyLogoUrl}
             alt={review.companyName}
@@ -30,7 +34,7 @@ const CompanyReviewCard = ({ review, className }: CompanyReviewCardProps) => {
               {formatRelativeTime(review.createdAt)}
             </span>
           </div>
-        </div>
+        </Link>
         {/* TO DO: do something on ellipsis icon */}
         <Icon
           icon={faEllipsis}
