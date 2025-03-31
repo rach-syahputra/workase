@@ -172,7 +172,7 @@ model CompanyReviewRatings {
   facilities      Int
   careerGrowth    Int    @map("career_growth")
 
-  companyReview CompanyReview @relation(fields: [companyReviewId], references: [id], onUpdate: Cascade)
+  companyReview CompanyReview @relation(fields: [companyReviewId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
   @@map("company_review_ratings")
 }
@@ -213,7 +213,7 @@ model AssesmentQuestion {
   updatedAt   DateTime @map("updated_at")
   isDeleted   Boolean  @default(false) @map("is_deleted")
 
-  assesment      Assesment        @relation(fields: [assesmentId], references: [id], onUpdate: Cascade)
+  assesment      Assesment        @relation(fields: [assesmentId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   QuestionOption QuestionOption[]
 
   @@map("assesment_questions")
@@ -227,7 +227,7 @@ model QuestionOption {
   createdAt           DateTime @map("created_at")
   isDeleted           Boolean  @default(false) @map("is_deleted")
 
-  assesmentQuestion AssesmentQuestion @relation(fields: [assesmentQuestionId], references: [id], onUpdate: Cascade)
+  assesmentQuestion AssesmentQuestion @relation(fields: [assesmentQuestionId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
   @@map("question_options")
 }
