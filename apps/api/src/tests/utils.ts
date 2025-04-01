@@ -1,5 +1,6 @@
 import request from 'supertest';
 import App from '@/app';
+import prisma from '@/prisma';
 
 const app = new App()['app'];
 
@@ -12,7 +13,7 @@ export const getAuthToken = async (
   credentials?: Credentials,
 ): Promise<string> => {
   const requestBody = {
-    email: credentials?.email || 'noviazy@user.com',
+    email: credentials?.email || 'unauthorized.test@user.com',
     password: credentials?.password || '77772345',
   };
 
@@ -21,4 +22,12 @@ export const getAuthToken = async (
     .send(requestBody);
 
   return `Bearer ${response.body.data.accessToken}`;
+};
+
+export const deleteCompanyReview = async (companyReviewId: string) => {
+  return await prisma.companyReview.delete({
+    where: {
+      id: companyReviewId,
+    },
+  });
 };

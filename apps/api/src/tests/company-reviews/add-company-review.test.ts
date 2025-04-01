@@ -2,24 +2,24 @@ import request from 'supertest';
 import App from '@/app';
 
 import { AddCompanyReviewRequestTest } from '@/interfaces/company-review.interface';
-import { getAuthToken } from '../utils';
+import { deleteCompanyReview, getAuthToken } from '../utils';
 
 const app = new App().getServer();
 
 describe('POST /api/companies/:companyId/reviews', () => {
-  // user test
-  // email: 'noviazy@user.com'
-  // password: '77772345'
-
   let token: string;
   let requestBody: AddCompanyReviewRequestTest | undefined = undefined;
 
   beforeAll(async () => {
-    token = await getAuthToken();
+    token = await getAuthToken({
+      email: 'noviazy@user.com',
+      password: '77772345',
+    });
+
     requestBody = {
       companyId: 'akame-cmp',
-      title: 'Great Work Culture',
-      salaryEstimate: 800,
+      title: 'Review Test',
+      salaryEstimate: 1500,
       content: 'Amazing experience working here.',
       rating: {
         workCulture: 5,
@@ -47,6 +47,9 @@ describe('POST /api/companies/:companyId/reviews', () => {
         }),
       }),
     );
+
+    const companyReviewId = response.body.data.companyReview.id;
+    await deleteCompanyReview(companyReviewId);
   });
 
   it('should not create a company review if required fields are missing', async () => {
@@ -80,7 +83,7 @@ describe('POST /api/companies/:companyId/reviews', () => {
 
   it('should not create a company review if user does not belong to the company', async () => {
     token = await getAuthToken({
-      email: 'zevanya@user.com',
+      email: 'unauthorized.test@user.com',
       password: '77772345',
     });
 
