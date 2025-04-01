@@ -3,7 +3,6 @@ import {
   GetCompanyReviewsRequest,
 } from '@/interfaces/company-review.interface';
 import { prisma } from '@/helpers/prisma';
-import { convertDateToUTC7 } from '@/helpers/utils';
 
 class GetCompanyReviewRepository {
   private prisma: typeof prisma;
@@ -58,7 +57,7 @@ class GetCompanyReviewRepository {
         companyLogoUrl: review.company.logoUrl,
         salaryEstimate: review.salaryEstimate,
         content: review.content,
-        createdAt: convertDateToUTC7(review.createdAt),
+        createdAt: review.createdAt,
         isDeleted: review.isDeleted,
         rating: review.CompanyReviewRatings,
       })),
@@ -174,7 +173,7 @@ class GetCompanyReviewRepository {
         companyLogoUrl: review.company.logoUrl,
         salaryEstimate: review.salaryEstimate,
         content: review.content,
-        createdAt: convertDateToUTC7(review.createdAt),
+        createdAt: review.createdAt,
         isDeleted: review.isDeleted,
         rating: review.CompanyReviewRatings,
       })),
