@@ -1,9 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
-import { getCompaniesReviews } from '@/lib/apis/company-reviews';
-import { ICompanyReview } from '@/lib/interfaces/company-review';
+import { useCompaniesReviewsContext } from '@/context/companies-reviews-context';
 import CompanyReviewCard from '@/components/company/reviews/company-review-card';
 import CompanyReviewCardLoading from '@/components/company/reviews/company-review-card-loading';
 import {
@@ -14,25 +13,11 @@ import {
 } from '@/components/shadcn-ui/tabs';
 
 const CompaniesReviews = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [reviews, setReviews] = useState<ICompanyReview[]>([]);
-
-  const fetchCompanyReviews = async () => {
-    setIsLoading(true);
-
-    const response = await getCompaniesReviews({
-      order: 'desc',
-    });
-
-    if (response.success) {
-      setReviews(response.data?.reviews || []);
-    }
-
-    setIsLoading(false);
-  };
+  const { isLoading, reviews, fetchCompaniesReviews } =
+    useCompaniesReviewsContext();
 
   useEffect(() => {
-    fetchCompanyReviews();
+    fetchCompaniesReviews();
   }, []);
 
   return (

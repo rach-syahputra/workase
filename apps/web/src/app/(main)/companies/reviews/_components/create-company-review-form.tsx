@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import { addCompanyReview } from '@/lib/apis/company-reviews';
 import { AddCompanyReviewFormValues } from '@/lib/interfaces/form/company-review';
 import { useAppToast } from '@/hooks/use-app-toast';
+import { useCompaniesReviewsContext } from '@/context/companies-reviews-context';
 import { addCompanyReviewSchema } from '@/validations/company-review';
 import { Button } from '@/components/shadcn-ui/button';
 import FormInput from '@/components/ui/form-input';
@@ -20,6 +21,7 @@ const CreateCompanyReviewForm = ({
   onOpenChange,
 }: CreateCompanyReviewFormProps) => {
   const { appToast } = useAppToast();
+  const { fetchCompaniesReviews } = useCompaniesReviewsContext();
 
   const formik = useFormik<AddCompanyReviewFormValues>({
     initialValues: {
@@ -45,6 +47,7 @@ const CreateCompanyReviewForm = ({
       if (response.success) {
         resetForm();
         onOpenChange(false);
+        fetchCompaniesReviews();
 
         appToast('SUCCESS', {
           title: 'Review Successfully Posted',
@@ -110,7 +113,7 @@ const CreateCompanyReviewForm = ({
         errorMessage={formik.errors.salaryEstimate}
       />
       <TextareaFormInput
-        label="Content Review"
+        label="Review Content"
         name="content"
         rows={6}
         onChange={formik.handleChange}
