@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
@@ -14,6 +17,9 @@ interface CompanyReviewCardProps {
 }
 
 const CompanyReviewCard = ({ review, className }: CompanyReviewCardProps) => {
+  const [isExpandedContent, setIsExpandedContent] = useState<boolean>(false);
+  const maxContentLength = 400;
+
   return (
     <Card className={cn('flex w-full flex-col gap-2 p-4', className)}>
       <div className="flex flex-row items-start justify-between">
@@ -59,7 +65,22 @@ const CompanyReviewCard = ({ review, className }: CompanyReviewCardProps) => {
         </p>
       </div>
       <div className="flex flex-col gap-1">
-        <p>{review.content}</p>
+        <p>
+          {isExpandedContent
+            ? review.content
+            : review.content.slice(0, maxContentLength)}
+          {!isExpandedContent && review.content.length > maxContentLength && (
+            <>
+              ...{' '}
+              <button
+                onClick={() => setIsExpandedContent(true)}
+                className="text-primary-blue"
+              >
+                See more
+              </button>
+            </>
+          )}
+        </p>
       </div>
     </Card>
   );
