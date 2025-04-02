@@ -1,6 +1,7 @@
 import { AddCompanyReviewRequest } from '../interfaces/api-request/company-review';
 import {
   AddCompanyReviewResponse,
+  GetCompaniesReviewsResponse,
   GetCompanyHeaderResponse,
   GetCompanyRatingResponse,
   GetCompanyReviewsResponse,
@@ -75,7 +76,7 @@ export const getCompanyReviews = async (
 
 export const getCompaniesReviews = async (
   req?: IFilter,
-): Promise<GetCompanyReviewsResponse> => {
+): Promise<GetCompaniesReviewsResponse> => {
   try {
     const queryParams = new URLSearchParams();
 

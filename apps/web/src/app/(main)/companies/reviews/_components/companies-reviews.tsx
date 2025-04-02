@@ -29,20 +29,22 @@ const CompaniesReviews = () => {
       </TabsList>
       <TabsContent value="reviews">
         <div className="flex w-full flex-col items-center justify-center gap-4">
-          {isLoading ? (
-            <>
-              <CompanyReviewCardLoading />
-              <CompanyReviewCardLoading />
-              <CompanyReviewCardLoading />
-              <CompanyReviewCardLoading />
-            </>
-          ) : reviews.length > 0 ? (
+          {reviews.length > 0 && (
             <>
               {reviews.map((review, index) => (
                 <CompanyReviewCard key={index} review={review} />
               ))}
             </>
-          ) : (
+          )}
+
+          {isLoading && (
+            <>
+              <CompanyReviewCardLoading />
+              <CompanyReviewCardLoading />
+            </>
+          )}
+
+          {!isLoading && reviews.length === 0 && (
             <div className="flex w-full items-center justify-center px-4 py-4">
               <p className="text-primary-gray text-center">
                 There are currently no reviews for this company.

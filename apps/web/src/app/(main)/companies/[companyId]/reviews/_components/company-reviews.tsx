@@ -17,17 +17,38 @@ interface CompanyReviewsProps {
   companyId: string;
 }
 
+interface IOption {
+  isLoadMore: boolean;
+}
+
 const CompanyReviews = ({ companyId }: CompanyReviewsProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [cursor, setCursor] = useState<string>('');
+  const [hasMore, setHasMore] = useState<boolean>(false);
   const [reviews, setReviews] = useState<ICompanyReview[]>([]);
 
-  const fetchCompanyReviews = async () => {
+  const fetchCompanyReviews = async (option?: IOption) => {
     setIsLoading(true);
 
-    const response = await getCompanyReviews(companyId);
+    const response = await getCompanyReviews(companyId, {
+      cursor,
+      limit: 15,
+      order: 'desc',
+    });
 
     if (response.success) {
-      setReviews(response.data?.reviews || []);
+      const newReviews = response.data?.reviews;
+      const updatedReviews = option?.isLoadMore
+        ? [...reviews, ...(newReviews || [])]
+        : newReviews || [];
+
+      setReviews(updatedReviews);
+      setCursor(response.data?.pagination.cursor || '');
+      setHasMore(
+        updatedReviews.length >= (response.data?.pagination.totalData || 0)
+          ? false
+          : true,
+      );
     }
     setIsLoading(false);
   };
@@ -35,6 +56,22 @@ const CompanyReviews = ({ companyId }: CompanyReviewsProps) => {
   useEffect(() => {
     fetchCompanyReviews();
   }, [companyId]);
+
+  useEffect(() => {
+    const handleInfiniteScroll = () => {
+      if (
+        window.innerHeight + window.scrollY >=
+          document.body.offsetHeight - 100 &&
+        !isLoading &&
+        hasMore
+      ) {
+        fetchCompanyReviews({ isLoadMore: true });
+      }
+    };
+
+    window.addEventListener('scroll', handleInfiniteScroll);
+    return () => window.removeEventListener('scroll', handleInfiniteScroll);
+  }, [isLoading, hasMore]);
 
   return (
     <Tabs defaultValue="reviews" className="w-full">
@@ -45,20 +82,22 @@ const CompanyReviews = ({ companyId }: CompanyReviewsProps) => {
       </TabsList>
       <TabsContent value="reviews">
         <div className="flex w-full flex-col items-center justify-center gap-4">
-          {isLoading ? (
-            <>
-              <CompanyReviewCardLoading />
-              <CompanyReviewCardLoading />
-              <CompanyReviewCardLoading />
-              <CompanyReviewCardLoading />
-            </>
-          ) : reviews.length > 0 ? (
+          {reviews.length > 0 && (
             <>
               {reviews.map((review, index) => (
                 <CompanyReviewCard key={index} review={review} />
               ))}
             </>
-          ) : (
+          )}
+
+          {isLoading && (
+            <>
+              <CompanyReviewCardLoading />
+              <CompanyReviewCardLoading />
+            </>
+          )}
+
+          {!isLoading && reviews.length === 0 && (
             <div className="flex w-full items-center justify-center px-4 py-4">
               <p className="text-primary-gray text-center">
                 There are currently no reviews for this company.

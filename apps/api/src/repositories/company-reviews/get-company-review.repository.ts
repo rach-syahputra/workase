@@ -62,7 +62,7 @@ class GetCompanyReviewRepository {
         rating: review.CompanyReviewRatings,
       })),
       pagination: {
-        totalCompanyReviews,
+        totalData: totalCompanyReviews,
         cursor:
           companyReviews.length > 0
             ? companyReviews[companyReviews.length - 1].id
@@ -146,7 +146,7 @@ class GetCompanyReviewRepository {
         rating: review.CompanyReviewRatings,
       })),
       pagination: {
-        totalCompaniesReviews,
+        totalData: totalCompaniesReviews,
         cursor:
           companiesReviews.length > 0
             ? companiesReviews[companiesReviews.length - 1].id

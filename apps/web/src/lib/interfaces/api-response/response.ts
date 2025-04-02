@@ -8,3 +8,8 @@ export interface APIResponse {
     message: string;
   };
 }
+
+export interface IPagination {
+  totalData: number;
+  cursor: string | null;
+}
