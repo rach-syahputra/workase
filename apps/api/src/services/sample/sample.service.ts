@@ -100,6 +100,7 @@ class SampleService {
       id: user?.id!,
       email: user?.email!,
       jobId: user?.jobId!,
+      role: 'USER',
     });
 
     return {

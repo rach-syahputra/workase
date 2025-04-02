@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 import CompanyReviewController from '@/controllers/company-review.controller';
-import { verifyToken } from '@/middlewares/user.middleware';
+import { verifyUser } from '@/middlewares/auth.middleware';
 
 class CompanyReviewRouter {
   private router: Router;
@@ -28,7 +28,7 @@ class CompanyReviewRouter {
     );
     this.router.post(
       '/:companyId/reviews',
-      verifyToken,
+      verifyUser,
       this.companyReviewController.addCompanyReview,
     );
     this.router.get(
