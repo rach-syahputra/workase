@@ -117,7 +117,7 @@ export const searchCompanyReviews = async (
 
 export const getCompaniesReviews = async (
   req?: IFilter,
-): Promise<GetCompanyReviewsResponse> => {
+): Promise<GetCompaniesReviewsResponse> => {
   try {
     const queryParams = new URLSearchParams();
 
