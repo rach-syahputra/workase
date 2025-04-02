@@ -39,6 +39,14 @@ class SampleRepository {
       },
     });
   };
+
+  getUserByEmail = async (email: string) => {
+    return this.prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+  };
 }
 
 export default SampleRepository;

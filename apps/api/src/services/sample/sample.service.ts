@@ -1,6 +1,9 @@
+import bcrypt from 'bcrypt';
+
 import {
   AddSampleRequestService,
   GetSampleByEmailRequest,
+  LoginSampleRequest,
 } from '@/interfaces/sample/sample.interface';
 import { ResponseError } from '@/helpers/error';
 import SampleRepository from '@/repositories/sample/sample.repository';
@@ -12,6 +15,7 @@ import {
 import { generateHashedPassword } from '@/helpers/utils';
 import ImageRepository from '@/repositories/cloudinary/image.repository';
 import { CLOUDINARY_DEVELOPER_IMAGE_FOLDER } from '@/config';
+import { putAccessToken } from '@/helpers/jwt';
 
 class SampleService {
   private sampleRepository: SampleRepository;
@@ -80,6 +84,27 @@ class SampleService {
     const sample = await this.sampleRepository.getSampleByEmail({ email });
     if (sample)
       throw new ResponseError(409, 'Email already exists, try another one');
+  };
+
+  login = async (req: LoginSampleRequest) => {
+    const user = await this.sampleRepository.getUserByEmail(req.email);
+
+    const isCorrectPassword = await bcrypt.compare(
+      req.password,
+      user?.password || '',
+    );
+
+    if (!isCorrectPassword) throw new ResponseError(400, 'Invalid credentials');
+
+    const accessToken = await putAccessToken({
+      id: user?.id!,
+      email: user?.email!,
+      jobId: user?.jobId!,
+    });
+
+    return {
+      accessToken,
+    };
   };
 }
 

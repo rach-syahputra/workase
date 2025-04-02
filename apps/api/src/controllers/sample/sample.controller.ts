@@ -65,6 +65,24 @@ class SampleController {
       next(err);
     }
   };
+
+  login = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const data = await this.sampleService.login({
+        email: req.body.email,
+        password: req.body.password,
+      });
+
+      ApiResponse({
+        res,
+        statusCode: 200,
+        message: 'User logged in successfully',
+        data,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
 }
 
 export default SampleController;

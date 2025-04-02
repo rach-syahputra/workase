@@ -8,7 +8,7 @@ interface FormInputProps {
   label: string;
   type: HTMLInputTypeAttribute;
   name: string;
-  value: string;
+  value: string | number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
   errorMessage?: string;

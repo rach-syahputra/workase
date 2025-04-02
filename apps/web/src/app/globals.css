@@ -126,4 +126,10 @@ a {
   .heading-3 {
     @apply text-xl font-bold;
   }
+  .heading-4 {
+    @apply text-lg font-bold;
+  }
+  .heading-5 {
+    @apply text-base font-bold;
+  }
 }

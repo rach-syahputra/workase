@@ -15,3 +15,8 @@ export interface AddSampleRequestService extends AddSampleRequest {
 export interface AddSampleRequestRepository extends AddSampleRequest {
   image?: string;
 }
+
+export interface LoginSampleRequest {
+  email: string;
+  password: string;
+}

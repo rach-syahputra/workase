@@ -21,6 +21,7 @@ class SampleRouter {
       uploadDeveloperImage.single('image'),
       this.sampleController.addSample,
     );
+    this.router.post('/auth', this.sampleController.login);
   }
 
   getRouter(): Router {
