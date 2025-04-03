@@ -38,9 +38,9 @@ const FormExample = () => {
 
       await new Promise((resolve) => setTimeout(resolve, 5000));
 
-      const response: GetSampleResponse = await GetSampleByEmail({
+      const response = (await GetSampleByEmail({
         email: values.email,
-      });
+      })) as GetSampleResponse;
 
       console.log(response);
 
