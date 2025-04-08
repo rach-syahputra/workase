@@ -53,6 +53,7 @@
     "respinner": "^4.0.3",
     "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7",
+    "vaul": "^1.1.2",
     "yup": "^1.6.1"
   },
   "devDependencies": {
