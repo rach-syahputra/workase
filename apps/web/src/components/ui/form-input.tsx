@@ -5,9 +5,10 @@ import { Input } from '../shadcn-ui/input';
 import { Label } from '../shadcn-ui/label';
 
 interface FormInputProps {
-  label: string;
+  label?: string;
   type: HTMLInputTypeAttribute;
   name: string;
+  placeholder?: string;
   value: string | number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
@@ -20,6 +21,7 @@ const FormInput: React.FC<FormInputProps> = ({
   type,
   name,
   value,
+  placeholder,
   onChange,
   disabled,
   errorMessage,
@@ -31,6 +33,7 @@ const FormInput: React.FC<FormInputProps> = ({
       <Input
         type={type}
         name={name}
+        placeholder={placeholder}
         onChange={onChange}
         value={value}
         disabled={disabled}

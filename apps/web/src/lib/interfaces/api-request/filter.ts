@@ -5,4 +5,5 @@ export interface IFilter {
   order?: OrderType;
   limit?: number;
   cursor?: string;
+  page?: number;
 }

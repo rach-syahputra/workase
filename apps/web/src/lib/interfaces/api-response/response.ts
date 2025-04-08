@@ -9,7 +9,13 @@ export interface APIResponse {
   };
 }
 
-export interface IPagination {
+export interface ICursorPagination {
   totalData: number;
   cursor: string | null;
+}
+
+export interface IPagination {
+  totalData: number;
+  totalPages: number;
+  page: number;
 }

@@ -4,7 +4,7 @@ import {
   ICompanyReview,
   ISearchCompanyReview,
 } from '../company-review';
-import { APIResponse, IPagination } from './response';
+import { APIResponse, ICursorPagination } from './response';
 
 export interface AddCompanyReviewData {
   id: string;
@@ -35,7 +35,7 @@ export interface GetCompanyRatingData {
 
 export interface GetCompanyReviewData {
   reviews: ICompanyReview[];
-  pagination: IPagination;
+  pagination: ICursorPagination;
 }
 
 export interface SearchCompanyReviewsData {

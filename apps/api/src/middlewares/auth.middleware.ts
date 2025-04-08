@@ -3,7 +3,11 @@ import jwt from 'jsonwebtoken';
 
 import { JWT_ACCESS_SECRET } from '@/config';
 import { ResponseError } from '@/helpers/error';
-import { UserRequest, UserToken } from '@/interfaces/middleware.interface';
+import {
+  DeveloperRequest,
+  UserRequest,
+  UserToken,
+} from '@/interfaces/middleware.interface';
 
 export function verifyUser(
   req: UserRequest,
@@ -28,7 +32,7 @@ export function verifyUser(
 }
 
 export function verifyDeveloper(
-  req: UserRequest,
+  req: DeveloperRequest,
   res: Response,
   next: NextFunction,
 ) {
@@ -41,7 +45,7 @@ export function verifyDeveloper(
     if (!verifiedDeveloper || verifiedDeveloper.role !== 'DEVELOPER')
       throw new ResponseError(403, 'Unauthorized.');
 
-    req.user = verifiedDeveloper;
+    req.developer = verifiedDeveloper;
 
     next();
   } catch (err) {

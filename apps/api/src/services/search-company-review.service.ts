@@ -1,4 +1,4 @@
-import SearchCompanyReviewRepository from '@/repositories/search-company-reviews/search-company-review.repository';
+import SearchCompanyReviewRepository from '@/repositories/company-reviews/search-company-review.repository';
 import { searchCompanyReviewsRequest } from '@/interfaces/search-company-review.interface';
 
 class SearchCompanyReviewService {

@@ -9,6 +9,16 @@ export interface UserToken {
   role: RoleType;
 }
 
+export interface DeveloperToken {
+  id: string;
+  email: string;
+  role: RoleType;
+}
+
 export interface UserRequest extends Request {
   user?: UserToken;
+}
+
+export interface DeveloperRequest extends Request {
+  developer?: DeveloperToken;
 }
