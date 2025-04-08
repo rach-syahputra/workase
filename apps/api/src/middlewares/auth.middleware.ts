@@ -11,6 +11,7 @@ import {
   DeveloperRequest,
   CompanyRequest,
   CompanyToken,
+  DeveloperRequest,
   UserRequest,
   UserToken,
 } from '@/interfaces/middleware.interface';
@@ -105,5 +106,3 @@ export const verifyRefreshToken = (
     next(error);
   }
 };
-
-

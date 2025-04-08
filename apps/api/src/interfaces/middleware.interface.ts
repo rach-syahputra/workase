@@ -49,3 +49,7 @@ export interface DeveloperRequest extends Request {
 export interface CompanyRequest extends Request {
   user?: CompanyToken;
 }
+
+export interface DeveloperRequest extends Request {
+  developer?: DeveloperToken;
+}
