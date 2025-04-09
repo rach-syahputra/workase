@@ -102,6 +102,7 @@ export default class App {
   private routes(): void {
     const sampleRouter = new SampleRouter();
     const companyReviewRouter = new CompanyReviewRouter();
+
     const searchCompanyReviewRouter = new SearchCompanyReviewRouter();
 
     this.app.use('/api/samples', sampleRouter.getRouter());
@@ -112,6 +113,7 @@ export default class App {
 
     this.app.use('/api/samples', sampleRouter.getRouter());
     this.app.use('/api/companies', companyReviewRouter.getRouter());
+
     this.app.use('/api/search', searchCompanyReviewRouter.getRouter());
   }
 
