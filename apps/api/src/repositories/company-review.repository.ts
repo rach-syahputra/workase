@@ -1,5 +1,3 @@
-import { PrismaClient } from '@prisma/client';
-
 import {
   AddCompanyReviewRequest,
   VerifyUserEmploymentRequest,
@@ -8,14 +6,14 @@ import { prisma } from '@/helpers/prisma';
 import { calculateOverallRating } from '@/helpers/utils';
 
 class CompanyReviewRepository {
-  private prisma: PrismaClient;
+  private prisma: typeof prisma;
 
   constructor() {
     this.prisma = prisma;
   }
 
   addCompanyReview = async (req: AddCompanyReviewRequest) => {
-    return await prisma.$transaction(async (trx) => {
+    return await this.prisma.$transaction(async (trx) => {
       const user = await trx.user.findUnique({
         select: {
           job: {
@@ -67,7 +65,7 @@ class CompanyReviewRepository {
   };
 
   verifyUserEmployment = async (req: VerifyUserEmploymentRequest) => {
-    const user = await prisma.user.findUnique({
+    const user = await this.prisma.user.findUnique({
       select: {
         jobId: true,
       },
@@ -77,7 +75,7 @@ class CompanyReviewRepository {
     });
 
     if (user?.jobId) {
-      const job = await prisma.job.findUnique({
+      const job = await this.prisma.job.findUnique({
         select: {
           companyId: true,
         },
