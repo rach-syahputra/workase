@@ -33,6 +33,7 @@ model User {
   SavedJob            SavedJob[]
   Subscription        Subscription[]
   UserAssessment      UserAssessment[]
+
   Certificate         Certificate[]
   PreselectionAttempt PreselectionAttempt[]
 
@@ -185,25 +186,26 @@ model Skill {
   isDeleted Boolean  @default(false) @map("is_deleted")
 
   Assessment  Assessment[]
+
   Certificate Certificate[]
 
   @@map("skills")
 }
 
 model Assessment {
-  id               String   @id @default(uuid())
-  skillId          String   @map("skill_id")
-  shortDescription String?  @map("short_description")
-  image            String?
-  createdAt        DateTime @map("created_at")
-  updatedAt        DateTime @map("updated_at")
-  isDeleted        Boolean  @default(false) @map("is_deleted")
+  id        String   @id @default(uuid())
+  skillId   String   @map("skill_id")
+  createdAt DateTime @map("created_at")
+  updatedAt DateTime @map("updated_at")
+  isDeleted Boolean  @default(false) @map("is_deleted")
 
   skill              Skill                @relation(fields: [skillId], references: [id], onUpdate: Cascade)
   AssessmentQuestion AssessmentQuestion[]
   UserAssessment     UserAssessment[]
 
+
   @@map("assessments")
+
 }
 
 model AssessmentQuestion {
@@ -215,11 +217,11 @@ model AssessmentQuestion {
   updatedAt    DateTime @map("updated_at")
   isDeleted    Boolean  @default(false) @map("is_deleted")
 
-
   assessment     Assessment       @relation(fields: [assessmentId], references: [id], onUpdate: Cascade, onDelete: Cascade)
- QuestionOption QuestionOption[]
+  QuestionOption QuestionOption[]
 
   @@map("assessment_questions")
+
 }
 
 model QuestionOption {
@@ -229,7 +231,6 @@ model QuestionOption {
   isCorrect            Boolean  @map("is_correct")
   createdAt            DateTime @map("created_at")
   isDeleted            Boolean  @default(false) @map("is_deleted")
-
 
   assessmentQuestion AssessmentQuestion @relation(fields: [assessmentQuestionId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
@@ -244,11 +245,11 @@ model UserAssessment {
   score        Int
   createdAt    DateTime             @map("created_at")
   isDeleted    Boolean              @default(false) @map("is_deleted")
-
   user       User       @relation(fields: [userId], references: [id], onUpdate: Cascade)
   assessment Assessment @relation(fields: [assessmentId], references: [id], onUpdate: Cascade)
 
   @@map("user_assessments")
+
 }
 
 model Certificate {
@@ -377,6 +378,7 @@ enum PaymentStatus {
 }
 
 enum UserAssessmentStatus {
+
   PASSED
   FAILED
 }
