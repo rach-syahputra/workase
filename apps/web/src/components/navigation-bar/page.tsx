@@ -15,6 +15,7 @@ export default async function NavigationBar() {
           <Logo />
           <Menu />
         </div>
+
         <div className="mx-1 flex h-[52px] items-center gap-1 md:mx-0 md:h-[68px] md:w-[280px] md:items-stretch md:justify-center">
           {' '}
           <Login />

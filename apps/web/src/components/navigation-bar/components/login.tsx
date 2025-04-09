@@ -17,6 +17,7 @@ export default function Login() {
           </button>
 
           {/* Border Vertikal (Hanya untuk tab pertama) */}
+
           {tab === 'Sign in' && (
             <span className="h-7 w-[1px] bg-gray-300"></span>
           )}

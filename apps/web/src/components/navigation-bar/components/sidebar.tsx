@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 
 export default function Sidebar() {
   const [mounted, setMounted] = useState(false);
+
   const [active, setActive] = useState('Home');
 
   useEffect(() => {
@@ -16,6 +17,7 @@ export default function Sidebar() {
   if (!mounted) return null; // Hindari rendering di server
 
   const menuItems = ['Home', 'Jobs', 'Companies'];
+
   const loginItems = ['Sign in', 'Employers/Post Job'];
   return (
     <Sheet>
@@ -50,7 +52,6 @@ export default function Sidebar() {
             </button>
           ))}
         </nav>
-
         {/* Menu List */}
         <nav className="space-y-1">
           {menuItems.map((item) => (
