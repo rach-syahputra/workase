@@ -1,5 +1,5 @@
 import { responseHandler } from '@/helpers/response.handler';
-import jobsService from '@/services/jobs.service';
+import jobsService from '@/services/job.service';
 import { NextFunction, Request, Response } from 'express';
 
 class JobsController {

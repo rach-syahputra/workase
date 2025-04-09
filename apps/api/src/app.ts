@@ -16,7 +16,6 @@ import { ResponseError } from './helpers/error';
 import SampleRouter from './routers/sample/sample.router';
 import CompanyReviewRouter from './routers/company-review.router';
 import SearchCompanyReviewRouter from './routers/search-company-review.router';
-import apiRouter from './routers/api.router';
 
 import apiRouter from './routers/api.router';
 

@@ -37,7 +37,7 @@ export function NearestJobs() {
     <div className="w-full max-w-[90%] pt-[12px] md:pt-0 lg:max-w-[90%]">
       {jobs.length > 0 && (
         <>
-          <div className="font-geist flex items-center justify-center gap-1 text-[16px] text-sm font-medium md:my-5">
+          <div className="font-geist flex items-center justify-center gap-1 text-[16.0px] text-sm font-medium md:my-5">
             <FaLocationDot className="scale-110 text-red-500" />
             Opportunities Around Your Location
           </div>

@@ -40,7 +40,7 @@ export function NewestJobs() {
     <div className="w-full max-w-[90%] lg:max-w-[90%]">
       {jobs.length > 0 && (
         <>
-          <div className="font-geist mb-[9px] flex items-center justify-center gap-1 text-[16px] text-sm font-medium md:my-5">
+          <div className="font-geist mb-[9px] flex items-center justify-center gap-1 text-[16.0px] text-sm font-medium md:my-5">
             <Sparkles className="scale-75 text-blue-500" />5 Newest Jobs
             Available For You, <u> Swipe !</u>
           </div>
