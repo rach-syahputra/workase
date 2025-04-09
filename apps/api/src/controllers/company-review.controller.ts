@@ -99,17 +99,14 @@ class CompanyReviewController {
     next: NextFunction,
   ) => {
     try {
-      const data = await this.companyReviewService.getCompanyReviews({
+      const data = await this.companyReviewService.getCompanyHeader({
         companyId: req.params.companyId,
-        order: req.query.order as OrderType,
-        cursor: req.query.cursor as string,
-        limit: req.query.limit ? Number(req.query.limit) : undefined,
       });
 
       ApiResponse({
         res,
         statusCode: 200,
-        message: `Reviews for company with id ${req.params.companyId} retrieved successfully.`,
+        message: `Company header with id ${req.params.companyId} retrieved successfully.`,
         data,
       });
     } catch (err) {
@@ -131,6 +128,30 @@ class CompanyReviewController {
         res,
         statusCode: 200,
         message: `Rating for company with id ${req.params.companyId} retrieved successfully.`,
+        data,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  getCompanyReviews = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const data = await this.companyReviewService.getCompanyReviews({
+        companyId: req.params.companyId,
+        order: req.query.order as OrderType,
+        cursor: req.query.cursor as string,
+        limit: req.query.limit ? Number(req.query.limit) : undefined,
+      });
+
+      ApiResponse({
+        res,
+        statusCode: 200,
+        message: `Reviews for company with id ${req.params.companyId} retrieved successfully.`,
         data,
       });
     } catch (err) {
