@@ -28,25 +28,13 @@ const CompaniesReviews = () => {
         </TabsTrigger>
       </TabsList>
       <TabsContent value="reviews">
-        <div className="flex flex-col items-center justify-center w-full gap-4">
-<<<<<<< HEAD
+        <div className="flex w-full flex-col items-center justify-center gap-4">
           {reviews.length > 0 && (
-=======
-          {isLoading ? (
-            <>
-              <CompanyReviewCardLoading />
-              <CompanyReviewCardLoading />
-              <CompanyReviewCardLoading />
-              <CompanyReviewCardLoading />
-            </>
-          ) : reviews.length > 0 ? (
->>>>>>> 80e554f (feat(web): implement search company reviews)
             <>
               {reviews.map((review, index) => (
                 <CompanyReviewCard key={index} review={review} />
               ))}
             </>
-<<<<<<< HEAD
           )}
 
           {isLoading && (
@@ -57,11 +45,8 @@ const CompaniesReviews = () => {
           )}
 
           {!isLoading && reviews.length === 0 && (
-=======
-          ) : (
->>>>>>> 80e554f (feat(web): implement search company reviews)
-            <div className="flex items-center justify-center w-full px-4 py-4">
-              <p className="text-center text-primary-gray">
+            <div className="flex w-full items-center justify-center px-4 py-4">
+              <p className="text-primary-gray text-center">
                 There are currently no reviews for this company.
               </p>
             </div>

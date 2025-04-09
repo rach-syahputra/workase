@@ -5,6 +5,7 @@ import {
   Dispatch,
   SetStateAction,
   useContext,
+  useEffect,
   useState,
 } from 'react';
 
@@ -16,7 +17,11 @@ interface ICompaniesReviewsContext {
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   reviews: ICompanyReview[];
   setReviews: Dispatch<SetStateAction<ICompanyReview[]>>;
-  fetchCompaniesReviews: () => void;
+  fetchCompaniesReviews: (option?: IOption) => void;
+}
+
+interface IOption {
+  isLoadMore: boolean;
 }
 
 const CompaniesReviewsContext = createContext<
@@ -29,21 +34,52 @@ const CompaniesReviewsProvider = ({
   children: React.ReactNode;
 }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [cursor, setCursor] = useState<string>('');
+  const [hasMore, setHasMore] = useState<boolean>(false);
   const [reviews, setReviews] = useState<ICompanyReview[]>([]);
 
-  const fetchCompaniesReviews = async () => {
+  const fetchCompaniesReviews = async (option?: IOption) => {
     setIsLoading(true);
 
     const response = await getCompaniesReviews({
       order: 'desc',
+      cursor,
+      limit: 15,
     });
 
     if (response.success) {
-      setReviews(response.data?.reviews || []);
+      const newReviews = response.data?.reviews;
+      const updatedReviews = option?.isLoadMore
+        ? [...reviews, ...(newReviews || [])]
+        : newReviews || [];
+
+      setReviews(updatedReviews);
+      setCursor(response.data?.pagination.cursor || '');
+      setHasMore(
+        updatedReviews.length >= (response.data?.pagination.totalData || 0)
+          ? false
+          : true,
+      );
     }
 
     setIsLoading(false);
   };
+
+  useEffect(() => {
+    const handleInfiniteScroll = () => {
+      if (
+        window.innerHeight + window.scrollY >=
+          document.body.offsetHeight - 100 &&
+        !isLoading &&
+        hasMore
+      ) {
+        fetchCompaniesReviews({ isLoadMore: true });
+      }
+    };
+
+    window.addEventListener('scroll', handleInfiniteScroll);
+    return () => window.removeEventListener('scroll', handleInfiniteScroll);
+  }, [isLoading, hasMore]);
 
   return (
     <CompaniesReviewsContext.Provider
