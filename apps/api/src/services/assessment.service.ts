@@ -1,6 +1,7 @@
 import { CLOUDINARY_ASSESSMENT_QUESTION_IMAGE_FOLDER } from '@/config';
 import ImageRepository from '@/repositories/cloudinary/image.repository';
-import AssessmentRepository from '@/repositories/assessments/assessment.repository';
+import GetAssessmentRepository from '@/repositories/assessments/get-assessment.repository';
+import AddAssessmentRepository from '@/repositories/assessments/add-assessment.repository';
 import AssessmentQuestionRepository from '@/repositories/assessments/assessment-question.repository';
 import {
   AddAssessmentQuestionServiceRequest,
@@ -8,28 +9,32 @@ import {
   GetAssessmentByIdRequest,
   GetAssessmentQuestionsRequest,
   GetAssessmentsRequest,
+  GetAvailableSkillsRequest,
 } from '@/interfaces/assessment.interface';
+import { addAssessmentQuestionSchema } from '@/validations/assessment.validation';
 import { validate } from '@/helpers/validation';
 import { ResponseError } from '@/helpers/error';
-import { addAssessmentQuestionSchema } from '@/validations/assessment.validation';
 
 class AssessmentService {
   private imageRepository: ImageRepository;
-  private assessmentRepository: AssessmentRepository;
+  private getAssessmentRepository: GetAssessmentRepository;
+  private addAssessmentRepository: AddAssessmentRepository;
   private assessmentQuestionRepository: AssessmentQuestionRepository;
 
   constructor() {
     this.imageRepository = new ImageRepository();
-    this.assessmentRepository = new AssessmentRepository();
+    this.getAssessmentRepository = new GetAssessmentRepository();
+    this.addAssessmentRepository = new AddAssessmentRepository();
     this.assessmentQuestionRepository = new AssessmentQuestionRepository();
   }
 
   getAssessments = async (req: GetAssessmentsRequest) => {
-    return await this.assessmentRepository.getAssessments(req);
+    return await this.getAssessmentRepository.getAssessments(req);
   };
 
   getAssessmentById = async (req: GetAssessmentByIdRequest) => {
-    const assessment = await this.assessmentRepository.getAssessmentById(req);
+    const assessment =
+      await this.getAssessmentRepository.getAssessmentById(req);
 
     if (!assessment) {
       throw new ResponseError(404, 'Assessment not found');
@@ -38,8 +43,12 @@ class AssessmentService {
     return assessment;
   };
 
+  getAvailableSkills = async (req: GetAvailableSkillsRequest) => {
+    return await this.getAssessmentRepository.getAvailableSkills(req);
+  };
+
   addAssessment = async (req: AddAssessmentRequest) => {
-    return await this.assessmentRepository.addAssessment({
+    return await this.addAssessmentRepository.addAssessment({
       skillId: req.skillId,
     });
   };

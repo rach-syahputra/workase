@@ -68,6 +68,31 @@ class AssessmentController {
     }
   };
 
+  getAvailableSkills = async (
+    req: DeveloperRequest,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      if (!req.developer) throw new ResponseError(401, 'Unauthenticated.');
+
+      const data = await this.assessmentService.getAvailableSkills({
+        limit: Number(req.query.limit),
+        page: Number(req.query.page),
+        title: req.query.title as string,
+      });
+
+      ApiResponse({
+        res,
+        statusCode: 200,
+        message: 'Available skills retrieved successfully',
+        data,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
   addAssessment = async (
     req: DeveloperRequest,
     res: Response,

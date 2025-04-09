@@ -25,6 +25,11 @@ class AssessmentRouter {
       verifyDeveloper,
       this.assessmentController.getAssessmentById,
     );
+    this.router.get(
+      '/skills/available',
+      verifyDeveloper,
+      this.assessmentController.getAvailableSkills,
+    );
     this.router.post(
       '/',
       verifyDeveloper,

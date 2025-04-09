@@ -8,7 +8,7 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { getSkills } from '@/lib/apis/skills';
+import { getAvailableSkills } from '@/lib/apis/assessments';
 import { ISkill } from '@/lib/interfaces/skill';
 
 interface ICreateAssessmentContext {
@@ -54,11 +54,13 @@ const CreateAssessmentProvider = ({
   const fetchSkills = async (page?: number) => {
     setIsLoading(true);
 
-    const response = await getSkills({
+    const response = await getAvailableSkills({
       limit,
       page: page || 1,
       title: debouncedSearchSkill,
     });
+
+    console.log(response);
 
     if (response.success) {
       setSkills(response.data?.skills || []);

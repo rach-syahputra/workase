@@ -42,7 +42,7 @@ const Sidebar = ({ className, children }: SidebarProps) => {
   return (
     <aside
       className={cn(
-        'bg-primary-dark sticky top-0 hidden min-h-svh w-fit p-4 lg:block lg:w-[280px]',
+        'bg-primary-dark-background sticky top-0 hidden min-h-svh w-fit p-4 lg:block lg:w-[280px]',
         className,
       )}
     >

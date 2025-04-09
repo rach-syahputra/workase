@@ -5,8 +5,9 @@
 :root {
   --primary-blue: #0066ff;
   --primary-blue-hover: #2f82ff;
-  --primary-dark-blue: #0042a4;
+  --primary-dark-blue: #020e59;
   --primary-dark: #09090b;
+  --primary-dark-background: #121216;
   --primary-gray: #71717a;
   --primary-gray-background: #f4f4f5;
 }

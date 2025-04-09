@@ -3,6 +3,7 @@ import {
   IAssessmentDetail,
   IAssessmentQuestion,
 } from '../assessment';
+import { ISkill } from '../skill';
 import { APIResponse, IPagination } from './response';
 
 export interface AddAssessmentResponse extends APIResponse {
@@ -21,6 +22,13 @@ export interface GetAssessmentsResponse extends APIResponse {
 export interface GetAssessmentByIdResponse extends APIResponse {
   data?: {
     assessment: IAssessmentDetail;
+  };
+}
+
+export interface GetAvailableSkillsResponse extends APIResponse {
+  data?: {
+    skills: ISkill[];
+    pagination?: IPagination;
   };
 }
 

@@ -18,6 +18,7 @@ module.exports = {
         'primary-blue-hover': 'var(--primary-blue-hover)',
         'primary-dark-blue': 'var(--primary-dark-blue)',
         'primary-dark': 'var(--primary-dark)',
+        'primary-dark-background': 'var(--primary-dark-background)',
         'primary-gray': 'var(--primary-gray)',
         'primary-gray-background': 'var(--primary-gray-background)',
         background: 'hsl(var(--background))',

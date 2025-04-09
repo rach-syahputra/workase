@@ -10,6 +10,10 @@ export interface GetAssessmentByIdRequest {
   id: string;
 }
 
+export interface GetAvailableSkillsRequest extends IFilter {
+  title?: string;
+}
+
 export interface AddAssessmentRequest {
   skillId: string;
 }

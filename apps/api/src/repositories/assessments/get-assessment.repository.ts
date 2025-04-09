@@ -1,0 +1,166 @@
+import { getAssessmentsOrderConfig } from '@/helpers/assessments/assessment.util';
+import { prisma } from '@/helpers/prisma';
+import {
+  GetAssessmentByIdRequest,
+  GetAssessmentsRequest,
+  GetAvailableSkillsRequest,
+} from '@/interfaces/assessment.interface';
+
+class GetAssessmentRepository {
+  private prisma: typeof prisma;
+
+  constructor() {
+    this.prisma = prisma;
+  }
+
+  getAssessments = async (req: GetAssessmentsRequest) => {
+    const limit = req.limit ? req.limit : 8;
+    const page = req.page ? req.page : 1;
+    const skipConfig = (page - 1) * limit;
+    const orderConfig = getAssessmentsOrderConfig(
+      req.sortBy || 'updatedAt',
+      req.order || 'desc',
+    );
+
+    const [totalAssessments, assessments] = await this.prisma.$transaction([
+      this.prisma.assessment.count({
+        where: {
+          isDeleted: false,
+          skill: {
+            title: {
+              contains: req.skill,
+              mode: 'insensitive',
+            },
+          },
+        },
+      }),
+      this.prisma.assessment.findMany({
+        where: {
+          isDeleted: false,
+          skill: {
+            title: {
+              contains: req.skill,
+              mode: 'insensitive',
+            },
+          },
+        },
+        include: {
+          skill: true,
+          AssessmentQuestion: true,
+        },
+        orderBy: orderConfig,
+        take: limit,
+        skip: skipConfig,
+      }),
+    ]);
+
+    return {
+      assessments: assessments.map((assessment) => ({
+        id: assessment.id,
+        skill: {
+          id: assessment.skill.id,
+          title: assessment.skill.title,
+        },
+        createdAt: assessment.createdAt,
+        updatedAt: assessment.updatedAt,
+        isDeleted: assessment.isDeleted,
+        totalQuestions: assessment.AssessmentQuestion.length,
+      })),
+      pagination: {
+        totalData: totalAssessments,
+        totalPages: Math.ceil(totalAssessments / limit),
+        page,
+      },
+    };
+  };
+
+  getAssessmentById = async (req: GetAssessmentByIdRequest) => {
+    const assessment = await this.prisma.assessment.findUnique({
+      where: {
+        id: req.id,
+      },
+      include: {
+        AssessmentQuestion: {
+          include: {
+            QuestionOption: true,
+          },
+        },
+        skill: true,
+      },
+    });
+
+    if (assessment) {
+      return {
+        assessment: {
+          id: assessment?.id,
+          skill: {
+            id: assessment.skill.id,
+            title: assessment.skill.title,
+          },
+          createdAt: assessment?.createdAt,
+          updatedAt: assessment?.updatedAt,
+          isDeleted: assessment?.isDeleted,
+          questions: assessment.AssessmentQuestion.map((question) => ({
+            id: question.id,
+            assessmentId: question.assessmentId,
+            question: question.question,
+            image: question.image,
+            createdAt: question.createdAt,
+            updatedAt: question.updatedAt,
+            isDeleted: question.isDeleted,
+            options: question.QuestionOption,
+          })),
+        },
+      };
+    }
+  };
+
+  getAvailableSkills = async (req: GetAvailableSkillsRequest) => {
+    const limit = req.limit ? req.limit : 5;
+    const page = req.page ? req.page : 1;
+    const skipConfig = (page - 1) * limit;
+
+    const [totalSkills, skills] = await this.prisma.$transaction([
+      this.prisma.skill.count({
+        where: {
+          isDeleted: false,
+          title: {
+            contains: req.title,
+            mode: 'insensitive',
+          },
+          Assessment: {
+            none: {},
+          },
+        },
+      }),
+      this.prisma.skill.findMany({
+        where: {
+          isDeleted: false,
+          title: {
+            contains: req.title,
+            mode: 'insensitive',
+          },
+          Assessment: {
+            none: {},
+          },
+        },
+        take: limit,
+        skip: skipConfig,
+        orderBy: {
+          title: 'asc',
+        },
+      }),
+    ]);
+
+    return {
+      skills,
+      pagination: {
+        totalData: totalSkills,
+        totalPages: Math.ceil(totalSkills / limit),
+        page,
+      },
+    };
+  };
+}
+
+export default GetAssessmentRepository;

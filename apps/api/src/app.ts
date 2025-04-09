@@ -53,7 +53,6 @@ export default class App {
     const developerRouter = new DeveloperRouter();
     const companyReviewRouter = new CompanyReviewRouter();
     const searchCompanyReviewRouter = new SearchCompanyReviewRouter();
-    const skillRouter = new SkillRouter();
     const assessmentRouter = new AssessmentRouter();
 
     this.app.use('/api', apiRouter);
@@ -64,7 +63,6 @@ export default class App {
     this.app.use('/api/developers', developerRouter.getRouter());
     this.app.use('/api/companies', companyReviewRouter.getRouter());
     this.app.use('/api/search', searchCompanyReviewRouter.getRouter());
-    this.app.use('/api/skills', skillRouter.getRouter());
     this.app.use('/api/assessments', assessmentRouter.getRouter());
   }
 

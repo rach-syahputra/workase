@@ -3,5 +3,5 @@ export interface ISkill {
   title: string;
   createdAt: string;
   updatedAt: string;
-  isDeleted: false;
+  isDeteled: boolean;
 }

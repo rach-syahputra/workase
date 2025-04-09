@@ -8,12 +8,14 @@ export default function DeveloperLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="relative flex min-h-screen w-full flex-col items-start justify-start lg:flex-row">
+    <div className="bg-primary-dark-background min-w-screen relative flex min-h-screen w-full flex-col items-start justify-start lg:flex-row">
       <DeveloperNavbar />
       <DeveloperSidebar />
-      <main className="min-h-screen w-full">
-        <DeveloperAssessmentProvider>{children}</DeveloperAssessmentProvider>
-      </main>
+      <div className="bg-primary-dark-background flex min-h-screen w-full flex-col lg:p-4">
+        <main className="w-full flex-1 rounded-md bg-white">
+          <DeveloperAssessmentProvider>{children}</DeveloperAssessmentProvider>
+        </main>
+      </div>
     </div>
   );
 }
