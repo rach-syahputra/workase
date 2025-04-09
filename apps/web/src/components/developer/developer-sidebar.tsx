@@ -23,7 +23,7 @@ const DeveloperSidebar = ({ className }: DeveloperSidebarProps) => {
   const pathname = usePathname();
 
   return (
-    <Sidebar className={className}>
+    <Sidebar className={cn('fixed left-0 top-0', className)}>
       <SidebarGroup>
         <SidebarGroupLabel>
           <Image

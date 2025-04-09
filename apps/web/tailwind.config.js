@@ -5,6 +5,15 @@ module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {
+      width: {
+        sidebar: 'var(--sidebar-width)',
+      },
+      spacing: {
+        sidebar: 'var(--sidebar-width)',
+      },
+      margin: {
+        sidebar: 'var(--sidebar-width)',
+      },
       screens: {
         sm: '440px',
       },
