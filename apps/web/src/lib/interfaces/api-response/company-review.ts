@@ -42,6 +42,10 @@ export interface SearchCompanyReviewsData {
   companies: ISearchCompanyReview[];
 }
 
+export interface SearchCompanyReviewsData {
+  companies: ISearchCompanyReview[];
+}
+
 export interface AddCompanyReviewResponse extends APIResponse {
   data?: AddCompanyReviewData;
 }
@@ -58,10 +62,13 @@ export interface GetCompanyReviewsResponse extends APIResponse {
   data?: GetCompanyReviewData;
 }
 
+<<<<<<< HEAD
 export interface GetCompaniesReviewsResponse extends APIResponse {
   data?: GetCompanyReviewData;
 }
 
+=======
+>>>>>>> 80e554f (feat(web): implement search company reviews)
 export interface SearchCompanyReviewsResponse extends APIResponse {
   data?: SearchCompanyReviewsData;
 }

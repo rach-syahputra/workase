@@ -10,7 +10,10 @@ const Card = React.forwardRef<
     ref={ref}
     className={cn(
       'text-primary-dark rounded-md border bg-white shadow max-md:border-none max-md:shadow-none',
+<<<<<<< HEAD
 
+=======
+>>>>>>> 80e554f (feat(web): implement search company reviews)
       className,
     )}
     {...props}

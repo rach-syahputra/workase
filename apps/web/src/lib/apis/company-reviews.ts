@@ -14,6 +14,7 @@ import {
   GetCompanyHeaderResponse,
   GetCompanyRatingResponse,
   GetCompanyReviewsResponse,
+  SearchCompanyReviewsResponse,
 } from '../interfaces/api-response/company-review';
 import { IFilter } from '../interfaces/api-request/filter';
 import { axiosPrivate, axiosPublic } from '../axios';
@@ -69,6 +70,7 @@ export const getCompanyReviews = async (
   try {
     const queryParams = new URLSearchParams();
 
+<<<<<<< HEAD
     if (req?.order) queryParams.append('order', req?.order);
     if (req?.limit) queryParams.append('limit', req?.limit.toString());
     if (req?.cursor) queryParams.append('cursor', req?.cursor);
@@ -162,6 +164,8 @@ export const getCompanyReviews = async (
     const queryParams = new URLSearchParams();
 
     if (req?.q) queryParams.append('q', req?.q);
+=======
+>>>>>>> 80e554f (feat(web): implement search company reviews)
     if (req?.order) queryParams.append('order', req?.order);
     if (req?.limit) queryParams.append('limit', req?.limit.toString());
     if (req?.cursor) queryParams.append('cursor', req?.cursor);
@@ -169,6 +173,47 @@ export const getCompanyReviews = async (
     const query = queryParams.toString();
     const response = await axiosPublic.get(
       `/companies/${companyId}/reviews${query ? `?${query}` : ''}`,
+    );
+
+    return response.data;
+  } catch (error) {
+    return handleApiError(error);
+  }
+};
+
+export const getCompaniesReviews = async (
+  req?: IFilter,
+): Promise<GetCompanyReviewsResponse> => {
+  try {
+    const queryParams = new URLSearchParams();
+
+    if (req?.q) queryParams.append('q', req.q);
+    if (req?.order) queryParams.append('order', req?.order);
+    if (req?.limit) queryParams.append('limit', req?.limit.toString());
+    if (req?.cursor) queryParams.append('cursor', req?.cursor);
+
+    const query = queryParams.toString();
+    const response = await axiosPublic.get(
+      `/companies/reviews${query ? `?${query}` : ''}`,
+    );
+
+    return response.data;
+  } catch (error) {
+    return handleApiError(error);
+  }
+};
+
+export const searchCompanyReviews = async (
+  req?: IFilter,
+): Promise<SearchCompanyReviewsResponse> => {
+  try {
+    const queryParams = new URLSearchParams();
+
+    if (req?.q) queryParams.append('q', req.q);
+
+    const query = queryParams.toString();
+    const response = await axiosPublic.get(
+      `/search/companies/reviews${query ? `?${query}` : ''}`,
     );
 
     return response.data;
