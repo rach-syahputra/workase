@@ -215,8 +215,9 @@ model AssessmentQuestion {
   updatedAt    DateTime @map("updated_at")
   isDeleted    Boolean  @default(false) @map("is_deleted")
 
+
   assessment     Assessment       @relation(fields: [assessmentId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  QuestionOption QuestionOption[]
+ QuestionOption QuestionOption[]
 
   @@map("assessment_questions")
 }
@@ -228,6 +229,7 @@ model QuestionOption {
   isCorrect            Boolean  @map("is_correct")
   createdAt            DateTime @map("created_at")
   isDeleted            Boolean  @default(false) @map("is_deleted")
+
 
   assessmentQuestion AssessmentQuestion @relation(fields: [assessmentQuestionId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
