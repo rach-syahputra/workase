@@ -50,6 +50,7 @@ interface ICompanyReviewRating {
   facilities: number;
   careerGrowth: number;
 }
+<<<<<<< HEAD
 
 export interface ISearchCompanyReview {
   id: string;
@@ -58,3 +59,5 @@ export interface ISearchCompanyReview {
   overallRating: number;
   totalReviews: number;
 }
+=======
+>>>>>>> 5c6e704 (feat(web): add company reviews page)
