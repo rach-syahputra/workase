@@ -14,18 +14,21 @@ import GetCompanyHeaderRepository from '@/repositories/company-reviews/get-compa
 
 import { ResponseError } from '@/helpers/error';
 import { validate } from '@/helpers/validation';
+import GetCompanyRatingRepository from '@/repositories/company-reviews/get-company-rating.repository';
 
 class CompanyReviewService {
   private addCompanyReviewRepository: AddCompanyReviewRepository;
   private getCompanyHeaderRepository: GetCompanyHeaderRepository;
   private getCompanyRatingRepository: GetCompanyRatingRepository;
   private getCompanyReviewRepository: GetCompanyReviewRepository;
+  private getCompanyRatingRepository: GetCompanyRatingRepository;
 
   constructor() {
     this.addCompanyReviewRepository = new AddCompanyReviewRepository();
     this.getCompanyHeaderRepository = new GetCompanyHeaderRepository();
     this.getCompanyRatingRepository = new GetCompanyRatingRepository();
     this.getCompanyReviewRepository = new GetCompanyReviewRepository();
+    this.getCompanyRatingRepository = new GetCompanyRatingRepository();
   }
 
   verifyUserEmployment = async (req: VerifyUserEmploymentRequest) => {
