@@ -9,6 +9,7 @@ import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { axiosPublic } from '@/lib/axios';
 import { useSearchJob } from '@/context/search-job-context';
+import { useRouter } from 'next/navigation';
 interface SearchBarProps {
   onSearchChange: (searchValues: { [key: string]: string }) => void;
 }
@@ -31,6 +32,7 @@ interface IFilterForm {
   location: string;
 }
 export function SearchBar() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<string>('Job Title');
   const { fetchJobs } = useSearchJob();
   const search = [
@@ -48,11 +50,36 @@ export function SearchBar() {
 
   const [searchValues, setSearchValues] = useState<IFilterForm>(initialValues);
 
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      console.log(
+        'ini position',
+        position.coords.latitude,
+        position.coords.longitude,
+      );
+      try {
+        fetchJobs({
+          title: '',
+          category: '',
+          location: position.coords.latitude + ',' + position.coords.longitude,
+        });
+      } catch (error) {
+        console.error('there is no location', error);
+      }
+    });
+  }, []);
+
   const formik = useFormik({
     initialValues,
     validationSchema: FilterSchema,
     onSubmit: (values) => {
       fetchJobs(values);
+      const query = new URLSearchParams({
+        title: values.title,
+        category: values.category,
+        location: values.location,
+      }).toString();
+      router.push(`/all-jobs?${query}`);
     },
   });
 

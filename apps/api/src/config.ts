@@ -29,3 +29,6 @@ export const JWT_REFRESH_SECRET = process.env.ACCESS_TOKEN_SECRET || '';
 
 // cloudinary config
 export const CLOUDINARY_DEVELOPER_IMAGE_FOLDER = 'workase-developer-images';
+
+// opencage api key
+export const OPENCAGE_API_KEY = process.env.OPENCAGE_API_KEY || '';

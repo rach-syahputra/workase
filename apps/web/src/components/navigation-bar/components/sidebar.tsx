@@ -3,26 +3,57 @@
 import { Sheet, SheetContent, SheetTrigger } from '../../shadcn-ui/sheet';
 
 import { Menu, X } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
+import { useState, useEffect, useRef } from 'react';
+
+const menuItems = [
+  { label: 'Home', value: 'dashboard' },
+  { label: 'Jobs', value: 'all-jobs' },
+  { label: 'Companies', value: 'companies' },
+];
 export default function Sidebar() {
+  const searchParams = useSearchParams();
   const [mounted, setMounted] = useState(false);
 
   const [active, setActive] = useState('Home');
+  const router = useRouter();
+  const pathname = usePathname();
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+  useEffect(() => {
+    const current = pathname.split('/')[1];
+    const matchedTab = menuItems.find((item) => item.value === current);
+    if (matchedTab) {
+      setActive(matchedTab.label);
+    }
+  }, [pathname]);
 
+  // useEffect(() => {
+  //   const index = menuItems.findIndex((tab) => tab.label === active);
+  //   if (tabRefs.current[index]) {
+  //     tabRefs.current[index];
+  //   }
+  //   const path = '/' + menuItems[index].value;
+  //   const queryString = searchParams.toString();
+  //   router.push(`${path}${queryString ? '?' + queryString : ''}`);
+  // }, [active]);
+  const handleTabClick = (tab: (typeof menuItems)[number]) => {
+    const queryString = searchParams.toString();
+    const path = `/${tab.value}${queryString ? '?' + queryString : ''}`;
+    router.push(path);
+    setActive(tab.label);
+  };
   if (!mounted) return null; // Hindari rendering di server
-
-  const menuItems = ['Home', 'Jobs', 'Companies'];
 
   const loginItems = ['Sign in', 'Employers/Post Job'];
   return (
     <Sheet>
       {/* Hamburger Button */}
-      <SheetTrigger className="mt-[4px] h-[44px] w-[50px] md:hidden" asChild>
+      <SheetTrigger className="mt-[4px] h-[44px] w-[45px] md:hidden" asChild>
         <button className="h-[38px] w-[20px]">
           <Menu className="h-5 w-5" />
         </button>
@@ -56,15 +87,15 @@ export default function Sidebar() {
         <nav className="space-y-1">
           {menuItems.map((item) => (
             <button
-              key={item}
-              onClick={() => setActive(item)}
+              key={item.label}
+              onClick={() => handleTabClick(item)}
               className={`text-md flex w-full items-center justify-between px-5 py-3 text-left font-medium ${
-                active === item
+                active === item.label
                   ? 'text-primary-dark font-semibold'
                   : 'text-primary-gray'
               } border-b-[1px] hover:bg-gray-100`}
             >
-              {item}
+              {item.label}
               <span>{'>'}</span>
             </button>
           ))}

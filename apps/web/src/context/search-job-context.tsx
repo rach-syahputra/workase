@@ -3,6 +3,7 @@ import { axiosPublic } from '@/lib/axios';
 import * as React from 'react';
 import { createContext, useContext, useEffect, useState } from 'react';
 export interface Job {
+  createdAt: any;
   description: string;
   company: any;
   id: string;
@@ -45,7 +46,7 @@ export function SearchJobProvider({ children }: { children: React.ReactNode }) {
       }
 
       const params: any = {
-        limit: 10,
+        limit: 12,
         sort: 'desc',
         ...filter,
       };
