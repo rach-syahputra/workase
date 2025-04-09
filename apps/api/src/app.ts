@@ -16,6 +16,7 @@ import { ResponseError } from './helpers/error';
 import SampleRouter from './routers/sample/sample.router';
 import CompanyReviewRouter from './routers/company-review.router';
 import SearchCompanyReviewRouter from './routers/search-company-review.router';
+
 import apiRouter from './routers/api.router';
 
 export default class App {
@@ -102,7 +103,6 @@ export default class App {
   private routes(): void {
     const sampleRouter = new SampleRouter();
     const companyReviewRouter = new CompanyReviewRouter();
-
     const searchCompanyReviewRouter = new SearchCompanyReviewRouter();
 
     this.app.use('/api/samples', sampleRouter.getRouter());

@@ -32,11 +32,13 @@ class SearchCompanyReviewRepository {
           },
         },
       },
+
       orderBy: {
         CompanyReview: {
           _count: 'desc',
         },
       },
+
       take: 5,
     });
 
