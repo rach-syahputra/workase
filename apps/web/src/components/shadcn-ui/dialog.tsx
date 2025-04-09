@@ -102,7 +102,11 @@ const DialogDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
     ref={ref}
+<<<<<<< HEAD
     className={cn('text-primary-gray text-sm', className)}
+=======
+    className={cn('text-muted-foreground text-sm', className)}
+>>>>>>> 1da1d27 (feat(searchbar): connect API with frontend)
     {...props}
   />
 ));

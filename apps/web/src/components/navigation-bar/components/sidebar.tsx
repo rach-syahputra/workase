@@ -20,7 +20,7 @@ export default function Sidebar() {
   return (
     <Sheet>
       {/* Hamburger Button */}
-      <SheetTrigger className="mt-[4px] h-[44px] w-[50px] md:hidden">
+      <SheetTrigger className="mt-[4px] h-[44px] w-[50px] md:hidden" asChild>
         <button className="h-[38px] w-[20px]">
           <Menu className="h-5 w-5" />
         </button>
@@ -30,7 +30,11 @@ export default function Sidebar() {
       <SheetContent side="right" className="w-72 p-0">
         {/* Close Button */}
         <div className="flex justify-end p-5">
-          <SheetTrigger asChild></SheetTrigger>
+          <SheetTrigger asChild>
+            <button>
+              <X className="h-0 w-0" />
+            </button>
+          </SheetTrigger>
         </div>
 
         {/* Login */}
