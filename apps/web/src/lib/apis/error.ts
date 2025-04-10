@@ -4,8 +4,8 @@ import { APIResponse } from '../interfaces/api-response/response';
 export const handleApiError = (error: unknown): APIResponse => {
   console.error('error fetching: ', error);
 
-  if (error instanceof AxiosError) {
-    if (error.code === 'ERR_NETWORK') {
+  if (error && typeof error === 'object') {
+    if ((error as AxiosError).code === 'ERR_NETWORK') {
       return {
         success: false,
         code: 'ERR_NETWORK',

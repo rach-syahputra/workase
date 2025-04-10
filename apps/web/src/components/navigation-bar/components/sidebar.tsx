@@ -4,6 +4,7 @@ import { Sheet, SheetContent, SheetTrigger } from '../../shadcn-ui/sheet';
 
 import { Menu, X } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import router from 'next/router';
 
 import { useState, useEffect, useRef } from 'react';
 
@@ -12,25 +13,19 @@ const menuItems = [
   { label: 'Jobs', value: 'all-jobs' },
   { label: 'Companies', value: 'companies' },
 ];
+const loginItems = ['Sign in', 'Register'];
+
 export default function Sidebar() {
   const searchParams = useSearchParams();
   const [mounted, setMounted] = useState(false);
-<<<<<<< HEAD
-  const [active, setActive] = useState('Find salaries');
-=======
 
-  const [active, setActive] = useState('Home');
-<<<<<<< HEAD
->>>>>>> 9da3d76 (fix: resolve issue with example-component)
-=======
-  const router = useRouter();
-  const pathname = usePathname();
-  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
->>>>>>> cf8c1d1 (feat: complete landing page implementation)
+  const [active, setActive] = useState('Find salaries');
 
   useEffect(() => {
     setMounted(true);
   }, []);
+  const pathname = usePathname();
+
   useEffect(() => {
     const current = pathname.split('/')[1];
     const matchedTab = menuItems.find((item) => item.value === current);
@@ -56,27 +51,10 @@ export default function Sidebar() {
   };
   if (!mounted) return null; // Hindari rendering di server
 
-<<<<<<< HEAD
-  const menuItems = ['Home', 'Jobs', 'Companies'];
-
-<<<<<<< HEAD
-=======
-=======
->>>>>>> cf8c1d1 (feat: complete landing page implementation)
-  const loginItems = ['Sign in', 'Employers/Post Job'];
->>>>>>> 9da3d76 (fix: resolve issue with example-component)
   return (
     <Sheet>
       {/* Hamburger Button */}
-<<<<<<< HEAD
-<<<<<<< HEAD
       <SheetTrigger className="mt-[4px] h-[44px] w-[45px] md:hidden" asChild>
-=======
-      <SheetTrigger className="mt-[4px] h-[44px] w-[50px] md:hidden" asChild>
->>>>>>> 1da1d27 (feat(searchbar): connect API with frontend)
-=======
-      <SheetTrigger className="mt-[4px] h-[44px] w-[45px] md:hidden" asChild>
->>>>>>> cf8c1d1 (feat: complete landing page implementation)
         <button className="h-[38px] w-[20px]">
           <Menu className="h-5 w-5" />
         </button>
@@ -106,23 +84,7 @@ export default function Sidebar() {
             </button>
           ))}
         </nav>
-<<<<<<< HEAD
 
-        {/* Login */}
-        <nav className="space-y-1 border-b-[10px] border-t-[1px]">
-          {loginItems.map((item) => (
-            <button
-              key={item}
-              onClick={() => {}}
-              className={`text-md ${item === 'Sign in' ? 'text-primary-dark-blue' : 'text-gray-600'} flex w-full items-center justify-between border-b-[1px] px-5 py-3 text-left font-semibold hover:bg-gray-100`}
-            >
-              {item}
-              <span>{'>'}</span>
-            </button>
-          ))}
-        </nav>
-=======
->>>>>>> 9da3d76 (fix: resolve issue with example-component)
         {/* Menu List */}
         <nav className="space-y-1">
           {menuItems.map((item) => (
@@ -130,15 +92,10 @@ export default function Sidebar() {
               key={item.label}
               onClick={() => handleTabClick(item)}
               className={`text-md flex w-full items-center justify-between px-5 py-3 text-left font-medium ${
-<<<<<<< HEAD
-                active === item ? 'font-semibold text-blue-600' : 'text-black'
-              } hover:bg-gray-100`}
-=======
                 active === item.label
-                  ? 'text-primary-dark font-semibold'
-                  : 'text-primary-gray'
-              } border-b-[1px] hover:bg-gray-100`}
->>>>>>> cf8c1d1 (feat: complete landing page implementation)
+                  ? 'font-semibold text-blue-600'
+                  : 'text-black'
+              } hover:bg-gray-100`}
             >
               {item.label}
               <span>{'>'}</span>

@@ -7,13 +7,6 @@ import CompaniesReviews from './_components/companies-reviews';
 const CompanyReviewsPage = () => {
   return (
     <Container>
-<<<<<<< HEAD
-      <section className="mx-auto max-w-screen-md">
-        <div className="flex items-center justify-center gap-2">
-          <SearchInput />
-          <CreateCompanyReviewModal />
-        </div>
-=======
       <section className="mx-auto flex max-w-screen-md flex-col gap-4">
         <CompaniesReviewsProvider>
           <div className="flex items-center justify-center gap-2">
@@ -22,7 +15,6 @@ const CompanyReviewsPage = () => {
           </div>
           <CompaniesReviews />
         </CompaniesReviewsProvider>
->>>>>>> 891b532 (feat(web): add companies reviews context)
       </section>
     </Container>
   );
