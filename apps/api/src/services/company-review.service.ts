@@ -1,8 +1,11 @@
 import {
   AddCompanyReviewRequest,
   GetCompaniesReviewsRequest,
+<<<<<<< HEAD
   GetCompanyHeaderRequest,
   GetCompanyRatingRequest,
+=======
+>>>>>>> 283fb81 (feat(api): add Get Companies Reviews API)
   GetCompanyReviewsRequest,
   VerifyUserEmploymentRequest,
 } from '@/interfaces/company-review.interface';
@@ -70,6 +73,10 @@ class CompanyReviewService {
 
   getCompanyReviews = async (req: GetCompanyReviewsRequest) => {
     return this.companyReviewRepository.getCompanyReviews(req);
+  };
+
+  getCompaniesReviews = async (req: GetCompaniesReviewsRequest) => {
+    return this.getCompanyReviewRepository.getCompaniesReviews(req);
   };
 }
 
