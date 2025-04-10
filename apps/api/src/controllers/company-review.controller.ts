@@ -141,5 +141,4 @@ class CompanyReviewController {
     }
   };
 }
-
 export default CompanyReviewController;
