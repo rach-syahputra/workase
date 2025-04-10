@@ -19,7 +19,6 @@ import SearchCompanyReviewRouter from './routers/search-company-review.router';
 
 import apiRouter from './routers/api.router';
 
-
 export default class App {
   private app: Express;
 
