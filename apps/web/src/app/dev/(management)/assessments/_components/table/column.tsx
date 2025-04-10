@@ -1,8 +1,9 @@
 'use client';
 
+import Link from 'next/link';
+import { formatTableDate } from '@/lib/utils';
 import { Button } from '@/components/shadcn-ui/button';
 import { ColumnDef } from '@tanstack/react-table';
-import Link from 'next/link';
 
 export interface IAssessmentColumn {
   id: string;
@@ -28,7 +29,9 @@ export const columns: ColumnDef<IAssessmentColumn>[] = [
     accessorKey: 'updatedAt',
     header: 'Last Updated',
     cell: ({ row }) => (
-      <div className="w-[200px]">{row.original.updatedAt}</div>
+      <div className="w-[200px]">
+        {formatTableDate(new Date(row.original.updatedAt))}
+      </div>
     ),
   },
   {

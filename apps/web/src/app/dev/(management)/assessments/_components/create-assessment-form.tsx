@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 
 import { useAppToast } from '@/hooks/use-app-toast';
@@ -8,16 +8,27 @@ import { AddAssessmentFormValues } from '@/lib/interfaces/form/assessment';
 import { addAssessment } from '@/lib/apis/assessments';
 import { addAssessmentSchema } from '@/validations/assessment';
 import { useCreateAssessmentContext } from '@/context/create-assessment-context';
-import Skills from './skills';
+import { useBrowseAssessmentContext } from '@/context/browse-assessment-context';
+import DisabledFormInput from '@/components/ui/disabled-form-input.tsx';
+import FormInput from '@/components/ui/form-input';
+import { Button } from '@/components/shadcn-ui/button';
+import FormImageInput from '@/components/ui/form-image-input';
+import TextareaFormInput from '@/components/ui/textarea-form-input';
 
-const CreateAssessmentForm = () => {
-  const { isLoading, setIsSubmitting, skills, selectedSkillId } =
-    useCreateAssessmentContext();
+interface CreateAssessmentFormProps {
+  onOpenChange: (open: boolean) => void;
+}
+
+const CreateAssessmentForm = ({ onOpenChange }: CreateAssessmentFormProps) => {
+  const { selectedSkill, fetchSkills } = useCreateAssessmentContext();
+  const { fetchAssessments } = useBrowseAssessmentContext();
   const { appToast } = useAppToast();
 
   const formik = useFormik<AddAssessmentFormValues>({
     initialValues: {
-      skillId: '',
+      skillId: selectedSkill.id,
+      image: null,
+      shortDescription: '',
     },
     validationSchema: addAssessmentSchema,
     validateOnChange: false,
@@ -30,9 +41,13 @@ const CreateAssessmentForm = () => {
       if (response.success) {
         appToast('SUCCESS', {
           title: 'Assessment Successfully Created',
-          description: 'New assessment has been created successfully.',
+          description: `${response.data?.assessment.skill.title} assessment has been created successfully.`,
           variant: 'default',
         });
+
+        onOpenChange(false);
+        fetchSkills();
+        fetchAssessments();
       } else {
         if (response.code === 'ERR_NETWORK') {
           // TO DO: add toast action to redirect to the login page
@@ -48,29 +63,64 @@ const CreateAssessmentForm = () => {
     },
   });
 
-  useEffect(() => {
-    if (selectedSkillId) {
-      formik.setFieldValue('skillId', selectedSkillId);
-    }
-  }, [selectedSkillId]);
+  const updateImage = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const imageFile = event.target.files[0];
 
-  useEffect(() => {
-    if (formik.values.skillId) {
-      formik.submitForm();
+      formik.setFieldValue('image', imageFile);
     }
-  }, [formik.values.skillId]);
-
-  useEffect(() => {
-    setIsSubmitting(formik.isSubmitting);
-  }, [formik.isSubmitting]);
+  };
 
   return (
-    <div className="flex w-full flex-col gap-3">
-      <Skills skills={skills} isLoading={isLoading} className="mt-3" />
-      {formik.errors.skillId && (
-        <p className="text-sm text-red-500">{formik.errors.skillId}</p>
-      )}
-    </div>
+    <form
+      onSubmit={formik.handleSubmit}
+      className="flex flex-1 flex-col justify-between gap-3"
+    >
+      <div className="flex flex-col gap-6">
+        <DisabledFormInput
+          type="text"
+          label="Skill"
+          name="skillName"
+          value={selectedSkill.title}
+        />
+        <FormInput
+          label="Skill ID"
+          type="text"
+          name="skillId"
+          onChange={formik.handleChange}
+          value={formik.values.skillId}
+          className="sr-only"
+        />
+        <FormImageInput
+          label="Image"
+          name="image"
+          onChange={updateImage}
+          description="Best result with 1:1 ratio, #e6e6e6 color and solid image"
+          errorMessage={formik.errors.image}
+        />
+        <TextareaFormInput
+          label="Short Description"
+          name="shortDescription"
+          rows={3}
+          onChange={formik.handleChange}
+          value={formik.values.shortDescription}
+          errorMessage={formik.errors.shortDescription}
+        />
+      </div>
+      <div className="flex flex-col items-center justify-center gap-2">
+        {formik.errors.skillId && (
+          <p className="text-center text-sm text-red-500">
+            {formik.errors.skillId}
+          </p>
+        )}
+        {formik.status && (
+          <p className="text-center text-sm text-red-500">{formik.status}</p>
+        )}
+        <Button type="submit" disabled={formik.isSubmitting} className="w-full">
+          Create Assessment
+        </Button>
+      </div>
+    </form>
   );
 };
 

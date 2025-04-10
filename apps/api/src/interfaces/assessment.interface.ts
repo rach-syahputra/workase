@@ -21,8 +21,16 @@ export interface GetAvailableSkillsRequest extends IFilter {
   title: string;
 }
 
-export interface AddAssessmentRequest {
+export interface AddAssessmentServiceRequest {
   skillId: string;
+  image?: Express.Multer.File;
+  shortDescription: string;
+}
+
+export interface AddAssessmentRepositoryRequest {
+  skillId: string;
+  image?: string;
+  shortDescription: string;
 }
 
 export interface GetAssessmentQuestionsRequest extends IFilter {

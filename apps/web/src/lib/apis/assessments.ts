@@ -91,9 +91,17 @@ export const addAssessment = async (
     const token =
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk4NGRmMjdmLWNmY2MtNGI1OS1iYmNhLWQwNjYwNTAxNWIwNSIsImVtYWlsIjoibmFkaXlhcmlza2FAZ21haWwuY29tIiwicm9sZSI6IkRFVkVMT1BFUiIsImlhdCI6MTc0MzcwODU1OCwiZXhwIjoxNzQ2MzAwNTU4fQ.Uy5ucffg4bE5QqzVLNvd8AQMPF4bG2ueUYR7V-6DQTs';
 
-    const response = await axiosPrivate(token).post('/assessments', {
-      skillId: req?.skillId,
-    });
+    const formData = new FormData();
+    formData.append('skillId', req?.skillId || '');
+    if (req?.image) {
+      formData.append('image', req.image);
+    }
+    formData.append('shortDescription', req?.shortDescription || '');
+
+    const response = await axiosPrivate(token, 'multipart/form-data').post(
+      '/assessments',
+      formData,
+    );
 
     return response.data;
   } catch (error) {

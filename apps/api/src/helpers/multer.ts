@@ -7,6 +7,7 @@ const storage = multer.diskStorage({
 });
 
 const MAX_DEVELOPER_IMAGE_SIZE = 1024000; // 1mb
+const MAX_ASSESSMENT_IMAGE_SIZE = 512000; // 500kb
 const MAX_ASSESSMENT_QUESTION_IMAGE_SIZE = 1024000; // 1mb
 
 export const uploadDeveloperImage = multer({
@@ -24,6 +25,24 @@ export const uploadDeveloperImage = multer({
   },
   limits: {
     fileSize: MAX_DEVELOPER_IMAGE_SIZE,
+  },
+});
+
+export const uploadAssessmentImage = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    if (
+      file.mimetype === 'image/png' ||
+      file.mimetype === 'image/jpg' ||
+      file.mimetype === 'image/jpeg'
+    ) {
+      cb(null, true);
+    } else {
+      cb(null, false);
+    }
+  },
+  limits: {
+    fileSize: MAX_ASSESSMENT_IMAGE_SIZE,
   },
 });
 

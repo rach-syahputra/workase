@@ -16,6 +16,8 @@ export interface GetAvailableSkillsRequest extends IFilter {
 
 export interface AddAssessmentRequest {
   skillId: string;
+  image: File | null;
+  shortDescription: string;
 }
 
 export interface GetAssessmentQuestionsRequest extends IFilter {

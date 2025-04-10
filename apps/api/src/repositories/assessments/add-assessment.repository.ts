@@ -1,5 +1,5 @@
 import { prisma } from '@/helpers/prisma';
-import { AddAssessmentRequest } from '@/interfaces/assessment.interface';
+import { AddAssessmentRepositoryRequest } from '@/interfaces/assessment.interface';
 
 class AddAssessmentRepository {
   private prisma: typeof prisma;
@@ -8,10 +8,12 @@ class AddAssessmentRepository {
     this.prisma = prisma;
   }
 
-  addAssessment = async (req: AddAssessmentRequest) => {
+  addAssessment = async (req: AddAssessmentRepositoryRequest) => {
     const assessment = await this.prisma.assessment.create({
       data: {
         skillId: req.skillId,
+        image: req.image,
+        shortDescription: req.shortDescription,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -27,6 +29,8 @@ class AddAssessmentRepository {
           id: assessment.skill.id,
           title: assessment.skill.title,
         },
+        image: assessment.image,
+        shortDescription: assessment.shortDescription,
         createdAt: assessment.createdAt,
         updatedAt: assessment.updatedAt,
         isDeleted: assessment.isDeleted,

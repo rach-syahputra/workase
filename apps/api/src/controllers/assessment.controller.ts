@@ -3,7 +3,6 @@ import { NextFunction, Response } from 'express';
 import AssessmentService from '@/services/assessment.service';
 import {
   AddAssessmentQuestionBodyRequest,
-  AddAssessmentRequest,
   AssessmentSortType,
 } from '@/interfaces/assessment.interface';
 import { DeveloperRequest } from '@/interfaces/middleware.interface';
@@ -101,9 +100,11 @@ class AssessmentController {
     try {
       if (!req.developer) throw new ResponseError(401, 'Unauthenticated.');
 
-      const body = req.body as AddAssessmentRequest;
+      const body = req.body;
       const data = await this.assessmentService.addAssessment({
         skillId: body.skillId,
+        image: req.file,
+        shortDescription: body.shortDescription,
       });
 
       ApiResponse({

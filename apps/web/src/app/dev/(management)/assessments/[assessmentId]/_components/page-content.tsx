@@ -56,7 +56,7 @@ const PageContent = ({ assessmentId }: PageContentProps) => {
       <div className="flex w-full flex-col items-start justify-between gap-4 md:flex-row">
         <DeveloperHeader
           title={`${skillTitle} Assessment`}
-          description={`Manage ${skillTitle?.toLowerCase()} assessment with ease.`}
+          description="Manage assessment with ease."
           isLoading={isLoading && !skillTitle}
         />
         <DeveloperCTA

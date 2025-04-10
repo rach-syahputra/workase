@@ -2,6 +2,8 @@ export type IsCorrectOptionType = 0 | 1;
 
 export interface AddAssessmentFormValues {
   skillId: string;
+  image: File | null;
+  shortDescription: string;
 }
 
 export interface AddAssessmentQuestionFormValues {

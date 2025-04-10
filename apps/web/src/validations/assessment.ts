@@ -5,6 +5,22 @@ export const addAssessmentSchema = yup.object().shape({
     .string()
     .typeError('Skill ID must be a text')
     .required('Skill ID is required'),
+  image: yup
+    .mixed<File>()
+    .required('Image is required')
+    .test(
+      'fileFormat',
+      'Only image files are allowed (jpg, jpeg, png)',
+      (value) => {
+        return (
+          value && ['image/jpeg', 'image/jpg', 'image/png'].includes(value.type)
+        );
+      },
+    ),
+  shortDescription: yup
+    .string()
+    .typeError('Short description must be a text')
+    .required('Short description is required'),
 });
 
 export const addAssessmentQuestionSchema = yup

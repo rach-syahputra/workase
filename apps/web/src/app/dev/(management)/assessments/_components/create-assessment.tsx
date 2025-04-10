@@ -5,10 +5,10 @@ import { useEffect } from 'react';
 import { useCreateAssessmentContext } from '@/context/create-assessment-context';
 import { Card } from '@/components/shadcn-ui/card';
 import { Input } from '@/components/shadcn-ui/input';
-import CreateAssessmentForm from './create-assessment-form';
+import Skills from './skills';
 
 const CreateAssessment = () => {
-  const { fetchSkills, searchSkill, setSearchSkill } =
+  const { skills, isLoading, fetchSkills, searchSkill, setSearchSkill } =
     useCreateAssessmentContext();
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const CreateAssessment = () => {
         className="w-full"
       />
 
-      <CreateAssessmentForm />
+      <Skills skills={skills} isLoading={isLoading} className="mt-3" />
     </Card>
   );
 };

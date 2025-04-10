@@ -1,11 +1,14 @@
-import { CLOUDINARY_ASSESSMENT_QUESTION_IMAGE_FOLDER } from '@/config';
+import {
+  CLOUDINARY_ASSESSMENT_IMAGE_FOLDER,
+  CLOUDINARY_ASSESSMENT_QUESTION_IMAGE_FOLDER,
+} from '@/config';
 import ImageRepository from '@/repositories/cloudinary/image.repository';
 import GetAssessmentRepository from '@/repositories/assessments/get-assessment.repository';
 import AddAssessmentRepository from '@/repositories/assessments/add-assessment.repository';
 import AssessmentQuestionRepository from '@/repositories/assessments/assessment-question.repository';
 import {
   AddAssessmentQuestionServiceRequest,
-  AddAssessmentRequest,
+  AddAssessmentServiceRequest,
   GetAssessmentByIdRequest,
   GetAssessmentQuestionsRequest,
   GetAssessmentsRequest,
@@ -47,9 +50,20 @@ class AssessmentService {
     return await this.getAssessmentRepository.getAvailableSkills(req);
   };
 
-  addAssessment = async (req: AddAssessmentRequest) => {
+  addAssessment = async (req: AddAssessmentServiceRequest) => {
+    let assessmentImage;
+
+    if (req.image) {
+      assessmentImage = await this.imageRepository.upload(
+        req.image.path,
+        CLOUDINARY_ASSESSMENT_IMAGE_FOLDER,
+      );
+    }
+
     return await this.addAssessmentRepository.addAssessment({
       skillId: req.skillId,
+      image: assessmentImage?.secure_url,
+      shortDescription: req.shortDescription,
     });
   };
 

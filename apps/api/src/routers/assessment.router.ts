@@ -1,6 +1,9 @@
 import { Router } from 'express';
 
-import { uploadAssessmentQuestionImage } from '@/helpers/multer';
+import {
+  uploadAssessmentImage,
+  uploadAssessmentQuestionImage,
+} from '@/helpers/multer';
 import AssessmentController from '@/controllers/assessment.controller';
 import { verifyDeveloper } from '@/middlewares/auth.middleware';
 
@@ -33,6 +36,7 @@ class AssessmentRouter {
     this.router.post(
       '/',
       verifyDeveloper,
+      uploadAssessmentImage.single('image'),
       this.assessmentController.addAssessment,
     );
     this.router.get(
