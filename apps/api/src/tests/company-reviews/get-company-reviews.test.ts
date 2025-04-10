@@ -13,7 +13,11 @@ describe('GET /api/companies/:companyId/reviews', () => {
         success: true,
         message: expect.any(String),
         data: expect.objectContaining({
+<<<<<<< HEAD
           reviews: expect.arrayContaining([expect.any(Object)]),
+=======
+          companyReviews: expect.arrayContaining([expect.any(Object)]),
+>>>>>>> ac86277 (feat(api): implement cursor-based pagination for Get Company Reviews API)
           pagination: expect.any(Object),
         }),
       }),
@@ -32,11 +36,19 @@ describe('GET /api/companies/:companyId/reviews', () => {
         success: true,
         message: expect.any(String),
         data: expect.objectContaining({
+<<<<<<< HEAD
           reviews: expect.arrayContaining([expect.any(Object)]),
+=======
+          companyReviews: expect.arrayContaining([expect.any(Object)]),
+>>>>>>> ac86277 (feat(api): implement cursor-based pagination for Get Company Reviews API)
           pagination: expect.any(Object),
         }),
       }),
     );
+<<<<<<< HEAD
     expect(response.body.data.reviews).toHaveLength(limit);
+=======
+    expect(response.body.data.companyReviews).toHaveLength(limit);
+>>>>>>> ac86277 (feat(api): implement cursor-based pagination for Get Company Reviews API)
   });
 });
