@@ -7,14 +7,11 @@ import CompaniesReviews from './_components/companies-reviews';
 const CompanyReviewsPage = () => {
   return (
     <Container>
-      <section className="mx-auto flex max-w-screen-md flex-col gap-4">
-        <CompaniesReviewsProvider>
-          <div className="flex items-center justify-center gap-2">
-            <SearchCompanyReviewsBar />
-            <CreateCompanyReviewModal />
-          </div>
-          <CompaniesReviews />
-        </CompaniesReviewsProvider>
+      <section className="mx-auto max-w-screen-md">
+        <div className="flex items-center justify-center gap-2">
+          <SearchInput />
+          <CreateCompanyReviewModal />
+        </div>
       </section>
     </Container>
   );
