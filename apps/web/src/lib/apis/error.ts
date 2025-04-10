@@ -1,4 +1,5 @@
-import { AxiosError } from 'axios';
+import type { AxiosError } from '../../../../../node_modules/axios';
+
 import { APIResponse } from '../interfaces/api-response/response';
 
 export const handleApiError = (error: unknown): APIResponse => {
@@ -13,7 +14,7 @@ export const handleApiError = (error: unknown): APIResponse => {
           message: 'Please check your internet connection and try again.',
         },
       };
-    } else if (error.status === 401) {
+    } else if ('status' in error && error.status === 401) {
       return {
         success: false,
         code: 'ERR_UNAUTHENTICATED',
@@ -21,7 +22,7 @@ export const handleApiError = (error: unknown): APIResponse => {
           message: 'To continue, please log in to your account.',
         },
       };
-    } else if (error.status === 403) {
+    } else if ('status' in error && error.status === 403) {
       return {
         success: false,
         code: 'ERR_UNAUTHORIZED',
@@ -30,7 +31,7 @@ export const handleApiError = (error: unknown): APIResponse => {
         },
       };
     } else {
-      return error.response?.data;
+      return (error as AxiosError).response?.data as APIResponse;
     }
   }
 
