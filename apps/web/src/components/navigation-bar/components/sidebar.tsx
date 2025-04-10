@@ -15,7 +15,12 @@ const menuItems = [
 export default function Sidebar() {
   const searchParams = useSearchParams();
   const [mounted, setMounted] = useState(false);
+<<<<<<< HEAD
   const [active, setActive] = useState('Find salaries');
+=======
+
+  const [active, setActive] = useState('Home');
+>>>>>>> 9da3d76 (fix: resolve issue with example-component)
 
   useEffect(() => {
     setMounted(true);
@@ -47,6 +52,10 @@ export default function Sidebar() {
 
   const menuItems = ['Home', 'Jobs', 'Companies'];
 
+<<<<<<< HEAD
+=======
+  const loginItems = ['Sign in', 'Employers/Post Job'];
+>>>>>>> 9da3d76 (fix: resolve issue with example-component)
   return (
     <Sheet>
       {/* Hamburger Button */}
@@ -84,6 +93,7 @@ export default function Sidebar() {
             </button>
           ))}
         </nav>
+<<<<<<< HEAD
 
         {/* Login */}
         <nav className="space-y-1 border-b-[10px] border-t-[1px]">
@@ -98,6 +108,8 @@ export default function Sidebar() {
             </button>
           ))}
         </nav>
+=======
+>>>>>>> 9da3d76 (fix: resolve issue with example-component)
         {/* Menu List */}
         <nav className="space-y-1">
           {menuItems.map((item) => (

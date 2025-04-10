@@ -28,7 +28,8 @@ class CompanyReviewRouter {
     );
     this.router.post(
       '/:companyId/reviews',
-      verifyToken,
+      verifyUser,
+
       this.companyReviewController.addCompanyReview,
     );
     this.router.get(
