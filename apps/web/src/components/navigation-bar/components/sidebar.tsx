@@ -50,7 +50,11 @@ export default function Sidebar() {
   return (
     <Sheet>
       {/* Hamburger Button */}
+<<<<<<< HEAD
       <SheetTrigger className="mt-[4px] h-[44px] w-[45px] md:hidden" asChild>
+=======
+      <SheetTrigger className="mt-[4px] h-[44px] w-[50px] md:hidden" asChild>
+>>>>>>> 1da1d27 (feat(searchbar): connect API with frontend)
         <button className="h-[38px] w-[20px]">
           <Menu className="h-5 w-5" />
         </button>
