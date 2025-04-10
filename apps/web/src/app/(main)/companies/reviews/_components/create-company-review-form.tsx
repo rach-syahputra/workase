@@ -114,7 +114,6 @@ const CreateCompanyReviewForm = ({
       />
       <TextareaFormInput
         label="Review Content"
-        label="Review Content"
         name="content"
         rows={6}
         onChange={formik.handleChange}
