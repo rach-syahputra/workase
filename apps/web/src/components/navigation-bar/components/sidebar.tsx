@@ -1,7 +1,5 @@
 'use client';
-
 import { Sheet, SheetContent, SheetTrigger } from '../../shadcn-ui/sheet';
-
 import { Menu, X } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import router from 'next/router';
@@ -20,7 +18,7 @@ export default function Sidebar() {
   const [mounted, setMounted] = useState(false);
 
   const [active, setActive] = useState('Find salaries');
-
+  const router = useRouter();
   useEffect(() => {
     setMounted(true);
   }, []);
