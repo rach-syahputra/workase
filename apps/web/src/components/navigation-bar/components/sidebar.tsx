@@ -20,7 +20,13 @@ export default function Sidebar() {
 =======
 
   const [active, setActive] = useState('Home');
+<<<<<<< HEAD
 >>>>>>> 9da3d76 (fix: resolve issue with example-component)
+=======
+  const router = useRouter();
+  const pathname = usePathname();
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+>>>>>>> cf8c1d1 (feat: complete landing page implementation)
 
   useEffect(() => {
     setMounted(true);
@@ -50,20 +56,27 @@ export default function Sidebar() {
   };
   if (!mounted) return null; // Hindari rendering di server
 
+<<<<<<< HEAD
   const menuItems = ['Home', 'Jobs', 'Companies'];
 
 <<<<<<< HEAD
 =======
+=======
+>>>>>>> cf8c1d1 (feat: complete landing page implementation)
   const loginItems = ['Sign in', 'Employers/Post Job'];
 >>>>>>> 9da3d76 (fix: resolve issue with example-component)
   return (
     <Sheet>
       {/* Hamburger Button */}
 <<<<<<< HEAD
+<<<<<<< HEAD
       <SheetTrigger className="mt-[4px] h-[44px] w-[45px] md:hidden" asChild>
 =======
       <SheetTrigger className="mt-[4px] h-[44px] w-[50px] md:hidden" asChild>
 >>>>>>> 1da1d27 (feat(searchbar): connect API with frontend)
+=======
+      <SheetTrigger className="mt-[4px] h-[44px] w-[45px] md:hidden" asChild>
+>>>>>>> cf8c1d1 (feat: complete landing page implementation)
         <button className="h-[38px] w-[20px]">
           <Menu className="h-5 w-5" />
         </button>
@@ -117,8 +130,15 @@ export default function Sidebar() {
               key={item.label}
               onClick={() => handleTabClick(item)}
               className={`text-md flex w-full items-center justify-between px-5 py-3 text-left font-medium ${
+<<<<<<< HEAD
                 active === item ? 'font-semibold text-blue-600' : 'text-black'
               } hover:bg-gray-100`}
+=======
+                active === item.label
+                  ? 'text-primary-dark font-semibold'
+                  : 'text-primary-gray'
+              } border-b-[1px] hover:bg-gray-100`}
+>>>>>>> cf8c1d1 (feat: complete landing page implementation)
             >
               {item.label}
               <span>{'>'}</span>
