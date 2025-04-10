@@ -3,6 +3,7 @@ import {
   GetCompaniesReviewsRequest,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   GetCompanyHeaderRequest,
   GetCompanyRatingRequest,
 =======
@@ -12,6 +13,9 @@ import {
 } from '@/interfaces/company-review.interface';
 import CompanyReviewRepository from '@/repositories/company-review.repository';
 =======
+=======
+  GetCompanyHeaderRequest,
+>>>>>>> 788ef81 (feat(api): add Get Company Header API)
   GetCompanyRatingRequest,
   GetCompanyReviewsRequest,
   VerifyUserEmploymentRequest,
@@ -22,10 +26,12 @@ import GetCompanyReviewRepository from '@/repositories/company-reviews/get-compa
 import { addCompanyReviewSchema } from '@/validations/company-review.validation';
 import GetCompanyRatingRepository from '@/repositories/company-reviews/get-company-rating.repository';
 import GetCompanyHeaderRepository from '@/repositories/company-reviews/get-company-header.repository';
+<<<<<<< HEAD
 
+=======
+>>>>>>> 788ef81 (feat(api): add Get Company Header API)
 import { ResponseError } from '@/helpers/error';
 import { validate } from '@/helpers/validation';
-import GetCompanyRatingRepository from '@/repositories/company-reviews/get-company-rating.repository';
 
 class CompanyReviewService {
 <<<<<<< HEAD
@@ -35,14 +41,19 @@ class CompanyReviewService {
     this.companyReviewRepository = new CompanyReviewRepository();
 =======
   private addCompanyReviewRepository: AddCompanyReviewRepository;
-  private getCompanyReviewRepository: GetCompanyReviewRepository;
+  private getCompanyHeaderRepository: GetCompanyHeaderRepository;
   private getCompanyRatingRepository: GetCompanyRatingRepository;
+  private getCompanyReviewRepository: GetCompanyReviewRepository;
 
   constructor() {
     this.addCompanyReviewRepository = new AddCompanyReviewRepository();
-    this.getCompanyReviewRepository = new GetCompanyReviewRepository();
+    this.getCompanyHeaderRepository = new GetCompanyHeaderRepository();
     this.getCompanyRatingRepository = new GetCompanyRatingRepository();
+<<<<<<< HEAD
 >>>>>>> 340f8de (feat(api): add Get Company Rating API)
+=======
+    this.getCompanyReviewRepository = new GetCompanyReviewRepository();
+>>>>>>> 788ef81 (feat(api): add Get Company Header API)
   }
 
   verifyUserEmployment = async (req: VerifyUserEmploymentRequest) => {
@@ -81,14 +92,20 @@ class CompanyReviewService {
   };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 788ef81 (feat(api): add Get Company Header API)
   getCompanyHeader = async (req: GetCompanyHeaderRequest) => {
     return this.getCompanyHeaderRepository.getCompanyHeader({
       companyId: req.companyId,
     });
   };
 
+<<<<<<< HEAD
 =======
 >>>>>>> 340f8de (feat(api): add Get Company Rating API)
+=======
+>>>>>>> 788ef81 (feat(api): add Get Company Header API)
   getCompanyRating = async (req: GetCompanyRatingRequest) => {
     return this.getCompanyRatingRepository.getCompanyRating({
       companyId: req.companyId,
