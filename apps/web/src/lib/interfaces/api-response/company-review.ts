@@ -10,6 +10,7 @@ export interface AddCompanyReviewData {
   id: string;
   title: string;
   jobTitle: string;
+
   salaryEstimate: number;
   rating: {
     workCulture: number;
@@ -18,6 +19,7 @@ export interface AddCompanyReviewData {
     careerGrowth: number;
   };
   content: string;
+
   createdAt: string;
   isDeleted: boolean;
 }

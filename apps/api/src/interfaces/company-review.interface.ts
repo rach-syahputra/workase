@@ -2,6 +2,7 @@ import { IFilter } from './filter.interface';
 
 export interface CompanyReviewRating {
   overallRating?: number;
+
   workCulture: number;
   workLifeBalance: number;
   facilities: number;

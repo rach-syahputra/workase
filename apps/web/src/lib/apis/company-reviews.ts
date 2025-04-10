@@ -22,7 +22,7 @@ export const addCompanyReview = async (
       req,
     );
 
-    return response.data;
+    return response.data as AddCompanyReviewResponse;
   } catch (error) {
     return handleApiError(error);
   }
@@ -34,7 +34,7 @@ export const getCompanyHeader = async (
   try {
     const response = await axiosPublic.get(`/companies/${companyId}/header`);
 
-    return response.data;
+    return response.data as GetCompanyHeaderResponse;
   } catch (error) {
     return handleApiError(error);
   }
@@ -46,7 +46,7 @@ export const getCompanyRating = async (
   try {
     const response = await axiosPublic.get(`/companies/${companyId}/rating`);
 
-    return response.data;
+    return response.data as GetCompanyRatingResponse;
   } catch (error) {
     return handleApiError(error);
   }
@@ -68,7 +68,7 @@ export const getCompanyReviews = async (
       `/companies/${companyId}/reviews${query ? `?${query}` : ''}`,
     );
 
-    return response.data;
+    return response.data as GetCompanyReviewsResponse;
   } catch (error) {
     return handleApiError(error);
   }
@@ -90,7 +90,7 @@ export const getCompaniesReviews = async (
       `/companies/reviews${query ? `?${query}` : ''}`,
     );
 
-    return response.data;
+    return response.data as GetCompaniesReviewsResponse;
   } catch (error) {
     return handleApiError(error);
   }
@@ -109,7 +109,7 @@ export const searchCompanyReviews = async (
       `/search/companies/reviews${query ? `?${query}` : ''}`,
     );
 
-    return response.data;
+    return response.data as SearchCompanyReviewsResponse;
   } catch (error) {
     return handleApiError(error);
   }

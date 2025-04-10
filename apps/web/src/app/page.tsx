@@ -7,7 +7,7 @@ export default function HomePage() {
   return (
     <Container>
       <Button asChild>
-        <Link href="/example" aria-label="Example page">
+        <Link href="/dashboard" aria-label="Home-Page">
           See Example
         </Link>
       </Button>
