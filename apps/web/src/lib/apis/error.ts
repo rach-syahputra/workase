@@ -1,12 +1,11 @@
-import type { AxiosError } from '../../../../../node_modules/axios';
-
+import { AxiosError } from 'axios';
 import { APIResponse } from '../interfaces/api-response/response';
 
 export const handleApiError = (error: unknown): APIResponse => {
   console.error('error fetching: ', error);
 
-  if (error && typeof error === 'object') {
-    if ((error as AxiosError).code === 'ERR_NETWORK') {
+  if (error instanceof AxiosError) {
+    if (error.code === 'ERR_NETWORK') {
       return {
         success: false,
         code: 'ERR_NETWORK',
@@ -14,7 +13,7 @@ export const handleApiError = (error: unknown): APIResponse => {
           message: 'Please check your internet connection and try again.',
         },
       };
-    } else if ('status' in error && error.status === 401) {
+    } else if (error.status === 401) {
       return {
         success: false,
         code: 'ERR_UNAUTHENTICATED',
@@ -22,7 +21,7 @@ export const handleApiError = (error: unknown): APIResponse => {
           message: 'To continue, please log in to your account.',
         },
       };
-    } else if ('status' in error && error.status === 403) {
+    } else if (error.status === 403) {
       return {
         success: false,
         code: 'ERR_UNAUTHORIZED',
@@ -31,7 +30,7 @@ export const handleApiError = (error: unknown): APIResponse => {
         },
       };
     } else {
-      return (error as AxiosError).response?.data as APIResponse;
+      return error.response?.data;
     }
   }
 
