@@ -12,18 +12,18 @@ datasource db {
 
 model User {
   id            String       @id @default(uuid())
-  slug          String       @unique
+  slug          String?
   email         String       @unique
   password      String?
   authProvider  AuthProvider @map("auth_provider")
   authId        String?      @map("auth_id")
-  isVerified    Boolean?      @map("is_verified")
+  isVerified    Boolean?     @map("is_verified")
   location      String?
-  profilePhoto  String?       @map("profile_photo")
-  placeOfBirth  String?       @map("place_of_birth")
-  dateOfBirth   DateTime?     @map("date_of_birth")
+  profilePhoto  String?      @map("profile_photo")
+  placeOfBirth  String?      @map("place_of_birth")
+  dateOfBirth   DateTime?    @map("date_of_birth")
   gender        Gender?
-  lastEducation String?       @map("last_education")
+  lastEducation String?      @map("last_education")
   address       String?
   jobId         String?      @map("job_id")
   isDeleted     Boolean      @default(false) @map("is_deleted")
@@ -43,8 +43,8 @@ model User {
 
 model Developer {
   id        String  @id @default(uuid())
+  slug      String?
   email     String  @unique
-  slug      String  @unique
   name      String
   password  String
   image     String?
@@ -56,18 +56,18 @@ model Developer {
 }
 
 model Company {
-  id          String  @id @default(uuid())
-  slug        String  @unique
+  id          String   @id @default(uuid())
+  slug        String?
   name        String
-  email       String  @unique
+  email       String   @unique
   password    String
-  phoneNumber String  @map("phone_number")
-  isVerified    Boolean?      @map("is_verified")
+  phoneNumber String   @map("phone_number")
+  isVerified  Boolean? @map("is_verified")
   logoUrl     String?  @map("logo_url")
   description String?
   category    String?
   location    String?
-  isDeleted   Boolean @default(false) @map("is_deleted")
+  isDeleted   Boolean  @default(false) @map("is_deleted")
 
   Job           Job[]
   CompanyReview CompanyReview[]
@@ -77,7 +77,7 @@ model Company {
 
 model Job {
   id          String      @id @default(uuid())
-  slug        String      @unique
+  slug        String?
   title       String
   category    JobCategory
   description String
@@ -140,7 +140,7 @@ model Subscription {
 
 model SubscriptionPayment {
   id             String        @id @default(uuid())
-  slug           String        @unique
+  slug           String?
   subscriptionId String        @map("subscription_id")
   paymentStatus  PaymentStatus @map("payment_status")
   paymentProof   String        @map("payment_proof")
@@ -200,7 +200,7 @@ model Skill {
 
 model Assessment {
   id               String   @id @default(uuid())
-  slug             String   @unique
+  slug             String?
   skillId          String   @map("skill_id")
   shortDescription String?  @map("short_description")
   image            String?
@@ -259,7 +259,7 @@ model UserAssessment {
 
 model Certificate {
   id        String   @id @default(uuid())
-  slug      String   @unique
+  slug      String?
   userId    String   @map("user_id")
   skillId   String   @map("skill_id")
   url       String

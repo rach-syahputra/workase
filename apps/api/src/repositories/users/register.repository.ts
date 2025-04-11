@@ -13,6 +13,7 @@ class RegisterUsersRepository {
     }
     await prisma.user.create({
       data: {
+        slug: '',
         email: data.email,
         password: data.password,
         authProvider: data.authProvider as AuthProvider,

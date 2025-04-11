@@ -2,7 +2,6 @@ import { Router } from 'express';
 import { jobsRouter } from './job.router';
 import { usersRouter } from './user.route';
 import { companiesRouter } from './company.router';
-import { developersRouter } from './developer.route';
 import { authRouter } from './auth.router';
 
 const apiRouter = Router();

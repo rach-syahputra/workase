@@ -8,6 +8,9 @@ ALTER TABLE "certificates" ADD COLUMN     "slug" TEXT;
 ALTER TABLE "companies" ADD COLUMN     "slug" TEXT;
 
 -- AlterTable
+ALTER TABLE "developers" ADD COLUMN     "slug" TEXT;
+
+-- AlterTable
 ALTER TABLE "jobs" ADD COLUMN     "slug" TEXT;
 
 -- AlterTable
