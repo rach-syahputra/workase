@@ -7,7 +7,7 @@ import router from 'next/router';
 import { useState, useEffect, useRef } from 'react';
 
 const menuItems = [
-  { label: 'Home', value: 'dashboard' },
+  { label: 'Home', value: '' },
   { label: 'Jobs', value: 'all-jobs' },
   { label: 'Companies', value: 'companies' },
 ];

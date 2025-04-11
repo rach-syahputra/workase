@@ -25,7 +25,7 @@ export default function Footer() {
             <div className="mb-2 font-semibold underline">Navigation</div>
             <button
               className="mr-auto font-medium hover:underline"
-              onClick={() => router.push('/dashboard')}
+              onClick={() => router.push('/')}
             >
               Home
             </button>

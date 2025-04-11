@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 
 const tabs = [
-  { label: 'Home', value: 'dashboard' },
+  { label: 'Home', value: '' },
   { label: 'Jobs', value: 'all-jobs' },
   { label: 'Companies', value: 'companies' },
 ];

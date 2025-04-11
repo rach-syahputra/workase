@@ -17,14 +17,14 @@ model User {
   password      String?
   authProvider  AuthProvider @map("auth_provider")
   authId        String?      @map("auth_id")
-  isVerified    Boolean      @map("is_verified")
-  location      String
-  profilePhoto  String       @map("profile_photo")
-  placeOfBirth  String       @map("place_of_birth")
-  dateOfBirth   DateTime     @map("date_of_birth")
-  gender        Gender
-  lastEducation String       @map("last_education")
-  address       String
+  isVerified    Boolean?      @map("is_verified")
+  location      String?
+  profilePhoto  String?       @map("profile_photo")
+  placeOfBirth  String?       @map("place_of_birth")
+  dateOfBirth   DateTime?     @map("date_of_birth")
+  gender        Gender?
+  lastEducation String?       @map("last_education")
+  address       String?
   jobId         String?      @map("job_id")
   isDeleted     Boolean      @default(false) @map("is_deleted")
 
@@ -62,10 +62,11 @@ model Company {
   email       String  @unique
   password    String
   phoneNumber String  @map("phone_number")
-  logoUrl     String  @map("logo_url")
-  description String
-  category    String
-  location    String
+  isVerified    Boolean?      @map("is_verified")
+  logoUrl     String?  @map("logo_url")
+  description String?
+  category    String?
+  location    String?
   isDeleted   Boolean @default(false) @map("is_deleted")
 
   Job           Job[]
