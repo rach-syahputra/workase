@@ -4,10 +4,14 @@ export interface IAssessment {
     id: string;
     title: string;
   };
+  slug: string;
+  image: string;
+  shortDescription: string;
   createdAt: string;
   updatedAt: string;
   isDeleted: boolean;
   totalQuestions?: number;
+  totalAttemptsByUser?: number;
 }
 
 export interface IAssessmentQuestion {
@@ -18,6 +22,7 @@ export interface IAssessmentQuestion {
   createdAt: string;
   updatedAt: string;
   isDeleted: boolean;
+  number?: number;
   options: IAssessmentQuestionOption[];
 }
 

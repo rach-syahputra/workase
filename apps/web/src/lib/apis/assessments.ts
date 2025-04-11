@@ -3,7 +3,7 @@ import { axiosPrivate } from '../axios';
 import {
   AddAssessmentQuestionRequest,
   AddAssessmentRequest,
-  GetAssessmentByIdRequest,
+  GetAssessmentBySlugRequest,
   GetAssessmentQuestionsRequest,
   GetAssessmentsRequest,
   GetAvailableSkillsRequest,
@@ -11,7 +11,7 @@ import {
 import {
   AddAssessmentQuestionResponse,
   AddAssessmentResponse,
-  GetAssessmentByIdResponse,
+  GetAssessmentBySlugResponse,
   GetAssessmentQuestionsResponse,
   GetAssessmentsResponse,
   GetAvailableSkillsResponse,
@@ -43,15 +43,15 @@ export const getAssessments = async (
   }
 };
 
-export const getAssessmentById = async (
-  req?: GetAssessmentByIdRequest,
-): Promise<GetAssessmentByIdResponse> => {
+export const getAssessmentBySlug = async (
+  req?: GetAssessmentBySlugRequest,
+): Promise<GetAssessmentBySlugResponse> => {
   try {
     // TO DO: retrieve token from session
     const token =
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk4NGRmMjdmLWNmY2MtNGI1OS1iYmNhLWQwNjYwNTAxNWIwNSIsImVtYWlsIjoibmFkaXlhcmlza2FAZ21haWwuY29tIiwicm9sZSI6IkRFVkVMT1BFUiIsImlhdCI6MTc0MzcwODU1OCwiZXhwIjoxNzQ2MzAwNTU4fQ.Uy5ucffg4bE5QqzVLNvd8AQMPF4bG2ueUYR7V-6DQTs';
 
-    const response = await axiosPrivate(token).get(`/assessments/${req?.id}`);
+    const response = await axiosPrivate(token).get(`/assessments/${req?.slug}`);
 
     return response.data;
   } catch (error) {
@@ -124,7 +124,7 @@ export const getAssessmentQuestions = async (
 
     const query = queryParams.toString();
     const response = await axiosPrivate(token).get(
-      `/assessments/${req?.assessmentId}/questions${query ? `?${query}` : ''}`,
+      `/assessments/${req?.slug}/questions${query ? `?${query}` : ''}`,
     );
 
     return response.data;
@@ -141,12 +141,22 @@ export const addAssessmentQuestion = async (
     const token =
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk4NGRmMjdmLWNmY2MtNGI1OS1iYmNhLWQwNjYwNTAxNWIwNSIsImVtYWlsIjoibmFkaXlhcmlza2FAZ21haWwuY29tIiwicm9sZSI6IkRFVkVMT1BFUiIsImlhdCI6MTc0MzcwODU1OCwiZXhwIjoxNzQ2MzAwNTU4fQ.Uy5ucffg4bE5QqzVLNvd8AQMPF4bG2ueUYR7V-6DQTs';
 
-    const response = await axiosPrivate(token).post(
+    const formData = new FormData();
+    formData.append('question', req?.question || '');
+    if (req?.image) {
+      formData.append('image', req.image);
+    }
+    req?.options.forEach((option, index) => {
+      formData.append(`options[${index}][text]`, option.text);
+      formData.append(
+        `options[${index}][isCorrect]`,
+        option.isCorrect.toString(),
+      );
+    });
+
+    const response = await axiosPrivate(token, 'multipart/form-data').post(
       `/assessments/${req?.assessmentId}/questions`,
-      {
-        question: req?.question,
-        options: req?.options,
-      },
+      formData,
     );
 
     return response.data;

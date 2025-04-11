@@ -1,7 +1,7 @@
 import { getAssessmentsOrderConfig } from '@/helpers/assessments/assessment.util';
 import { prisma } from '@/helpers/prisma';
 import {
-  GetAssessmentByIdRequest,
+  GetAssessmentBySlugRequest,
   GetAssessmentsRequest,
   GetAvailableSkillsRequest,
 } from '@/interfaces/assessment.interface';
@@ -47,6 +47,7 @@ class GetAssessmentRepository {
         include: {
           skill: true,
           AssessmentQuestion: true,
+          UserAssessment: true,
         },
         orderBy: orderConfig,
         take: limit,
@@ -61,10 +62,14 @@ class GetAssessmentRepository {
           id: assessment.skill.id,
           title: assessment.skill.title,
         },
+        slug: assessment.slug,
+        image: assessment.image,
+        shortDescription: assessment.shortDescription,
         createdAt: assessment.createdAt,
         updatedAt: assessment.updatedAt,
         isDeleted: assessment.isDeleted,
         totalQuestions: assessment.AssessmentQuestion.length,
+        totalAttemptsByUser: assessment.UserAssessment.length,
       })),
       pagination: {
         totalData: totalAssessments,
@@ -74,10 +79,10 @@ class GetAssessmentRepository {
     };
   };
 
-  getAssessmentById = async (req: GetAssessmentByIdRequest) => {
+  getAssessmentBySlug = async (req: GetAssessmentBySlugRequest) => {
     const assessment = await this.prisma.assessment.findUnique({
       where: {
-        id: req.id,
+        slug: req.slug,
       },
       include: {
         AssessmentQuestion: {

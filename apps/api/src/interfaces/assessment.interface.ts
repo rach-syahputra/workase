@@ -13,8 +13,8 @@ export interface GetAssessmentsRequest extends IFilter {
   sortBy?: AssessmentSortType;
 }
 
-export interface GetAssessmentByIdRequest {
-  id: string;
+export interface GetAssessmentBySlugRequest {
+  slug: string;
 }
 
 export interface GetAvailableSkillsRequest extends IFilter {
@@ -34,7 +34,7 @@ export interface AddAssessmentRepositoryRequest {
 }
 
 export interface GetAssessmentQuestionsRequest extends IFilter {
-  assessmentId: string;
+  slug: string;
   question?: string;
 }
 

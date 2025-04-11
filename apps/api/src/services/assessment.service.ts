@@ -9,7 +9,7 @@ import AssessmentQuestionRepository from '@/repositories/assessments/assessment-
 import {
   AddAssessmentQuestionServiceRequest,
   AddAssessmentServiceRequest,
-  GetAssessmentByIdRequest,
+  GetAssessmentBySlugRequest,
   GetAssessmentQuestionsRequest,
   GetAssessmentsRequest,
   GetAvailableSkillsRequest,
@@ -35,9 +35,9 @@ class AssessmentService {
     return await this.getAssessmentRepository.getAssessments(req);
   };
 
-  getAssessmentById = async (req: GetAssessmentByIdRequest) => {
+  getAssessmentBySlug = async (req: GetAssessmentBySlugRequest) => {
     const assessment =
-      await this.getAssessmentRepository.getAssessmentById(req);
+      await this.getAssessmentRepository.getAssessmentBySlug(req);
 
     if (!assessment) {
       throw new ResponseError(404, 'Assessment not found');

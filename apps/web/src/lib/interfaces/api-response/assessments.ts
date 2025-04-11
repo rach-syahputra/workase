@@ -19,7 +19,7 @@ export interface GetAssessmentsResponse extends APIResponse {
   };
 }
 
-export interface GetAssessmentByIdResponse extends APIResponse {
+export interface GetAssessmentBySlugResponse extends APIResponse {
   data?: {
     assessment: IAssessmentDetail;
   };

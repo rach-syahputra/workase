@@ -44,7 +44,7 @@ class AssessmentController {
     }
   };
 
-  getAssessmentById = async (
+  getAssessmentBySlug = async (
     req: DeveloperRequest,
     res: Response,
     next: NextFunction,
@@ -52,8 +52,8 @@ class AssessmentController {
     try {
       if (!req.developer) throw new ResponseError(401, 'Unauthenticated.');
 
-      const data = await this.assessmentService.getAssessmentById({
-        id: req.params.assessmentId,
+      const data = await this.assessmentService.getAssessmentBySlug({
+        slug: req.params.slug,
       });
 
       ApiResponse({
@@ -127,7 +127,7 @@ class AssessmentController {
       if (!req.developer) throw new ResponseError(401, 'Unauthenticated.');
 
       const data = await this.assessmentService.getAssessmentQuestions({
-        assessmentId: req.params.assessmentId,
+        slug: req.params.slug,
         limit: Number(req.query.limit),
         page: Number(req.query.page),
         question: req.query.question as string,

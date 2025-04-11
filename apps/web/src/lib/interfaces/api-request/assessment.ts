@@ -6,8 +6,8 @@ export interface GetAssessmentsRequest extends IFilter {
   skill?: string;
 }
 
-export interface GetAssessmentByIdRequest {
-  id: string;
+export interface GetAssessmentBySlugRequest {
+  slug: string;
 }
 
 export interface GetAvailableSkillsRequest extends IFilter {
@@ -21,14 +21,14 @@ export interface AddAssessmentRequest {
 }
 
 export interface GetAssessmentQuestionsRequest extends IFilter {
-  assessmentId: string;
+  slug: string;
   question?: string;
 }
 
 export interface AddAssessmentQuestionRequest {
   assessmentId: string;
   question: string;
-  image?: string | null;
+  image?: File | null;
   options: {
     text: string;
     isCorrect: IsCorrectOptionType;

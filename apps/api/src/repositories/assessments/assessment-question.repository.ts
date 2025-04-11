@@ -21,13 +21,21 @@ class AssessmentQuestionRepository {
         this.prisma.assessmentQuestion.count({
           where: {
             isDeleted: false,
-            assessmentId: req.assessmentId,
+            assessment: {
+              slug: req.slug,
+            },
+            question: {
+              contains: req.question,
+              mode: 'insensitive',
+            },
           },
         }),
         this.prisma.assessmentQuestion.findMany({
           where: {
             isDeleted: false,
-            assessmentId: req.assessmentId,
+            assessment: {
+              slug: req.slug,
+            },
             question: {
               contains: req.question,
               mode: 'insensitive',
