@@ -8,9 +8,8 @@ import { GetSampleResponse } from '@/lib/interfaces/api-response/sample';
 import { useSampleContext } from '@/context/sample-context';
 import { Button } from '@/components/shadcn-ui/button';
 import { Card } from '@/components/shadcn-ui/card';
-import Loading from '@/components/ui/loading';
 import FormInput from '@/components/ui/form-input';
-import DisabledFormInput from '@/components/ui/disabled-form-input.tsx';
+import AppLoading from '@/components/ui/app-loading';
 
 interface FormValues {
   email: string;
@@ -82,7 +81,7 @@ const FormExample = () => {
       </Card>
       <div className="flex items-center justify-center gap-6">
         {formik.isSubmitting ? (
-          <Loading size="sm" label="Submitting" />
+          <AppLoading size="sm" label="Submitting" />
         ) : (
           <p>{email}</p>
         )}
