@@ -14,8 +14,6 @@ import * as Yup from 'yup';
 import { corsOptions, PORT } from './config';
 import { ResponseError } from './helpers/error';
 import apiRouter from './routers/api.router';
-import SkillRouter from './routers/skill.router';
-import AssessmentRouter from './routers/assessment.router';
 
 export default class App {
   private app: Express;
