@@ -13,14 +13,7 @@ import * as Yup from 'yup';
 
 import { corsOptions, PORT } from './config';
 import { ResponseError } from './helpers/error';
-import SampleRouter from './routers/sample.router';
-import DeveloperRouter from './routers/developer.router';
-import CompanyReviewRouter from './routers/company-review.router';
-import SearchCompanyReviewRouter from './routers/search-company-review.router';
-
 import apiRouter from './routers/api.router';
-import SkillRouter from './routers/skill.router';
-import AssessmentRouter from './routers/assessment.router';
 
 export default class App {
   private app: Express;
@@ -49,21 +42,10 @@ export default class App {
   }
 
   private routes(): void {
-    const sampleRouter = new SampleRouter();
-    const developerRouter = new DeveloperRouter();
-    const companyReviewRouter = new CompanyReviewRouter();
-    const searchCompanyReviewRouter = new SearchCompanyReviewRouter();
-    const assessmentRouter = new AssessmentRouter();
-
     this.app.use('/api', apiRouter);
     this.app.get('/api', (req: Request, res: Response) => {
       res.send(`Hello, Purwadhika Student API!`);
     });
-    this.app.use('/api/samples', sampleRouter.getRouter());
-    this.app.use('/api/developers', developerRouter.getRouter());
-    this.app.use('/api/companies', companyReviewRouter.getRouter());
-    this.app.use('/api/search', searchCompanyReviewRouter.getRouter());
-    this.app.use('/api/assessments', assessmentRouter.getRouter());
   }
 
   private handleError(): void {
