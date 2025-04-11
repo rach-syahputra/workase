@@ -2,12 +2,12 @@ import { HashLoader } from 'react-spinners';
 
 import { cn } from '@/lib/utils';
 
-type LoadingProps = {
+type AppLoadingProps = {
   size?: 'sm' | 'md' | 'lg';
   label?: string;
 };
 
-const Loading = ({ size = 'sm', label }: LoadingProps) => {
+const AppLoading = ({ size = 'sm', label }: AppLoadingProps) => {
   return (
     <div
       className={cn('flex flex-col items-center justify-center gap-2', {
@@ -34,4 +34,4 @@ const Loading = ({ size = 'sm', label }: LoadingProps) => {
   );
 };
 
-export default Loading;
+export default AppLoading;

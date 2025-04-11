@@ -11,6 +11,5 @@ apiRouter.use('/jobs', jobsRouter());
 apiRouter.use('/users', usersRouter());
 apiRouter.use('/auth', authRouter());
 apiRouter.use('/companies', companiesRouter());
-apiRouter.use('/developers', developersRouter());
 
 export default apiRouter;

@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
+import { IGenerateSlugOption } from '@/interfaces/util.interface';
 
 export const generateUUID = () => {
   return uuidv4();
@@ -15,4 +16,28 @@ export const generateHashedPassword = async (password: string) => {
 export const convertDateToUTC7 = (date: Date): string => {
   const utc7Date = new Date(date.getTime() + 7 * 60 * 60 * 1000);
   return utc7Date.toISOString();
+};
+
+export const generateRandomString = (length?: number) => {
+  const characters = 'abcdefghijklmnopqrstuvwxyz1234567890';
+  const randomStringLength = length || 4;
+  let randomString = '';
+
+  for (let i = 0; i < randomStringLength; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    randomString += characters[randomIndex];
+  }
+
+  return randomString;
+};
+
+export const generateSlug = (str: string, opt?: IGenerateSlugOption) => {
+  let updatedStr = str.split(' ').join('-').toLowerCase();
+
+  if (opt?.suffix) {
+    const randomString = generateRandomString(4);
+    updatedStr += `-${randomString}`;
+  }
+
+  return updatedStr;
 };

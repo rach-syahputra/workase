@@ -43,41 +43,35 @@ class SampleService {
     };
   };
 
-  addSample = async ({
-    email,
-    name,
-    password,
-    image,
-  }: AddSampleRequestService) => {
-    validate(addSampleSchema, { email, name, password });
+  addSample = async (req: AddSampleRequestService) => {
+    validate(addSampleSchema, {
+      email: req.email,
+      name: req.name,
+      password: req.password,
+    });
 
-    await this.checkSampleExistence(email);
-    password = await generateHashedPassword(password);
+    await this.checkSampleExistence(req.email);
+    req.password = await generateHashedPassword(req.password);
 
     // cloudinary flow
     let developerImage;
 
-    if (image) {
+    if (req.image) {
       developerImage = await this.imageRepository.upload(
-        image.path,
+        req.image.path,
         CLOUDINARY_DEVELOPER_IMAGE_FOLDER,
       );
     }
     //
 
     const sample = await this.sampleRepository.addSample({
-      email,
-      name,
-      password,
+      email: req.email,
+      name: req.name,
+      password: req.password,
       image: developerImage?.secure_url,
     });
 
-    return {
-      id: sample.id,
-      email: sample.email,
-      name: sample.email,
-      image: sample.image || null,
-    };
+    return sample;
   };
 
   checkSampleExistence = async (email: string) => {

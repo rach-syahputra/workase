@@ -12,6 +12,7 @@ datasource db {
 
 model User {
   id            String       @id @default(uuid())
+  slug          String       @unique
   email         String       @unique
   password      String?
   authProvider  AuthProvider @map("auth_provider")
@@ -29,10 +30,10 @@ model User {
 
   job Job? @relation(fields: [jobId], references: [id], onUpdate: Cascade)
 
-  AppliedJob          AppliedJob[]
-  SavedJob            SavedJob[]
-  Subscription        Subscription[]
-  UserAssessment      UserAssessment[]
+  AppliedJob     AppliedJob[]
+  SavedJob       SavedJob[]
+  Subscription   Subscription[]
+  UserAssessment UserAssessment[]
 
   Certificate         Certificate[]
   PreselectionAttempt PreselectionAttempt[]
@@ -43,6 +44,7 @@ model User {
 model Developer {
   id        String  @id @default(uuid())
   email     String  @unique
+  slug      String  @unique
   name      String
   password  String
   image     String?
@@ -55,6 +57,7 @@ model Developer {
 
 model Company {
   id          String  @id @default(uuid())
+  slug        String  @unique
   name        String
   email       String  @unique
   password    String
@@ -74,6 +77,7 @@ model Company {
 
 model Job {
   id          String      @id @default(uuid())
+  slug        String      @unique
   title       String
   category    JobCategory
   description String
@@ -136,6 +140,7 @@ model Subscription {
 
 model SubscriptionPayment {
   id             String        @id @default(uuid())
+  slug           String        @unique
   subscriptionId String        @map("subscription_id")
   paymentStatus  PaymentStatus @map("payment_status")
   paymentProof   String        @map("payment_proof")
@@ -186,7 +191,7 @@ model Skill {
   updatedAt DateTime @map("updated_at")
   isDeleted Boolean  @default(false) @map("is_deleted")
 
-  Assessment  Assessment[]
+  Assessment Assessment[]
 
   Certificate Certificate[]
 
@@ -194,19 +199,20 @@ model Skill {
 }
 
 model Assessment {
-  id        String   @id @default(uuid())
-  skillId   String   @map("skill_id")
-  createdAt DateTime @map("created_at")
-  updatedAt DateTime @map("updated_at")
-  isDeleted Boolean  @default(false) @map("is_deleted")
+  id               String   @id @default(uuid())
+  slug             String   @unique
+  skillId          String   @map("skill_id")
+  shortDescription String?  @map("short_description")
+  image            String?
+  createdAt        DateTime @map("created_at")
+  updatedAt        DateTime @map("updated_at")
+  isDeleted        Boolean  @default(false) @map("is_deleted")
 
   skill              Skill                @relation(fields: [skillId], references: [id], onUpdate: Cascade)
   AssessmentQuestion AssessmentQuestion[]
   UserAssessment     UserAssessment[]
 
-
   @@map("assessments")
-
 }
 
 model AssessmentQuestion {
@@ -222,7 +228,6 @@ model AssessmentQuestion {
   QuestionOption QuestionOption[]
 
   @@map("assessment_questions")
-
 }
 
 model QuestionOption {
@@ -246,15 +251,15 @@ model UserAssessment {
   score        Int
   createdAt    DateTime             @map("created_at")
   isDeleted    Boolean              @default(false) @map("is_deleted")
-  user       User       @relation(fields: [userId], references: [id], onUpdate: Cascade)
-  assessment Assessment @relation(fields: [assessmentId], references: [id], onUpdate: Cascade)
+  user         User                 @relation(fields: [userId], references: [id], onUpdate: Cascade)
+  assessment   Assessment           @relation(fields: [assessmentId], references: [id], onUpdate: Cascade)
 
   @@map("user_assessments")
-
 }
 
 model Certificate {
   id        String   @id @default(uuid())
+  slug      String   @unique
   userId    String   @map("user_id")
   skillId   String   @map("skill_id")
   url       String
@@ -379,7 +384,6 @@ enum PaymentStatus {
 }
 
 enum UserAssessmentStatus {
-
   PASSED
   FAILED
 }
