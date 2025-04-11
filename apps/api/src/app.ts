@@ -13,7 +13,7 @@ import * as Yup from 'yup';
 
 import { corsOptions, PORT } from './config';
 import { ResponseError } from './helpers/error';
-import SampleRouter from './routers/sample/sample.router';
+import SampleRouter from './routers/sample.router';
 import CompanyReviewRouter from './routers/company-review.router';
 import SearchCompanyReviewRouter from './routers/search-company-review.router';
 

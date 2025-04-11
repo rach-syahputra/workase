@@ -4,6 +4,8 @@ import {
   AddSampleRequestRepository,
   GetSampleByEmailRequest,
 } from '@/interfaces/sample/sample.interface';
+import { generateRandomString, generateSlug } from '@/helpers/utils';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 class SampleRepository {
   private prisma: PrismaClient;
@@ -24,18 +26,28 @@ class SampleRepository {
     });
   };
 
-  addSample = async ({
-    name,
-    email,
-    password,
-    image,
-  }: AddSampleRequestRepository) => {
+  addSample = async (req: AddSampleRequestRepository) => {
+    // Generate slug based on user name
+    let slug = generateSlug(req.name);
+
+    // Find existing data by generated slug
+    const sample = await this.prisma.developer.findFirst({
+      where: {
+        slug,
+      },
+    });
+
+    // If the generated slug already exists in the database,
+    // Add additional unique characters to the generated slug to ensure uniqueness
+    if (sample?.slug === slug) {
+      const randomString = generateRandomString(4);
+      slug += `-${randomString}`;
+    }
+
     return this.prisma.developer.create({
       data: {
-        email,
-        name,
-        password,
-        image,
+        ...req,
+        slug,
       },
     });
   };
