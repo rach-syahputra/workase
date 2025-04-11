@@ -5,14 +5,7 @@ import { Request } from 'express';
 import usersService from '@/services/user.service';
 import developerService from '@/services/developer.service';
 class DeveloperController {
-  async addDevelopers(req: Request, res: Response, next: NextFunction) {
-    try {
-      const result = await developerService.addDevelopers(req);
-      responseHandler(res, 'post succes', result);
-    } catch (error) {
-      next(error);
-    }
-  }
+  async addDevelopers(req: Request, res: Response, next: NextFunction) {}
 }
 
 export default new DeveloperController();

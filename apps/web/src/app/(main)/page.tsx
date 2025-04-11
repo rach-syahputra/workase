@@ -6,7 +6,7 @@ import { SearchBar } from './_components/searchbar';
 import { NewestJobs } from './_components/newestJobs';
 import { NearestJobs } from './_components/nearestJob';
 
-export default function Home() {
+export default function HomePage() {
   return (
     <Container className="">
       <div className="flex w-full flex-col items-center justify-center">

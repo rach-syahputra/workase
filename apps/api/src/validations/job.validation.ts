@@ -20,7 +20,9 @@ const validCategory = async (): Promise<string[]> => {
       },
     },
   });
-  return categories.map((item) => item.company.category);
+  return categories
+    .map((item) => item.company.category)
+    .filter((category): category is string => category !== null);
 };
 
 const validLocation = async (): Promise<string[]> => {
@@ -33,7 +35,9 @@ const validLocation = async (): Promise<string[]> => {
       },
     },
   });
-  return locations.map((item) => item.company.location);
+  return locations
+    .map((item) => item.company.location)
+    .filter((location): location is string => location !== null);
 };
 
 const jobFilterSchema = async () => {

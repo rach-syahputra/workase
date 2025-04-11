@@ -1,5 +1,3 @@
 import { Request } from 'express';
-class DevelopersService {
-  async addDevelopers(req: Request) {}
-}
+class DevelopersService {}
 export default new DevelopersService();

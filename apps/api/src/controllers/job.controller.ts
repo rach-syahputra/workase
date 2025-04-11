@@ -1,4 +1,4 @@
-import { responseHandler } from '@/helpers/response.handler';
+import { ApiResponse } from '@/helpers/api-response';
 import jobsService from '@/services/job.service';
 import { NextFunction, Request, Response } from 'express';
 
@@ -6,7 +6,12 @@ class JobsController {
   async getJobs(req: Request, res: Response, next: NextFunction) {
     try {
       const result = await jobsService.getJobs(req);
-      responseHandler(res, 'fetching succes', result);
+      ApiResponse({
+        res,
+        statusCode: 200,
+        message: 'fetching succes',
+        data: result,
+      });
     } catch (error) {
       next(error);
     }

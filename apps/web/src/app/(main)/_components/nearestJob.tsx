@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 import { axiosPublic } from '@/lib/axios';
 import { Job, useSearchJob } from '@/context/search-job-context';
-import JobCard from '../../example/_components/card';
+import JobCard from '../example/_components/card';
 import { Card, CardContent } from '@/components/shadcn-ui/card';
 import {
   Carousel,

@@ -2,6 +2,7 @@ import { OPENCAGE_API_KEY } from '@/config';
 import jobFilterSchema from '@/validations/job.validation';
 import { NextFunction, Request, Response } from 'express';
 import axios from 'axios';
+import { ResponseError } from '@/helpers/error';
 const validateJobFilter = async (
   req: Request,
   res: Response,
@@ -24,18 +25,11 @@ const changeLocation = async (
   try {
     const location = req.query.location as string;
     if (/\d/.test(location)) {
-      console.log('ini location di api', location);
-      console.log(
-        'ini poencage api key %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%',
-        OPENCAGE_API_KEY,
-      );
       const [lat, lng] = location.split(',');
       const latitude = parseFloat(lat);
       const longitude = parseFloat(lng);
       if (isNaN(latitude) || isNaN(longitude)) {
-        return res
-          .status(400)
-          .json({ message: 'Invalid coordinat location format' });
+        return next(new ResponseError(400, 'Invalid location format'));
       }
       try {
         const url = `https://api.opencagedata.com/geocode/v1/json?q=${latitude},${longitude}&key=${OPENCAGE_API_KEY}`;
@@ -47,13 +41,9 @@ const changeLocation = async (
           result.components.village ||
           result.components.country;
 
-        if (!city)
-          return res.status(400).json({ message: 'there is no location' });
+        if (!city) return next(new ResponseError(404, 'Location not found'));
         req.query.location = city;
-        console.log(
-          'ini city kamu $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$',
-          city,
-        );
+
         next();
       } catch (innerError) {
         next(innerError);
