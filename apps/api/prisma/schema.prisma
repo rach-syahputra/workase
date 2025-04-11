@@ -12,7 +12,7 @@ datasource db {
 
 model User {
   id            String       @id @default(uuid())
-  slug          String?
+  slug          String       @unique
   email         String       @unique
   password      String?
   authProvider  AuthProvider @map("auth_provider")
@@ -43,7 +43,7 @@ model User {
 
 model Developer {
   id        String  @id @default(uuid())
-  slug      String?
+  slug      String  @unique
   email     String  @unique
   name      String
   password  String
@@ -57,7 +57,7 @@ model Developer {
 
 model Company {
   id          String   @id @default(uuid())
-  slug        String?
+  slug        String   @unique
   name        String
   email       String   @unique
   password    String
@@ -77,7 +77,7 @@ model Company {
 
 model Job {
   id          String      @id @default(uuid())
-  slug        String?
+  slug        String      @unique
   title       String
   category    JobCategory
   description String
@@ -140,7 +140,7 @@ model Subscription {
 
 model SubscriptionPayment {
   id             String        @id @default(uuid())
-  slug           String?
+  slug           String        @unique
   subscriptionId String        @map("subscription_id")
   paymentStatus  PaymentStatus @map("payment_status")
   paymentProof   String        @map("payment_proof")
@@ -200,7 +200,7 @@ model Skill {
 
 model Assessment {
   id               String   @id @default(uuid())
-  slug             String?
+  slug             String   @unique
   skillId          String   @map("skill_id")
   shortDescription String?  @map("short_description")
   image            String?
@@ -259,7 +259,7 @@ model UserAssessment {
 
 model Certificate {
   id        String   @id @default(uuid())
-  slug      String?
+  slug      String   @unique
   userId    String   @map("user_id")
   skillId   String   @map("skill_id")
   url       String
