@@ -17,6 +17,7 @@ const BrowseAssessments = () => {
     isLoading,
     searchSkill,
     setSearchSkill,
+    debouncedSearchSkill,
     page,
     setPage,
     totalPages,
