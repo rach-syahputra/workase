@@ -6,7 +6,7 @@ import { Button } from '@/components/shadcn-ui/button';
 import { ColumnDef } from '@tanstack/react-table';
 
 export interface IAssessmentColumn {
-  id: string;
+  slug: string;
   skill: string;
   totalQuestions: number;
   updatedAt: string;
@@ -40,7 +40,7 @@ export const columns: ColumnDef<IAssessmentColumn>[] = [
     cell: ({ row }) => {
       return (
         <Button asChild>
-          <Link href={`/dev/assessments/${row.original.id}`}>Manage</Link>
+          <Link href={`/dev/assessments/${row.original.slug}`}>Manage</Link>
         </Button>
       );
     },

@@ -9,7 +9,7 @@ export interface AddAssessmentFormValues {
 export interface AddAssessmentQuestionFormValues {
   assessmentId: string;
   question: string;
-  image?: string;
+  image?: File | null;
   options: {
     text: string;
     isCorrect: IsCorrectOptionType;

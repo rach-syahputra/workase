@@ -21,7 +21,12 @@ const CompanyReviewCard = ({ review, className }: CompanyReviewCardProps) => {
   const maxContentLength = 400;
 
   return (
-    <Card className={cn('flex w-full flex-col gap-2 p-4', className)}>
+    <Card
+      className={cn(
+        'flex w-full flex-col gap-2 p-4 max-md:border-none max-md:shadow-none',
+        className,
+      )}
+    >
       <div className="flex flex-row items-start justify-between">
         <Link
           href={`/companies/${review.companyId}`}

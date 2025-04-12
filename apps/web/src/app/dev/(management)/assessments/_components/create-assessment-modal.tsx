@@ -39,7 +39,7 @@ const CreateAssessmentModal = ({ id, title }: CreateAssessmentModalProps) => {
           type="button"
           variant="dark"
           onClick={handleCreateAssessmentModal}
-          className="px-12"
+          className="md:px-6"
         >
           Create
         </Button>

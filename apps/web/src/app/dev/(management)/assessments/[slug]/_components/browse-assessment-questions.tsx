@@ -5,23 +5,24 @@ import Link from 'next/link';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 import { IAssessmentQuestion } from '@/lib/interfaces/assessment';
+import { getAssessmentQuestions } from '@/lib/apis/assessments';
 import { Input } from '@/components/shadcn-ui/input';
 import Icon from '@/components/ui/icon';
-import AssessmentQuestionCard from './assessment-question-card';
-import AssessmentQuestionCardSkeleton from './assessment-question-card-skeleton';
-import { getAssessmentQuestions } from '@/lib/apis/assessments';
 import AppPagination from '@/components/ui/pagination';
 import { Card } from '@/components/shadcn-ui/card';
+import AssessmentQuestionCard from './assessment-question-card';
+import AssessmentQuestionCardSkeleton from './assessment-question-card-skeleton';
 
 interface BrowseAssessmentQuestionsProps {
-  assessmentId: string;
+  slug: string;
 }
 
 const BrowseAssessmentQuestions = ({
-  assessmentId,
+  slug,
 }: BrowseAssessmentQuestionsProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [totalPages, setTotalPages] = useState<number>(1);
+  const [totalQuestions, setTotalQuestions] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
   const [searchQuestion, setSearchQuestion] = useState<string>('');
   const [debouncedSearchQuestion, setDebouncedSearchQuestion] =
@@ -35,13 +36,19 @@ const BrowseAssessmentQuestions = ({
     const response = await getAssessmentQuestions({
       limit,
       page: page || 1,
-      assessmentId: assessmentId,
+      slug: slug,
       question: debouncedSearchQuestion,
     });
 
     if (response.success) {
-      setQuestions(response.data?.assessmentQuestions || []);
+      setQuestions(
+        response.data?.assessmentQuestions.map((question, index) => ({
+          ...question,
+          number: ((page ? page : 1) - 1) * limit + index + 1,
+        })) || [],
+      );
       setTotalPages(response.data?.pagination?.totalPages || 1);
+      setTotalQuestions(response.data?.pagination?.totalData || 0);
       setPage(page || 1);
     }
 
@@ -89,7 +96,7 @@ const BrowseAssessmentQuestions = ({
             {questions.map((question, index) => (
               <AssessmentQuestionCard
                 key={index}
-                label={`Question ${index + 1} of ${questions.length}`}
+                label={`Question ${question.number} of ${totalQuestions}`}
                 question={question}
               />
             ))}
@@ -104,7 +111,7 @@ const BrowseAssessmentQuestions = ({
           <div className="text-primary-gray flex items-center justify-center gap-2 py-16 text-center text-sm">
             <p>No questions added yet.</p>
             <Link
-              href={`/dev/assessments/${assessmentId}/questions/new`}
+              href={`/dev/assessments/${slug}/questions/new`}
               aria-label="add question page"
               className="hover:text-primary-blue-hover flex items-center justify-center gap-2 transition-all duration-150 ease-in-out"
             >

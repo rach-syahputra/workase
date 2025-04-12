@@ -35,6 +35,17 @@ export const addAssessmentQuestionSchema = yup
       .typeError('Question must be a string')
       .required('Question is required')
       .min(10, 'Question must be at least 10 characters'),
+    image: yup
+      .mixed<File>()
+      .nullable()
+      .test(
+        'fileFormat',
+        'Only image files are allowed (jpg, jpeg, png)',
+        (value) => {
+          if (!value) return true;
+          return ['image/jpeg', 'image/jpg', 'image/png'].includes(value.type);
+        },
+      ),
     options: yup
       .array()
       .of(

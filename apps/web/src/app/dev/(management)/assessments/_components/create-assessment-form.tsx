@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useFormik } from 'formik';
 
 import { useAppToast } from '@/hooks/use-app-toast';
@@ -8,7 +8,7 @@ import { AddAssessmentFormValues } from '@/lib/interfaces/form/assessment';
 import { addAssessment } from '@/lib/apis/assessments';
 import { addAssessmentSchema } from '@/validations/assessment';
 import { useCreateAssessmentContext } from '@/context/create-assessment-context';
-import { useBrowseAssessmentContext } from '@/context/browse-assessment-context';
+import { useAssessmentContext } from '@/context/assessment-context';
 import DisabledFormInput from '@/components/ui/disabled-form-input.tsx';
 import FormInput from '@/components/ui/form-input';
 import { Button } from '@/components/shadcn-ui/button';
@@ -21,8 +21,9 @@ interface CreateAssessmentFormProps {
 
 const CreateAssessmentForm = ({ onOpenChange }: CreateAssessmentFormProps) => {
   const { selectedSkill, fetchSkills } = useCreateAssessmentContext();
-  const { fetchAssessments } = useBrowseAssessmentContext();
+  const { fetchAssessments } = useAssessmentContext();
   const { appToast } = useAppToast();
+  const [imagePreview, setImagePreview] = useState<string>('');
 
   const formik = useFormik<AddAssessmentFormValues>({
     initialValues: {
@@ -66,6 +67,7 @@ const CreateAssessmentForm = ({ onOpenChange }: CreateAssessmentFormProps) => {
   const updateImage = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const imageFile = event.target.files[0];
+      setImagePreview(URL.createObjectURL(imageFile));
 
       formik.setFieldValue('image', imageFile);
     }
@@ -95,6 +97,7 @@ const CreateAssessmentForm = ({ onOpenChange }: CreateAssessmentFormProps) => {
           label="Image"
           name="image"
           onChange={updateImage}
+          preview={imagePreview}
           description="Best result with 1:1 ratio, #e6e6e6 color and solid image"
           errorMessage={formik.errors.image}
         />

@@ -8,10 +8,11 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { getAssessments } from '@/lib/apis/assessments';
-import { IAssessmentColumn } from '@/app/dev/(management)/assessments/_components/table/column';
 
-interface IBrowseAssessmentContext {
+import { getAssessments } from '@/lib/apis/assessments';
+import { IAssessment } from '@/lib/interfaces/assessment';
+
+interface IAssessmentContext {
   isLoading: boolean;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   totalPages: number;
@@ -22,46 +23,35 @@ interface IBrowseAssessmentContext {
   setSearchSkill: Dispatch<SetStateAction<string>>;
   debouncedSearchSkill: string;
   setDebouncedSearchSkill: Dispatch<SetStateAction<string>>;
-  assessments: IAssessmentColumn[];
-  setAssessments: Dispatch<SetStateAction<IAssessmentColumn[]>>;
-  limit: number;
-  fetchAssessments: (page?: number) => void;
+  assessments: IAssessment[];
+  setAssessments: Dispatch<SetStateAction<IAssessment[]>>;
+  fetchAssessments: (page?: number, limit?: number) => void;
 }
 
-const BrowseAssessmentContext = createContext<
-  IBrowseAssessmentContext | undefined
->(undefined);
+const AssessmentContext = createContext<IAssessmentContext | undefined>(
+  undefined,
+);
 
-const BrowseAssessmentProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
+const AssessmentProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [page, setPage] = useState<number>(1);
   const [searchSkill, setSearchSkill] = useState<string>('');
   const [debouncedSearchSkill, setDebouncedSearchSkill] = useState<string>('');
-  const [assessments, setAssessments] = useState<IAssessmentColumn[]>([]);
-  const limit = 10;
+  const [assessments, setAssessments] = useState<IAssessment[]>([]);
 
-  const fetchAssessments = async (page?: number) => {
+  const fetchAssessments = async (page?: number, limit?: number) => {
     setIsLoading(true);
 
     const response = await getAssessments({
-      limit,
+      limit: limit || 9,
       page: page || 1,
       skill: debouncedSearchSkill,
     });
 
     if (response.success) {
       setAssessments(
-        response.data?.assessments.map((assessment) => ({
-          id: assessment.id,
-          skill: assessment.skill.title,
-          totalQuestions: assessment.totalQuestions || 0,
-          updatedAt: assessment.updatedAt,
-        })) || [],
+        response.data?.assessments.map((assessment) => assessment) || [],
       );
       setTotalPages(response.data?.pagination?.totalPages || 1);
       setPage(page || 1);
@@ -71,10 +61,6 @@ const BrowseAssessmentProvider = ({
   };
 
   useEffect(() => {
-    fetchAssessments();
-  }, []);
-
-  useEffect(() => {
     const handleDebouncedSearchSkill = setTimeout(() => {
       setDebouncedSearchSkill(searchSkill);
     }, 500);
@@ -82,12 +68,8 @@ const BrowseAssessmentProvider = ({
     return () => clearTimeout(handleDebouncedSearchSkill);
   }, [searchSkill]);
 
-  useEffect(() => {
-    fetchAssessments(page);
-  }, [debouncedSearchSkill]);
-
   return (
-    <BrowseAssessmentContext.Provider
+    <AssessmentContext.Provider
       value={{
         isLoading,
         setIsLoading,
@@ -102,22 +84,21 @@ const BrowseAssessmentProvider = ({
         assessments,
         setAssessments,
         fetchAssessments,
-        limit,
       }}
     >
       {children}
-    </BrowseAssessmentContext.Provider>
+    </AssessmentContext.Provider>
   );
 };
 
-const useBrowseAssessmentContext = (): IBrowseAssessmentContext => {
-  const context = useContext(BrowseAssessmentContext);
+const useAssessmentContext = (): IAssessmentContext => {
+  const context = useContext(AssessmentContext);
   if (context === undefined) {
     throw new Error(
-      'useBrowseAssessmentContext must be used within a BrowseAssessmentProvider',
+      'useAssessmentContext must be used within a AssessmentProvider',
     );
   }
   return context;
 };
 
-export { BrowseAssessmentProvider, useBrowseAssessmentContext };
+export { AssessmentProvider, useAssessmentContext };

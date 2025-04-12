@@ -9,8 +9,10 @@ interface SkillCardProps {
 
 const SkillCard = ({ id, title }: SkillCardProps) => {
   return (
-    <div className="flex w-full flex-col justify-between gap-3 md:flex-row md:items-center">
-      <p>{title}</p>
+    <div className="flex w-full items-center justify-between gap-3 md:flex-row">
+      <div>
+        <p className="line-clamp-1">{title}</p>
+      </div>
       <CreateAssessmentModal id={id} title={title} />
     </div>
   );

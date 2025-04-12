@@ -1,13 +1,13 @@
 import PageContent from './_components/page-content';
 
 interface AssessmentDetailPageProps {
-  params: Promise<{ assessmentId: string }>;
+  params: Promise<{ slug: string }>;
 }
 
 const AssessmentDetailPage = async ({ params }: AssessmentDetailPageProps) => {
-  const assessmentId = (await params).assessmentId;
+  const slug = (await params).slug;
 
-  return <PageContent assessmentId={assessmentId} />;
+  return <PageContent slug={slug} />;
 };
 
 export default AssessmentDetailPage;

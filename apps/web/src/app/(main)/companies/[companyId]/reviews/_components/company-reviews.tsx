@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 import { getCompanyReviews } from '@/lib/apis/company-reviews';
 import { ICompanyReview } from '@/lib/interfaces/company-review';
@@ -12,6 +12,7 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/components/shadcn-ui/tabs';
+import { Separator } from '@/components/shadcn-ui/separator';
 
 interface CompanyReviewsProps {
   companyId: string;
@@ -82,13 +83,13 @@ const CompanyReviews = ({ companyId }: CompanyReviewsProps) => {
       </TabsList>
       <TabsContent value="reviews">
         <div className="flex w-full flex-col items-center justify-center gap-4">
-          {reviews.length > 0 && (
-            <>
-              {reviews.map((review, index) => (
-                <CompanyReviewCard key={index} review={review} />
-              ))}
-            </>
-          )}
+          {reviews.length > 0 &&
+            reviews.map((review, index) => (
+              <Fragment key={index}>
+                <CompanyReviewCard review={review} />
+                {index !== reviews.length - 1 && <Separator />}
+              </Fragment>
+            ))}
 
           {isLoading && (
             <>

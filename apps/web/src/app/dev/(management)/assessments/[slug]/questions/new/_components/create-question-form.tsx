@@ -1,5 +1,6 @@
 'use client';
 
+import { ChangeEvent, useState } from 'react';
 import { useFormik } from 'formik';
 
 import { useAppToast } from '@/hooks/use-app-toast';
@@ -10,6 +11,7 @@ import FormInput from '@/components/ui/form-input';
 import TextareaFormInput from '@/components/ui/textarea-form-input';
 import { Card } from '@/components/shadcn-ui/card';
 import { Button } from '@/components/shadcn-ui/button';
+import FormImageInput from '@/components/ui/form-image-input';
 import IsCorrectFormInput from './is-correct-form-input';
 
 interface CreateQuestionFormProps {
@@ -18,11 +20,13 @@ interface CreateQuestionFormProps {
 
 const CreateQuestionForm = ({ assessmentId }: CreateQuestionFormProps) => {
   const { appToast } = useAppToast();
+  const [imagePreview, setImagePreview] = useState<string>('');
 
   const formik = useFormik<AddAssessmentQuestionFormValues>({
     initialValues: {
       assessmentId: assessmentId,
       question: '',
+      image: null,
       options: [
         {
           text: '',
@@ -55,6 +59,7 @@ const CreateQuestionForm = ({ assessmentId }: CreateQuestionFormProps) => {
 
       if (response.success) {
         resetForm();
+        setImagePreview('');
 
         appToast('SUCCESS', {
           title: 'Question Created',
@@ -77,6 +82,15 @@ const CreateQuestionForm = ({ assessmentId }: CreateQuestionFormProps) => {
     },
   });
 
+  const updateImage = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const imageFile = event.target.files[0];
+      setImagePreview(URL.createObjectURL(imageFile));
+
+      formik.setFieldValue('image', imageFile);
+    }
+  };
+
   return (
     <form onSubmit={formik.handleSubmit} className="flex flex-col gap-4">
       <Card className="flex flex-col gap-6 md:p-5">
@@ -86,6 +100,13 @@ const CreateQuestionForm = ({ assessmentId }: CreateQuestionFormProps) => {
           onChange={formik.handleChange}
           value={formik.values.question}
           errorMessage={formik.errors.question}
+        />
+        <FormImageInput
+          label="Image"
+          name="image"
+          preview={imagePreview}
+          onChange={updateImage}
+          errorMessage={formik.errors.image}
         />
         <div className="flex flex-col gap-4">
           <span className="text-sm font-bold">Answer Options</span>
@@ -123,6 +144,9 @@ const CreateQuestionForm = ({ assessmentId }: CreateQuestionFormProps) => {
           </div>
         </div>
 
+        {formik.status && (
+          <p className="text-sm text-red-500">{formik.status}</p>
+        )}
         <Button type="submit" disabled={formik.isSubmitting}>
           Create Question
         </Button>

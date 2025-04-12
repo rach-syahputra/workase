@@ -37,7 +37,7 @@ const QuestionImage = ({ label, image }: QuestionImageProps) => {
           alt="question image"
           width={1000}
           height={1000}
-          className="aspect-auto h-full max-h-[90svh]"
+          className="aspect-auto h-full max-h-[90svh] rounded-md object-cover"
         />
       </DialogContent>
     </Dialog>

@@ -3,7 +3,7 @@ import { Skeleton } from '@/components/shadcn-ui/skeleton';
 
 const CompanyRatingLoading = () => {
   return (
-    <Card className="flex h-[295px] w-full flex-col gap-4 p-4 sm:flex-row md:h-[160px]">
+    <Card className="flex h-[295px] w-full flex-col gap-4 p-4 md:h-[160px] md:flex-row">
       <div className="flex h-full w-full items-center justify-center gap-4">
         <Skeleton className="h-full w-2/5" />
         <div className="flex h-full w-3/5 flex-col gap-2">

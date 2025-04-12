@@ -21,7 +21,7 @@ const Skills = ({ skills, isLoading, className }: SkillsProps) => {
   return (
     <Card
       className={cn(
-        'flex min-h-[410px] w-full items-center justify-center md:p-4',
+        'flex min-h-[410px] w-full items-center justify-center max-md:border-none max-md:shadow-none md:p-4',
         className,
       )}
     >

@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { createContext, useContext } from 'react';
 import Link from 'next/link';
 import { Slot } from '@radix-ui/react-slot';
 
 import { cn } from '@/lib/utils';
 
+type SidebarThemeType = 'dark' | 'light';
+
+interface ISidebarContext {
+  theme: SidebarThemeType;
+}
+
 interface SidebarProps {
   className?: string;
+  theme?: SidebarThemeType;
   children: React.ReactNode;
 }
 
@@ -38,16 +45,31 @@ interface SidebarMenuLinkProps {
   className?: string;
 }
 
-const Sidebar = ({ className, children }: SidebarProps) => {
+const SidebarContext = createContext<ISidebarContext | undefined>(undefined);
+
+const useSidebarContext = (): ISidebarContext => {
+  const context = useContext(SidebarContext);
+  if (context === undefined) {
+    throw new Error('useSidebarContext must be used within a SidebarProvider');
+  }
+  return context;
+};
+
+const Sidebar = ({ className, theme = 'dark', children }: SidebarProps) => {
   return (
-    <aside
-      className={cn(
-        'bg-primary-dark-background lg:w-sidebar sticky top-0 hidden min-h-svh w-fit p-4 lg:block',
-        className,
-      )}
-    >
-      {children}
-    </aside>
+    <SidebarContext.Provider value={{ theme }}>
+      <aside
+        className={cn(
+          'bg-primary-dark-background lg:w-sidebar sticky top-0 hidden min-h-svh w-fit p-4 lg:block',
+          {
+            'bg-white': theme === 'light',
+          },
+          className,
+        )}
+      >
+        {children}
+      </aside>
+    </SidebarContext.Provider>
   );
 };
 
@@ -83,12 +105,16 @@ const SidebarMenuItem = ({
   className,
   children,
 }: SidebarMenuItemProps) => {
+  const { theme } = useSidebarContext();
   const Comp = asChild ? Slot : 'li';
 
   return (
     <Comp
       className={cn(
-        'hover:bg-primary-blue-hover flex h-11 cursor-pointer select-none items-center gap-3 rounded-md px-4 text-sm text-white transition-all duration-150 ease-in',
+        'hover:bg-primary-blue-hover flex h-11 cursor-pointer select-none items-center gap-3 rounded-md px-4 text-sm text-white transition-all duration-150 ease-in hover:text-white',
+        {
+          'text-primary-dark': theme === 'light',
+        },
         className,
       )}
     >

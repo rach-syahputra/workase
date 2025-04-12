@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-import { getAssessmentById } from '@/lib/apis/assessments';
+import { getAssessmentBySlug } from '@/lib/apis/assessments';
 import { IAssessmentDetail } from '@/lib/interfaces/assessment';
 import { useDeveloperAssessmentContext } from '@/context/developer-assessment-context';
 import DeveloperContainer from '@/components/developer/developer-container';
@@ -12,20 +12,20 @@ import AppBreadCrumb from '@/components/ui/app-breadcrumb';
 import BrowseAssessmentQuestions from './browse-assessment-questions';
 
 interface PageContentProps {
-  assessmentId: string;
+  slug: string;
 }
 
-const PageContent = ({ assessmentId }: PageContentProps) => {
+const PageContent = ({ slug }: PageContentProps) => {
   const { currentAssessmentSkill, setCurrentAssessmentSkill } =
     useDeveloperAssessmentContext();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [assessment, setAssessment] = useState<IAssessmentDetail>();
   const skillTitle = assessment?.skill.title;
 
-  const fetchAssessmentById = async () => {
+  const fetchAssessmentBySlug = async () => {
     setIsLoading(true);
 
-    const response = await getAssessmentById({ id: assessmentId });
+    const response = await getAssessmentBySlug({ slug });
 
     if (response.success) {
       setAssessment(response.data?.assessment);
@@ -36,8 +36,8 @@ const PageContent = ({ assessmentId }: PageContentProps) => {
   };
 
   useEffect(() => {
-    fetchAssessmentById();
-  }, [assessmentId]);
+    fetchAssessmentBySlug();
+  }, [slug]);
 
   const BreadCrumbItems = [
     {
@@ -45,7 +45,7 @@ const PageContent = ({ assessmentId }: PageContentProps) => {
       label: 'Assessments',
     },
     {
-      href: `/dev/assessments/${assessmentId}`,
+      href: `/dev/assessments/${slug}`,
       label: currentAssessmentSkill || 'Detail',
     },
   ];
@@ -61,13 +61,13 @@ const PageContent = ({ assessmentId }: PageContentProps) => {
         />
         <DeveloperCTA
           label="Create Question"
-          href={`/dev/assessments/${assessmentId}/questions/new`}
+          href={`/dev/assessments/${slug}/questions/new`}
           isLoading={!assessment}
           className="py-2 max-sm:w-full"
         />
       </div>
       <div className="flex flex-col items-start justify-center gap-4">
-        <BrowseAssessmentQuestions assessmentId={assessmentId} />
+        <BrowseAssessmentQuestions slug={slug} />
       </div>
     </DeveloperContainer>
   );
