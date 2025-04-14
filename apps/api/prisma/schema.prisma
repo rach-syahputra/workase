@@ -56,18 +56,20 @@ model Developer {
 }
 
 model Company {
-  id          String   @id @default(uuid())
-  slug        String   @unique
-  name        String
-  email       String   @unique
-  password    String
-  phoneNumber String   @map("phone_number")
-  isVerified  Boolean? @map("is_verified")
-  logoUrl     String?  @map("logo_url")
-  description String?
-  category    String?
-  location    String?
-  isDeleted   Boolean  @default(false) @map("is_deleted")
+  id           String       @id @default(uuid())
+  slug         String       @unique
+  name         String
+  email        String       @unique
+  password     String
+  authProvider AuthProvider @map("auth_provider")
+  authId       String?      @map("auth_id")
+  phoneNumber  String       @map("phone_number")
+  isVerified   Boolean?     @map("is_verified")
+  logoUrl      String?      @map("logo_url")
+  description  String?
+  category     String?
+  location     String?
+  isDeleted    Boolean      @default(false) @map("is_deleted")
 
   Job           Job[]
   CompanyReview CompanyReview[]
@@ -349,8 +351,6 @@ model PreselectionResponse {
 enum AuthProvider {
   EMAIL
   GOOGLE
-  FACEBOOK
-  TWITTER
 }
 
 enum Gender {
