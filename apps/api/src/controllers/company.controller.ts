@@ -6,7 +6,7 @@ import { ApiResponse } from '@/helpers/api-response';
 class CompaniesController {
   async register(req: Request, res: Response, next: NextFunction) {
     try {
-      const result = await companiesService.register(req);
+      const result = await companiesService.register(req.body);
       ApiResponse({
         res,
         statusCode: 201,
@@ -20,7 +20,7 @@ class CompaniesController {
 
   async login(req: Request, res: Response, next: NextFunction) {
     try {
-      const result = await companiesService.login(req);
+      const result = await companiesService.login(req.body);
       ApiResponse({
         res,
         statusCode: 200,
