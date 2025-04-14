@@ -5,6 +5,10 @@ import {
   validateUserRegistration,
   validateUserLogin,
 } from '@/middlewares/user.middleware';
+import {
+  validateCompanyLogin,
+  validateCompanyRegistration,
+} from '@/middlewares/company.middleware';
 
 export const authRouter = () => {
   const router = Router();
@@ -14,7 +18,15 @@ export const authRouter = () => {
     UsersController.register,
   );
   router.post('/login/user', validateUserLogin, UsersController.login);
-  router.post('/register/company', CompaniesController.register);
-  router.post('/login/company', CompaniesController.login);
+  router.post(
+    '/register/company',
+    validateCompanyRegistration,
+    CompaniesController.register,
+  );
+  router.post(
+    '/login/company',
+    validateCompanyLogin,
+    CompaniesController.login,
+  );
   return router;
 };
