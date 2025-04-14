@@ -1,7 +1,5 @@
 import { Request } from 'express';
 import prisma from '@/prisma';
-import { ParamsDictionary } from 'express-serve-static-core';
-import { ParsedQs } from 'qs';
 class GetJobsRepository {
   static async getJobs(req: Request) {
     const limit = req.query.limit || 10;

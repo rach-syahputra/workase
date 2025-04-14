@@ -1,5 +1,5 @@
 'use client';
-import { Sheet, SheetContent, SheetTrigger } from '../../shadcn-ui/sheet';
+import { Sheet, SheetContent, SheetTrigger } from '../../../shadcn-ui/sheet';
 import { Menu, X } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import router from 'next/router';
@@ -15,13 +15,9 @@ const loginItems = ['Sign in', 'Register'];
 
 export default function Sidebar() {
   const searchParams = useSearchParams();
-  const [mounted, setMounted] = useState(false);
 
   const [active, setActive] = useState('Find salaries');
   const router = useRouter();
-  useEffect(() => {
-    setMounted(true);
-  }, []);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -32,22 +28,12 @@ export default function Sidebar() {
     }
   }, [pathname]);
 
-  // useEffect(() => {
-  //   const index = menuItems.findIndex((tab) => tab.label === active);
-  //   if (tabRefs.current[index]) {
-  //     tabRefs.current[index];
-  //   }
-  //   const path = '/' + menuItems[index].value;
-  //   const queryString = searchParams.toString();
-  //   router.push(`${path}${queryString ? '?' + queryString : ''}`);
-  // }, [active]);
   const handleTabClick = (tab: (typeof menuItems)[number]) => {
     const queryString = searchParams.toString();
     const path = `/${tab.value}${queryString ? '?' + queryString : ''}`;
     router.push(path);
     setActive(tab.label);
   };
-  if (!mounted) return null; // Hindari rendering di server
 
   return (
     <Sheet>

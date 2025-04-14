@@ -36,3 +36,9 @@ export const CLOUDINARY_CERTIFICATE_FOLDER = 'workase-certificate-files';
 
 // opencage api key
 export const OPENCAGE_API_KEY = process.env.OPENCAGE_API_KEY || '';
+
+// nodemailer config
+export const node_account = {
+  user: process.env.NODEMAILER_USER || '',
+  pass: process.env.NODEMAILER_PASS || '',
+};

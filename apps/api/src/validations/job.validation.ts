@@ -1,4 +1,5 @@
 import prisma from '@/prisma';
+import { Request, Response, NextFunction } from 'express';
 import * as Yup from 'yup';
 
 const validTitle = async (): Promise<string[]> => {
@@ -47,18 +48,22 @@ const jobFilterSchema = async () => {
   return Yup.object().shape({
     title: Yup.string()
       .trim()
-      .matches(
-        /^[a-zA-Z0-9\s]+$/,
-        'Title hanya boleh mengandung huruf, angka, dan spasi',
-      )
+      .optional()
       .test(
         'is-valid-title',
-        'Pekerjaan dengan judul tersebut tidak ditemukan',
-        (value) =>
-          !value ||
-          titles.some((t) => t.toLowerCase().includes(value.toLowerCase())),
-      )
-      .optional(),
+        'Pekerjaan dengan judul tersebut tidak ditemukan dan Title hanya boleh mengandung huruf, angka, dan spasi',
+        (value) => {
+          if (!value) {
+            return true;
+          }
+          const isValidFormat = /^[a-zA-Z0-9\s]+$/.test(value);
+          const isMatch = titles.some((t) =>
+            t.toLowerCase().includes(value.toLowerCase()),
+          );
+          return isValidFormat && isMatch;
+        },
+      ),
+
     category: Yup.string()
       .test(
         'is-valid-category',
