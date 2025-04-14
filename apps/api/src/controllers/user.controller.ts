@@ -1,4 +1,3 @@
-import { responseHandler } from '@/helpers/response.handler';
 import { NextFunction, Response } from 'express';
 import { Request } from 'express';
 
@@ -22,7 +21,7 @@ class UsersController {
 
   async login(req: Request, res: Response, next: NextFunction) {
     try {
-      const result = await usersService.login(req);
+      const result = await usersService.login(req.body);
       ApiResponse({
         res,
         statusCode: 200,

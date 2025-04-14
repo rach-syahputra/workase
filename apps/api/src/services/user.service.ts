@@ -10,18 +10,10 @@ class UsersService {
     password: string;
     authProvider: string;
   }) {
-    const { email, password, authProvider } = data;
-    const user = (await getUserByEmail(email)) as UserLogin;
-    if (user) {
-      throw new ResponseError(409, 'User already exists');
-    } else if (!user && authProvider === 'EMAIL' && !password) {
-      throw new ResponseError(400, 'Password is required');
-    } else if (!user) {
-      await RegisterUsersRepository.register(data);
-    }
+    await RegisterUsersRepository.register(data);
   }
-  async login(req: Request) {
-    await LoginUsersRepository.login(req);
+  async login(data: { email: string; password: string; authProvider: string }) {
+    await LoginUsersRepository.login(data);
   }
 }
 export default new UsersService();

@@ -23,16 +23,6 @@ export default function Menu() {
     }
   }, [pathname]);
 
-  // useEffect(() => {
-  //   const index = tabs.findIndex((tab) => tab.label === activeTab);
-  //   if (tabRefs.current[index]) {
-  //     tabRefs.current[index];
-  //   }
-  //   const path = '/' + tabs[index].value;
-  //   const queryString = searchParams.toString();
-  //   router.push(`${path}${queryString ? '?' + queryString : ''}`);
-  // }, [activeTab]);
-
   const handleTabClick = (tab: (typeof tabs)[number]) => {
     const queryString = searchParams.toString();
     const path = `/${tab.value}${queryString ? '?' + queryString : ''}`;

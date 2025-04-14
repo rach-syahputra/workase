@@ -34,7 +34,6 @@ export function SearchJobs() {
       nextQuery.location !== lastQueryRef.current.location;
 
     if (isDifferent) {
-      console.log('✅ Fetching new jobs with', nextQuery);
       setQuery(nextQuery);
       lastQueryRef.current = nextQuery;
       fetchJobs(nextQuery);

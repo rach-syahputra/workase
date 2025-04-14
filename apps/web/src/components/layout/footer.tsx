@@ -3,14 +3,23 @@ import * as React from 'react';
 import { TiSocialLinkedin } from 'react-icons/ti';
 import { SlSocialInstagram } from 'react-icons/sl';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 export default function Footer() {
   const router = useRouter();
   return (
-    <div className="bg-primary-gray-background font-geist border-t-primary-gray bottom-1 w-full border-t-[0.5px] text-[14px] md:bottom-0 md:left-0 md:right-0 md:top-[calc(100vh-64px)] md:py-4">
+    <div className="bg-primary-gray-background font-geist bottom-1 w-full border-t-[0.5px] border-t-gray-200 text-[14px] md:bottom-0 md:left-0 md:right-0 md:top-[calc(100vh-64px)] md:py-6">
       <div className="w-full justify-around md:flex">
         <div className="hidden justify-center md:flex md:w-[45%] lg:w-[29%]">
           <div className="flex flex-col">
-            <div className="mt-[-5px] text-[24px] font-semibold">Workase</div>
+            <div className="ml-[-2px] flex h-[33px] w-fit items-center justify-center border-gray-200">
+              <Image
+                src="/workase.png"
+                alt="Logo"
+                width={600}
+                height={122.61}
+                className="w-[110px]"
+              />
+            </div>
             <div className="font-medium underline md:text-[15.5px]">
               <>Where Top Talent Meets Top Companies</>
             </div>
@@ -44,7 +53,7 @@ export default function Footer() {
           <div className="flex w-[90%] justify-around gap-2 md:flex-col md:items-stretch md:justify-stretch md:gap-0">
             <div className="flex items-center gap-[18px] md:block md:flex-col md:items-stretch">
               <div className="font-semibold underline md:mb-[8px] md:mt-0">
-                Follow US
+                Follow Us
               </div>
               <div className="md:hidden">:</div>
               <div className="flex gap-4 md:ml-[-4px] md:flex">
@@ -57,12 +66,6 @@ export default function Footer() {
                 </button>
               </div>
             </div>
-            {/* <div className="flex-col items-center hidden gap-1 md:flex md:items-stretch">
-              <div className="font-semibold underline md:mt-[10px]">
-                Language{' '}
-              </div>
-              <div className="font-medium">English</div>
-            </div> */}
           </div>
         </div>
       </div>{' '}

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { axiosPublic } from '@/lib/axios';
 import { Job } from '@/context/search-job-context';
 import JobCard from '../example/_components/card';
-import { Card, CardContent } from '@/components/shadcn-ui/card';
+
 import {
   Carousel,
   CarouselContent,
@@ -69,9 +69,6 @@ export function NewestJobs() {
                         key={job.id}
                         logoUrl={job.company.logoUrl}
                       />
-                      {/* <CardContent className="flex items-center justify-center p-6 aspect-square">
-                  <span className="text-2xl font-semibold">{index + 1}</span>
-                </CardContent> */}
                     </div>
                   </CarouselItem>
                 ) : null;

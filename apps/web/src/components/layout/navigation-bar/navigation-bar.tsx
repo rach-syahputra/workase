@@ -3,7 +3,7 @@ import * as React from 'react';
 import Logo from './components/logo';
 import Menu from './components/menu';
 import Sidebar from './components/sidebar';
-import { Button } from '../shadcn-ui/button';
+
 import Login from './components/login';
 
 export default async function NavigationBar() {
