@@ -1,6 +1,6 @@
 import { ResponseError } from '@/helpers/error';
 import { getUserByEmail } from '@/helpers/user.prisma';
-import { UserLogin } from '@/interfaces/user.interfase';
+import { UserLogin } from '@/interfaces/user.interface';
 import LoginUsersRepository from '@/repositories/users/login.repository';
 import RegisterUsersRepository from '@/repositories/users/register.repository';
 import { Request } from 'express';

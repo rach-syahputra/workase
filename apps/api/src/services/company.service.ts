@@ -11,8 +11,8 @@ class CompaniesService {
   }) {
     await registerCompaniesRepository.register(data);
   }
-  async login(req: Request) {
-    await loginCompaniesRepository.login(req);
+  async login(data: { email: string; password: string; authProvider: string }) {
+    await loginCompaniesRepository.login(data);
   }
 }
 export default new CompaniesService();
