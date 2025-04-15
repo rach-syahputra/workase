@@ -15,7 +15,7 @@ import {
 import { generateHashedPassword } from '@/helpers/utils';
 import ImageRepository from '@/repositories/cloudinary/image.repository';
 import { CLOUDINARY_DEVELOPER_IMAGE_FOLDER } from '@/config';
-import { putAccessToken } from '@/helpers/jwt';
+// import { putAccessToken } from '@/helpers/jwt';
 
 class SampleService {
   private sampleRepository: SampleRepository;
@@ -90,16 +90,16 @@ class SampleService {
 
     if (!isCorrectPassword) throw new ResponseError(400, 'Invalid credentials');
 
-    const accessToken = await putAccessToken({
-      id: user?.id!,
-      email: user?.email!,
-      jobId: user?.jobId!,
-      role: 'USER',
-    });
+    // const accessToken = await putAccessToken({
+    //   id: user?.id!,
+    //   email: user?.email!,
+    //   jobId: user?.jobId!,
+    //   role: 'USER',
+    // });
 
-    return {
-      accessToken,
-    };
+    // return {
+    //   accessToken,
+    // };
   };
 }
 

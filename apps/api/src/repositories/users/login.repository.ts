@@ -1,5 +1,5 @@
 import { ResponseError } from '@/helpers/error';
-import { putAccessToken } from '@/helpers/jwt';
+import { putUserAccessToken } from '@/helpers/jwt';
 import { getUserByEmail } from '@/helpers/user.prisma';
 
 class LoginUsersRepository {
@@ -8,12 +8,7 @@ class LoginUsersRepository {
     if (!user) {
       throw new ResponseError(404, 'User not found');
     }
-    return await putAccessToken({
-      id: user.id,
-      email: user.email,
-      jobId: user.jobId ?? '',
-      role: 'USER',
-    });
+    return await putUserAccessToken(user, undefined);
   }
 }
 export default new LoginUsersRepository();

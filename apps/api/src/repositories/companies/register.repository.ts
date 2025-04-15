@@ -2,7 +2,7 @@ import { hashedPassword } from '@/helpers/bcrypt';
 import { getCompanyByEmail } from '@/helpers/company.prisma';
 import { sendEmailVerification } from '@/helpers/email-verification';
 import { ResponseError } from '@/helpers/error';
-import { putAccessToken } from '@/helpers/jwt';
+import { putCompanyAccessToken, putUserAccessToken } from '@/helpers/jwt';
 import prisma from '@/prisma';
 import { AuthProvider } from '@prisma/client';
 import { Request } from 'express';
@@ -21,8 +21,10 @@ class RegisterCompanyRepository {
     await prisma.company.create({
       data: {
         slug,
+        name: data.name,
         email: data.email,
         password: userPassword,
+        phoneNumber: data.telp,
         authProvider: data.authProvider as AuthProvider,
       },
     });
@@ -31,13 +33,8 @@ class RegisterCompanyRepository {
       if (!user) {
         throw new ResponseError(404, 'User not found');
       }
-      const accessToken = await putAccessToken({
-        id: user.id,
-        email: user.email,
-        jobId: user.jobId ?? '',
-        role: 'USER',
-      });
-      await sendEmailVerification(data.email, accessToken);
+      const accessToken = await putCompanyAccessToken(undefined, data.email);
+      await sendEmailVerification(data.email, accessToken.access_token);
     }
   }
 }

@@ -1,13 +1,14 @@
 import { getCompanyByEmail } from '@/helpers/company.prisma';
 import { ResponseError } from '@/helpers/error';
-import { UserLogin } from '@/interfaces/user.interfase';
+import { CompanyLogin } from '@/interfaces/company.interface';
+import { UserLogin } from '@/interfaces/user.interface';
 import { AuthProvider } from '@prisma/client';
 import * as Yup from 'yup';
 
-const checkUserExists = async (email: string) => {
-  const user = (await getCompanyByEmail(email)) as UserLogin;
+const checkCompanyExists = async (email: string) => {
+  const user = (await getCompanyByEmail(email)) as CompanyLogin;
   if (user) {
-    throw new ResponseError(409, 'User already exists');
+    throw new ResponseError(409, 'Company already exists');
   }
 };
 
@@ -24,10 +25,10 @@ const companyRegistrationSchema = () => {
     email: Yup.string()
       .email('Invalid email format')
       .required('Email is required')
-      .test('check-user-exists', 'User already exists', async (value) => {
+      .test('check-company-exists', 'Company already exists', async (value) => {
         if (value) {
           try {
-            await checkUserExists(value);
+            await checkCompanyExists(value);
             return true;
           } catch (error) {
             return false;

@@ -2,7 +2,7 @@ import { sendEmailVerification } from '@/helpers/email-verification';
 import prisma from '@/prisma';
 import { AuthProvider } from '@prisma/client';
 import { Request } from 'express';
-import { putAccessToken } from '../../helpers/jwt';
+import { putUserAccessToken } from '../../helpers/jwt';
 import { ResponseError } from '@/helpers/error';
 import { hashedPassword } from '@/helpers/bcrypt';
 import { getUserByEmail } from '@/helpers/user.prisma';
@@ -29,13 +29,9 @@ class RegisterUsersRepository {
       if (!user) {
         throw new ResponseError(404, 'User not found');
       }
-      const accessToken = await putAccessToken({
-        id: user.id,
-        email: user.email,
-        jobId: user.jobId ?? '',
-        role: 'USER',
-      });
-      await sendEmailVerification(data.email, accessToken);
+      const accessToken = await putUserAccessToken(undefined, data.email);
+      console.log('ini yang dikirim :', accessToken.access_token);
+      await sendEmailVerification(data.email, accessToken.access_token);
     }
   }
 }

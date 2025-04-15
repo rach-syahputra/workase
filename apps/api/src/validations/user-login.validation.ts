@@ -1,7 +1,7 @@
 import { hashedPassword } from '@/helpers/bcrypt';
 import { ResponseError } from '@/helpers/error';
 import { getUserByEmail } from '@/helpers/user.prisma';
-import { UserLogin } from '@/interfaces/user.interfase';
+import { UserLogin } from '@/interfaces/user.interface';
 import { AuthProvider } from '@prisma/client';
 import { compare } from 'bcrypt';
 import * as Yup from 'yup';
@@ -21,7 +21,6 @@ const authProvider = async (authProvider: string, password: string) => {
 
 const checkPassword = async (email: string, password: string) => {
   const user = (await getUserByEmail(email)) as UserLogin;
-  const userPassword = await hashedPassword(password);
   if (!(await compare(password, user.password as string))) {
     throw new ResponseError(401, 'Invalid password');
   }
@@ -65,7 +64,7 @@ export const userLoginSchema = () => {
         'If Auth provider is Email, password is required',
         async function (value) {
           const password = this.parent.password;
-          console.log('ini password', password);
+
           if (value) {
             try {
               await authProvider(value, password);

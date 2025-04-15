@@ -28,5 +28,6 @@ export const authRouter = () => {
     validateCompanyLogin,
     CompaniesController.login,
   );
+  router.patch('/emailVerivication/user');
   return router;
 };
