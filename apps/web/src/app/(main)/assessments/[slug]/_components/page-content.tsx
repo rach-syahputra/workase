@@ -1,12 +1,12 @@
 'use client';
 
-import { IAssessmentDetail } from '@/lib/interfaces/assessment';
-import Assessment from './assessment';
 import { useEffect, useState } from 'react';
-import AppLoading from '@/components/ui/app-loading';
+
+import { IAssessmentDetail } from '@/lib/interfaces/assessment';
 import { getAssessmentBySlug } from '@/lib/apis/assessments';
-import { resolve } from 'path';
+import AppLoading from '@/components/ui/app-loading';
 import Certificate from './certificate';
+import Assessment from './assessment';
 
 interface PageContentProps {
   slug: string;
@@ -33,13 +33,13 @@ const PageContent = ({ slug }: PageContentProps) => {
     fetchAssessment();
   }, [slug]);
 
-  return isLoading ? (
-    <div className="bg-background fixed left-0 top-0 z-[100] flex min-h-screen w-screen flex-1 items-center justify-center">
-      <AppLoading size="md" label="Getting assessment ready" />
-    </div>
-  ) : (
-    <div className="bg-primary-gray-background flex w-full flex-col gap-8">
-      {assessment ? (
+  return (
+    <div className="bg-primary-gray-background flex min-h-[calc(100svh-68px)] w-full flex-col gap-8">
+      {isLoading ? (
+        <div className="bg-background fixed left-0 top-0 z-[100] flex min-h-screen w-screen flex-1 items-center justify-center">
+          <AppLoading size="md" label="Getting assessment ready" />
+        </div>
+      ) : assessment ? (
         <>
           <Assessment assessment={assessment} />
           <Certificate />

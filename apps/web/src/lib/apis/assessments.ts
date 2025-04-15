@@ -124,7 +124,7 @@ export const getAssessmentQuestions = async (
 
     const query = queryParams.toString();
     const response = await axiosPrivate(token).get(
-      `/assessments/${req?.slug}/questions${query ? `?${query}` : ''}`,
+      `/assessments/${req?.id}/questions${query ? `?${query}` : ''}`,
     );
 
     return response.data;

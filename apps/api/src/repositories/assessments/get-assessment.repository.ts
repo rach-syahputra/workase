@@ -90,6 +90,7 @@ class GetAssessmentRepository {
             QuestionOption: true,
           },
         },
+        UserAssessment: true,
         skill: true,
       },
     });
@@ -102,6 +103,9 @@ class GetAssessmentRepository {
             id: assessment.skill.id,
             title: assessment.skill.title,
           },
+          image: assessment.image,
+          slug: assessment.slug,
+          shortDescription: assessment.shortDescription,
           createdAt: assessment?.createdAt,
           updatedAt: assessment?.updatedAt,
           isDeleted: assessment?.isDeleted,
@@ -115,6 +119,8 @@ class GetAssessmentRepository {
             isDeleted: question.isDeleted,
             options: question.QuestionOption,
           })),
+          totalQuestions: assessment.AssessmentQuestion.length,
+          totalAttemptsByUser: assessment.UserAssessment.length,
         },
       };
     }

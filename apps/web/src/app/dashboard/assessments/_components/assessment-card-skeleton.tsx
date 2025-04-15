@@ -8,7 +8,7 @@ const AssessmentCardSkeleton = () => {
         <Skeleton className="h-6 w-3/4" />
         <Skeleton className="h-4 w-1/2" />
       </div>
-      <Skeleton className="h-10 w-1/2" />
+      <Skeleton className="h-9 w-1/2" />
     </Card>
   );
 };

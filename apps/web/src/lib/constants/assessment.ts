@@ -1,3 +1,5 @@
+export const ASSESSMENT_SESSION_KEY = 'workase_assessment_session';
+
 export const ASSESSMENT_INSTRUCTIONS = [
   {
     no: 1,

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
 import { SearchJobProvider } from '@/context/search-job-context';
+import { AssessmentSessionProvider } from '@/context/assessment-session-context';
 import { Toaster } from '@/components/shadcn-ui/toaster';
 
 export const metadata: Metadata = {
@@ -48,7 +49,9 @@ export default function RootLayout({
       <body
         className={`${geist.variable} ${cocogooes.variable} text-primary-dark font-[family-name:var(--font-geist)] antialiased`}
       >
-        <SearchJobProvider>{children}</SearchJobProvider>
+        <SearchJobProvider>
+          <AssessmentSessionProvider>{children}</AssessmentSessionProvider>
+        </SearchJobProvider>
         <Toaster />
       </body>
     </html>

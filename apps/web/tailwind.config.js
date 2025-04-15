@@ -7,12 +7,24 @@ module.exports = {
     extend: {
       width: {
         sidebar: 'var(--sidebar-width)',
+        'assessment-session-header-height':
+          'var(--assessment-session-header-height)',
+        'assessment-session-navbar-height':
+          'var(--assessment-session-navbar-height)',
       },
       spacing: {
         sidebar: 'var(--sidebar-width)',
+        'assessment-session-header-height':
+          'var(--assessment-session-header-height)',
+        'assessment-session-navbar-height':
+          'var(--assessment-session-navbar-height)',
       },
       margin: {
         sidebar: 'var(--sidebar-width)',
+        'assessment-session-header-height':
+          'var(--assessment-session-header-height)',
+        'assessment-session-navbar-height':
+          'var(--assessment-session-navbar-height)',
       },
       screens: {
         sm: '440px',
