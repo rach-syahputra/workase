@@ -5,8 +5,8 @@ import { useEffect, useState } from 'react';
 import { IAssessment } from '@/lib/interfaces/assessment';
 import { getAssessmentBySlug } from '@/lib/apis/assessments';
 import AppLoading from '@/components/ui/app-loading';
-import Certificate from './certificate';
 import Assessment from './assessment';
+import Certificate from './certificate';
 
 interface PageContentProps {
   slug: string;

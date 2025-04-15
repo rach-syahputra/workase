@@ -13,6 +13,7 @@ import { getUserByEmail } from './user.prisma';
 import { ResponseError } from './error';
 import { getCompanyByEmail } from './company.prisma';
 import { CompanyLogin } from '@/interfaces/company.interface';
+import { UserAssessmentToken } from '@/interfaces/user-assessment.interface';
 
 export const putUserAccessToken = async (user?: UserLogin, email?: string) => {
   //kalo nda` lewat login bisa lewat yang lain, untuk generate token, dari email misalnya
