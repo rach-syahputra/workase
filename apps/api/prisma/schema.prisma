@@ -16,7 +16,7 @@ model User {
   email         String       @unique
   password      String?
   authProvider  AuthProvider @map("auth_provider")
-  authId        String?      @map("auth_id")
+  skillId       String?      @map("skill_id")
   isVerified    Boolean?     @map("is_verified")
   location      String?
   profilePhoto  String?      @map("profile_photo")
@@ -28,7 +28,8 @@ model User {
   jobId         String?      @map("job_id")
   isDeleted     Boolean      @default(false) @map("is_deleted")
 
-  job Job? @relation(fields: [jobId], references: [id], onUpdate: Cascade)
+  skill Skill? @relation(fields: [skillId], references: [id], onUpdate: Cascade)
+  job   Job?   @relation(fields: [jobId], references: [id], onUpdate: Cascade)
 
   AppliedJob     AppliedJob[]
   SavedJob       SavedJob[]
@@ -193,9 +194,9 @@ model Skill {
   updatedAt DateTime @map("updated_at")
   isDeleted Boolean  @default(false) @map("is_deleted")
 
-  Assessment Assessment[]
-
+  Assessment  Assessment[]
   Certificate Certificate[]
+  User        User[]
 
   @@map("skills")
 }
