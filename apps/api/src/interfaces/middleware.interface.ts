@@ -35,3 +35,7 @@ export interface UserToken {
 export interface UserRequest extends Request {
   user?: UserToken;
 }
+
+export interface CompanyRequest extends Request {
+  user?: CompanyToken
+}

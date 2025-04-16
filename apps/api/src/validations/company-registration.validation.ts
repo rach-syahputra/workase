@@ -39,10 +39,10 @@ const companyRegistrationSchema = () => {
     password: Yup.string()
       .optional()
       .min(8, 'Password must be at least 8 characters'),
-    telp: Yup.string()
-      .required('Telp is required')
-      .min(8, 'Telp must be at least 8 characters')
-      .max(15, 'Telp must be at most 15 characters'),
+      phoneNumberp: Yup.string()
+      .required('phone number is required')
+      .min(8, 'phone number must be at least 8 characters')
+      .max(15, 'phone number must be at most 15 characters'),
     authProvider: Yup.string()
       .required('Auth provider is required')
       .oneOf(Object.values(AuthProvider))
@@ -51,7 +51,6 @@ const companyRegistrationSchema = () => {
         'If Auth provider is Email, password is required',
         async function (value) {
           const password = this.parent.password;
-          console.log('ini password', password);
           if (value) {
             try {
               await authProvider(value, password);

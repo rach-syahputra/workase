@@ -3,6 +3,12 @@ import { NextFunction, Response } from 'express';
 import { Request } from 'express';
 import companiesService from '@/services/company.service';
 import { ApiResponse } from '@/helpers/api-response';
+import { CompanyRequest } from '@/interfaces/middleware.interface';
+import { sendEmailVerification } from '@/helpers/email-verification';
+import companyService from '@/services/company.service';
+import { hbs } from '@/helpers/handlebars';
+import { putCompanyAccessToken } from '@/helpers/jwt';
+import { transporter } from '@/helpers/nodemailer';
 class CompaniesController {
   async register(req: Request, res: Response, next: NextFunction) {
     try {
@@ -25,6 +31,136 @@ class CompaniesController {
         res,
         statusCode: 200,
         message: 'login succes',
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async sendEmailVerification(
+    req: CompanyRequest,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const accessToken = req.header('Authorization') as string;
+      await sendEmailVerification(req.user?.email as string, accessToken);
+      ApiResponse({
+        res,
+        statusCode: 200,
+        message:
+          'Link email verification has been send successfully to your email',
+        data: undefined,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async verifiedEmail(req: CompanyRequest, res: Response, next: NextFunction) {
+    try {
+      const result = await companiesService.verifiedEmail(req);
+      ApiResponse({
+        res,
+        statusCode: 200,
+        message: 'verification succes',
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async resetPassword(req: CompanyRequest, res: Response, next: NextFunction) {
+    try {
+      const result = await companyService.resetPassword(req);
+      ApiResponse({
+        res,
+        statusCode: 200,
+        message: 'Password has been updated successfully',
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async passwordResetRequest(req: Request, res: Response, next: NextFunction) {
+    try {
+      const compilePasswordResetRequest = await hbs('reset-password-template');
+      const { access_token } = await putCompanyAccessToken(
+        undefined,
+        req.body.email,
+      );
+      const html = compilePasswordResetRequest({
+        email: req.body.email,
+        token: access_token,
+      });
+      transporter.sendMail({
+        to: req.body.email,
+        subject: 'Reset Passwors',
+        html,
+      });
+      ApiResponse({
+        res,
+        statusCode: 200,
+        message:
+          'Link reset passsword has been send successfully to your email',
+        data: undefined,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getCompanyProfile(
+    req: CompanyRequest,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const result = await companiesService.getCompanyProfile(req);
+      ApiResponse({
+        res,
+        statusCode: 200,
+        message: 'get company profile success',
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async updateCompanyProfile(
+    req: CompanyRequest,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const result = await companiesService.updateCompanyProfile(req);
+      ApiResponse({
+        res,
+        statusCode: 200,
+        message: 'update company profile success',
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async addImageCloudinary(
+    req: CompanyRequest,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const result = await companiesService.updateCompanyLogo(req);
+      ApiResponse({
+        res,
+        statusCode: 200,
+        message: 'update company logo image success',
         data: result,
       });
     } catch (error) {

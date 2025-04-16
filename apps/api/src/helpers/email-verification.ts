@@ -7,7 +7,7 @@ export const sendEmailVerification = async (
   token: string,
 ): Promise<void> => {
   try {
-    const compiledTemplate = await hbs('template');
+    const compiledTemplate = await hbs('email-verification-template');
     const html = compiledTemplate({ data, token });
     transporter.sendMail({
       to: data,
@@ -15,6 +15,6 @@ export const sendEmailVerification = async (
       html,
     });
   } catch (error) {
-    new ResponseError(500, 'Failed to send email verification');
+    throw new ResponseError(500, 'Failed to send email verification');
   }
 };

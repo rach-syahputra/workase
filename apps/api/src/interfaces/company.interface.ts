@@ -7,7 +7,7 @@ export interface CompanyLogin {
   email: String;
   password?: String;
   authProvider: AuthProvider;
-  authId?: String | null;
+
   phoneNumber?: String | null;
   isVerified?: Boolean | null;
   logoUrl?: String | null;

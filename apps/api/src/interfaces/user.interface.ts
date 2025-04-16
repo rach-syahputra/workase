@@ -6,7 +6,6 @@ export interface UserLogin {
   email: string;
   password?: string | null;
   authProvider: AuthProvider;
-  authId?: string | null;
   isVerified?: boolean | null;
   location?: string | null;
   profilePhoto?: string | null;

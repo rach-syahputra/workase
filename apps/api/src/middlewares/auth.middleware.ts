@@ -3,7 +3,13 @@ import jwt from 'jsonwebtoken';
 
 import { JWT_ACCESS_SECRET } from '@/config';
 import { ResponseError } from '@/helpers/error';
-import { UserRequest, UserToken } from '@/interfaces/middleware.interface';
+import {
+  CompanyRequest,
+  CompanyToken,
+  UserRequest,
+  UserToken,
+} from '@/interfaces/middleware.interface';
+import { UserLogin } from '@/interfaces/user.interface';
 
 export function verifyUser(
   req: UserRequest,
@@ -19,7 +25,32 @@ export function verifyUser(
     if (!verifiedUser || verifiedUser.role !== 'USER')
       throw new ResponseError(403, 'Unauthorized.');
 
-    req.user = verifiedUser;
+    req.user = verifiedUser as UserToken;
+
+    next();
+  } catch (err) {
+    next(err);
+  }
+}
+
+export function verifyCompany(
+  req: CompanyRequest,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    const { authorization } = req.headers;
+    const token = String(authorization || '').split('Bearer ')[1];
+    if (!token) throw new ResponseError(401, 'Unauthenticated.');
+
+    const verifiedCompany = jwt.verify(
+      token,
+      JWT_ACCESS_SECRET,
+    ) as CompanyToken;
+    if (!verifiedCompany || verifiedCompany.role !== 'ADMIN')
+      throw new ResponseError(403, 'Unauthorized.');
+
+    req.user = verifiedCompany as CompanyToken;
 
     next();
   } catch (err) {
