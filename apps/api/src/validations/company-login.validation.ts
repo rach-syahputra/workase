@@ -1,7 +1,6 @@
-import { hashedPassword } from '@/helpers/bcrypt';
 import { getCompanyByEmail } from '@/helpers/company.prisma';
 import { ResponseError } from '@/helpers/error';
-import { getUserByEmail } from '@/helpers/user.prisma';
+
 import { CompanyLogin } from '@/interfaces/company.interface';
 import { UserLogin } from '@/interfaces/user.interface';
 import { AuthProvider } from '@prisma/client';

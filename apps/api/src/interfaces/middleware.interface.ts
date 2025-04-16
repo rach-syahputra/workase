@@ -45,3 +45,7 @@ export interface UserRequest extends Request {
 export interface DeveloperRequest extends Request {
   developer?: DeveloperToken;
 }
+
+export interface CompanyRequest extends Request {
+  user?: CompanyToken;
+}
