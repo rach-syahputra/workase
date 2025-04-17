@@ -1,6 +1,7 @@
 'use client';
 import { Sheet, SheetContent, SheetTrigger } from '../../../shadcn-ui/sheet';
 import { Menu, X } from 'lucide-react';
+import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import router from 'next/router';
 
@@ -58,14 +59,18 @@ export default function Sidebar() {
         {/* Login */}
         <nav className="space-y-1 border-b-[10px] border-t-[1px]">
           {loginItems.map((item) => (
-            <button
+            <Link
               key={item}
-              onClick={() => {}}
-              className={`text-md ${item === 'Sign in' ? 'text-primary-dark-blue' : 'text-gray-600'} flex w-full items-center justify-between border-b-[1px] px-5 py-3 text-left font-semibold hover:bg-gray-100`}
+              href={item === 'Sign in' ? '/user/login' : 'user/register'}
             >
-              {item}
-              <span>{'>'}</span>
-            </button>
+              <button
+                onClick={() => {}}
+                className={`text-md ${item === 'Sign in' ? 'text-primary-dark-blue' : 'text-gray-600'} flex w-full items-center justify-between border-b-[1px] px-5 py-3 text-left font-semibold hover:bg-gray-100`}
+              >
+                {item}
+                <span>{'>'}</span>
+              </button>
+            </Link>
           ))}
         </nav>
 
