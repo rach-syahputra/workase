@@ -1,4 +1,5 @@
 'use client';
+import Link from 'next/link';
 import { useState } from 'react';
 
 const tabs = ['Sign in', 'Employers/Post Job'];
@@ -9,12 +10,13 @@ export default function Login() {
       {tabs.map((tab) => (
         <div key={tab} className="relative flex items-center">
           {/* Tombol Tab */}
-          <button
-            ref={undefined}
-            className={`relative h-[68px] w-full px-5 text-[15px] font-medium transition-all ${tab === 'Sign in' ? 'text-primary-dark-blue font-semibold' : 'text-gray-600'} `}
+
+          <Link
+            href={tab === 'Sign in' ? '/user/login' : 'company/login'}
+            className={`relative flex h-[68px] w-full items-center px-5 text-[15px] font-medium transition-all ${tab === 'Sign in' ? 'text-primary-dark-blue font-semibold' : 'text-gray-600'} `}
           >
-            {tab}
-          </button>
+            <button ref={undefined}>{tab}</button>
+          </Link>
 
           {/* Border Vertikal (Hanya untuk tab pertama) */}
 
