@@ -263,10 +263,10 @@ model UserAssessment {
 model Certificate {
   id        String   @id @default(uuid())
   slug      String   @unique
+  preview   String
   userId    String   @map("user_id")
   skillId   String   @map("skill_id")
   url       String
-  qrCode    String   @unique @map("qr_code")
   createdAt DateTime @map("created_at")
   isDeleted Boolean  @default(false) @map("is_deleted")
 
