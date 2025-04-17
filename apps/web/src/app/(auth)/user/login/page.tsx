@@ -63,22 +63,22 @@ export default function Login(props: ILoginProps) {
         <div className="h-[1px] w-full bg-gray-300"></div>
       </div>
       <button className="flex h-[45px] w-full items-center rounded-lg border-[1px] border-gray-300 bg-white">
-        <div className="relative flex w-full items-center justify-center">
+        <div className="relative flex items-center justify-center w-full">
           <img
             src="/Google.svg"
             alt="Google Logo"
-            className="absolute left-8 h-5 sm:static sm:px-3"
+            className="absolute h-5 left-8 sm:static sm:px-3"
           />
           <center className="font-medium">Continue With Google</center>
         </div>
       </button>
-      <div className="mt-4 flex gap-2 md:mt-5">
+      <div className="flex gap-2 mt-4 md:mt-5">
         {signUpItem.map((item) => (
           <button
             key={item}
             className="flex h-[45px] w-full items-center rounded-lg border-[1px] border-gray-300 bg-white"
           >
-            <div className="relative flex w-full items-center justify-center">
+            <div className="relative flex items-center justify-center w-full">
               <center
                 className={`${item == 'user' ? 'text-primary-blue' : 'text-[#9A6713]'} font-light`}
               >
