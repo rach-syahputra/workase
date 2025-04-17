@@ -18,7 +18,6 @@ model User {
   authProvider  AuthProvider @map("auth_provider")
   skillId       String?      @map("skill_id")
   isVerified    Boolean?     @map("is_verified")
-  location      String?
   profilePhoto  String?      @map("profile_photo")
   placeOfBirth  String?      @map("place_of_birth")
   dateOfBirth   DateTime?    @map("date_of_birth")
