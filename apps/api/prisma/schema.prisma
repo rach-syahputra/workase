@@ -195,8 +195,8 @@ model Skill {
   isDeleted Boolean  @default(false) @map("is_deleted")
 
   Assessment  Assessment[]
-  Certificate Certificate[]
   User        User[]
+  Certificate Certificate[]
 
   @@map("skills")
 }
