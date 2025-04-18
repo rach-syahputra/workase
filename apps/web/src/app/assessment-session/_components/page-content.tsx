@@ -45,7 +45,7 @@ const PageContent = () => {
       });
 
       const response = await getAssessmentQuestions({
-        id: userAssessmentSession.assessmentId,
+        slug: userAssessmentSession.assessment.slug,
         limit: 25,
       });
 

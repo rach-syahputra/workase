@@ -3,6 +3,7 @@ import { validate } from '@/helpers/validation';
 import {
   AddUserAssessmentRequest,
   CalculateAssessmentResultRequest,
+  GetUserAssessmentRequest,
 } from '@/interfaces/user-assessment.interface';
 import UserAssessmentRepository from '@/repositories/user-assessments/user-assessment.repository';
 import { CalculateAssessmentResultSchema } from '@/validations/user-assessment.validation';
@@ -16,19 +17,24 @@ class UserAssessmentService {
   }
 
   addUserAssessment = async (req: AddUserAssessmentRequest) => {
-    const userAssessment =
+    const { userAssessment } =
       await this.userAssessmentRepository.addUserAssessment(req);
 
     if (userAssessment) {
       const token = await generateUserAssessmentAccessToken({
-        assessmentId: req.assessmentId,
+        assessment: {
+          id: userAssessment.assessmentId,
+          slug: userAssessment.assessment.slug,
+          date: userAssessment.createdAt.toISOString(),
+          skillTitle: userAssessment.assessment.skill.title,
+        },
         userId: req.userId,
-        userAssessmentId: userAssessment.userAssessment.id,
+        userAssessmentId: userAssessment.id,
         startTime: new Date().toISOString(),
       });
       return {
         userAssessment: {
-          ...userAssessment.userAssessment,
+          ...userAssessment,
           token,
         },
       };
@@ -53,6 +59,10 @@ class UserAssessmentService {
         userAssessment,
       };
     }
+  };
+
+  getUserAssessments = async (req: GetUserAssessmentRequest) => {
+    return await this.userAssessmentRepository.getUserAssessments(req);
   };
 }
 

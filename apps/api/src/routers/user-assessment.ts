@@ -14,6 +14,7 @@ class UserAssessmentRouter {
 
   private initializeRoutes(): void {
     this.router.post('/', this.userAssessmentController.addUserAssessment);
+    this.router.get('/', this.userAssessmentController.getUserAssessments);
     this.router.post(
       '/:userAssessmentId/result',
       this.userAssessmentController.calculateAssessmentResult,

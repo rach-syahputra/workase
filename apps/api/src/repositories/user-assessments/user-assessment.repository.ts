@@ -2,6 +2,7 @@ import { prisma } from '@/helpers/prisma';
 import {
   AddUserAssessmentRequest,
   CalculateAssessmentResultRequest,
+  GetUserAssessmentRequest,
   UpdateUserAssessmentRequest,
 } from '@/interfaces/user-assessment.interface';
 
@@ -16,10 +17,17 @@ class UserAssessmentRepository {
     const userAssessment = await this.prisma.userAssessment.create({
       data: {
         userId: req.userId,
-        assessmentId: req.assessmentId,
+        assessmentId: req.assessment.id,
         score: req.score,
         status: req.status ? req.status : req.score > 75 ? 'PASSED' : 'FAILED',
         createdAt: new Date(),
+      },
+      include: {
+        assessment: {
+          include: {
+            skill: true,
+          },
+        },
       },
     });
 
@@ -74,6 +82,80 @@ class UserAssessmentRepository {
 
     return {
       userAssessment,
+    };
+  };
+
+  getUserAssessments = async (req: GetUserAssessmentRequest) => {
+    const limit = req.limit ? req.limit : 8;
+    const page = req.page ? req.page : 1;
+    const skipConfig = (page - 1) * limit;
+    const orderConfig = {
+      createdAt: req.order ? req.order : 'desc',
+    };
+
+    const [totalUserAssessments, userAssessments] =
+      await this.prisma.$transaction([
+        this.prisma.userAssessment.count({
+          where: {
+            isDeleted: false,
+            assessment: {
+              skill: {
+                title: {
+                  contains: req.skill,
+                  mode: 'insensitive',
+                },
+              },
+            },
+            userId: req.userId,
+          },
+        }),
+        this.prisma.userAssessment.findMany({
+          where: {
+            isDeleted: false,
+            assessment: {
+              skill: {
+                title: {
+                  contains: req.skill,
+                  mode: 'insensitive',
+                },
+              },
+            },
+            userId: req.userId,
+          },
+          include: {
+            assessment: {
+              include: {
+                skill: true,
+              },
+            },
+            Certificate: true,
+          },
+          orderBy: orderConfig,
+          take: limit,
+          skip: skipConfig,
+        }),
+      ]);
+
+    return {
+      userAssessments: userAssessments.map((userAssessment) => ({
+        id: userAssessment.id,
+        assessmentId: userAssessment.assessmentId,
+        userId: userAssessment.userId,
+        score: userAssessment.score,
+        status: userAssessment.status,
+        createdAt: userAssessment.createdAt,
+        isDeleted: userAssessment.isDeleted,
+        skill: {
+          id: userAssessment.assessment.skill.id,
+          title: userAssessment.assessment.skill.title,
+        },
+        certificate: userAssessment.Certificate,
+      })),
+      pagination: {
+        totalData: totalUserAssessments,
+        totalPages: Math.ceil(totalUserAssessments / limit),
+        page,
+      },
     };
   };
 }

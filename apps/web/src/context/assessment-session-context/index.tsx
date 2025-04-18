@@ -36,6 +36,7 @@ const AssessmentSessionProvider = ({
   const [selectedOptionId, setSelectedOptionId] = useState<string>('');
   const [page, setPage] = useState<number>(0);
   const [progress, setProgress] = useState<number>(0);
+  const [isSessionOver, setIsSessionOver] = useState<boolean>(false);
 
   const getAssessmentSessionFromLocalStorage = ():
     | IAssessmentSessionLocalStorage
@@ -144,6 +145,8 @@ const AssessmentSessionProvider = ({
         getAssessmentSessionFromLocalStorage,
         handleSelectOption,
         handlePagination,
+        isSessionOver,
+        setIsSessionOver,
       }}
     >
       {children}

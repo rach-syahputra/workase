@@ -1,17 +1,21 @@
-import UserDashboardContainer from '@/components/user-dashboard/user-dashboard-container';
-import UserDashboardHeader from '@/components/user-dashboard/user-dashboard-header';
-import Assessments from './_components/assessments';
+import { UserAssessmentActiveTab } from '@/lib/interfaces/user-assessment';
 import { AssessmentProvider } from '@/context/assessment-context';
+import UserDashboardContainer from '@/components/user-dashboard/user-dashboard-container';
+import AssessmentTab from './_components/assessment-tab';
 
-const UserAssessmentPage = () => {
+interface UserAssessmentPageProps {
+  searchParams: { tab: UserAssessmentActiveTab };
+}
+
+const UserAssessmentPage = async ({
+  searchParams,
+}: UserAssessmentPageProps) => {
+  const activeTab = searchParams.tab || 'discovery';
+
   return (
-    <UserDashboardContainer>
-      <UserDashboardHeader
-        title="Discover Assessments"
-        description="Explore a variety of skill-based assessments and boost your chances of getting hired."
-      />
+    <UserDashboardContainer className="min-h-[calc(100svh-108px)]">
       <AssessmentProvider>
-        <Assessments />
+        <AssessmentTab activeTab={activeTab} />
       </AssessmentProvider>
     </UserDashboardContainer>
   );

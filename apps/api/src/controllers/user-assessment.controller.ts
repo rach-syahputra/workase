@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 
 import { ApiResponse } from '@/helpers/api-response';
 import UserAssessmentService from '@/services/user-assessment.service';
+import { OrderType } from '@/interfaces/filter.interface';
 
 class UserAssessmentController {
   private userAssessmentService: UserAssessmentService;
@@ -19,7 +20,10 @@ class UserAssessmentController {
       // TO DO: verify user token
       const data = await this.userAssessmentService.addUserAssessment({
         userId: req.body.userId,
-        assessmentId: req.body.assessmentId,
+        assessment: {
+          id: req.body.assessment.id,
+          slug: req.body.assessment.slug,
+        },
         score: req.body.score,
         status: req.body.status,
       });
@@ -51,6 +55,32 @@ class UserAssessmentController {
         res,
         statusCode: 200,
         message: 'User assessment result created successfully.',
+        data,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  getUserAssessments = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      // TO DO: verify user token
+      const data = await this.userAssessmentService.getUserAssessments({
+        userId: 'ndy-01',
+        limit: Number(req.query.limit),
+        order: req.query.order as OrderType,
+        skill: req.query.skill as string,
+        page: Number(req.query.page),
+      });
+
+      ApiResponse({
+        res,
+        statusCode: 200,
+        message: 'User assessments retrieved successfully.',
         data,
       });
     } catch (err) {

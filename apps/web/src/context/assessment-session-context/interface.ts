@@ -4,7 +4,12 @@ import { IAssessmentQuestion } from '@/lib/interfaces/assessment';
 
 export interface IUserAssessment {
   userAssessmentId: string;
-  assessmentId: string;
+  assessment: {
+    id: string;
+    slug: string;
+    date: string;
+    skillTitle: string;
+  };
   userId: string;
   startTime: Date;
 }
@@ -59,4 +64,6 @@ export interface IAssessmentSessionContext {
     | undefined;
   handleSelectOption: (payload: ISelectOptionPayload) => void;
   handlePagination: (page: number) => void;
+  isSessionOver: boolean;
+  setIsSessionOver: Dispatch<SetStateAction<boolean>>;
 }

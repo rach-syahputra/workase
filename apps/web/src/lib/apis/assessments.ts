@@ -4,6 +4,7 @@ import {
   AddAssessmentQuestionRequest,
   AddAssessmentRequest,
   GetAssessmentBySlugRequest,
+  GetAssessmentDiscoveryRequest,
   GetAssessmentQuestionsRequest,
   GetAssessmentsRequest,
   GetAvailableSkillsRequest,
@@ -12,6 +13,7 @@ import {
   AddAssessmentQuestionResponse,
   AddAssessmentResponse,
   GetAssessmentBySlugResponse,
+  GetAssessmentDiscoveryResponse,
   GetAssessmentQuestionsResponse,
   GetAssessmentsResponse,
   GetAvailableSkillsResponse,
@@ -35,6 +37,31 @@ export const getAssessments = async (
     const query = queryParams.toString();
     const response = await axiosPrivate(token).get(
       `/assessments${query ? `?${query}` : ''}`,
+    );
+
+    return response.data;
+  } catch (error) {
+    return handleApiError(error);
+  }
+};
+
+export const getAssessmentDiscovery = async (
+  req?: GetAssessmentDiscoveryRequest,
+): Promise<GetAssessmentDiscoveryResponse> => {
+  try {
+    // TO DO: retrieve token from session
+    const token =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk4NGRmMjdmLWNmY2MtNGI1OS1iYmNhLWQwNjYwNTAxNWIwNSIsImVtYWlsIjoibmFkaXlhcmlza2FAZ21haWwuY29tIiwicm9sZSI6IkRFVkVMT1BFUiIsImlhdCI6MTc0MzcwODU1OCwiZXhwIjoxNzQ2MzAwNTU4fQ.Uy5ucffg4bE5QqzVLNvd8AQMPF4bG2ueUYR7V-6DQTs';
+    const queryParams = new URLSearchParams();
+
+    if (req?.order) queryParams.append('order', req?.order);
+    if (req?.limit) queryParams.append('limit', req?.limit.toString());
+    if (req?.page) queryParams.append('page', req?.page.toString());
+    if (req?.skill) queryParams.append('skill', req?.skill.toString());
+
+    const query = queryParams.toString();
+    const response = await axiosPrivate(token).get(
+      `/assessments/discovery${query ? `?${query}` : ''}`,
     );
 
     return response.data;
@@ -124,7 +151,7 @@ export const getAssessmentQuestions = async (
 
     const query = queryParams.toString();
     const response = await axiosPrivate(token).get(
-      `/assessments/${req?.id}/questions${query ? `?${query}` : ''}`,
+      `/assessments/${req?.slug}/questions${query ? `?${query}` : ''}`,
     );
 
     return response.data;

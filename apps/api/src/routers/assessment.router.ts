@@ -24,6 +24,11 @@ class AssessmentRouter {
       this.assessmentController.getAssessments,
     );
     this.router.get(
+      '/discovery',
+      verifyDeveloper,
+      this.assessmentController.getAssessmentDiscovery,
+    );
+    this.router.get(
       '/:slug',
       verifyDeveloper,
       this.assessmentController.getAssessmentBySlug,
@@ -40,7 +45,7 @@ class AssessmentRouter {
       this.assessmentController.addAssessment,
     );
     this.router.get(
-      '/:assessmentId/questions',
+      '/:slug/questions',
       verifyDeveloper,
       this.assessmentController.getAssessmentQuestions,
     );

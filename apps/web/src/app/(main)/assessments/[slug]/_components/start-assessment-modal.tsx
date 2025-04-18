@@ -43,7 +43,10 @@ const StartAssessmentModal = ({
     // TO DO: Retrieve userId from user session
     const response = await addUserAssessment({
       userId: 'ndy-01',
-      assessmentId,
+      assessment: {
+        id: assessmentId,
+        slug,
+      },
       score: 0,
       status: 'ON_GOING',
     });

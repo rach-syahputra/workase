@@ -6,6 +6,10 @@ export interface GetAssessmentsRequest extends IFilter {
   skill?: string;
 }
 
+export interface GetAssessmentDiscoveryRequest extends IFilter {
+  skill?: string;
+}
+
 export interface GetAssessmentBySlugRequest {
   slug: string;
 }
@@ -21,7 +25,7 @@ export interface AddAssessmentRequest {
 }
 
 export interface GetAssessmentQuestionsRequest extends IFilter {
-  id: string;
+  slug: string;
   question?: string;
 }
 

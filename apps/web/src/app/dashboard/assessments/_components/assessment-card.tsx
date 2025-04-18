@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { CircleAlert } from 'lucide-react';
 
 import { IAssessment } from '@/lib/interfaces/assessment';
@@ -10,7 +11,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/shadcn-ui/tooltip';
-import Link from 'next/link';
 
 interface AssessmentCardProps {
   assessment: IAssessment;

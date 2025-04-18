@@ -41,7 +41,8 @@ const AssessmentSessionPagination = ({
 const AssessmentSessionPaginationMobile = ({
   className,
 }: AssessmentSessionPaginationProps) => {
-  const { page, handlePagination } = useAssessmentSessionContext();
+  const { page, handlePagination, isSessionOver } =
+    useAssessmentSessionContext();
 
   return (
     <div

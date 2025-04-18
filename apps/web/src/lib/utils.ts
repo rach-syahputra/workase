@@ -1,6 +1,8 @@
 import { clsx, type ClassValue } from 'clsx';
 import { format, formatDistanceToNow } from 'date-fns';
 import { twMerge } from 'tailwind-merge';
+import QRCode from 'qrcode';
+import { pdf } from '@react-pdf/renderer';
 
 export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs));
@@ -20,4 +22,28 @@ export const formatCurrency = (amount: number): string => {
     currency: 'USD',
     minimumFractionDigits: 0,
   }).format(amount);
+};
+
+export const formatAssessmentDate = (date: Date) => {
+  return format(date, 'dd/MM/yyyy');
+};
+
+export const generateQrCodeUrl = async (qrCode: string) => {
+  const url = `https://workase.vercel.app/certificates/${qrCode}`;
+  return await QRCode.toDataURL(url);
+};
+
+export const convertPdfToBlob = async (doc: JSX.Element) => {
+  return await pdf(doc).toBlob();
+};
+
+export const convertBlobToFile = (blob: Blob) => {
+  return new File([blob], 'certificate.pdf', {
+    type: 'application/pdf',
+    lastModified: Date.now(),
+  });
+};
+
+export const formatCertificateDate = (date: Date) => {
+  return format(date, 'dd MMM, yyyy');
 };

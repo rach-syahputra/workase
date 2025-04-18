@@ -19,6 +19,13 @@ export interface GetAssessmentsResponse extends APIResponse {
   };
 }
 
+export interface GetAssessmentDiscoveryResponse extends APIResponse {
+  data?: {
+    assessments: IAssessment[];
+    pagination?: IPagination;
+  };
+}
+
 export interface GetAssessmentBySlugResponse extends APIResponse {
   data?: {
     assessment: IAssessmentDetail;

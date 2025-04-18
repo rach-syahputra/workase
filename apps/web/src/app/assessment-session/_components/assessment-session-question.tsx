@@ -60,14 +60,13 @@ const AssessmentSessionAnswerCard = () => {
 };
 
 const AssessmentSessionOptionsCard = () => {
-  const { page, currentQuestion, handleSelectOption } =
+  const { page, currentQuestion, handleSelectOption, isSessionOver } =
     useAssessmentSessionContext();
 
   return (
     <AssessmentSessionCard className="flex items-center justify-center">
       <ul className="flex w-full flex-col gap-2">
         {currentQuestion?.options.map((option, index) => {
-          // const isSelected = index === selectedOptionIndex;
           const isSelected = option.id === currentQuestion.selectedOption.id;
 
           return (
@@ -86,6 +85,7 @@ const AssessmentSessionOptionsCard = () => {
                       questionId: currentQuestion.id,
                     });
                   }}
+                  disabled={isSessionOver}
                   className={cn(
                     'min-h-fit w-full text-wrap p-6 text-gray-700 group-hover:bg-green-100 group-hover:text-green-500',
                     {

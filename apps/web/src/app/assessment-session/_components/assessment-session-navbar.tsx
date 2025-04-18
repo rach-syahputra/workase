@@ -2,12 +2,12 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import { AlignJustify } from 'lucide-react';
 
-import { cn } from '@/lib/utils';
+import { cn, formatAssessmentDate } from '@/lib/utils';
 import { useAssessmentSessionContext } from '@/context/assessment-session-context';
 import AssessmentSessionProgress from './assessment-session-progress';
 import AssessmentSessionSubmitButton from './assessment-session-submit-button';
+import AssessmentSessionDrawer from './assessment-session-drawer';
 
 interface AssessmentSessionNavbarItemProps {
   title: string;
@@ -17,6 +17,7 @@ interface AssessmentSessionNavbarItemProps {
 
 const AssessmentSessionNavbar = () => {
   const navbarRef = useRef<HTMLDivElement | null>(null);
+  const { userAssessment } = useAssessmentSessionContext();
   const { onTopOfScreen, setOnTopOfScreen } = useAssessmentSessionContext();
   const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -47,7 +48,7 @@ const AssessmentSessionNavbar = () => {
     <nav
       ref={navbarRef}
       className={cn(
-        'h-assessment-session-navbar-height border-border fixed top-0 z-50 grid w-full grid-cols-[1fr_100px] items-center border-b bg-white px-6 transition-all duration-300 ease-in-out sm:grid-cols-[1fr_150px] lg:grid-cols-[120px_1fr_150px] xl:grid-cols-[200px_1fr_250px]',
+        'h-assessment-session-navbar-height border-border fixed top-0 z-50 grid w-full grid-cols-[1fr_100px] items-center border-b bg-white px-6 transition-all duration-300 ease-in-out sm:grid-cols-[1fr_150px] lg:grid-cols-[120px_1fr_150px] xl:grid-cols-[200px_1fr_150px]',
         {
           '-top-[60px]': !onTopOfScreen,
         },
@@ -61,24 +62,24 @@ const AssessmentSessionNavbar = () => {
         className="hidden w-[100px] lg:block"
       />
       <div className="border-border flex h-full items-center justify-between gap-4 border-r pr-4 lg:border-l lg:px-4">
-        <div className="flex h-full items-center justify-center lg:hidden">
-          <AlignJustify className="text-primary-dark" />
-        </div>
+        <AssessmentSessionDrawer />
         <AssessmentSessionNavbarItem
           title="Assessment Title:"
-          value="Software Engineer Assessment"
+          value={userAssessment?.assessment.skillTitle || ''}
           className="max-lg:hidden"
         />
         <AssessmentSessionNavbarItem
           title="Assessment Date:"
-          value="14/04/2025"
+          value={formatAssessmentDate(
+            new Date(userAssessment?.assessment.date || ''),
+          )}
           className="max-lg:hidden"
         />
-        <AssessmentSessionSubmitButton />
+        <AssessmentSessionProgress />
       </div>
 
       <div className="flex h-full w-full items-center justify-center pl-4">
-        <AssessmentSessionProgress />
+        <AssessmentSessionSubmitButton />
       </div>
     </nav>
   );

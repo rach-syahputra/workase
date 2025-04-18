@@ -2,8 +2,8 @@ import { getAssessmentsOrderConfig } from '@/helpers/assessments/assessment.util
 import { prisma } from '@/helpers/prisma';
 import {
   GetAssessmentBySlugRequest,
+  GetAssessmentDiscoveryRequest,
   GetAssessmentsRequest,
-  GetAvailableSkillsRequest,
 } from '@/interfaces/assessment.interface';
 
 class GetAssessmentRepository {
@@ -79,6 +79,82 @@ class GetAssessmentRepository {
     };
   };
 
+  getAssessmentDiscovery = async (req: GetAssessmentDiscoveryRequest) => {
+    const limit = req.limit ? req.limit : 9;
+    const page = req.page ? req.page : 1;
+    const skipConfig = (page - 1) * limit;
+    const orderConfig = {
+      createdAt: req.order ? req.order : 'asc',
+    };
+
+    const [totalAssessments, assessments] = await this.prisma.$transaction([
+      this.prisma.assessment.count({
+        where: {
+          isDeleted: false,
+          skill: {
+            title: {
+              contains: req.skill,
+              mode: 'insensitive',
+            },
+          },
+          UserAssessment: {
+            none: {},
+          },
+        },
+      }),
+      this.prisma.assessment.findMany({
+        where: {
+          isDeleted: false,
+          skill: {
+            title: {
+              contains: req.skill,
+              mode: 'insensitive',
+            },
+          },
+          UserAssessment: {
+            none: {},
+          },
+        },
+        include: {
+          skill: true,
+          AssessmentQuestion: true,
+          UserAssessment: true,
+        },
+        orderBy: orderConfig,
+        take: limit,
+        skip: skipConfig,
+      }),
+    ]);
+
+    // Retrieve assessment with at least 25 questions
+    const filteredAssessments = assessments.filter(
+      (assessment) => assessment.AssessmentQuestion.length >= 25,
+    );
+
+    return {
+      assessments: filteredAssessments.map((assessment) => ({
+        id: assessment.id,
+        skill: {
+          id: assessment.skill.id,
+          title: assessment.skill.title,
+        },
+        slug: assessment.slug,
+        image: assessment.image,
+        shortDescription: assessment.shortDescription,
+        createdAt: assessment.createdAt,
+        updatedAt: assessment.updatedAt,
+        isDeleted: assessment.isDeleted,
+        totalQuestions: assessment.AssessmentQuestion.length,
+        totalAttemptsByUser: assessment.UserAssessment.length,
+      })),
+      pagination: {
+        totalData: totalAssessments,
+        totalPages: Math.ceil(totalAssessments / limit),
+        page,
+      },
+    };
+  };
+
   getAssessmentBySlug = async (req: GetAssessmentBySlugRequest) => {
     const assessment = await this.prisma.assessment.findUnique({
       where: {
@@ -124,53 +200,6 @@ class GetAssessmentRepository {
         },
       };
     }
-  };
-
-  getAvailableSkills = async (req: GetAvailableSkillsRequest) => {
-    const limit = req.limit ? req.limit : 5;
-    const page = req.page ? req.page : 1;
-    const skipConfig = (page - 1) * limit;
-
-    const [totalSkills, skills] = await this.prisma.$transaction([
-      this.prisma.skill.count({
-        where: {
-          isDeleted: false,
-          title: {
-            contains: req.title,
-            mode: 'insensitive',
-          },
-          Assessment: {
-            none: {},
-          },
-        },
-      }),
-      this.prisma.skill.findMany({
-        where: {
-          isDeleted: false,
-          title: {
-            contains: req.title,
-            mode: 'insensitive',
-          },
-          Assessment: {
-            none: {},
-          },
-        },
-        take: limit,
-        skip: skipConfig,
-        orderBy: {
-          title: 'asc',
-        },
-      }),
-    ]);
-
-    return {
-      skills,
-      pagination: {
-        totalData: totalSkills,
-        totalPages: Math.ceil(totalSkills / limit),
-        page,
-      },
-    };
   };
 }
 

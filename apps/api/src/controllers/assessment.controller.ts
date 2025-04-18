@@ -44,6 +44,32 @@ class AssessmentController {
     }
   };
 
+  getAssessmentDiscovery = async (
+    req: DeveloperRequest,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      if (!req.developer) throw new ResponseError(401, 'Unauthenticated.');
+
+      const data = await this.assessmentService.getAssessmentDisovery({
+        limit: Number(req.query.limit),
+        page: Number(req.query.page),
+        order: req.query.order as OrderType,
+        skill: req.query.skill as string,
+      });
+
+      ApiResponse({
+        res,
+        statusCode: 200,
+        message: 'Assessments retrieved successfully.',
+        data,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
   getAssessmentBySlug = async (
     req: DeveloperRequest,
     res: Response,

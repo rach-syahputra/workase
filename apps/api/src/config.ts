@@ -32,6 +32,7 @@ export const CLOUDINARY_DEVELOPER_IMAGE_FOLDER = 'workase-developer-images';
 export const CLOUDINARY_ASSESSMENT_IMAGE_FOLDER = 'workase-assessment-images';
 export const CLOUDINARY_ASSESSMENT_QUESTION_IMAGE_FOLDER =
   'workase-assessment-question-images';
+export const CLOUDINARY_CERTIFICATE_FOLDER = 'workase-certificate-files';
 
 // opencage api key
 export const OPENCAGE_API_KEY = process.env.OPENCAGE_API_KEY || '';

@@ -13,6 +13,10 @@ export interface GetAssessmentsRequest extends IFilter {
   sortBy?: AssessmentSortType;
 }
 
+export interface GetAssessmentDiscoveryRequest extends IFilter {
+  skill?: string;
+}
+
 export interface GetAssessmentBySlugRequest {
   slug: string;
 }

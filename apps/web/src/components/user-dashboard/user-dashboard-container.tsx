@@ -12,7 +12,7 @@ const UserDashboardContainer: React.FC<UserDashboardContainerProps> = ({
   return (
     <div
       className={cn(
-        'flex max-w-screen-xl flex-1 flex-col gap-4 rounded-md border px-4 py-4 md:px-8 md:py-6',
+        'flex max-w-screen-xl flex-col gap-4 rounded-md border px-4 py-4 md:px-8 md:py-6',
         className,
       )}
     >

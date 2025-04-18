@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import { CalculateAssessmentResult } from '@/lib/apis/user-assessment';
+import { calculateAssessmentResult } from '@/lib/apis/user-assessment';
 import { useAssessmentSessionContext } from '@/context/assessment-session-context';
 import { Button } from '@/components/shadcn-ui/button';
 
@@ -26,20 +26,25 @@ const AssessmentSessionSubmitButton = () => {
       }),
     );
 
-    const response = await CalculateAssessmentResult({
+    const response = await calculateAssessmentResult({
       userAssessmentId: userAssessment?.userAssessmentId || '',
       assessmentAnswers: assessmentAnswers || [],
     });
 
-    if (response.data?.userAssessment) {
-      router.push('/dashboard/assessments');
+    if (response.success) {
+      router.push('/dashboard/assessments?tab=history');
     }
 
     setIsLoading(false);
   };
 
   return (
-    <Button onClick={submitAssessment} variant="dark" disabled={isLoading}>
+    <Button
+      onClick={submitAssessment}
+      variant="dark"
+      disabled={isLoading}
+      className="w-full"
+    >
       Submit
     </Button>
   );

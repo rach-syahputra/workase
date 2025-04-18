@@ -6,10 +6,12 @@ import ImageRepository from '@/repositories/cloudinary/image.repository';
 import GetAssessmentRepository from '@/repositories/assessments/get-assessment.repository';
 import AddAssessmentRepository from '@/repositories/assessments/add-assessment.repository';
 import AssessmentQuestionRepository from '@/repositories/assessments/assessment-question.repository';
+import GetSkillRepository from '@/repositories/assessments/get-skills.repository';
 import {
   AddAssessmentQuestionServiceRequest,
   AddAssessmentServiceRequest,
   GetAssessmentBySlugRequest,
+  GetAssessmentDiscoveryRequest,
   GetAssessmentQuestionsRequest,
   GetAssessmentsRequest,
   GetAvailableSkillsRequest,
@@ -23,16 +25,22 @@ class AssessmentService {
   private getAssessmentRepository: GetAssessmentRepository;
   private addAssessmentRepository: AddAssessmentRepository;
   private assessmentQuestionRepository: AssessmentQuestionRepository;
+  private getSkillRepository: GetSkillRepository;
 
   constructor() {
     this.imageRepository = new ImageRepository();
     this.getAssessmentRepository = new GetAssessmentRepository();
     this.addAssessmentRepository = new AddAssessmentRepository();
     this.assessmentQuestionRepository = new AssessmentQuestionRepository();
+    this.getSkillRepository = new GetSkillRepository();
   }
 
   getAssessments = async (req: GetAssessmentsRequest) => {
     return await this.getAssessmentRepository.getAssessments(req);
+  };
+
+  getAssessmentDisovery = async (req: GetAssessmentDiscoveryRequest) => {
+    return await this.getAssessmentRepository.getAssessmentDiscovery(req);
   };
 
   getAssessmentBySlug = async (req: GetAssessmentBySlugRequest) => {
@@ -47,7 +55,7 @@ class AssessmentService {
   };
 
   getAvailableSkills = async (req: GetAvailableSkillsRequest) => {
-    return await this.getAssessmentRepository.getAvailableSkills(req);
+    return await this.getSkillRepository.getAvailableSkills(req);
   };
 
   addAssessment = async (req: AddAssessmentServiceRequest) => {

@@ -1,7 +1,13 @@
 import { UserAssessmentStatus } from '@prisma/client';
+import { IFilter } from './filter.interface';
 
 export interface UserAssessmentToken {
-  assessmentId: string;
+  assessment: {
+    id: string;
+    slug: string;
+    skillTitle: string;
+    date: string;
+  };
   userId: string;
   userAssessmentId: string;
   startTime: string;
@@ -12,9 +18,16 @@ export interface IAssessmentAnswer {
   selectedOptionId: string;
 }
 
+export interface GetUserAssessmentByIdRequest {
+  userAssessmentId: string;
+}
+
 export interface AddUserAssessmentRequest {
   userId: string;
-  assessmentId: string;
+  assessment: {
+    id: string;
+    slug: string;
+  };
   score: number;
   status: UserAssessmentStatus;
 }
@@ -28,4 +41,9 @@ export interface UpdateUserAssessmentRequest {
   userAssessmentId: string;
   score: number;
   status: UserAssessmentStatus;
+}
+
+export interface GetUserAssessmentRequest extends IFilter {
+  userId: string;
+  skill?: string;
 }

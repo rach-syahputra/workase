@@ -9,6 +9,7 @@ import CompanyReviewRouter from './company-review.router';
 import SearchCompanyReviewRouter from './search-company-review.router';
 import AssessmentRouter from './assessment.router';
 import UserAssessmentRouter from './user-assessment';
+import CertificateRouter from './certificate.router';
 
 const apiRouter = Router();
 const sampleRouter = new SampleRouter();
@@ -17,6 +18,7 @@ const companyReviewRouter = new CompanyReviewRouter();
 const searchCompanyReviewRouter = new SearchCompanyReviewRouter();
 const assessmentRouter = new AssessmentRouter();
 const userAssessmentRouter = new UserAssessmentRouter();
+const certificateRouter = new CertificateRouter();
 
 apiRouter.use('/jobs', jobsRouter());
 apiRouter.use('/users', usersRouter());
@@ -28,5 +30,6 @@ apiRouter.use('/companies', companyReviewRouter.getRouter());
 apiRouter.use('/search', searchCompanyReviewRouter.getRouter());
 apiRouter.use('/assessments', assessmentRouter.getRouter());
 apiRouter.use('/user-assessments', userAssessmentRouter.getRouter());
+apiRouter.use('/certificates', certificateRouter.getRouter());
 
 export default apiRouter;

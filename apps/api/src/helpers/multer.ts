@@ -9,6 +9,7 @@ const storage = multer.diskStorage({
 const MAX_DEVELOPER_IMAGE_SIZE = 1024000; // 1mb
 const MAX_ASSESSMENT_IMAGE_SIZE = 512000; // 500kb
 const MAX_ASSESSMENT_QUESTION_IMAGE_SIZE = 1024000; // 1mb
+const MAX_CERTIFICATE_PDF_SIZE = 2048000; // 2mb
 
 export const uploadDeveloperImage = multer({
   storage,
@@ -61,5 +62,19 @@ export const uploadAssessmentQuestionImage = multer({
   },
   limits: {
     fileSize: MAX_ASSESSMENT_QUESTION_IMAGE_SIZE,
+  },
+});
+
+export const uploadCertificatePdf = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype === 'application/pdf') {
+      cb(null, true);
+    } else {
+      cb(null, false);
+    }
+  },
+  limits: {
+    fileSize: MAX_CERTIFICATE_PDF_SIZE,
   },
 });

@@ -1,9 +1,10 @@
 'use client';
 
 import Link from 'next/link';
+import { ColumnDef } from '@tanstack/react-table';
+
 import { formatTableDate } from '@/lib/utils';
 import { Button } from '@/components/shadcn-ui/button';
-import { ColumnDef } from '@tanstack/react-table';
 
 export interface IAssessmentColumn {
   slug: string;
