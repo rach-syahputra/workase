@@ -30,12 +30,10 @@ model User {
   skill Skill? @relation(fields: [skillId], references: [id], onUpdate: Cascade)
   job   Job?   @relation(fields: [jobId], references: [id], onUpdate: Cascade)
 
-  AppliedJob     AppliedJob[]
-  SavedJob       SavedJob[]
-  Subscription   Subscription[]
-  UserAssessment UserAssessment[]
-
-  Certificate         Certificate[]
+  AppliedJob          AppliedJob[]
+  SavedJob            SavedJob[]
+  Subscription        Subscription[]
+  UserAssessment      UserAssessment[]
   PreselectionAttempt PreselectionAttempt[]
 
   @@map("users")
@@ -193,9 +191,8 @@ model Skill {
   updatedAt DateTime @map("updated_at")
   isDeleted Boolean  @default(false) @map("is_deleted")
 
-  Assessment  Assessment[]
-  Certificate Certificate[]
-  User        User[]
+  Assessment Assessment[]
+  User       User[]
 
   @@map("skills")
 }
@@ -253,24 +250,23 @@ model UserAssessment {
   score        Int
   createdAt    DateTime             @map("created_at")
   isDeleted    Boolean              @default(false) @map("is_deleted")
-  user         User                 @relation(fields: [userId], references: [id], onUpdate: Cascade)
-  assessment   Assessment           @relation(fields: [assessmentId], references: [id], onUpdate: Cascade)
+
+  user        User         @relation(fields: [userId], references: [id], onUpdate: Cascade)
+  assessment  Assessment   @relation(fields: [assessmentId], references: [id], onUpdate: Cascade)
+  Certificate Certificate?
 
   @@map("user_assessments")
 }
 
 model Certificate {
-  id        String   @id @default(uuid())
-  slug      String   @unique
-  preview   String
-  userId    String   @map("user_id")
-  skillId   String   @map("skill_id")
-  url       String
-  createdAt DateTime @map("created_at")
-  isDeleted Boolean  @default(false) @map("is_deleted")
+  id               String   @id @default(uuid())
+  slug             String   @unique
+  userAssessmentId String   @unique @map("user_assessment_id")
+  url              String
+  createdAt        DateTime @map("created_at")
+  isDeleted        Boolean  @default(false) @map("is_deleted")
 
-  user  User  @relation(fields: [userId], references: [id], onUpdate: Cascade)
-  skill Skill @relation(fields: [skillId], references: [id], onUpdate: Cascade)
+  userAssessment UserAssessment @relation(fields: [userAssessmentId], references: [id], onUpdate: Cascade)
 
   @@map("certificates")
 }
