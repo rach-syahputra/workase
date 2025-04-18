@@ -114,3 +114,17 @@ export const uploadCompanyImage = multer({
     fileSize: MAX_DEVELOPER_IMAGE_SIZE,
   },
 });
+
+export const uploadCertificatePdf = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype === 'application/pdf') {
+      cb(null, true);
+    } else {
+      cb(null, false);
+    }
+  },
+  limits: {
+    fileSize: MAX_CERTIFICATE_PDF_SIZE,
+  },
+});

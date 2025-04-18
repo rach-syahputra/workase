@@ -49,3 +49,8 @@ export interface GetUserAssessmentRequest extends IFilter {
   userId: string;
   skill?: string;
 }
+
+export interface GetUserAssessmentRequest extends IFilter {
+  userId: string;
+  skill?: string;
+}

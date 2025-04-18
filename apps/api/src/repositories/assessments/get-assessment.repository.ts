@@ -154,6 +154,100 @@ class GetAssessmentRepository {
       },
     };
   };
+
+  getAssessmentBySlug = async (req: GetAssessmentBySlugRequest) => {
+    const assessment = await this.prisma.assessment.findUnique({
+      where: {
+        slug: req.slug,
+      },
+      include: {
+        AssessmentQuestion: {
+          include: {
+            QuestionOption: true,
+          },
+        },
+        UserAssessment: true,
+        skill: true,
+      },
+    });
+
+    if (assessment) {
+      return {
+        assessment: {
+          id: assessment?.id,
+          skill: {
+            id: assessment.skill.id,
+            title: assessment.skill.title,
+          },
+          image: assessment.image,
+          slug: assessment.slug,
+          shortDescription: assessment.shortDescription,
+          createdAt: assessment?.createdAt,
+          updatedAt: assessment?.updatedAt,
+          isDeleted: assessment?.isDeleted,
+          questions: assessment.AssessmentQuestion.map((question) => ({
+            id: question.id,
+            assessmentId: question.assessmentId,
+            question: question.question,
+            image: question.image,
+            createdAt: question.createdAt,
+            updatedAt: question.updatedAt,
+            isDeleted: question.isDeleted,
+            options: question.QuestionOption,
+          })),
+          totalQuestions: assessment.AssessmentQuestion.length,
+          totalAttemptsByUser: assessment.UserAssessment.length,
+        },
+      };
+    }
+  };
+
+  getAvailableSkills = async (req: GetAvailableSkillsRequest) => {
+    const limit = req.limit ? req.limit : 5;
+    const page = req.page ? req.page : 1;
+    const skipConfig = (page - 1) * limit;
+
+    const [totalSkills, skills] = await this.prisma.$transaction([
+      this.prisma.skill.count({
+        where: {
+          isDeleted: false,
+          title: {
+            contains: req.title,
+            mode: 'insensitive',
+          },
+          Assessment: {
+            none: {},
+          },
+        },
+      }),
+      this.prisma.skill.findMany({
+        where: {
+          isDeleted: false,
+          title: {
+            contains: req.title,
+            mode: 'insensitive',
+          },
+          Assessment: {
+            none: {},
+          },
+        },
+        take: limit,
+        skip: skipConfig,
+        orderBy: {
+          title: 'asc',
+        },
+      }),
+    ]);
+
+    return {
+      skills,
+      pagination: {
+        totalData: totalSkills,
+        totalPages: Math.ceil(totalSkills / limit),
+        page,
+      },
+    };
+  };
 }
 
 export default GetAssessmentRepository;
