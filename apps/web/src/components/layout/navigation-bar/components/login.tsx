@@ -1,6 +1,5 @@
 'use client';
 import Link from 'next/link';
-import { useState } from 'react';
 
 const tabs = ['Sign in', 'Employers/Post Job'];
 
@@ -12,7 +11,7 @@ export default function Login() {
           {/* Tombol Tab */}
 
           <Link
-            href={tab === 'Sign in' ? '/user/login' : 'company/login'}
+            href={tab === 'Sign in' ? '/users/login' : 'companies/login'}
             className={`relative flex h-[68px] w-full items-center px-5 text-[15px] font-medium transition-all ${tab === 'Sign in' ? 'text-primary-dark-blue font-semibold' : 'text-gray-600'} `}
           >
             <button ref={undefined}>{tab}</button>

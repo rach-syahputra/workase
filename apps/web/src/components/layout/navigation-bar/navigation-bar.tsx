@@ -6,7 +6,7 @@ import Sidebar from './components/sidebar';
 
 import Login from './components/login';
 
-export default async function NavigationBar() {
+export default async function NavigationBar(session: any) {
   return (
     <div className="sticky left-0 right-0 top-0 z-50 border-b bg-white">
       <div className="flex h-[52px] justify-between border-gray-200 md:mx-2 md:h-[68px]">

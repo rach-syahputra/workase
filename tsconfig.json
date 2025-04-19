@@ -7,7 +7,7 @@
     "paths": {
       "*": ["node_modules/*"],
       "axios": ["node_modules/axios"],
-      "@/*": ["apps/web/src/*"]
+      "@/*": ["./apps/web/src/*"]
     },
     "strict": true,
     "esModuleInterop": true,

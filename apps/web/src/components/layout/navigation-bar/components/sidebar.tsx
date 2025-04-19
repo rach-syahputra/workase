@@ -61,7 +61,7 @@ export default function Sidebar() {
           {loginItems.map((item) => (
             <Link
               key={item}
-              href={item === 'Sign in' ? '/user/login' : 'user/register'}
+              href={item === 'Sign in' ? '/users/login' : 'users/register'}
             >
               <button
                 onClick={() => {}}

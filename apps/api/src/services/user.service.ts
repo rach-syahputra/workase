@@ -8,6 +8,8 @@ import getUserProfileRepository, {
   updateUserPhotoProfileRepository,
   updateUserProfileRepository,
 } from '@/repositories/users/user-profile.repository';
+import { ResponseError } from '@/helpers/error';
+import { putUserAccessToken } from '@/helpers/jwt';
 class UsersService {
   async register(data: {
     email: string;
@@ -33,6 +35,11 @@ class UsersService {
   }
   async updateUserPhoto(req: UserRequest) {
     return await updateUserPhotoProfileRepository.updateUserPhotoProfile(req);
+  }
+  async refreshToken(req: UserRequest) {
+    if (!req.user?.email) throw new ResponseError(401, 'Invalid Token');
+    const result = await putUserAccessToken(undefined, req.user?.email);
+    return result;
   }
 }
 export default new UsersService();

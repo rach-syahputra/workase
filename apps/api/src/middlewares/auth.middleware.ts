@@ -1,7 +1,11 @@
 import { NextFunction, Response } from 'express';
-import jwt from 'jsonwebtoken';
+import jwt, { verify } from 'jsonwebtoken';
+import { IncomingHttpHeaders } from 'http';
 
-import { JWT_ACCESS_SECRET } from '@/config';
+import {
+  JWT_ACCESS_SECRET,
+  JWT_REFRESH_SECRET as refresh_jwt_secret,
+} from '@/config';
 import { ResponseError } from '@/helpers/error';
 import {
   CompanyRequest,
@@ -10,6 +14,7 @@ import {
   UserToken,
 } from '@/interfaces/middleware.interface';
 import { UserLogin } from '@/interfaces/user.interface';
+import { User } from '@prisma/client';
 
 export function verifyUser(
   req: UserRequest,
@@ -79,3 +84,25 @@ export function verifyDeveloper(
     next(err);
   }
 }
+
+export const verifyRefreshToken = (
+  req: UserRequest | CompanyRequest,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { authorization } = req.headers;
+    const token = String(authorization || '').split('Bearer ')[1];
+    console.log('ini tokennya', token);
+    const verifiedUser = verify(token, refresh_jwt_secret);
+    if (!verifiedUser) {
+      throw new ResponseError(401, 'Unauthorized');
+    }
+    console.log('ini verified user', verifiedUser);
+    req.user = verifiedUser as UserToken | CompanyToken;
+    console.log('ini req.user', req.user);
+    next();
+  } catch (error) {
+    next(error);
+  }
+};

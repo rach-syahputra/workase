@@ -88,13 +88,13 @@ class UsersController {
   async passwordResetRequest(req: Request, res: Response, next: NextFunction) {
     try {
       const compilePasswordResetRequest = await hbs('reset-password-template');
-      const { access_token } = await putUserAccessToken(
+      const { accessToken } = await putUserAccessToken(
         undefined,
         req.body.email,
       );
       const html = compilePasswordResetRequest({
         email: req.body.email,
-        token: access_token,
+        token: accessToken,
       });
       transporter.sendMail({
         to: req.body.email,
@@ -153,6 +153,21 @@ class UsersController {
         statusCode: 200,
         message: 'update user profile photo image success',
         data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async refreshToken(req: UserRequest, res: Response, next: NextFunction) {
+    try {
+      console.log('ini req.user email:', req.user?.email);
+      const data = await usersService.refreshToken(req);
+      ApiResponse({
+        res,
+        statusCode: 200,
+        message: 'new access token has been created',
+        data,
       });
     } catch (error) {
       next(error);

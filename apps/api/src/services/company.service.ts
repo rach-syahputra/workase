@@ -7,6 +7,8 @@ import getCompanyProfileRepository, {
   updateCompanyProfileRepository,
   updateCompanyLogoRepository,
 } from '@/repositories/companies/company-profile.repository';
+import { ResponseError } from '@/helpers/error';
+import { putCompanyAccessToken } from '@/helpers/jwt';
 class CompaniesService {
   async register(data: {
     name: string;
@@ -34,6 +36,12 @@ class CompaniesService {
   }
   async updateCompanyLogo(req: CompanyRequest) {
     return await updateCompanyLogoRepository.updateCompanyLogo(req);
+  }
+
+  async refreshToken(req: CompanyRequest) {
+    if (!req.user?.email) throw new ResponseError(401, 'Invalid Token');
+    const result = await putCompanyAccessToken(undefined, req.user?.email);
+    return result;
   }
 }
 export default new CompaniesService();

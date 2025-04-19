@@ -1,4 +1,4 @@
-import { verifyCompany, verifyUser } from '@/middlewares/auth.middleware';
+import { verifyCompany, verifyRefreshToken, verifyUser } from '@/middlewares/auth.middleware';
 import userController from '@/controllers/user.controller';
 
 import { Router } from 'express';
@@ -11,6 +11,7 @@ import {
 import { uploadUserImage } from '@/helpers/multer';
 export const usersRouter = () => {
   const router = Router();
+  router.post('/token', verifyRefreshToken, usersController.refreshToken);
   //email verification
   router.post(
     '/email-verification-request',

@@ -89,13 +89,13 @@ class CompaniesController {
   async passwordResetRequest(req: Request, res: Response, next: NextFunction) {
     try {
       const compilePasswordResetRequest = await hbs('reset-password-template');
-      const { access_token } = await putCompanyAccessToken(
+      const { accessToken } = await putCompanyAccessToken(
         undefined,
         req.body.email,
       );
       const html = compilePasswordResetRequest({
         email: req.body.email,
-        token: access_token,
+        token: accessToken,
       });
       transporter.sendMail({
         to: req.body.email,
@@ -162,6 +162,21 @@ class CompaniesController {
         statusCode: 200,
         message: 'update company logo image success',
         data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async refreshToken(req: CompanyRequest, res: Response, next: NextFunction) {
+    try {
+      console.log('ini req.user email:', req.user?.email);
+      const data = await companiesService.refreshToken(req);
+      ApiResponse({
+        res,
+        statusCode: 200,
+        message: 'new access token has been created',
+        data,
       });
     } catch (error) {
       next(error);

@@ -13,7 +13,7 @@ export default function Register() {
           Sign up to Workase
         </div>{' '}
         <div className="text-[18px] font-light md:text-[21px]">
-          Create your company account today.
+          Create your personal account today.
         </div>
       </div>
       <div className="py-[10px] font-medium">Email Address</div>
@@ -80,7 +80,7 @@ export default function Register() {
               <center
                 className={`${item == 'user' ? 'text-primary-blue' : 'text-[#9A6713]'} font-light`}
               >
-                Sign up as {item}
+                Sign in as {item}
               </center>
             </div>
           </button>
