@@ -47,3 +47,10 @@ export const convertBlobToFile = (blob: Blob) => {
 export const formatCertificateDate = (date: Date) => {
   return format(date, 'dd MMM, yyyy');
 };
+
+export const scrollToTop = (
+  top: number = 0,
+  behavior: 'smooth' | 'instant' = 'instant',
+) => {
+  window.scrollTo({ top, behavior });
+};

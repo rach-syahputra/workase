@@ -1,32 +1,18 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 
 import { cn, formatTableDate } from '@/lib/utils';
-import { UserAssessmentStatus } from '@/lib/interfaces/user-assessment';
-import { GenerateCertificateTokenRequest } from '@/lib/interfaces/api-request/certificate';
-import { generateCertificateToken } from '@/lib/apis/certificate';
-import { useToast } from '@/hooks/use-toast';
-import { Button } from '@/components/shadcn-ui/button';
+import {
+  GetAssessmentDiscoveryColumnsRequest,
+  IUserAssessmentColumn,
+} from './interface';
+import TableHeaderOrderButton from '@/components/ui/table/table-header-order-button';
 import ClaimCertificateModal from '../claim-certificate-modal';
-import { ICertificate } from '@/lib/interfaces/certificate';
 
-export interface IUserAssessmentColumn {
-  id: string;
-  skill: {
-    id: string;
-    title: string;
-  };
-  score: number;
-  status: UserAssessmentStatus;
-  createdAt: string;
-  certificate?: ICertificate | null;
-}
-
-export const columns: ColumnDef<IUserAssessmentColumn>[] = [
+export const getAssessmentDiscoveryColumns = ({
+  onEnrollmentDateClick,
+}: GetAssessmentDiscoveryColumnsRequest): ColumnDef<IUserAssessmentColumn>[] => [
   {
     accessorKey: 'skill',
     header: 'Skill',
@@ -64,7 +50,12 @@ export const columns: ColumnDef<IUserAssessmentColumn>[] = [
   },
   {
     accessorKey: 'createdAt',
-    header: 'Enrollment Date',
+    header: () => (
+      <TableHeaderOrderButton
+        label="Enrollment Date"
+        onClick={onEnrollmentDateClick}
+      />
+    ),
     cell: ({ row }) => (
       <div className="w-[200px]">
         {formatTableDate(new Date(row.original.createdAt))}

@@ -4,28 +4,32 @@ import { useEffect, useState } from 'react';
 
 import { IAssessment } from '@/lib/interfaces/assessment';
 import { getAssessmentDiscovery } from '@/lib/apis/assessments';
+import { OrderType } from '@/lib/interfaces/api-request/filter';
 import { Card } from '@/components/shadcn-ui/card';
 import { Input } from '@/components/shadcn-ui/input';
 import AppPagination from '@/components/ui/pagination';
 import UserDashboardHeader from '@/components/user-dashboard/user-dashboard-header';
 import AssessmentCardSkeleton from './assessment-card-skeleton';
 import AssessmentCard from './assessment-card';
+import { getAssessmentDiscoveryColumns } from './table/column';
 
 const AssessmentDiscovery = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [page, setPage] = useState<number>(1);
+  const [limit, setLimit] = useState<number>(8);
+  const [order, setOrder] = useState<OrderType>('desc');
   const [searchSkill, setSearchSkill] = useState<string>('');
   const [debouncedSearchSkill, setDebouncedSearchSkill] = useState<string>('');
   const [assessments, setAssessments] = useState<IAssessment[]>([]);
-  const limit = 9;
 
-  const fetchGetAssessmentDiscovery = async (page?: number, limit?: number) => {
+  const fetchGetAssessmentDiscovery = async () => {
     setIsLoading(true);
 
     const response = await getAssessmentDiscovery({
-      limit: limit || 9,
-      page: page || 1,
+      limit,
+      page,
+      order,
       skill: debouncedSearchSkill,
     });
 
@@ -41,11 +45,12 @@ const AssessmentDiscovery = () => {
   };
 
   useEffect(() => {
-    fetchGetAssessmentDiscovery(1, limit);
+    fetchGetAssessmentDiscovery();
   }, []);
 
   useEffect(() => {
     const handleDebouncedSearchSkill = setTimeout(() => {
+      setPage(1);
       setDebouncedSearchSkill(searchSkill);
     }, 500);
 
@@ -53,8 +58,8 @@ const AssessmentDiscovery = () => {
   }, [searchSkill]);
 
   useEffect(() => {
-    fetchGetAssessmentDiscovery(page, limit);
-  }, [debouncedSearchSkill]);
+    fetchGetAssessmentDiscovery();
+  }, [page, limit, order, debouncedSearchSkill]);
 
   return (
     <Card className="flex w-full flex-col items-start justify-center gap-6 max-md:border-none max-md:p-0 max-md:shadow-none md:p-5">
@@ -86,9 +91,7 @@ const AssessmentDiscovery = () => {
               {totalPages > 1 && (
                 <AppPagination
                   page={page}
-                  onPageChange={(page) =>
-                    fetchGetAssessmentDiscovery(page, limit)
-                  }
+                  onPageChange={setPage}
                   totalPages={totalPages}
                   className="mt-2"
                 />

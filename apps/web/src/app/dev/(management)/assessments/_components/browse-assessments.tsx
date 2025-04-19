@@ -1,38 +1,44 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { ColumnDef } from '@tanstack/react-table';
 
+import { IAssessmentColumn } from './table/interface';
+import { getAssessmentColumns } from './table/column';
 import { useAssessmentContext } from '@/context/assessment-context';
 import { DataTable } from '@/components/ui/table/data-table';
 import { Input } from '@/components/shadcn-ui/input';
 import { Card } from '@/components/shadcn-ui/card';
 import TableSkeleton from '@/components/ui/table/table-skeleton';
 import AppPagination from '@/components/ui/pagination';
-import { columns, IAssessmentColumn } from './table/column';
 
 const BrowseAssessments = () => {
   const {
     isLoading,
     searchSkill,
     setSearchSkill,
-    debouncedSearchSkill,
     page,
+    setPage,
     totalPages,
-    fetchAssessments,
+    order,
+    setOrder,
+    fetchGetAssessments,
     assessments,
   } = useAssessmentContext();
+  const [columns, setColumns] = useState<ColumnDef<IAssessmentColumn>[]>([]);
   const [tableData, setTableData] = useState<IAssessmentColumn[]>([]);
-  const limit = 10;
 
   useEffect(() => {
-    fetchAssessments(1, limit);
+    fetchGetAssessments();
   }, []);
 
   useEffect(() => {
-    fetchAssessments(page, limit);
-  }, [debouncedSearchSkill]);
-
-  useEffect(() => {
+    setColumns(
+      getAssessmentColumns({
+        onLastUpdatedHeaderClick: () =>
+          setOrder(order === 'desc' ? 'asc' : 'desc'),
+      }),
+    );
     setTableData(
       assessments.map((assesment) => ({
         slug: assesment.slug,
@@ -63,7 +69,7 @@ const BrowseAssessments = () => {
           {totalPages > 1 && (
             <AppPagination
               page={page}
-              onPageChange={(page) => fetchAssessments(page, limit)}
+              onPageChange={setPage}
               totalPages={totalPages}
             />
           )}

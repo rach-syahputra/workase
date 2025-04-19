@@ -1,32 +1,11 @@
 'use client';
 
-import {
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 import { getAssessments } from '@/lib/apis/assessments';
 import { IAssessment } from '@/lib/interfaces/assessment';
-
-interface IAssessmentContext {
-  isLoading: boolean;
-  setIsLoading: Dispatch<SetStateAction<boolean>>;
-  totalPages: number;
-  setTotalPages: Dispatch<SetStateAction<number>>;
-  page: number;
-  setPage: Dispatch<SetStateAction<number>>;
-  searchSkill: string;
-  setSearchSkill: Dispatch<SetStateAction<string>>;
-  debouncedSearchSkill: string;
-  setDebouncedSearchSkill: Dispatch<SetStateAction<string>>;
-  assessments: IAssessment[];
-  setAssessments: Dispatch<SetStateAction<IAssessment[]>>;
-  fetchAssessments: (page?: number, limit?: number) => void;
-}
+import { OrderType } from '@/lib/interfaces/api-request/filter';
+import { IAssessmentContext } from './interface';
 
 const AssessmentContext = createContext<IAssessmentContext | undefined>(
   undefined,
@@ -36,16 +15,19 @@ const AssessmentProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [page, setPage] = useState<number>(1);
+  const [limit, setLimit] = useState<number>(8);
+  const [order, setOrder] = useState<OrderType>('desc');
   const [searchSkill, setSearchSkill] = useState<string>('');
   const [debouncedSearchSkill, setDebouncedSearchSkill] = useState<string>('');
   const [assessments, setAssessments] = useState<IAssessment[]>([]);
 
-  const fetchAssessments = async (page?: number, limit?: number) => {
+  const fetchGetAssessments = async () => {
     setIsLoading(true);
 
     const response = await getAssessments({
-      limit: limit || 9,
-      page: page || 1,
+      limit,
+      page,
+      order,
       skill: debouncedSearchSkill,
     });
 
@@ -62,11 +44,16 @@ const AssessmentProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const handleDebouncedSearchSkill = setTimeout(() => {
+      setPage(1);
       setDebouncedSearchSkill(searchSkill);
     }, 500);
 
     return () => clearTimeout(handleDebouncedSearchSkill);
   }, [searchSkill]);
+
+  useEffect(() => {
+    fetchGetAssessments();
+  }, [page, limit, order, debouncedSearchSkill]);
 
   return (
     <AssessmentContext.Provider
@@ -77,13 +64,17 @@ const AssessmentProvider = ({ children }: { children: React.ReactNode }) => {
         setTotalPages,
         page,
         setPage,
+        limit,
+        setLimit,
+        order,
+        setOrder,
         searchSkill,
         setSearchSkill,
         debouncedSearchSkill,
         setDebouncedSearchSkill,
         assessments,
         setAssessments,
-        fetchAssessments,
+        fetchGetAssessments,
       }}
     >
       {children}

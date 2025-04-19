@@ -6,6 +6,7 @@ import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 import { IAssessmentQuestion } from '@/lib/interfaces/assessment';
 import { getAssessmentQuestions } from '@/lib/apis/assessments';
+import { scrollToTop } from '@/lib/utils';
 import { Input } from '@/components/shadcn-ui/input';
 import Icon from '@/components/ui/icon';
 import AppPagination from '@/components/ui/pagination';
@@ -30,13 +31,13 @@ const BrowseAssessmentQuestions = ({
   const [questions, setQuestions] = useState<IAssessmentQuestion[]>([]);
   const limit = 10;
 
-  const fetchAssessmentQuestions = async (page?: number) => {
+  const fetchAssessmentQuestions = async () => {
     setIsLoading(true);
 
     const response = await getAssessmentQuestions({
       limit,
-      page: page || 1,
-      slug: slug,
+      page,
+      slug,
       question: debouncedSearchQuestion,
     });
 
@@ -50,6 +51,7 @@ const BrowseAssessmentQuestions = ({
       setTotalPages(response.data?.pagination?.totalPages || 1);
       setTotalQuestions(response.data?.pagination?.totalData || 0);
       setPage(page || 1);
+      scrollToTop();
     }
 
     setIsLoading(false);
@@ -61,6 +63,7 @@ const BrowseAssessmentQuestions = ({
 
   useEffect(() => {
     const handleDebouncedSearchSkill = setTimeout(() => {
+      setPage(1);
       setDebouncedSearchQuestion(searchQuestion);
     }, 500);
 
@@ -68,8 +71,8 @@ const BrowseAssessmentQuestions = ({
   }, [searchQuestion]);
 
   useEffect(() => {
-    fetchAssessmentQuestions(page);
-  }, [debouncedSearchQuestion]);
+    fetchAssessmentQuestions();
+  }, [page, limit, debouncedSearchQuestion]);
 
   return (
     <Card className="flex w-full flex-col items-start justify-center gap-2 md:p-5">
@@ -102,7 +105,7 @@ const BrowseAssessmentQuestions = ({
             ))}
             <AppPagination
               page={page}
-              onPageChange={fetchAssessmentQuestions}
+              onPageChange={setPage}
               totalPages={totalPages}
               className="mt-4"
             />

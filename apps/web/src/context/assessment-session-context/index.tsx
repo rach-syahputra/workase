@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 
 import { ASSESSMENT_SESSION_KEY } from '@/lib/constants/assessment';
+import { scrollToTop } from '@/lib/utils';
 import {
   IAssessmentSessionContext,
   IAssessmentSessionLocalStorage,
@@ -87,10 +88,6 @@ const AssessmentSessionProvider = ({
     setProgress(updatedProgress);
     setSelectedOptionIndex(null);
     setSelectedOptionId('');
-  };
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handlePagination = async (page: number) => {

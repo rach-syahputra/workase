@@ -1,36 +1,55 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { ColumnDef } from '@tanstack/react-table';
 
 import { getUserAssessments } from '@/lib/apis/user-assessment';
+import { OrderType } from '@/lib/interfaces/api-request/filter';
+import { IUserAssessmentColumn } from './table/interface';
 import AppPagination from '@/components/ui/pagination';
 import { DataTable } from '@/components/ui/table/data-table';
 import TableSkeleton from '@/components/ui/table/table-skeleton';
 import { Card } from '@/components/shadcn-ui/card';
 import { Input } from '@/components/shadcn-ui/input';
 import UserDashboardHeader from '@/components/user-dashboard/user-dashboard-header';
-import { columns, IUserAssessmentColumn } from './table/column';
+import { getAssessmentDiscoveryColumns } from './table/column';
 
 const AssessmentHistory = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [page, setPage] = useState<number>(1);
+  const [limit, setLimit] = useState<number>(8);
+  const [enrollmentDateOrder, setEnrollmentDateOrder] =
+    useState<OrderType>('desc');
   const [totalPages, setTotalPages] = useState<number>(0);
   const [searchSkill, setSearchSkill] = useState<string>('');
   const [debouncedSearchSkill, setDebouncedSearchSkill] = useState<string>('');
+  const [columns, setColumns] = useState<ColumnDef<IUserAssessmentColumn>[]>(
+    [],
+  );
   const [tableData, setTableData] = useState<IUserAssessmentColumn[]>([]);
 
-  const fetchGetUserAssessments = async (page?: number) => {
+  const fetchGetUserAssessments = async () => {
     setIsLoading(true);
 
     const response = await getUserAssessments({
       userId: 'ndy-01',
+      page,
+      limit,
+      order: enrollmentDateOrder,
       skill: debouncedSearchSkill,
-      limit: 8,
     });
     const userAssessments = response.data?.userAssessments;
     const pagination = response.data?.pagination;
 
     if (response.success && userAssessments) {
+      setColumns(
+        getAssessmentDiscoveryColumns({
+          onEnrollmentDateClick: () =>
+            setEnrollmentDateOrder(
+              enrollmentDateOrder === 'desc' ? 'asc' : 'desc',
+            ),
+        }),
+      );
       setTableData(
         userAssessments.map((userAssessment) => ({
           id: userAssessment.id,
@@ -55,6 +74,7 @@ const AssessmentHistory = () => {
 
   useEffect(() => {
     const handleDebouncedSearchSkill = setTimeout(() => {
+      setPage(1);
       setDebouncedSearchSkill(searchSkill);
     }, 500);
 
@@ -62,7 +82,7 @@ const AssessmentHistory = () => {
   }, [searchSkill]);
 
   useEffect(() => {
-    fetchGetUserAssessments(page);
+    fetchGetUserAssessments();
   }, [debouncedSearchSkill]);
 
   return (
@@ -88,7 +108,7 @@ const AssessmentHistory = () => {
           {totalPages > 1 && (
             <AppPagination
               page={page}
-              onPageChange={(page) => fetchGetUserAssessments(page)}
+              onPageChange={setPage}
               totalPages={totalPages}
             />
           )}

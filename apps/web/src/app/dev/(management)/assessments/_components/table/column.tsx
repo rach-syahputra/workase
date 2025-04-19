@@ -4,16 +4,13 @@ import Link from 'next/link';
 import { ColumnDef } from '@tanstack/react-table';
 
 import { formatTableDate } from '@/lib/utils';
+import { GetAssessmentColumnsRequest, IAssessmentColumn } from './interface';
 import { Button } from '@/components/shadcn-ui/button';
+import TableHeaderOrderButton from '@/components/ui/table/table-header-order-button';
 
-export interface IAssessmentColumn {
-  slug: string;
-  skill: string;
-  totalQuestions: number;
-  updatedAt: string;
-}
-
-export const columns: ColumnDef<IAssessmentColumn>[] = [
+export const getAssessmentColumns = ({
+  onLastUpdatedHeaderClick,
+}: GetAssessmentColumnsRequest): ColumnDef<IAssessmentColumn>[] => [
   {
     accessorKey: 'skill',
     header: 'Skill',
@@ -28,7 +25,14 @@ export const columns: ColumnDef<IAssessmentColumn>[] = [
   },
   {
     accessorKey: 'updatedAt',
-    header: 'Last Updated',
+    header: () => {
+      return (
+        <TableHeaderOrderButton
+          label="Last Updated"
+          onClick={onLastUpdatedHeaderClick}
+        />
+      );
+    },
     cell: ({ row }) => (
       <div className="w-[200px]">
         {formatTableDate(new Date(row.original.updatedAt))}
