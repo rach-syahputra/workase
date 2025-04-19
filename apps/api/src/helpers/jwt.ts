@@ -23,21 +23,21 @@ export const putUserAccessToken = async (user?: UserLogin, email?: string) => {
   const dataBundleUser = { ...userData, role: 'USER' } as UserToken;
   if (!dataBundleUser) throw new ResponseError(401, 'unauthorize email');
   console.log('ini yang direturn :', dataBundleUser);
-  const access_token = sign(dataBundleUser, JWT_ACCESS_SECRET, {
+  const accessToken = sign(dataBundleUser, JWT_ACCESS_SECRET, {
     expiresIn: '1h',
   });
-  console.log('ini access token', access_token);
-  const refresh_token = sign(
+
+  const refreshToken = sign(
     { email: dataBundleUser.email },
     JWT_REFRESH_SECRET,
     {
       expiresIn: '3h',
     },
   );
-  console.log('ini refresh token', refresh_token);
+
   return {
-    access_token,
-    refresh_token,
+    accessToken,
+    refreshToken,
   };
 };
 
@@ -53,21 +53,19 @@ export const putCompanyAccessToken = async (
   const dataBundleCompany = { ...companyData, role: 'ADMIN' } as CompanyToken;
   console.log('ini yang direturn :', dataBundleCompany);
   if (!dataBundleCompany) throw new ResponseError(401, 'unauthorize email');
-  const access_token = sign(dataBundleCompany, JWT_ACCESS_SECRET, {
+  const accessToken = sign(dataBundleCompany, JWT_ACCESS_SECRET, {
     expiresIn: '1h',
   });
-  console.log('ini access token', access_token);
-  const refresh_token = sign(
+  const refreshToken = sign(
     { email: dataBundleCompany.email },
     JWT_REFRESH_SECRET,
     {
       expiresIn: '3h',
     },
   );
-  console.log('ini refresh token', refresh_token);
   return {
-    access_token,
-    refresh_token,
+    accessToken,
+    refreshToken,
   };
 };
 

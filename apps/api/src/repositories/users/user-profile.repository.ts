@@ -17,7 +17,6 @@ class getUserProfileRepository {
         email: true,
         authProvider: true,
         isVerified: true,
-        location: true,
         profilePhoto: true,
         placeOfBirth: true,
         dateOfBirth: true,

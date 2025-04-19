@@ -4,6 +4,7 @@ import './globals.css';
 import { SearchJobProvider } from '@/context/search-job-context';
 import { AssessmentSessionProvider } from '@/context/assessment-session-context';
 import { Toaster } from '@/components/shadcn-ui/toaster';
+import { SessionProvider } from 'next-auth/react';
 
 export const metadata: Metadata = {
   title: 'Workase — Exclusive Job Listing',

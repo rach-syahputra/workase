@@ -39,7 +39,7 @@ const companyRegistrationSchema = () => {
     password: Yup.string()
       .optional()
       .min(8, 'Password must be at least 8 characters'),
-      phoneNumberp: Yup.string()
+    phoneNumber: Yup.string()
       .required('phone number is required')
       .min(8, 'phone number must be at least 8 characters')
       .max(15, 'phone number must be at most 15 characters'),

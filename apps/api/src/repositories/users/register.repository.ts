@@ -32,8 +32,8 @@ class registerUsersRepository {
         throw new ResponseError(404, 'User not found');
       }
       const accessToken = await putUserAccessToken(undefined, data.email);
-      console.log('ini yang dikirim :', accessToken.access_token);
-      await sendEmailVerification(data.email, accessToken.access_token);
+      console.log('ini yang dikirim :', accessToken.accessToken);
+      await sendEmailVerification(data.email, accessToken.accessToken);
     }
   }
 }

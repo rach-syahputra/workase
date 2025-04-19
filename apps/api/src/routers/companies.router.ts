@@ -1,6 +1,9 @@
 import { Router } from 'express';
 import companiesController from '@/controllers/company.controller';
-import { verifyCompany } from '@/middlewares/auth.middleware';
+import {
+  verifyCompany,
+  verifyRefreshToken,
+} from '@/middlewares/auth.middleware';
 import companyController from '@/controllers/company.controller';
 import {
   validateCompanyProfileUpdate,
@@ -10,6 +13,7 @@ import {
 import { uploadCompanyImage } from '@/helpers/multer';
 export const companiesRouter = () => {
   const router = Router();
+  router.post('/token', verifyRefreshToken, companiesController.refreshToken);
   //email verification
   router.post(
     '/email-verification-request',

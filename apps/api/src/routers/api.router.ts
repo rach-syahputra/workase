@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { jobsRouter } from './job.router';
-import { usersRouter } from './user.route';
-import { companiesRouter } from './company.router';
+import { jobsRouter } from './jobs.router';
+import { usersRouter } from './users.route';
+import { companiesRouter } from './companies.router';
 import { authRouter } from './auth.router';
 import SampleRouter from './sample.router';
 import DeveloperRouter from './developer.router';
