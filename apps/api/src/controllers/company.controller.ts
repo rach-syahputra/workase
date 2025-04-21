@@ -96,6 +96,7 @@ class CompaniesController {
       const html = compilePasswordResetRequest({
         email: req.body.email,
         token: accessToken,
+        role: 'companies',
       });
       transporter.sendMail({
         to: req.body.email,

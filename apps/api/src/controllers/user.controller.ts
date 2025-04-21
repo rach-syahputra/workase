@@ -95,6 +95,7 @@ class UsersController {
       const html = compilePasswordResetRequest({
         email: req.body.email,
         token: accessToken,
+        role: 'users',
       });
       transporter.sendMail({
         to: req.body.email,
