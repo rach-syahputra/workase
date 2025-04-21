@@ -248,6 +248,7 @@ model UserAssessment {
   assessmentId String               @map("assessment_id")
   status       UserAssessmentStatus
   score        Int
+  sessionToken String               @map("session_token")
   createdAt    DateTime             @map("created_at")
   isDeleted    Boolean              @default(false) @map("is_deleted")
 
