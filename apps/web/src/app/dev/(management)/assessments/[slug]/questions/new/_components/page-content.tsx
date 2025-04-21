@@ -1,5 +1,6 @@
 'use client';
 
+import { IAssessmentDetail } from '@/lib/interfaces/assessment';
 import { useDeveloperAssessmentContext } from '@/context/developer-assessment-context';
 import DeveloperContainer from '@/components/developer/developer-container';
 import DeveloperHeader from '@/components/developer/developer-header';
@@ -7,10 +8,10 @@ import AppBreadCrumb from '@/components/ui/app-breadcrumb';
 import CreateQuestionForm from './create-question-form';
 
 interface PageContentProps {
-  assessmentId: string;
+  assessment: IAssessmentDetail;
 }
 
-const PageContent = ({ assessmentId }: PageContentProps) => {
+const PageContent = ({ assessment }: PageContentProps) => {
   const { currentAssessmentSkill } = useDeveloperAssessmentContext();
 
   const BreadCrumbItems = [
@@ -19,15 +20,15 @@ const PageContent = ({ assessmentId }: PageContentProps) => {
       label: 'Assessments',
     },
     {
-      href: `/dev/assessments/${assessmentId}`,
+      href: `/dev/assessments/${assessment.slug}`,
       label: currentAssessmentSkill || 'Detail',
     },
     {
-      href: `/dev/assessments/${assessmentId}`,
+      href: `/dev/assessments/${assessment.slug}`,
       label: 'Questions',
     },
     {
-      href: `/dev/assessments/${assessmentId}/questions/new`,
+      href: `/dev/assessments/${assessment.slug}/questions/new`,
       label: 'New',
     },
   ];
@@ -39,7 +40,15 @@ const PageContent = ({ assessmentId }: PageContentProps) => {
         title="Create New Question"
         description={`Fill in the details below to create a question related to ${currentAssessmentSkill}.`}
       />
-      <CreateQuestionForm assessmentId={assessmentId} />
+      <CreateQuestionForm
+        assessment={{
+          id: assessment.id,
+          slug: assessment.slug,
+          skill: {
+            title: assessment.skill.title,
+          },
+        }}
+      />
     </DeveloperContainer>
   );
 };

@@ -1,4 +1,8 @@
-type ERROR_CODE = 'ERR_NETWORK' | 'ERR_UNAUTHENTICATED' | 'ERR_UNAUTHORIZED';
+type ERROR_CODE =
+  | 'ERR_NETWORK'
+  | 'ERR_UNAUTHENTICATED'
+  | 'ERR_UNAUTHORIZED'
+  | 'ERR_TOO_MANY_REQUESTS';
 
 export interface APIResponse {
   success: boolean;

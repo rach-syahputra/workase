@@ -5,7 +5,6 @@ import {
   AddAssessmentRequest,
   GetAssessmentBySlugRequest,
   GetAssessmentDiscoveryRequest,
-  GetAssessmentQuestionsRequest,
   GetAssessmentsRequest,
   GetAvailableSkillsRequest,
 } from '../interfaces/api-request/assessment';
@@ -14,7 +13,6 @@ import {
   AddAssessmentResponse,
   GetAssessmentBySlugResponse,
   GetAssessmentDiscoveryResponse,
-  GetAssessmentQuestionsResponse,
   GetAssessmentsResponse,
   GetAvailableSkillsResponse,
 } from '../interfaces/api-response/assessments';
@@ -128,30 +126,6 @@ export const addAssessment = async (
     const response = await axiosPrivate(token, 'multipart/form-data').post(
       '/assessments',
       formData,
-    );
-
-    return response.data;
-  } catch (error) {
-    return handleApiError(error);
-  }
-};
-
-export const getAssessmentQuestions = async (
-  req?: GetAssessmentQuestionsRequest,
-): Promise<GetAssessmentQuestionsResponse> => {
-  try {
-    // TO DO: retrieve token from session
-    const token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk4NGRmMjdmLWNmY2MtNGI1OS1iYmNhLWQwNjYwNTAxNWIwNSIsImVtYWlsIjoibmFkaXlhcmlza2FAZ21haWwuY29tIiwicm9sZSI6IkRFVkVMT1BFUiIsImlhdCI6MTc0MzcwODU1OCwiZXhwIjoxNzQ2MzAwNTU4fQ.Uy5ucffg4bE5QqzVLNvd8AQMPF4bG2ueUYR7V-6DQTs';
-    const queryParams = new URLSearchParams();
-
-    if (req?.limit) queryParams.append('limit', req?.limit.toString());
-    if (req?.page) queryParams.append('page', req?.page.toString());
-    if (req?.question) queryParams.append('question', req?.question.toString());
-
-    const query = queryParams.toString();
-    const response = await axiosPrivate(token).get(
-      `/assessments/${req?.slug}/questions${query ? `?${query}` : ''}`,
     );
 
     return response.data;

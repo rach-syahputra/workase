@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import jwt from 'jsonwebtoken';
 
 import { IUserAssessmentSession } from '@/lib/interfaces/user-assessment';
-import { getAssessmentQuestions } from '@/lib/apis/assessments';
+import { getAssessmentQuestions } from '@/lib/apis/assessment-question';
 import { useAssessmentSessionContext } from '@/context/assessment-session-context';
 import Container from '@/components/layout/container';
 import AppLoading from '@/components/ui/app-loading';

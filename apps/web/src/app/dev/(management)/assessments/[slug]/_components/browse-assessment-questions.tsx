@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 import { IAssessmentQuestion } from '@/lib/interfaces/assessment';
-import { getAssessmentQuestions } from '@/lib/apis/assessments';
+import { getAssessmentQuestions } from '@/lib/apis/assessment-question';
 import { scrollToTop } from '@/lib/utils';
 import { Input } from '@/components/shadcn-ui/input';
 import Icon from '@/components/ui/icon';

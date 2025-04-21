@@ -6,6 +6,7 @@ import { Label } from '../shadcn-ui/label';
 
 interface FormInputProps {
   label?: string;
+  labelColor?: 'green' | 'red';
   type: HTMLInputTypeAttribute;
   name: string;
   placeholder?: string;
@@ -18,6 +19,7 @@ interface FormInputProps {
 
 const FormInput: React.FC<FormInputProps> = ({
   label,
+  labelColor,
   type,
   name,
   value,
@@ -29,7 +31,15 @@ const FormInput: React.FC<FormInputProps> = ({
 }) => {
   return (
     <div className={cn('flex flex-col gap-2', className)}>
-      <Label htmlFor={name}>{label}</Label>
+      <Label
+        htmlFor={name}
+        className={cn({
+          'text-green-500': labelColor === 'green',
+          'text-red-500': labelColor === 'red',
+        })}
+      >
+        {label}
+      </Label>
       <Input
         type={type}
         name={name}

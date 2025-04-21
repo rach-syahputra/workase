@@ -1,3 +1,4 @@
+import { IGeneratedQuestion } from '@/lib/interfaces/assessment-question';
 import * as yup from 'yup';
 
 export const addAssessmentSchema = yup.object().shape({
@@ -65,3 +66,9 @@ export const addAssessmentQuestionSchema = yup
       ),
   })
   .strict(true);
+
+export const isGeneratedQuestionValid = (content: IGeneratedQuestion) => {
+  return (
+    content?.correctOption && content?.incorrectOptions && content?.question
+  );
+};

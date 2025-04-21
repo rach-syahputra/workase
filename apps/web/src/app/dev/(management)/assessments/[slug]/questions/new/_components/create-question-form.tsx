@@ -12,19 +12,25 @@ import TextareaFormInput from '@/components/ui/textarea-form-input';
 import { Card } from '@/components/shadcn-ui/card';
 import { Button } from '@/components/shadcn-ui/button';
 import FormImageInput from '@/components/ui/form-image-input';
-import IsCorrectFormInput from './is-correct-form-input';
+import AutoGenerateQuestionButton from './auto-generate-question-button';
 
 interface CreateQuestionFormProps {
-  assessmentId: string;
+  assessment: {
+    id: string;
+    slug: string;
+    skill: {
+      title: string;
+    };
+  };
 }
 
-const CreateQuestionForm = ({ assessmentId }: CreateQuestionFormProps) => {
+const CreateQuestionForm = ({ assessment }: CreateQuestionFormProps) => {
   const { appToast } = useAppToast();
   const [imagePreview, setImagePreview] = useState<string>('');
 
   const formik = useFormik<AddAssessmentQuestionFormValues>({
     initialValues: {
-      assessmentId: assessmentId,
+      assessmentId: assessment.id,
       question: '',
       image: null,
       options: [
@@ -117,14 +123,16 @@ const CreateQuestionForm = ({ assessmentId }: CreateQuestionFormProps) => {
                 className="flex w-full items-center justify-start gap-2"
               >
                 <FormInput
-                  label={`Option ${index + 1}`}
+                  // label={`Option ${index + 1}`}
+                  label={`${index === 0 ? 'Correct Option' : 'Incorrect Option'}`}
+                  labelColor={`${index === 0 ? 'green' : 'red'}`}
                   type="text"
                   name={`options[${index}].text`}
                   onChange={formik.handleChange}
                   value={option.text}
                   className="w-full"
                 />
-                <IsCorrectFormInput
+                {/* <IsCorrectFormInput
                   name="correctOption"
                   onChange={() => {
                     const updated = formik.values.options.map((opt, i) => ({
@@ -135,7 +143,7 @@ const CreateQuestionForm = ({ assessmentId }: CreateQuestionFormProps) => {
                   }}
                   value={option.isCorrect}
                   checked={option.isCorrect === 1}
-                />
+                /> */}
               </div>
             ))}
             {formik.errors.options && (
@@ -144,12 +152,20 @@ const CreateQuestionForm = ({ assessmentId }: CreateQuestionFormProps) => {
           </div>
         </div>
 
-        {formik.status && (
-          <p className="text-sm text-red-500">{formik.status}</p>
-        )}
-        <Button type="submit" disabled={formik.isSubmitting}>
-          Create Question
-        </Button>
+        <div className="flex flex-col gap-2">
+          {formik.status && (
+            <p className="text-sm text-red-500">{formik.status}</p>
+          )}
+          <Button type="submit" disabled={formik.isSubmitting}>
+            Create Question
+          </Button>
+          <AutoGenerateQuestionButton
+            slug={assessment.slug}
+            skill={assessment.skill.title}
+            setFieldValue={formik.setFieldValue}
+            setStatus={formik.setStatus}
+          />
+        </div>
       </Card>
     </form>
   );
