@@ -11,6 +11,7 @@ interface DeveloperCTAProps {
   description?: string;
   href: string;
   isLoading?: boolean;
+  disabled?: boolean;
   className?: string;
 }
 
@@ -19,6 +20,7 @@ const DeveloperCTA = ({
   description,
   href,
   isLoading,
+  disabled,
   className,
 }: DeveloperCTAProps) => {
   return isLoading ? (
@@ -27,7 +29,8 @@ const DeveloperCTA = ({
     <div className={cn('flex flex-col gap-2', className)}>
       <Button
         variant="dark"
-        asChild
+        asChild={!disabled}
+        disabled={disabled}
         className="hover:bg-primary-blue group h-10 text-base tracking-wide transition-all duration-300 ease-in-out sm:w-fit"
       >
         <Link href={href} aria-label={label}>

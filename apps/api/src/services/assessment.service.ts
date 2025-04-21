@@ -82,6 +82,16 @@ class AssessmentService {
   addAssessmentQuestion = async (req: AddAssessmentQuestionServiceRequest) => {
     validate(addAssessmentQuestionSchema, req);
 
+    const hasReachedLimit =
+      (await this.assessmentQuestionRepository.getTotalAssessmentQuestions(
+        req.assessmentId,
+      )) >= 25;
+    if (hasReachedLimit)
+      throw new ResponseError(
+        409,
+        'Unable to add more questions. Max limit of 25 has been reached.',
+      );
+
     let questionImage;
 
     if (req.image) {

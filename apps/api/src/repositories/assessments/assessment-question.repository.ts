@@ -1,3 +1,4 @@
+import { shuffleQuestionOptions } from '@/helpers/assessments/assessment.util';
 import { prisma } from '@/helpers/prisma';
 import {
   AddAssessmentQuestionRepositoryRequest,
@@ -10,6 +11,14 @@ class AssessmentQuestionRepository {
   constructor() {
     this.prisma = prisma;
   }
+
+  getTotalAssessmentQuestions = async (assessmentId: string) => {
+    return await this.prisma.assessmentQuestion.count({
+      where: {
+        assessmentId,
+      },
+    });
+  };
 
   getAssessmentQuestions = async (req: GetAssessmentQuestionsRequest) => {
     const limit = req.limit ? req.limit : 8;
@@ -92,8 +101,10 @@ class AssessmentQuestionRepository {
           },
         });
 
+        const shuffledQuestionOptions = shuffleQuestionOptions(req.options);
+
         const questionOptions = await Promise.all(
-          req.options.map(async (option) => {
+          shuffledQuestionOptions.map(async (option) => {
             return await trx.questionOption.create({
               data: {
                 option: option.text,

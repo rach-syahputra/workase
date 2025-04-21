@@ -7,9 +7,9 @@ import { IAssessmentDetail } from '@/lib/interfaces/assessment';
 import { useDeveloperAssessmentContext } from '@/context/developer-assessment-context';
 import DeveloperContainer from '@/components/developer/developer-container';
 import DeveloperHeader from '@/components/developer/developer-header';
-import DeveloperCTA from '@/components/developer/developer-cta';
 import AppBreadCrumb from '@/components/ui/app-breadcrumb';
 import BrowseAssessmentQuestions from './browse-assessment-questions';
+import CreateQuestionButton from './create-question-button';
 
 interface PageContentProps {
   slug: string;
@@ -59,11 +59,10 @@ const PageContent = ({ slug }: PageContentProps) => {
           description="Manage assessment with ease."
           isLoading={isLoading && !skillTitle}
         />
-        <DeveloperCTA
-          label="Create Question"
-          href={`/dev/assessments/${slug}/questions/new`}
-          isLoading={!assessment}
-          className="py-2 max-sm:w-full"
+        <CreateQuestionButton
+          isLoading={isLoading}
+          disabled={(assessment?.totalQuestions ?? 0) >= 25}
+          assessmentSlug={assessment?.slug || ''}
         />
       </div>
       <div className="flex flex-col items-start justify-center gap-4">

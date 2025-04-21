@@ -19,6 +19,8 @@ export const getAssessmentQuestions = async (
     if (req?.limit) queryParams.append('limit', req?.limit.toString());
     if (req?.page) queryParams.append('page', req?.page.toString());
     if (req?.question) queryParams.append('question', req?.question.toString());
+    if (req?.randomize)
+      queryParams.append('randomize', req?.randomize.toString());
 
     const query = queryParams.toString();
     const response = await axiosPrivate(token).get(

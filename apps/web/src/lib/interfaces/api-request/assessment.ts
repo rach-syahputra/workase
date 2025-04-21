@@ -27,6 +27,7 @@ export interface AddAssessmentRequest {
 export interface GetAssessmentQuestionsRequest extends IFilter {
   slug: string;
   question?: string;
+  randomize?: 'true' | 'false';
 }
 
 export interface AddAssessmentQuestionRequest {
