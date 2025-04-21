@@ -1,6 +1,6 @@
 import { Skeleton } from '@/components/shadcn-ui/skeleton';
 
-const SkillCardSkeleton = () => {
+const AvailableSkillCardSkeleton = () => {
   return (
     <div className="flex w-full flex-col items-start justify-between gap-4 md:flex-row md:items-center">
       <Skeleton className="h-5 w-1/2 md:w-1/4" />
@@ -9,4 +9,4 @@ const SkillCardSkeleton = () => {
   );
 };
 
-export default SkillCardSkeleton;
+export default AvailableSkillCardSkeleton;

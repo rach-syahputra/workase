@@ -10,30 +10,7 @@ import {
 } from 'react';
 import { getAvailableSkills } from '@/lib/apis/assessments';
 import { ISkill } from '@/lib/interfaces/skill';
-
-interface ICreateAssessmentContext {
-  isLoading: boolean;
-  setIsLoading: Dispatch<SetStateAction<boolean>>;
-  totalPages: number;
-  setTotalPages: Dispatch<SetStateAction<number>>;
-  page: number;
-  setPage: Dispatch<SetStateAction<number>>;
-  searchSkill: string;
-  setSearchSkill: Dispatch<SetStateAction<string>>;
-  debouncedSearchSkill: string;
-  setDebouncedSearchSkill: Dispatch<SetStateAction<string>>;
-  skills: ISkill[];
-  setSkills: Dispatch<SetStateAction<ISkill[]>>;
-  selectedSkill: ISelectedSkill;
-  setSelectedSkill: Dispatch<SetStateAction<ISelectedSkill>>;
-  limit: number;
-  fetchSkills: (page?: number) => void;
-}
-
-interface ISelectedSkill {
-  id: string;
-  title: string;
-}
+import { ICreateAssessmentContext, ISelectedSkill } from './interface';
 
 const CreateAssessmentContext = createContext<
   ICreateAssessmentContext | undefined
@@ -56,12 +33,12 @@ const CreateAssessmentProvider = ({
   });
   const limit = 5;
 
-  const fetchSkills = async (page?: number) => {
+  const fetchAvailableSkills = async () => {
     setIsLoading(true);
 
     const response = await getAvailableSkills({
       limit,
-      page: page || 1,
+      page,
       title: debouncedSearchSkill,
     });
 
@@ -83,7 +60,7 @@ const CreateAssessmentProvider = ({
   }, [searchSkill]);
 
   useEffect(() => {
-    fetchSkills(page);
+    fetchAvailableSkills();
   }, [debouncedSearchSkill]);
 
   return (
@@ -104,7 +81,7 @@ const CreateAssessmentProvider = ({
         limit,
         selectedSkill,
         setSelectedSkill,
-        fetchSkills,
+        fetchAvailableSkills,
       }}
     >
       {children}

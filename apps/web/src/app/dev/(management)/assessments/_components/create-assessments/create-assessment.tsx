@@ -5,14 +5,19 @@ import { useEffect } from 'react';
 import { useCreateAssessmentContext } from '@/context/create-assessment-context';
 import { Card } from '@/components/shadcn-ui/card';
 import { Input } from '@/components/shadcn-ui/input';
-import Skills from './skills';
+import AvailableSkills from './available-skills';
 
 const CreateAssessment = () => {
-  const { skills, isLoading, fetchSkills, searchSkill, setSearchSkill } =
-    useCreateAssessmentContext();
+  const {
+    skills,
+    isLoading,
+    fetchAvailableSkills,
+    searchSkill,
+    setSearchSkill,
+  } = useCreateAssessmentContext();
 
   useEffect(() => {
-    fetchSkills();
+    fetchAvailableSkills();
   }, []);
 
   return (
@@ -20,13 +25,13 @@ const CreateAssessment = () => {
       <h2 className="heading-4 font-semibold">Create Assessment</h2>
       <Input
         type="text"
-        placeholder="Search skills..."
+        placeholder="Search available skills..."
         onChange={(e) => setSearchSkill(e.target.value)}
         value={searchSkill}
         className="w-full"
       />
 
-      <Skills skills={skills} isLoading={isLoading} className="mt-3" />
+      <AvailableSkills skills={skills} isLoading={isLoading} className="mt-3" />
     </Card>
   );
 };

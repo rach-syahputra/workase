@@ -2,12 +2,12 @@
 
 import CreateAssessmentModal from './create-assessment-modal';
 
-interface SkillCardProps {
+interface AvailableSkillCardProps {
   id: string;
   title: string;
 }
 
-const SkillCard = ({ id, title }: SkillCardProps) => {
+const AvailableSkillCard = ({ id, title }: AvailableSkillCardProps) => {
   return (
     <div className="flex w-full items-center justify-between gap-3 md:flex-row">
       <div>
@@ -18,4 +18,4 @@ const SkillCard = ({ id, title }: SkillCardProps) => {
   );
 };
 
-export default SkillCard;
+export default AvailableSkillCard;

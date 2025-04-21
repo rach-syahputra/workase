@@ -6,8 +6,8 @@ import { useCreateAssessmentContext } from '@/context/create-assessment-context'
 import { Card } from '@/components/shadcn-ui/card';
 import { Separator } from '@/components/shadcn-ui/separator';
 import AppPagination from '@/components/ui/pagination';
-import SkillCard from './skill-card';
-import SkillCardSkeleton from './skill-card-skeleton';
+import AvailableSkillCardSkeleton from './available-skill-card-skeleton';
+import AvailableSkillCard from './available-skill-card';
 
 interface SkillsProps {
   skills: ISkill[];
@@ -15,7 +15,7 @@ interface SkillsProps {
   className?: string;
 }
 
-const Skills = ({ skills, isLoading, className }: SkillsProps) => {
+const AvailableSkills = ({ skills, isLoading, className }: SkillsProps) => {
   const { fetchSkills, page, totalPages } = useCreateAssessmentContext();
 
   return (
@@ -29,7 +29,7 @@ const Skills = ({ skills, isLoading, className }: SkillsProps) => {
         {isLoading ? (
           Array.from({ length: 5 }).map((_, index) => (
             <React.Fragment key={index}>
-              <SkillCardSkeleton />
+              <AvailableSkillCardSkeleton />
               {index !== 4 && <Separator />}
             </React.Fragment>
           ))
@@ -38,7 +38,7 @@ const Skills = ({ skills, isLoading, className }: SkillsProps) => {
             <div className="flex w-full flex-col items-center justify-start gap-4">
               {skills.map((skill, index) => (
                 <React.Fragment key={index}>
-                  <SkillCard id={skill.id} title={skill.title} />
+                  <AvailableSkillCard id={skill.id} title={skill.title} />
                   {index !== skills.length - 1 && <Separator />}
                 </React.Fragment>
               ))}
@@ -62,4 +62,4 @@ const Skills = ({ skills, isLoading, className }: SkillsProps) => {
   );
 };
 
-export default Skills;
+export default AvailableSkills;

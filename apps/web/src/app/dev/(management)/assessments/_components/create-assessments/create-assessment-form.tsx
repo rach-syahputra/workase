@@ -9,6 +9,7 @@ import { addAssessment } from '@/lib/apis/assessments';
 import { addAssessmentSchema } from '@/validations/assessment';
 import { useCreateAssessmentContext } from '@/context/create-assessment-context';
 import { useAssessmentContext } from '@/context/assessment-context';
+import { useBrowseSkillsContext } from '@/context/browse-skills-context';
 import DisabledFormInput from '@/components/ui/disabled-form-input.tsx';
 import FormInput from '@/components/ui/form-input';
 import { Button } from '@/components/shadcn-ui/button';
@@ -20,8 +21,9 @@ interface CreateAssessmentFormProps {
 }
 
 const CreateAssessmentForm = ({ onOpenChange }: CreateAssessmentFormProps) => {
-  const { selectedSkill, fetchSkills } = useCreateAssessmentContext();
-  const { fetchAssessments } = useAssessmentContext();
+  const { selectedSkill, fetchAvailableSkills } = useCreateAssessmentContext();
+  const { fetchGetAssessments } = useAssessmentContext();
+  const { fetchSkills } = useBrowseSkillsContext();
   const { appToast } = useAppToast();
   const [imagePreview, setImagePreview] = useState<string>('');
 
@@ -47,8 +49,9 @@ const CreateAssessmentForm = ({ onOpenChange }: CreateAssessmentFormProps) => {
         });
 
         onOpenChange(false);
+        fetchAvailableSkills();
+        fetchGetAssessments();
         fetchSkills();
-        fetchAssessments();
       } else {
         if (response.code === 'ERR_NETWORK') {
           // TO DO: add toast action to redirect to the login page
