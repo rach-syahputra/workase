@@ -19,13 +19,15 @@ class registerCompanyRepository {
     const userPassword = data.password
       ? await generateHashedPassword(data.password)
       : '';
+    const userPhoneNumber = data.phoneNumber ? data.phoneNumber : '';
+    const userName = data.name ? data.name : '';
     await prisma.company.create({
       data: {
         slug,
-        name: data.name,
+        name: userName,
         email: data.email,
         password: userPassword,
-        phoneNumber: data.phoneNumber,
+        phoneNumber: userPhoneNumber,
         authProvider: data.authProvider as AuthProvider,
         isVerified: false,
       },

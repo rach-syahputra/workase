@@ -14,14 +14,17 @@ const checkCompanyExists = async (email: string) => {
 
 const authProvider = async (authProvider: string, password: string) => {
   if (authProvider === 'EMAIL' && !password) {
-    throw new ResponseError(400, 'Password is required');
+    throw new ResponseError(
+      400,
+      'Password or name or phone number is required',
+    );
   }
   return true;
 };
 
 const companyRegistrationSchema = () => {
   return Yup.object().shape({
-    name: Yup.string().required('Name is required'),
+    name: Yup.string().optional(),
     email: Yup.string()
       .email('Invalid email format')
       .required('Email is required')
@@ -40,7 +43,7 @@ const companyRegistrationSchema = () => {
       .optional()
       .min(8, 'Password must be at least 8 characters'),
     phoneNumber: Yup.string()
-      .required('phone number is required')
+      .optional()
       .min(8, 'phone number must be at least 8 characters')
       .max(15, 'phone number must be at most 15 characters'),
     authProvider: Yup.string()
