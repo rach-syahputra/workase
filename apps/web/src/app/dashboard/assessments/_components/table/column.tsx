@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { ColumnDef } from '@tanstack/react-table';
 
 import { cn, formatTableDate } from '@/lib/utils';
@@ -63,11 +64,22 @@ export const getAssessmentDiscoveryColumns = ({
     ),
   },
   {
-    accessorKey: 'certificate',
-    header: 'Certificate',
+    accessorKey: 'action',
+    header: 'Action',
     cell: ({ row }) => {
       // TO DO: retrieve userId from user session
-      return (
+      const status = row.original.status;
+      const sessionToken = row.original.sessionToken;
+
+      return status === 'ON_GOING' ? (
+        <Link
+          href={`/assessment-session?token=${sessionToken}`}
+          aria-label="Assessment session page"
+          className="hover:text-primary-blue underline transition-all duration-300 ease-in-out"
+        >
+          Continue Your Assessment
+        </Link>
+      ) : (
         <ClaimCertificateModal
           status={row.original.status}
           certificateSlug={row.original.certificate?.slug}

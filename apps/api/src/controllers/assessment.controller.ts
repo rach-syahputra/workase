@@ -1,4 +1,4 @@
-import { NextFunction, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
 import AssessmentService from '@/services/assessment.service';
 import {
@@ -71,15 +71,14 @@ class AssessmentController {
   };
 
   getAssessmentBySlug = async (
-    req: DeveloperRequest,
+    req: Request,
     res: Response,
     next: NextFunction,
   ) => {
     try {
-      if (!req.developer) throw new ResponseError(401, 'Unauthenticated.');
-
       const data = await this.assessmentService.getAssessmentBySlug({
         slug: req.params.slug,
+        userId: 'ndy-01',
       });
 
       ApiResponse({

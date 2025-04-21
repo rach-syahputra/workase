@@ -58,6 +58,7 @@ const AssessmentHistory = () => {
           score: userAssessment.score,
           status: userAssessment.status,
           page: page || 1,
+          sessionToken: userAssessment.sessionToken,
           certificate: userAssessment.certificate,
         })),
       );

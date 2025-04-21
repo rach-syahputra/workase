@@ -4,6 +4,7 @@ import {
 } from '@/config';
 import ImageRepository from '@/repositories/cloudinary/image.repository';
 import GetAssessmentRepository from '@/repositories/assessments/get-assessment.repository';
+import GetAssessmentDetailRepository from '@/repositories/assessments/get-assessment-detail.repository';
 import AddAssessmentRepository from '@/repositories/assessments/add-assessment.repository';
 import AssessmentQuestionRepository from '@/repositories/assessments/assessment-question.repository';
 import GetSkillRepository from '@/repositories/assessments/get-skills.repository';
@@ -23,6 +24,7 @@ import { ResponseError } from '@/helpers/error';
 class AssessmentService {
   private imageRepository: ImageRepository;
   private getAssessmentRepository: GetAssessmentRepository;
+  private getAssessmentDetailRepository: GetAssessmentDetailRepository;
   private addAssessmentRepository: AddAssessmentRepository;
   private assessmentQuestionRepository: AssessmentQuestionRepository;
   private getSkillRepository: GetSkillRepository;
@@ -30,6 +32,7 @@ class AssessmentService {
   constructor() {
     this.imageRepository = new ImageRepository();
     this.getAssessmentRepository = new GetAssessmentRepository();
+    this.getAssessmentDetailRepository = new GetAssessmentDetailRepository();
     this.addAssessmentRepository = new AddAssessmentRepository();
     this.assessmentQuestionRepository = new AssessmentQuestionRepository();
     this.getSkillRepository = new GetSkillRepository();
@@ -45,7 +48,7 @@ class AssessmentService {
 
   getAssessmentBySlug = async (req: GetAssessmentBySlugRequest) => {
     const assessment =
-      await this.getAssessmentRepository.getAssessmentBySlug(req);
+      await this.getAssessmentDetailRepository.getAssessmentBySlug(req);
 
     if (!assessment) {
       throw new ResponseError(404, 'Assessment not found');

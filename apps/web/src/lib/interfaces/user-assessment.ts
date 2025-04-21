@@ -46,4 +46,5 @@ export interface IUserAssessment {
     title: string;
   };
   certificate?: ICertificate | null;
+  sessionToken: string | null;
 }

@@ -27,6 +27,7 @@ const Assessment = ({ assessment }: AssessmentProps) => {
       <StartAssessmentModal
         slug={assessment.slug}
         assessmentId={assessment.id}
+        hasTaken={assessment.hasTaken}
       />
 
       <div className="flex flex-col items-center justify-center gap-4 md:flex-row">

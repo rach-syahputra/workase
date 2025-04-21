@@ -29,6 +29,7 @@ export interface AddUserAssessmentRequest {
     slug: string;
   };
   score: number;
+  sessionToken?: string;
   status: UserAssessmentStatus;
 }
 
@@ -39,8 +40,9 @@ export interface CalculateAssessmentResultRequest {
 
 export interface UpdateUserAssessmentRequest {
   userAssessmentId: string;
-  score: number;
-  status: UserAssessmentStatus;
+  score?: number;
+  status?: UserAssessmentStatus;
+  sessionToken?: string;
 }
 
 export interface GetUserAssessmentRequest extends IFilter {

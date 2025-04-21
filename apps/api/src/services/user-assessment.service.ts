@@ -32,6 +32,13 @@ class UserAssessmentService {
         userAssessmentId: userAssessment.id,
         startTime: new Date().toISOString(),
       });
+
+      // Insert token to user assessment data
+      await this.userAssessmentRepository.updateUserAssessment({
+        userAssessmentId: userAssessment.id,
+        sessionToken: token || '',
+      });
+
       return {
         userAssessment: {
           ...userAssessment,
@@ -62,6 +69,7 @@ class UserAssessmentService {
   };
 
   getUserAssessments = async (req: GetUserAssessmentRequest) => {
+    await this.userAssessmentRepository.checkExpiredUserAssessment();
     return await this.userAssessmentRepository.getUserAssessments(req);
   };
 }

@@ -28,11 +28,7 @@ class AssessmentRouter {
       verifyDeveloper,
       this.assessmentController.getAssessmentDiscovery,
     );
-    this.router.get(
-      '/:slug',
-      verifyDeveloper,
-      this.assessmentController.getAssessmentBySlug,
-    );
+    this.router.get('/:slug', this.assessmentController.getAssessmentBySlug);
     this.router.get(
       '/skills/available',
       verifyDeveloper,

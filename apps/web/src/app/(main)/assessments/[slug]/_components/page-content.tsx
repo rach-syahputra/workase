@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-import { IAssessmentDetail } from '@/lib/interfaces/assessment';
+import { IAssessment } from '@/lib/interfaces/assessment';
 import { getAssessmentBySlug } from '@/lib/apis/assessments';
 import AppLoading from '@/components/ui/app-loading';
 import Certificate from './certificate';
@@ -14,7 +14,7 @@ interface PageContentProps {
 
 const PageContent = ({ slug }: PageContentProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [assessment, setAssessment] = useState<IAssessmentDetail>();
+  const [assessment, setAssessment] = useState<IAssessment>();
 
   const fetchAssessment = async () => {
     setIsLoading(true);

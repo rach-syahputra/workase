@@ -10,6 +10,7 @@ export interface IUserAssessmentColumn {
   score: number;
   status: UserAssessmentStatus;
   createdAt: string;
+  sessionToken: string | null;
   certificate?: ICertificate | null;
 }
 

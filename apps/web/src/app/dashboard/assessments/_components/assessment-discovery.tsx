@@ -67,7 +67,7 @@ const AssessmentDiscovery = () => {
         title="Assessment Discovery"
         description="Explore a variety of skill-based assessments and boost your chances of getting hired."
       />
-      <div className="flex w-full flex-col gap-2">
+      <div className="flex w-full flex-col gap-4">
         <Input
           type="text"
           placeholder="Search assessments..."

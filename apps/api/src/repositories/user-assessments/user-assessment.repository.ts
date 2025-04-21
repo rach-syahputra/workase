@@ -77,6 +77,7 @@ class UserAssessmentRepository {
       data: {
         score: req.score,
         status: req.status,
+        sessionToken: req.sessionToken,
       },
     });
 
@@ -150,6 +151,7 @@ class UserAssessmentRepository {
           title: userAssessment.assessment.skill.title,
         },
         certificate: userAssessment.Certificate,
+        sessionToken: userAssessment.sessionToken,
       })),
       pagination: {
         totalData: totalUserAssessments,
@@ -157,6 +159,22 @@ class UserAssessmentRepository {
         page,
       },
     };
+  };
+
+  checkExpiredUserAssessment = async () => {
+    const expirationTime = new Date(new Date().getTime() - 30 * 60 * 1000);
+
+    return await this.prisma.userAssessment.updateMany({
+      where: {
+        createdAt: {
+          lt: expirationTime,
+        },
+        status: 'ON_GOING',
+      },
+      data: {
+        status: 'FAILED',
+      },
+    });
   };
 }
 

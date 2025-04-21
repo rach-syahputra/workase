@@ -18,6 +18,7 @@ export interface GetAssessmentDiscoveryRequest extends IFilter {
 }
 
 export interface GetAssessmentBySlugRequest {
+  userId: string;
   slug: string;
 }
 
@@ -63,4 +64,9 @@ export interface AddAssessmentQuestionRepositoryRequest {
   question: string;
   image?: string;
   options: IQuestionOption[];
+}
+
+export interface IsAssessmentTakenRequest {
+  userId: string;
+  assessmentSlug: string;
 }

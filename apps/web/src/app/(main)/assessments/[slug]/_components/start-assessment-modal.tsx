@@ -29,11 +29,13 @@ import Icon from '@/components/ui/icon';
 interface StartAssessmentModalProps {
   slug: string;
   assessmentId: string;
+  hasTaken: boolean;
 }
 
 const StartAssessmentModal = ({
   slug,
   assessmentId,
+  hasTaken,
 }: StartAssessmentModalProps) => {
   const router = useRouter();
   const { setPage, setProgress } = useAssessmentSessionContext();
@@ -73,6 +75,7 @@ const StartAssessmentModal = ({
       <DialogTrigger asChild>
         <Button
           type="button"
+          disabled={hasTaken}
           className="group h-10 text-base tracking-wide transition-all duration-300 ease-in-out sm:w-fit"
         >
           <div className="relative flex h-full w-fit items-center justify-center pr-6">
@@ -114,6 +117,7 @@ const StartAssessmentModal = ({
           </Button>
           <Button
             type="button"
+            disabled={hasTaken}
             onClick={handleStartAssessment}
             className="w-full"
           >
