@@ -11,21 +11,22 @@ datasource db {
 }
 
 model User {
-  id            String       @id @default(uuid())
-  slug          String       @unique
-  email         String       @unique
-  password      String?
-  authProvider  AuthProvider @map("auth_provider")
-  skillId       String?      @map("skill_id")
-  isVerified    Boolean?     @map("is_verified")
-  profilePhoto  String?      @map("profile_photo")
-  placeOfBirth  String?      @map("place_of_birth")
-  dateOfBirth   DateTime?    @map("date_of_birth")
-  gender        Gender?
-  lastEducation String?      @map("last_education")
-  address       String?
-  jobId         String?      @map("job_id")
-  isDeleted     Boolean      @default(false) @map("is_deleted")
+  id              String       @id @default(uuid())
+  slug            String       @unique
+  email           String       @unique
+  password        String?
+  authProvider    AuthProvider @map("auth_provider")
+  skillId         String?      @map("skill_id")
+  isVerified      Boolean?     @map("is_verified")
+  profilePhoto    String?      @map("profile_photo")
+  placeOfBirth    String?      @map("place_of_birth")
+  dateOfBirth     DateTime?    @map("date_of_birth")
+  gender          Gender?
+  lastEducation   String?      @map("last_education")
+  address         String?
+  jobId           String?      @map("job_id")
+  isPasswordReset Boolean?     @map("is_password_reset")
+  isDeleted       Boolean      @default(false) @map("is_deleted")
 
   skill Skill? @relation(fields: [skillId], references: [id], onUpdate: Cascade)
   job   Job?   @relation(fields: [jobId], references: [id], onUpdate: Cascade)
@@ -54,20 +55,21 @@ model Developer {
 }
 
 model Company {
-  id           String       @id @default(uuid())
-  slug         String       @unique
-  name         String
-  email        String       @unique
-  password     String
-  authProvider AuthProvider @map("auth_provider")
-  authId       String?      @map("auth_id")
-  phoneNumber  String       @map("phone_number")
-  isVerified   Boolean?     @map("is_verified")
-  logoUrl      String?      @map("logo_url")
-  description  String?
-  category     String?
-  location     String?
-  isDeleted    Boolean      @default(false) @map("is_deleted")
+  id              String       @id @default(uuid())
+  slug            String       @unique
+  name            String
+  email           String       @unique
+  password        String
+  authProvider    AuthProvider @map("auth_provider")
+  authId          String?      @map("auth_id")
+  phoneNumber     String       @map("phone_number")
+  isVerified      Boolean?     @map("is_verified")
+  logoUrl         String?      @map("logo_url")
+  description     String?
+  category        String?
+  location        String?
+  isPasswordReset Boolean?     @map("is_password_reset")
+  isDeleted       Boolean      @default(false) @map("is_deleted")
 
   Job           Job[]
   CompanyReview CompanyReview[]
