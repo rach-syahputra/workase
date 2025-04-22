@@ -143,15 +143,16 @@ model Subscription {
 model SubscriptionPayment {
   id             String        @id @default(uuid())
   slug           String        @unique
-  subscriptionId String        @map("subscription_id")
+  subscriptionId String?       @unique @map("subscription_id")
   paymentStatus  PaymentStatus @map("payment_status")
   paymentProof   String        @map("payment_proof")
-  approvedBy     String        @map("approved_by")
+  approvedBy     String?       @map("approved_by")
   createdAt      DateTime      @map("created_at")
+  updatedAt      DateTime      @map("updated_at")
   isDeleted      Boolean       @default(false) @map("is_deleted")
 
-  subscription Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  developer    Developer    @relation(fields: [approvedBy], references: [id], onUpdate: Cascade)
+  subscription Subscription? @relation(fields: [subscriptionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  developer    Developer?    @relation(fields: [approvedBy], references: [id], onUpdate: Cascade)
 
   @@map("subscription_payments")
 }
