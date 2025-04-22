@@ -131,7 +131,7 @@ model Subscription {
   userId    String               @map("user_id")
   category  SubscriptionCategory
   startedAt DateTime             @map("started_at")
-  expiresAt DateTime             @map("expires_at")
+  expiresAt DateTime?            @map("expires_at")
   isDeleted Boolean              @default(false) @map("is_deleted")
 
   user                User                  @relation(fields: [userId], references: [id], onUpdate: Cascade)
@@ -143,7 +143,7 @@ model Subscription {
 model SubscriptionPayment {
   id             String        @id @default(uuid())
   slug           String        @unique
-  subscriptionId String?       @unique @map("subscription_id")
+  subscriptionId String        @unique @map("subscription_id")
   paymentStatus  PaymentStatus @map("payment_status")
   paymentProof   String        @map("payment_proof")
   approvedBy     String?       @map("approved_by")
@@ -151,8 +151,8 @@ model SubscriptionPayment {
   updatedAt      DateTime      @map("updated_at")
   isDeleted      Boolean       @default(false) @map("is_deleted")
 
-  subscription Subscription? @relation(fields: [subscriptionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  developer    Developer?    @relation(fields: [approvedBy], references: [id], onUpdate: Cascade)
+  subscription Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  developer    Developer?   @relation(fields: [approvedBy], references: [id], onUpdate: Cascade)
 
   @@map("subscription_payments")
 }
