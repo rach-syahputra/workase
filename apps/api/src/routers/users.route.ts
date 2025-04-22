@@ -1,4 +1,8 @@
-import { verifyCompany, verifyRefreshToken, verifyUser } from '@/middlewares/auth.middleware';
+import {
+  verifyCompany,
+  verifyRefreshToken,
+  verifyUser,
+} from '@/middlewares/auth.middleware';
 import userController from '@/controllers/user.controller';
 
 import { Router } from 'express';
@@ -7,6 +11,9 @@ import {
   validateNewUserPassword,
   validateEmailUser,
   validateUserProfileUpdate,
+  markPasswordResetAsIncomplete,
+  verifyPasswordResetStatus,
+  markPasswordResetTokenAsUsed,
 } from '@/middlewares/user.middleware';
 import { uploadUserImage } from '@/helpers/multer';
 export const usersRouter = () => {
@@ -16,6 +23,7 @@ export const usersRouter = () => {
   router.post(
     '/email-verification-request',
     verifyUser,
+
     usersController.sendEmailVerification,
   );
   router.patch('/verify', verifyUser, usersController.verifiedEmail);
@@ -23,12 +31,15 @@ export const usersRouter = () => {
   router.post(
     '/password-reset-request',
     validateEmailUser,
+    markPasswordResetAsIncomplete,
     userController.passwordResetRequest,
   );
   router.patch(
     '/reset-password',
     verifyUser,
+    verifyPasswordResetStatus,
     validateNewUserPassword,
+    markPasswordResetTokenAsUsed,
     userController.resetPassword,
   );
   //user profile management

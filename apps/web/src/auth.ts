@@ -1,6 +1,3 @@
-import { PrismaAdapter } from '@auth/prisma-adapter';
-// import { prisma } from '@/lib/prisma';
-import { OAuthConfig } from 'next-auth/providers';
 import NextAuth, { Account, Profile, User } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import Google from 'next-auth/providers/google';
@@ -18,7 +15,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       name: 'Google (User)',
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET,
-
       profile(profile) {
         return {
           id: profile.sub,
@@ -49,7 +45,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       name: 'User Credentials',
       async authorize(credentials) {
         try {
-          console.log('ini credentials', credentials);
           const response = await axiosPublic.post('/auth/login/user', {
             email: credentials.email,
             password: credentials.password,
@@ -57,10 +52,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           });
           const user = response.data.data;
           user.type = 'user';
-
           return user;
         } catch (error) {
-          console.error(error);
           return null;
         }
       },
@@ -70,7 +63,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       name: 'Company Credentials',
       async authorize(credentials) {
         try {
-          console.log('ini credentials hanif', credentials);
           const response = await axiosPublic.post('/auth/login/company', {
             email: credentials.email,
             password: credentials.password,
@@ -80,7 +72,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           user.type = 'company';
           return user;
         } catch (error) {
-          console.error(error);
           return null;
         }
       },
@@ -93,7 +84,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.accessToken = user.accessToken;
         token.refreshToken = user.refreshToken;
         token.type = user.type;
-        console.log('ini user', user);
       } else if (token.accessToken || trigger === 'update') {
         const { type } = token as { type: string };
         if (type == 'user') {
@@ -129,7 +119,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           session.user.role = user.role;
           session.user.id = user.id as string;
           session.user.email = user.email as string;
-
           session.user.authProvider = user.authProvider;
           session.user.isVerified = user.isVerified as boolean;
           session.user.location = user.location ?? '';
@@ -154,10 +143,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           session.user.slug = user.slug;
         }
       }
-      console.log('session 11:', session);
       return session;
     },
-
     async signIn({
       user,
       account,
@@ -167,7 +154,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       account: Account | null;
       profile?: Profile | undefined;
     }): Promise<string | boolean> {
-      console.log('masuk ke sign in akhir', user.type);
       if (
         account?.provider === 'user-login' ||
         account?.provider === 'company-login'
@@ -183,7 +169,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           user.accessToken = response.data.data.accessToken;
           user.refreshToken = response.data.data.refreshToken;
           user.type = 'user';
-          console.log('ini harusnya user', user);
         } catch (e) {
           await axiosPublic.post('/auth/register/user', {
             email: profile?.email,
@@ -193,7 +178,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return true;
       } else if (user.type == 'company') {
         try {
-          console.log('masuk ke register woi', user.type);
           const response = await axiosPublic.post('/auth/login/company', {
             email: profile?.email,
             authProvider: 'GOOGLE',
@@ -201,16 +185,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           user.accessToken = response.data.data.accessToken;
           user.refreshToken = response.data.data.refreshToken;
           user.type = 'company';
-          console.log('ini harusnya company', user);
         } catch (e) {
-          console.log('masuk ke register woi', e);
           await axiosPublic.post('/auth/register/company', {
             email: profile?.email,
             authProvider: 'GOOGLE',
           });
         }
       }
-      console.log('masuk ke sign in woi', account?.provider);
       return true;
     },
   },
