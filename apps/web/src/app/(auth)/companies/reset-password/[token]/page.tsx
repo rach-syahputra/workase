@@ -48,7 +48,7 @@ export default function ResetPassword(props: IResetPasswordProps) {
       }
     } catch (err) {
       alert(
-        `something went wrong, maybe your password reset link has been reach its limit time, please try request new password reset link again`,
+        `something went wrong, maybe your password reset link has been reach its limit time or you have used one chance we have give to reset your password, please try request new password reset link again`,
       );
     }
   };
@@ -70,8 +70,8 @@ export default function ResetPassword(props: IResetPasswordProps) {
           Reset Password Form
         </div>
         <div className="flex justify-center text-center md:pt-[10px]">
-          Enter your new company account password to continue, afther that you
-          can sign in again
+          Enter Your New Company Account Password to Continue, After that You
+          Can Sign In Again
         </div>
         <form action="" onSubmit={formik.handleSubmit}>
           <div className="pb-[5px] pt-[10px] font-medium md:pt-[30px]"></div>
@@ -116,10 +116,10 @@ export default function ResetPassword(props: IResetPasswordProps) {
         <div className="flex w-full items-center justify-center pt-[14px] text-[15px]">
           <div className="flex items-center justify-center gap-1 pb-[15px] pt-[5px] text-[15px] text-blue-700">
             <div className="text-[15px] text-black">
-              Remember your password?{' '}
+              Remember Your Password?{' '}
             </div>{' '}
             <a href="/companies/login" className="py-2">
-              Log in
+              Log In
             </a>
           </div>
         </div>

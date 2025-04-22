@@ -25,7 +25,7 @@ export default function Footer() {
             </div>
             <div className="mt-[20px]">
               {' '}
-              &copy; 2025 Workase. All rights reserved.
+              &copy; 2025 Workase. All Rights Reserved.
             </div>
           </div>
         </div>

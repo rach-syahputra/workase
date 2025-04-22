@@ -6,9 +6,12 @@ import {
 } from '@/middlewares/auth.middleware';
 import companyController from '@/controllers/company.controller';
 import {
+  markPasswordResetAsIncomplete,
+  markPasswordResetTokenAsUsed,
   validateCompanyProfileUpdate,
   validateEmailCompany,
   validateNewCompanyPassword,
+  verifyPasswordResetStatus,
 } from '@/middlewares/company.middleware';
 import { uploadCompanyImage } from '@/helpers/multer';
 export const companiesRouter = () => {
@@ -25,12 +28,15 @@ export const companiesRouter = () => {
   router.post(
     '/password-reset-request',
     validateEmailCompany,
+    markPasswordResetAsIncomplete,
     companyController.passwordResetRequest,
   );
   router.patch(
     '/reset-password',
     verifyCompany,
+    verifyPasswordResetStatus,
     validateNewCompanyPassword,
+    markPasswordResetTokenAsUsed,
     companyController.resetPassword,
   );
   //company profile management

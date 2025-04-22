@@ -51,12 +51,12 @@ export default function ForgotPassword(props: IForgotPasswordProps) {
           Forgot Password Form
         </div>
         <div className="flex justify-center text-center md:pt-[10px]">
-          Enter your personal email address and we`ll send you a link to reset
-          your password
+          Enter Your Personal Email Address and We`ll Send You a Link to Reset
+          Your Password
         </div>
         <form action="" onSubmit={formik.handleSubmit}>
-          <div className="pb-[5px] pt-[10px] font-medium md:pt-[35px]">
-            Email address
+          <div className="pb-[5px] pt-[13px] font-medium md:pt-[35px]">
+            Email Address
           </div>
           <input
             className="h-[45px] w-full rounded-lg border-[1px] border-gray-300 pl-2 font-light md:font-medium"
@@ -86,7 +86,7 @@ export default function ForgotPassword(props: IForgotPasswordProps) {
             href="/users/login"
           >
             {' '}
-            Back to sign in
+            Back to Sign In
           </a>
         </div>
       </div>
