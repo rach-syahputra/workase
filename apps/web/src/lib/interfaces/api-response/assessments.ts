@@ -28,7 +28,7 @@ export interface GetAssessmentDiscoveryResponse extends APIResponse {
 
 export interface GetAssessmentBySlugResponse extends APIResponse {
   data?: {
-    assessment: IAssessment;
+    assessment: IAssessmentDetail;
   };
 }
 

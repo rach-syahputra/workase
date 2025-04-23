@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 
 import { cn } from '@/lib/utils';
-import { userDashboardMenu } from '@/lib/constants/user';
+import { USER_DASHBOARD_ITEMS } from '@/lib/constants/user';
 import {
   Sidebar,
   SidebarGroup,
@@ -43,7 +43,7 @@ const UserSidebar = ({ className }: UserSidebarProps) => {
         </SidebarGroupLabel>
         <Separator />
         <SidebarMenu>
-          {userDashboardMenu.map((item, index) => {
+          {USER_DASHBOARD_ITEMS.map((item, index) => {
             const isActive = pathname === item.url;
 
             return (

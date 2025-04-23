@@ -54,3 +54,16 @@ export const scrollToTop = (
 ) => {
   window.scrollTo({ top, behavior });
 };
+
+export const formatSubscriptionStat = (n: number) => {
+  if (n >= 1000) {
+    return (n / 1000).toFixed(n % 1000 === 0 ? 0 : 1) + 'K';
+  }
+
+  if (n > 50) {
+    const roundedDown = Math.floor(n / 50) * 50;
+    return `${roundedDown}+`;
+  }
+
+  return n.toString();
+};

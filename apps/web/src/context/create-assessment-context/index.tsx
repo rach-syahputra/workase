@@ -1,13 +1,7 @@
 'use client';
 
-import {
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
+
 import { getAvailableSkills } from '@/lib/apis/assessments';
 import { ISkill } from '@/lib/interfaces/skill';
 import { ICreateAssessmentContext, ISelectedSkill } from './interface';
@@ -22,6 +16,7 @@ const CreateAssessmentProvider = ({
   children: React.ReactNode;
 }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(true);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [page, setPage] = useState<number>(1);
   const [searchSkill, setSearchSkill] = useState<string>('');
@@ -68,6 +63,8 @@ const CreateAssessmentProvider = ({
       value={{
         isLoading,
         setIsLoading,
+        isSubmitting,
+        setIsSubmitting,
         totalPages,
         setTotalPages,
         page,

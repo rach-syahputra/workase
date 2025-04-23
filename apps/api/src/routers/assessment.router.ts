@@ -26,7 +26,7 @@ class AssessmentRouter {
     this.router.get(
       '/discovery',
       verifyDeveloper,
-      this.assessmentController.getAssessmentBySlug,
+      this.assessmentController.getAssessmentDiscovery,
     );
     this.router.get('/:slug', this.assessmentController.getAssessmentBySlug);
     this.router.get(

@@ -9,6 +9,8 @@ export interface ISelectedSkill {
 export interface ICreateAssessmentContext {
   isLoading: boolean;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
+  isSubmitting: boolean;
+  setIsSubmitting: Dispatch<SetStateAction<boolean>>;
   totalPages: number;
   setTotalPages: Dispatch<SetStateAction<number>>;
   page: number;

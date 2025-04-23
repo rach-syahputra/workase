@@ -1,4 +1,4 @@
-import NavigationBar from '@/components/navigation-bar/page';
+import NavigationBar from '@/components/layout/navigation-bar/navigation-bar';
 import UserSidebar from '@/components/user-dashboard/user-sidebar';
 
 export default function UserDashboardLayout({

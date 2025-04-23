@@ -50,9 +50,11 @@ export default function RootLayout({
       <body
         className={`${geist.variable} ${cocogooes.variable} text-primary-dark font-[family-name:var(--font-geist)] antialiased`}
       >
-        <SearchJobProvider>
-          <AssessmentSessionProvider>{children}</AssessmentSessionProvider>
-        </SearchJobProvider>
+        <SessionProvider>
+          <SearchJobProvider>
+            <AssessmentSessionProvider>{children}</AssessmentSessionProvider>
+          </SearchJobProvider>
+        </SessionProvider>
         <Toaster />
       </body>
     </html>

@@ -194,9 +194,8 @@ model Skill {
   updatedAt DateTime @map("updated_at")
   isDeleted Boolean  @default(false) @map("is_deleted")
 
-  Assessment  Assessment[]
-  User        User[]
-  Certificate Certificate[]
+  Assessment Assessment[]
+  User       User[]
 
   @@map("skills")
 }
@@ -272,8 +271,6 @@ model Certificate {
   isDeleted        Boolean  @default(false) @map("is_deleted")
 
   userAssessment UserAssessment @relation(fields: [userAssessmentId], references: [id], onUpdate: Cascade)
-  Skill          Skill?         @relation(fields: [skillId], references: [id])
-  skillId        String?
 
   @@map("certificates")
 }

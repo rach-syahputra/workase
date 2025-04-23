@@ -8,7 +8,7 @@ import { AddAssessmentFormValues } from '@/lib/interfaces/form/assessment';
 import { addAssessment } from '@/lib/apis/assessments';
 import { addAssessmentSchema } from '@/validations/assessment';
 import { useCreateAssessmentContext } from '@/context/create-assessment-context';
-import { useAssessmentContext } from '@/context/assessment-context';
+import { useAssessmentContext } from '@/context/assessment-context/index';
 import { useBrowseSkillsContext } from '@/context/browse-skills-context';
 import DisabledFormInput from '@/components/ui/disabled-form-input.tsx';
 import FormInput from '@/components/ui/form-input';

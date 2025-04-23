@@ -16,12 +16,12 @@ interface AssessmentTabProps {
 
 const AssessmentTab = ({ activeTab }: AssessmentTabProps) => {
   return (
-    <Tabs defaultValue={activeTab} className="w-full">
-      <TabsList className="w-full">
-        <TabsTrigger asChild value="discovery" className="w-full">
+    <Tabs defaultValue={activeTab}>
+      <TabsList className="w-full justify-start">
+        <TabsTrigger asChild value="discovery" className="px-8">
           <Link href="/dashboard/assessments?tab=discovery">Discovery</Link>
         </TabsTrigger>
-        <TabsTrigger asChild value="history" className="w-full">
+        <TabsTrigger asChild value="history" className="px-8">
           <Link href="/dashboard/assessments?tab=history">History</Link>
         </TabsTrigger>
       </TabsList>

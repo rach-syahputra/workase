@@ -1,6 +1,6 @@
-import { BriefcaseBusiness, NotepadText } from 'lucide-react';
+import { BriefcaseBusiness, CreditCard, NotepadText } from 'lucide-react';
 
-export const userDashboardMenu = [
+export const USER_DASHBOARD_ITEMS = [
   {
     title: 'Applied Jobs',
     url: '/dashboard/applied-jobs',
@@ -10,5 +10,10 @@ export const userDashboardMenu = [
     title: 'Assessment',
     url: '/dashboard/assessments',
     icon: NotepadText,
+  },
+  {
+    title: 'Transaction',
+    url: '/dashboard/transactions',
+    icon: CreditCard,
   },
 ];

@@ -11,7 +11,6 @@ import AppPagination from '@/components/ui/pagination';
 import UserDashboardHeader from '@/components/user-dashboard/user-dashboard-header';
 import AssessmentCardSkeleton from './assessment-card-skeleton';
 import AssessmentCard from './assessment-card';
-import { getAssessmentDiscoveryColumns } from './table/column';
 
 const AssessmentDiscovery = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
