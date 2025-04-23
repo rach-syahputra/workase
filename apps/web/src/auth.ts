@@ -156,6 +156,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.name = user.name;
         session.user.phoneNumber = user.phoneNumber;
         session.user.slug = user.slug;
+        session.user.accessToken = token.accessToken as string;
       }
       return session;
     },

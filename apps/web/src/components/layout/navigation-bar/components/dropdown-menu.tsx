@@ -16,6 +16,7 @@ import {
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { IoPerson } from 'react-icons/io5';
 
 export default function DropdownMenuDemo() {
   const { data: session } = useSession();
@@ -37,7 +38,8 @@ export default function DropdownMenuDemo() {
       <DropdownMenuContent className="mr-5">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem className="flex items-center gap-3">
+          <IoPerson />
           <Link
             href={`/profile-management/${session?.user?.role == 'USER' ? 'users' : 'companies'}`}
           >
