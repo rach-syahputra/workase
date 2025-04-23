@@ -1,19 +1,19 @@
-import { DeveloperAssessmentProvider } from '@/context/developer-assessment-context';
-import DeveloperSidebar from '@/components/developer/developer-sidebar';
-import DeveloperNavbar from '@/components/developer/developer-navbar';
+import React from 'react';
+import { redirect } from 'next/navigation';
+import { auth } from '@/auth';
 
-export default function DeveloperLayout({
-  children,
-}: {
+interface DeveloperLayoutProps {
   children: React.ReactNode;
-}) {
-  return (
-    <div className="relative flex min-h-screen w-full flex-col items-start justify-start lg:flex-row">
-      <DeveloperNavbar />
-      <DeveloperSidebar />
-      <main className="min-h-screen w-full">
-        <DeveloperAssessmentProvider>{children}</DeveloperAssessmentProvider>
-      </main>
-    </div>
-  );
 }
+
+const DeveloperLayout = async ({ children }: DeveloperLayoutProps) => {
+  const session = await auth();
+
+  if (session?.user?.role !== 'DEVELOPER') {
+    redirect('/auth/dev/sign-in');
+  }
+
+  return <>{children}</>;
+};
+
+export default DeveloperLayout;

@@ -17,7 +17,7 @@ export default function AssessmentsPage() {
       <BrowseSkillsProvider>
         <CreateAssessmentProvider>
           <AssessmentProvider>
-            <div className="flex w-full gap-4 xl:grid xl:grid-cols-2">
+            <div className="flex w-full flex-col gap-16 md:gap-8 lg:grid lg:grid-cols-2 lg:gap-4">
               <BrowseSkills />
               <CreateAssessment />
             </div>

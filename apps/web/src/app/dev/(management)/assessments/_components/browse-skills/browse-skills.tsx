@@ -25,7 +25,7 @@ const BrowseSkills = () => {
         value={searchSkill}
         className="w-full"
       />
-      <Card className="mt-4 flex h-full w-full flex-1 flex-col items-start justify-between gap-4 max-md:border-none max-md:shadow-none md:p-5">
+      <Card className="mt-4 flex h-full w-full flex-1 flex-col items-start justify-between gap-8 max-md:border-none max-md:shadow-none md:p-5">
         <Skills />
         <CreateSkillModal />
       </Card>
