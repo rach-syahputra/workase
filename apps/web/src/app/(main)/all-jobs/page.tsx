@@ -2,10 +2,7 @@
 import Container from '@/components/layout/container';
 import * as React from 'react';
 import { SearchBar } from './_components/searchbar';
-import { SearchJobs } from './_components/searchJobs';
-import { useSearchParams } from 'next/navigation';
-import { useSearchJob } from '@/context/search-job-context';
-import { useEffect } from 'react';
+import { SearchJobs } from './_components/search-jobs';
 export default function AllJobs() {
   return (
     <Container className="">

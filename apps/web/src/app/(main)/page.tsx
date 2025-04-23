@@ -3,8 +3,8 @@ import Container from '@/components/layout/container';
 import * as React from 'react';
 import { SearchBar } from './_components/searchbar';
 
-import { NewestJobs } from './_components/newestJobs';
-import { NearestJobs } from './_components/nearestJob';
+import { NewestJobs } from './_components/newest-jobs';
+import { NearestJobs } from './_components/nearest-job';
 
 export default function HomePage() {
   return (

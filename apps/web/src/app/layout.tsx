@@ -3,6 +3,7 @@ import localFont from 'next/font/local';
 import './globals.css';
 import { SearchJobProvider } from '@/context/search-job-context';
 import { Toaster } from '@/components/shadcn-ui/toaster';
+import { SessionProvider } from 'next-auth/react';
 
 export const metadata: Metadata = {
   title: 'Workase — Exclusive Job Listing',
@@ -48,7 +49,10 @@ export default function RootLayout({
       <body
         className={`${geist.variable} ${cocogooes.variable} text-primary-dark font-[family-name:var(--font-geist)] antialiased`}
       >
-        <SearchJobProvider>{children}</SearchJobProvider>
+        {' '}
+        <SessionProvider>
+          <SearchJobProvider>{children}</SearchJobProvider>
+        </SessionProvider>
         <Toaster />
       </body>
     </html>

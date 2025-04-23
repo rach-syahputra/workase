@@ -1,8 +1,8 @@
-import Footer from '@/components/footer/page';
-import NavigationBar from '@/components/navigation-bar/page';
+import Footer from '@/components/layout/footer';
+import NavigationBar from '@/components/layout/navigation-bar/navigation-bar';
 import { SampleProvider } from '@/context/sample-context';
 
-export default function MainLayout({
+export default async function MainLayout({
   children,
 }: {
   children: React.ReactNode;

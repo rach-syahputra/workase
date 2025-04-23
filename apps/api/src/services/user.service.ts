@@ -1,27 +1,45 @@
+import { UserRequest } from '@/interfaces/middleware.interface';
+
+import loginUsersRepository from '@/repositories/users/login.repository';
+import registerUsersRepository from '@/repositories/users/register.repository';
+import verifiedUserEmailRepository from '@/repositories/users/varified-email.repository';
+import resetUserPasswordRepository from '@/repositories/users/reset-password.repository';
+import getUserProfileRepository, {
+  updateUserPhotoProfileRepository,
+  updateUserProfileRepository,
+} from '@/repositories/users/user-profile.repository';
 import { ResponseError } from '@/helpers/error';
-import { getUserByEmail } from '@/helpers/user.prisma';
-import { UserLogin } from '@/interfaces/user.interfase';
-import LoginUsersRepository from '@/repositories/users/login.repository';
-import RegisterUsersRepository from '@/repositories/users/register.repository';
-import { Request } from 'express';
+import { putUserAccessToken } from '@/helpers/jwt';
 class UsersService {
   async register(data: {
     email: string;
     password: string;
     authProvider: string;
   }) {
-    const { email, password, authProvider } = data;
-    const user = (await getUserByEmail(email)) as UserLogin;
-    if (user) {
-      throw new ResponseError(409, 'User already exists');
-    } else if (!user && authProvider === 'EMAIL' && !password) {
-      throw new ResponseError(400, 'Password is required');
-    } else if (!user) {
-      await RegisterUsersRepository.register(data);
-    }
+    return await registerUsersRepository.register(data);
   }
-  async login(req: Request) {
-    await LoginUsersRepository.login(req);
+  async login(data: { email: string; password: string; authProvider: string }) {
+    return await loginUsersRepository.login(data);
+  }
+  async verifiedEmail(req: UserRequest) {
+    return await verifiedUserEmailRepository.verifiedEmail(req);
+  }
+  async resetPassword(req: UserRequest) {
+    return await resetUserPasswordRepository.resetPassword(req);
+  }
+  async getUserProfile(req: UserRequest) {
+    return await getUserProfileRepository.getUserProfile(req);
+  }
+  async updateUserProfile(req: UserRequest) {
+    return await updateUserProfileRepository.updateUserProfile(req);
+  }
+  async updateUserPhoto(req: UserRequest) {
+    return await updateUserPhotoProfileRepository.updateUserPhotoProfile(req);
+  }
+  async refreshToken(req: UserRequest) {
+    if (!req.user?.email) throw new ResponseError(401, 'Invalid Token');
+    const result = await putUserAccessToken(undefined, req.user?.email);
+    return result;
   }
 }
 export default new UsersService();
