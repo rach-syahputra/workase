@@ -1,4 +1,5 @@
 import jwt, { sign } from 'jsonwebtoken';
+import jwt, { sign } from 'jsonwebtoken';
 
 import { JWT_ACCESS_SECRET, JWT_REFRESH_SECRET } from '@/config';
 import {

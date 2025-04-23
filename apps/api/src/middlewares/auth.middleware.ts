@@ -8,11 +8,11 @@ import {
 } from '@/config';
 import { ResponseError } from '@/helpers/error';
 import {
-  DeveloperRequest,
   CompanyRequest,
   CompanyToken,
   UserRequest,
   UserToken,
+  DeveloperRequest,
 } from '@/interfaces/middleware.interface';
 
 export function verifyUser(
