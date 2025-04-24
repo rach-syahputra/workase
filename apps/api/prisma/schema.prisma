@@ -147,7 +147,7 @@ model SubscriptionPayment {
   paymentStatus  PaymentStatus @map("payment_status")
   paymentProof   String?       @map("payment_proof")
   approvedBy     String?       @map("approved_by")
-  totalPrice     Int           @map("total_price")
+  totalPrice     Decimal       @map("total_price")
   createdAt      DateTime      @map("created_at")
   updatedAt      DateTime      @map("updated_at")
   isDeleted      Boolean       @default(false) @map("is_deleted")
