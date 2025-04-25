@@ -1,10 +1,13 @@
-import { SubscriptionCategoryType } from '@/lib/interfaces/subscription';
+import {
+  SubscriptionCategoryType,
+  SubscriptionPaymentStatusType,
+} from '@/lib/interfaces/subscription';
 
-export interface IPendingTransactionColumn {
+export interface ICompletedTransactionColumn {
   id: string;
   payment: {
     id: string;
-    status: 'PENDING';
+    status: SubscriptionPaymentStatusType;
     slug: string;
   };
   paymentProof: string | null;
@@ -13,6 +16,6 @@ export interface IPendingTransactionColumn {
   createdAt: string;
 }
 
-export interface GetPendingTransactionColumnsRequest {
+export interface GetCompletedTransactionColumnsRequest {
   onCreatedAtClick: () => void;
 }

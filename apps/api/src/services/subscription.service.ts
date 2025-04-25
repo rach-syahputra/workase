@@ -1,30 +1,39 @@
 import { CLOUDINARY_SUBSCRIPTION_PAYMENT_PROOF_FOLDER } from '@/config';
 import ImageRepository from '@/repositories/cloudinary/image.repository';
 import SubscriptionRepository from '@/repositories/subscriptions/supscription.repository';
+import SubscriptionPaymentRepository from '@/repositories/subscriptions/subscription-payment.repository';
 import {
   AddSubscriptionRequest,
+  CheckPaymentExpirationsRequest,
+  GetSubscriptionPaymentBySlugRequest,
   GetSubscriptionsRequest,
+  GetSubscriptionTransactionStatusRequest,
   UpdateSubscriptionPaymentServiceRequest,
+  VerifySubscriptionOwnerRequest,
 } from '@/interfaces/subscription.interface';
 import {
   addSubscriptionSchema,
   updateSubscriptionPaymentSchema,
 } from '@/validations/subscription.validation';
 import { validate } from '@/helpers/validation';
+import { ResponseError } from '@/helpers/error';
 
 class SubscriptionService {
   private imageRepository: ImageRepository;
   private subscriptionRepository: SubscriptionRepository;
+  private subscriptionPaymentRepository: SubscriptionPaymentRepository;
 
   constructor() {
     this.imageRepository = new ImageRepository();
     this.subscriptionRepository = new SubscriptionRepository();
+    this.subscriptionPaymentRepository = new SubscriptionPaymentRepository();
   }
 
   addSubscription = async (req: AddSubscriptionRequest) => {
     validate(addSubscriptionSchema, req);
 
     return await this.subscriptionRepository.addSupscription({
+      totalPrice: req.totalPrice,
       userId: req.userId,
       category: req.category,
       paymentStatus: req.paymentStatus,
@@ -45,7 +54,7 @@ class SubscriptionService {
       );
     }
 
-    return await this.subscriptionRepository.updateSubscriptionPayment({
+    return await this.subscriptionPaymentRepository.updateSubscriptionPayment({
       subscriptionPaymentId: req.subscriptionPaymentId,
       paymentProof: paymentProof?.secure_url,
       approvedBy: req.approvedBy,
@@ -54,7 +63,45 @@ class SubscriptionService {
   };
 
   getSubscriptions = async (req: GetSubscriptionsRequest) => {
+    await this.checkPaymentExpirations({ userId: req.userId });
+
     return await this.subscriptionRepository.getSubscriptions(req);
+  };
+
+  verifySubscriptionOwner = async (req: VerifySubscriptionOwnerRequest) => {
+    const { subscription } =
+      await this.subscriptionRepository.getSubscriptionById({
+        subscriptionId: req.subscriptionId,
+      });
+
+    if (subscription?.userId !== req.userId) {
+      throw new ResponseError(
+        401,
+        `You don't have access to this subscription`,
+      );
+    }
+  };
+
+  getSubscriptionTransactionStatus = async (
+    req: GetSubscriptionTransactionStatusRequest,
+  ) => {
+    return await this.subscriptionRepository.getSubcsriptionTransactionStatus(
+      req,
+    );
+  };
+
+  getSubscriptionPaymentBySlug = async (
+    req: GetSubscriptionPaymentBySlugRequest,
+  ) => {
+    return await this.subscriptionPaymentRepository.getSubscriptionPaymentBySlug(
+      req,
+    );
+  };
+
+  checkPaymentExpirations = async (req: CheckPaymentExpirationsRequest) => {
+    return await this.subscriptionPaymentRepository.checkPaymentExpirations(
+      req,
+    );
   };
 }
 

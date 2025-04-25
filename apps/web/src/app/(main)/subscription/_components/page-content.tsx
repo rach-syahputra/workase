@@ -10,7 +10,7 @@ const PageContent = () => {
     <Container className="flex min-h-[calc(100svh-68px)] flex-col items-center justify-center gap-16">
       <SubscriptionHero />
       <SubscriptionStats />
-      {/* <TopAssessments /> */}
+      <TopAssessments />
     </Container>
   );
 };

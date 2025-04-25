@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import { AlignJustify } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
-import { developerMenu } from '@/lib/constants/developer';
+import { DEVELOPER_SIDEBAR_ITEMS } from '@/lib/constants/developer';
 import {
   Drawer,
   DrawerContent,
@@ -43,7 +43,7 @@ const DeveloperNavbar = () => {
           <AppLogo />
 
           <ul className="mt-4 flex w-full flex-col items-center justify-center gap-2">
-            {developerMenu.map((item, index) => {
+            {DEVELOPER_SIDEBAR_ITEMS.map((item, index) => {
               const isActive = pathname === item.url;
 
               return (

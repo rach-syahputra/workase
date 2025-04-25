@@ -1,8 +1,4 @@
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
-
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/shadcn-ui/button';
-import Icon from '@/components/ui/icon';
 import SubscribeModal from '../subscribe-modal';
 
 interface SubscriptionHeroHeaderProps {

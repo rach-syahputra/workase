@@ -15,6 +15,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/shadcn-ui/button';
 import { Card } from '@/components/shadcn-ui/card';
 import AppLoading from '@/components/ui/app-loading';
+import LoadingOverlay from '@/components/ui/loading-overlay';
 
 interface AutoGenerateQuestionButtonProps {
   slug: string;
@@ -125,19 +126,8 @@ const AutoGenerateQuestionButton = ({
         Auto-generate Question
       </Button>
 
-      {isLoading && <GenerateQuestionLoading />}
+      {isLoading && <LoadingOverlay label="Generating your question" />}
     </>
-  );
-};
-
-const GenerateQuestionLoading = () => {
-  return (
-    <div className="fixed inset-0 flex h-screen w-screen items-center justify-center overflow-hidden">
-      <Card className="z-10 flex w-fit items-center justify-center p-6">
-        <AppLoading label="Generating your question" />
-      </Card>
-      <div className="bg-primary-dark absolute inset-0 h-full w-full opacity-80"></div>
-    </div>
   );
 };
 

@@ -1,12 +1,21 @@
+import { auth } from '@/auth';
+import { redirect } from 'next/navigation';
+
 import { DeveloperAssessmentProvider } from '@/context/developer-assessment-context';
 import DeveloperSidebar from '@/components/developer/developer-sidebar';
 import DeveloperNavbar from '@/components/developer/developer-navbar';
 
-export default function DeveloperLayout({
+export default async function DeveloperManagementLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  // Protect dev route
+  const session = await auth();
+  if (session?.user?.role !== 'DEVELOPER') {
+    redirect('/dev/sign-in');
+  }
+
   return (
     <div className="bg-primary-dark-background min-w-screen relative flex min-h-screen w-full flex-col items-start justify-start lg:flex-row">
       <DeveloperNavbar />

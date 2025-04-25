@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 
 import { cn } from '@/lib/utils';
-import { developerMenu } from '@/lib/constants/developer';
+import { DEVELOPER_SIDEBAR_ITEMS } from '@/lib/constants/developer';
 import {
   Sidebar,
   SidebarGroup,
@@ -43,7 +43,7 @@ const DeveloperSidebar = ({ className }: DeveloperSidebarProps) => {
         </SidebarGroupLabel>
         <Separator className="bg-primary-gray" />
         <SidebarMenu>
-          {developerMenu.map((item, index) => {
+          {DEVELOPER_SIDEBAR_ITEMS.map((item, index) => {
             const isActive = pathname === item.url;
 
             return (

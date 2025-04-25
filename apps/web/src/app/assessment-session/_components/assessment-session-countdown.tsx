@@ -5,7 +5,6 @@ import { Clock } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { useAssessmentSessionContext } from '@/context/assessment-session-context';
-import { Skeleton } from '@/components/shadcn-ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
 
 interface AssessmentSessionCountdownProps {

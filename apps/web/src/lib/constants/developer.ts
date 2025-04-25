@@ -1,6 +1,6 @@
-import { ChartNoAxesCombined, NotepadText } from 'lucide-react';
+import { ChartNoAxesCombined, CreditCard, NotepadText } from 'lucide-react';
 
-export const developerMenu = [
+export const DEVELOPER_SIDEBAR_ITEMS = [
   {
     title: 'Dashboard',
     url: '/dev',
@@ -10,5 +10,10 @@ export const developerMenu = [
     title: 'Assessment',
     url: '/dev/assessments',
     icon: NotepadText,
+  },
+  {
+    title: 'Transaction',
+    url: '/dev/transactions',
+    icon: CreditCard,
   },
 ];

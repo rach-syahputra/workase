@@ -13,6 +13,7 @@ import {
   UserRequest,
   UserToken,
   DeveloperRequest,
+  UserAndDeveloperRequest,
 } from '@/interfaces/middleware.interface';
 
 export function verifyUser(
@@ -105,3 +106,30 @@ export const verifyRefreshToken = (
     next(error);
   }
 };
+
+export function verifyUserAndDeveloper(
+  req: UserAndDeveloperRequest,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    const { authorization } = req.headers;
+    const token = String(authorization || '').split('Bearer ')[1];
+    if (!token) throw new ResponseError(401, 'Unauthenticated.');
+
+    const verifiedUser = jwt.verify(token, JWT_ACCESS_SECRET) as UserToken;
+    if (
+      !verifiedUser ||
+      (verifiedUser.role !== 'USER' && verifiedUser.role !== 'DEVELOPER')
+    )
+      throw new ResponseError(403, 'Unauthorized.');
+
+    if (verifiedUser.role === 'USER') req.user = verifiedUser as UserToken;
+    if (verifiedUser.role === 'DEVELOPER')
+      req.developer = verifiedUser as UserToken;
+
+    next();
+  } catch (err) {
+    next(err);
+  }
+}

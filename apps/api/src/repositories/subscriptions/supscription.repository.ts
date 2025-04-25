@@ -1,9 +1,9 @@
 import { prisma } from '@/helpers/prisma';
 import {
-  AddSubscriptionPaymenRepositoryRequest,
   AddSubscriptionRequest,
+  GetSubscriptionByIdRequest,
   GetSubscriptionsRequest,
-  UpdateSubscriptionPaymentRepositoryRequest,
+  GetSubscriptionTransactionStatusRequest,
 } from '@/interfaces/subscription.interface';
 
 class SubscriptionRepository {
@@ -12,6 +12,18 @@ class SubscriptionRepository {
   constructor() {
     this.prisma = prisma;
   }
+
+  getSubscriptionById = async (req: GetSubscriptionByIdRequest) => {
+    const subscription = await this.prisma.subscription.findUnique({
+      where: {
+        id: req.subscriptionId,
+      },
+    });
+
+    return {
+      subscription,
+    };
+  };
 
   addSupscription = async (req: AddSubscriptionRequest) => {
     const subscription = await this.prisma.subscription.create({
@@ -24,6 +36,7 @@ class SubscriptionRepository {
 
     const subscriptionPayment = await this.prisma.subscriptionPayment.create({
       data: {
+        totalPrice: req.totalPrice,
         paymentStatus: req.paymentStatus,
         slug: new Date(Date.now()).getTime().toString(),
         subscriptionId: subscription.id,
@@ -33,44 +46,11 @@ class SubscriptionRepository {
     });
 
     return {
-      subscription,
+      subscription: {
+        ...subscription,
+        payment: subscriptionPayment,
+      },
     };
-  };
-
-  updateSubscriptionPayment = async (
-    req: UpdateSubscriptionPaymentRepositoryRequest,
-  ) => {
-    return await this.prisma.$transaction(async (trx) => {
-      const subscriptionPayment = await trx.subscriptionPayment.update({
-        where: {
-          id: req.subscriptionPaymentId,
-        },
-        data: {
-          approvedBy: req.approvedBy,
-          paymentProof: req.paymentProof,
-          paymentStatus: req.paymentStatus,
-          updatedAt: new Date(),
-        },
-      });
-
-      // Set the subscription expiration date if the payment status is CONFIRMED
-      if (req.paymentStatus === 'CONFIRMED') {
-        const THIRTY_DAYS_LATER = 30 * 24 * 60 * 60 * 1000;
-
-        await trx.subscription.update({
-          where: {
-            id: subscriptionPayment.subscriptionId,
-          },
-          data: {
-            expiresAt: new Date(Date.now() + THIRTY_DAYS_LATER), // 30 days later
-          },
-        });
-      }
-
-      return {
-        subscriptionPayment,
-      };
-    });
   };
 
   getSubscriptions = async (req: GetSubscriptionsRequest) => {
@@ -84,16 +64,35 @@ class SubscriptionRepository {
     const [totalSubscriptions, subscriptions] = await this.prisma.$transaction([
       this.prisma.subscription.count({
         where: {
-          userId: req.userId,
+          ...(req.userId && { userId: req.userId }),
+          SubscriptionPayment: {
+            some: {
+              paymentStatus: {
+                in: req.paymentStatuses,
+              },
+            },
+          },
         },
       }),
       this.prisma.subscription.findMany({
         where: {
-          userId: req.userId,
+          ...(req.userId && { userId: req.userId }),
+          SubscriptionPayment: {
+            some: {
+              paymentStatus: {
+                in: req.paymentStatuses,
+              },
+            },
+          },
         },
         include: {
           SubscriptionPayment: {
             take: 1,
+          },
+          user: {
+            select: {
+              email: true,
+            },
           },
         },
         orderBy: orderConfig,
@@ -111,11 +110,40 @@ class SubscriptionRepository {
         expiresAt: subscription.expiresAt,
         isDeleted: subscription.isDeleted,
         payment: subscription.SubscriptionPayment[0],
+        user: subscription.user,
       })),
       pagination: {
         totalData: totalSubscriptions,
         totalPages: Math.ceil(totalSubscriptions / limit),
         page,
+      },
+    };
+  };
+
+  getSubcsriptionTransactionStatus = async (
+    req: GetSubscriptionTransactionStatusRequest,
+  ) => {
+    const subscription = await this.prisma.subscription.findFirst({
+      where: {
+        userId: req.userId,
+        SubscriptionPayment: {
+          some: {
+            paymentStatus: 'PENDING',
+          },
+        },
+      },
+      include: {
+        SubscriptionPayment: true,
+      },
+    });
+
+    const transaction = subscription?.SubscriptionPayment[0];
+    const pendingTransaction =
+      transaction?.paymentStatus === 'PENDING' ? transaction : null;
+
+    return {
+      subscription: {
+        pendingTransaction,
       },
     };
   };

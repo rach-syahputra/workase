@@ -1,3 +1,5 @@
+import { OrderType } from './api-request/filter';
+
 export type SubscriptionIdType = 'STANDARD' | 'PROFESSIONAL';
 export type SubscriptionCategoryType = 'Standard' | 'Professional';
 export type SubscriptionPaymentStatusType =
@@ -24,11 +26,15 @@ export interface ISubscription {
   startedAt: string;
   expiresAt: string | null;
   isDeleted: boolean;
+  user?: {
+    email: string;
+  };
 }
 
 export interface ISubscriptionPayment {
   id: string;
   subscriptionId: string;
+  totalPrice: number;
   paymentStatus: SubscriptionPaymentStatusType;
   paymentProof: string | null;
   approvedBy: string | null;
@@ -40,4 +46,11 @@ export interface ISubscriptionPayment {
 
 export interface ISubscriptionWithPayment extends ISubscription {
   payment: ISubscriptionPayment;
+}
+
+export interface IFetchGetSubscriptionsRequest {
+  page: number;
+  limit: number;
+  order: OrderType;
+  status: SubscriptionPaymentStatusType | 'ALL';
 }

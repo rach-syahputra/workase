@@ -1,29 +1,27 @@
 'use client';
 
-import Link from 'next/link';
 import { ColumnDef } from '@tanstack/react-table';
 
 import { cn, formatTableDate } from '@/lib/utils';
 import {
-  GetPendingTransactionColumnsRequest,
-  IPendingTransactionColumn,
+  GetCompletedTransactionColumnsRequest,
+  ICompletedTransactionColumn,
 } from './interface';
 import TableHeaderOrderButton from '@/components/ui/table/table-header-order-button';
-import { Button } from '@/components/shadcn-ui/button';
 
-export const getPendingTransactionColumns = ({
+export const getCompletedTransactionColumns = ({
   onCreatedAtClick,
-}: GetPendingTransactionColumnsRequest): ColumnDef<IPendingTransactionColumn>[] => [
+}: GetCompletedTransactionColumnsRequest): ColumnDef<ICompletedTransactionColumn>[] => [
   {
     accessorKey: 'category',
     header: 'Category',
-    cell: ({ row }) => <div className="w-[200px]">{row.original.category}</div>,
+    cell: ({ row }) => <div className="w-[150px]">{row.original.category}</div>,
   },
   {
     accessorKey: 'price',
     header: 'Price',
     cell: ({ row }) => (
-      <div className="w-[200px] font-bold">${row.original.price}</div>
+      <div className="w-[150px] font-bold">${row.original.price}</div>
     ),
   },
   {
@@ -33,8 +31,13 @@ export const getPendingTransactionColumns = ({
       const status = row.original.payment.status;
 
       return (
-        <div className="w-[200px]">
-          <span className="rounded-md bg-yellow-400 px-3 py-2 text-xs font-medium text-yellow-800">
+        <div className="w-[150px]">
+          <span
+            className={cn('rounded-md px-3 py-2 text-xs font-medium', {
+              'bg-green-400 text-green-800': status === 'CONFIRMED',
+              'bg-red-400 text-red-800': status === 'REJECTED',
+            })}
+          >
             {status}
           </span>
         </div>
@@ -51,24 +54,5 @@ export const getPendingTransactionColumns = ({
         {formatTableDate(new Date(row.original.createdAt))}
       </div>
     ),
-  },
-  {
-    accessorKey: 'action',
-    header: 'Action',
-    cell: ({ row }) => {
-      const isPaymentUploaded = !!row.original.paymentProof;
-
-      return isPaymentUploaded ? (
-        <Link
-          href="/"
-          aria-label="Assessment session page"
-          className="hover:text-primary-blue underline transition-all duration-300 ease-in-out"
-        >
-          Continue Your Assessment
-        </Link>
-      ) : (
-        <Button>Upload Payment Proof</Button>
-      );
-    },
   },
 ];

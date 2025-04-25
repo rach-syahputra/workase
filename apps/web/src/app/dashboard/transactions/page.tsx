@@ -1,4 +1,5 @@
 import { TransactionTabType } from '@/lib/interfaces/transaction';
+import { PendingTransactionProvider } from '@/context/pending-transaction-context';
 import UserDashboardContainer from '@/components/user-dashboard/user-dashboard-container';
 import TransactionTab from './_components/transaction-tab';
 
@@ -11,7 +12,9 @@ const TransactionsPage = async ({ searchParams }: TransactionsPageProps) => {
 
   return (
     <UserDashboardContainer className="min-h-[calc(100svh-108px)]">
-      <TransactionTab activeTab={activeTab} />
+      <PendingTransactionProvider>
+        <TransactionTab activeTab={activeTab} />
+      </PendingTransactionProvider>
     </UserDashboardContainer>
   );
 };

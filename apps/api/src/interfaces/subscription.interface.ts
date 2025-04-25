@@ -1,9 +1,14 @@
 import { PaymentStatus, SubscriptionCategory } from '@prisma/client';
 import { IFilter } from './filter.interface';
 
+export interface GetSubscriptionByIdRequest {
+  subscriptionId: string;
+}
+
 export interface AddSubscriptionRequest {
   category: SubscriptionCategory;
   paymentStatus: PaymentStatus;
+  totalPrice: number;
   userId: string;
 }
 
@@ -30,6 +35,9 @@ export interface UpdateSubscriptionPaymentRequest {
 
 export interface UpdateSubscriptionPaymentServiceRequest
   extends UpdateSubscriptionPaymentRequest {
+  subscriptionId: string;
+  userId?: string;
+  developerId?: string;
   paymentProof?: Express.Multer.File;
 }
 
@@ -39,5 +47,23 @@ export interface UpdateSubscriptionPaymentRepositoryRequest
 }
 
 export interface GetSubscriptionsRequest extends IFilter {
+  userId: string;
+  paymentStatuses: PaymentStatus[];
+}
+
+export interface VerifySubscriptionOwnerRequest {
+  subscriptionId: string;
+  userId: string;
+}
+
+export interface GetSubscriptionTransactionStatusRequest {
+  userId: string;
+}
+
+export interface GetSubscriptionPaymentBySlugRequest {
+  slug: string;
+}
+
+export interface CheckPaymentExpirationsRequest {
   userId: string;
 }

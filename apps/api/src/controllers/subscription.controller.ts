@@ -1,10 +1,15 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Response } from 'express';
 
 import { ApiResponse } from '@/helpers/api-response';
 import { ResponseError } from '@/helpers/error';
 import SubscriptionService from '@/services/subscription.service';
-import { DeveloperRequest } from '@/interfaces/middleware.interface';
+import {
+  DeveloperRequest,
+  UserAndDeveloperRequest,
+  UserRequest,
+} from '@/interfaces/middleware.interface';
 import { OrderType } from '@/interfaces/filter.interface';
+import { PaymentStatus } from '@prisma/client';
 
 class SubscriptionController {
   private subscriptionService: SubscriptionService;
@@ -13,14 +18,19 @@ class SubscriptionController {
     this.subscriptionService = new SubscriptionService();
   }
 
-  addSubscription = async (req: Request, res: Response, next: NextFunction) => {
+  addSubscription = async (
+    req: UserRequest,
+    res: Response,
+    next: NextFunction,
+  ) => {
     try {
-      // TO DO: retrieve user token from session
+      if (!req.user) throw new ResponseError(401, 'Unauthenticated');
 
       const data = await this.subscriptionService.addSubscription({
+        userId: req.user.id,
+        totalPrice: req.body.totalPrice,
         category: req.body.category,
         paymentStatus: req.body.paymentStatus,
-        userId: 'ndy-01',
       });
 
       ApiResponse({
@@ -35,13 +45,16 @@ class SubscriptionController {
   };
 
   uploadSubscriptionPaymentProof = async (
-    req: Request,
+    req: UserRequest,
     res: Response,
     next: NextFunction,
   ) => {
     try {
-      // TO DO: retrieve user token from session
+      if (!req.user) throw new ResponseError(401, 'Unauthenticated');
+
       const data = await this.subscriptionService.updateSubscriptionPayment({
+        subscriptionId: req.params.subscriptionId,
+        userId: req.user.id,
         subscriptionPaymentId: req.params.subscriptionPaymentId,
         paymentProof: req.file!,
       });
@@ -66,6 +79,7 @@ class SubscriptionController {
       if (!req.developer) throw new ResponseError(401, 'Unauthenticated');
 
       const data = await this.subscriptionService.updateSubscriptionPayment({
+        subscriptionId: req.params.subscriptionId,
         subscriptionPaymentId: req.params.subscriptionPaymentId,
         approvedBy: req.body.approvedBy,
         paymentStatus: req.body.paymentStatus,
@@ -83,24 +97,77 @@ class SubscriptionController {
   };
 
   getSubscriptions = async (
-    req: Request,
+    req: UserAndDeveloperRequest,
     res: Response,
     next: NextFunction,
   ) => {
     try {
-      // TO DO: retrieve user token from session
+      if (!req.user && !req.developer)
+        throw new ResponseError(401, 'Unauthenticated');
 
       const data = await this.subscriptionService.getSubscriptions({
-        userId: 'ndy-01',
+        userId: req?.user?.id || '',
         limit: Number(req.query.limit),
         page: Number(req.query.page),
         order: req.query.order as OrderType,
+        paymentStatuses: (typeof req.query.status === 'string'
+          ? req.query.status.split(',')
+          : Array.isArray(req.query.status)
+            ? req.query.status
+            : undefined) as PaymentStatus[],
       });
 
       ApiResponse({
         res,
         statusCode: 200,
         message: 'Subscriptions and payment retrieved successfully.',
+        data,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  getSubscriptionTransactionStatus = async (
+    req: UserRequest,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      if (!req.user) throw new ResponseError(401, 'Unauthenticated');
+
+      const data =
+        await this.subscriptionService.getSubscriptionTransactionStatus({
+          userId: req.user.id,
+        });
+
+      ApiResponse({
+        res,
+        statusCode: 200,
+        message: 'Subscription transaction status retrieved successfully.',
+        data,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  getSubscriptionPaymentBySlug = async (
+    req: UserRequest,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      if (!req.user) throw new ResponseError(401, 'Unauthenticated');
+
+      const data = await this.subscriptionService.getSubscriptionPaymentBySlug({
+        slug: req.params.slug,
+      });
+
+      ApiResponse({
+        res,
+        statusCode: 200,
+        message: 'Subscription payment retrieved successfully.',
         data,
       });
     } catch (err) {

@@ -1,7 +1,11 @@
 import { Router } from 'express';
 
 import SubscriptionController from '@/controllers/subscription.controller';
-import { verifyDeveloper } from '@/middlewares/auth.middleware';
+import {
+  verifyDeveloper,
+  verifyUser,
+  verifyUserAndDeveloper,
+} from '@/middlewares/auth.middleware';
 import { uploadPaymentProof } from '@/helpers/multer';
 
 class SubscriptionRouter {
@@ -15,16 +19,31 @@ class SubscriptionRouter {
   }
 
   private initializeRoutes(): void {
-    this.router.get('/', this.subscriptionController.getSubscriptions);
-    this.router.post('/', this.subscriptionController.addSubscription);
+    this.router.get(
+      '/',
+      verifyUserAndDeveloper,
+      this.subscriptionController.getSubscriptions,
+    );
+    this.router.post(
+      '/',
+      verifyUser,
+      this.subscriptionController.addSubscription,
+    );
+    this.router.get(
+      '/transaction-status',
+      verifyUser,
+      this.subscriptionController.getSubscriptionTransactionStatus,
+    );
+
     this.router.put(
-      '/payments/:subscriptionPaymentId',
+      '/:subscriptionId/payments/:subscriptionPaymentId',
       verifyDeveloper,
       this.subscriptionController.updateSubscriptionPayment,
     );
     this.router.put(
-      '/payments/:subscriptionPaymentId/payment-proof/upload',
+      '/:subscriptionId/payments/:subscriptionPaymentId/payment-proof/upload',
       uploadPaymentProof.single('paymentProof'),
+      verifyUser,
       this.subscriptionController.uploadSubscriptionPaymentProof,
     );
   }
