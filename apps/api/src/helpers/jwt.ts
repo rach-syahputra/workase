@@ -1,7 +1,13 @@
 import jwt, { sign } from 'jsonwebtoken';
 
 import { JWT_ACCESS_SECRET, JWT_REFRESH_SECRET } from '@/config';
-import { CompanyToken, UserToken } from '@/interfaces/middleware.interface';
+import {
+  DeveloperToken,
+  CompanyToken,
+  UserToken,
+} from '@/interfaces/middleware.interface';
+import { UserAssessmentToken } from '@/interfaces/user-assessment.interface';
+import { CertificateTokenData } from '@/interfaces/certificate.interface';
 import { UserLogin } from '@/interfaces/user.interface';
 import { getUserByEmail } from './user.prisma';
 import { ResponseError } from './error';
@@ -61,4 +67,26 @@ export const putCompanyAccessToken = async (
     accessToken,
     refreshToken,
   };
+};
+
+export const generateDeveloperAccessToken = async (data: DeveloperToken) => {
+  return jwt.sign(data, JWT_ACCESS_SECRET, {
+    expiresIn: '1d',
+  });
+};
+
+export const generateUserAssessmentAccessToken = async (
+  data: UserAssessmentToken,
+) => {
+  return jwt.sign(data, JWT_ACCESS_SECRET, {
+    expiresIn: '1h',
+  });
+};
+
+export const generateCertificateCrCodeToken = async (
+  data: CertificateTokenData,
+) => {
+  return jwt.sign(data, JWT_ACCESS_SECRET, {
+    expiresIn: '1h',
+  });
 };

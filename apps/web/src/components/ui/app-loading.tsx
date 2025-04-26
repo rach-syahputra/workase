@@ -1,3 +1,5 @@
+'use client';
+
 import { HashLoader } from 'react-spinners';
 
 import { cn } from '@/lib/utils';
@@ -16,6 +18,7 @@ const AppLoading = ({ size = 'sm', label }: AppLoadingProps) => {
     >
       <HashLoader
         color="#0066ff"
+        loading={true}
         size={size === 'sm' ? 24 : size === 'md' ? 40 : 58}
       />
 

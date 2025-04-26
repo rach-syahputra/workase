@@ -32,10 +32,29 @@ export interface UserToken {
   jobId: string;
   role: RoleType;
 }
+
+export interface DeveloperToken {
+  id: string;
+  email: string;
+  role: RoleType;
+}
 export interface UserRequest extends Request {
   user?: UserToken;
 }
 
+export interface DeveloperRequest extends Request {
+  developer?: DeveloperToken;
+}
+
 export interface CompanyRequest extends Request {
-  user?: CompanyToken
+  user?: CompanyToken;
+}
+
+export interface DeveloperRequest extends Request {
+  developer?: DeveloperToken;
+}
+
+export interface UserAndDeveloperRequest extends Request {
+  user?: UserToken;
+  developer?: DeveloperToken;
 }

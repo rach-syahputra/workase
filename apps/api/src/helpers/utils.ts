@@ -41,3 +41,13 @@ export const generateSlug = (str: string, opt?: IGenerateSlugOption) => {
 
   return updatedStr;
 };
+
+export const generateCertificateSlug = (length: number = 12) => {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let slug = '';
+  for (let i = 0; i < length; i++) {
+    slug += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+
+  return slug;
+};

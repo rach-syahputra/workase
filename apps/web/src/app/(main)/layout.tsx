@@ -11,10 +11,7 @@ export default async function MainLayout({
   return (
     <div className="flex min-h-screen flex-col">
       <NavigationBar />
-
-      <main className="flex-grow">
-        <SampleProvider>{children}</SampleProvider>
-      </main>
+      <main>{children}</main>
       <Footer />
     </div>
   );

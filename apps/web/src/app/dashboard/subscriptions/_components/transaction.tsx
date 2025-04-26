@@ -1,0 +1,110 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { ColumnDef } from '@tanstack/react-table';
+
+import { OrderType } from '@/lib/interfaces/api-request/filter';
+import { getSubscriptions } from '@/lib/apis/subscription';
+import { GetSubscriptionStatusType } from '@/lib/interfaces/api-request/subscription';
+import { SubscriptionCategoryType } from '@/lib/interfaces/subscription';
+import { ITransactionColumn } from './table/interface';
+import AppPagination from '@/components/ui/pagination';
+import { DataTable } from '@/components/ui/table/data-table';
+import TableSkeleton from '@/components/ui/table/table-skeleton';
+import { Card } from '@/components/shadcn-ui/card';
+import UserDashboardHeader from '@/components/user-dashboard/user-dashboard-header';
+
+import PaymentStatusSelect from './payment-status-select';
+import { getTransactionColumns } from './table/column';
+
+const Transaction = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [page, setPage] = useState<number>(1);
+  const [limit, setLimit] = useState<number>(8);
+  const [createdAtOrder, setCreatedAtOrder] = useState<OrderType>('desc');
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const [status, setStatus] = useState<GetSubscriptionStatusType[]>(['ALL']);
+  const [columns, setColumns] = useState<ColumnDef<ITransactionColumn>[]>([]);
+  const [tableData, setTableData] = useState<ITransactionColumn[]>([]);
+
+  const initiateColumns = () => {
+    setColumns(
+      getTransactionColumns({
+        onCreatedAtClick: () =>
+          setCreatedAtOrder(createdAtOrder === 'desc' ? 'asc' : 'desc'),
+      }),
+    );
+  };
+
+  const fetchGetSubscriptions = async () => {
+    setIsLoading(true);
+
+    const response = await getSubscriptions({
+      page,
+      order: createdAtOrder,
+      limit,
+      status,
+    });
+    const subscriptions = response.data?.subscriptions;
+    const pagination = response.data?.pagination;
+
+    if (response.success && subscriptions) {
+      initiateColumns();
+
+      setTableData(
+        subscriptions.map((subscription) => ({
+          id: subscription.id,
+          createdAt: subscription.payment.createdAt,
+          category: subscription.category as SubscriptionCategoryType,
+          payment: {
+            id: subscription.payment.id,
+            slug: subscription.payment.slug,
+            status: subscription.payment.paymentStatus,
+          },
+          paymentProof: subscription.payment.paymentProof,
+          price: subscription.payment.totalPrice,
+        })),
+      );
+      setPage(pagination?.page || 1);
+      setTotalPages(pagination?.totalPages || 0);
+    }
+
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    fetchGetSubscriptions();
+  }, []);
+
+  useEffect(() => {
+    fetchGetSubscriptions();
+  }, [page, limit, status, createdAtOrder]);
+
+  return (
+    <Card className="flex w-full flex-1 flex-col items-start justify-between gap-6 max-md:border-none max-md:p-0 max-md:shadow-none md:p-5">
+      <UserDashboardHeader
+        title="Transaction"
+        description="View all confirmed or rejected transactions."
+      />
+
+      <PaymentStatusSelect setStatus={setStatus} />
+
+      {isLoading ? (
+        <TableSkeleton />
+      ) : (
+        <>
+          <DataTable columns={columns} pageSize={8} data={tableData} />
+          {totalPages > 1 && (
+            <AppPagination
+              page={page}
+              onPageChange={setPage}
+              totalPages={totalPages}
+            />
+          )}
+        </>
+      )}
+    </Card>
+  );
+};
+
+export default Transaction;

@@ -12,6 +12,7 @@ import {
   refreshUserToken,
   registerUserWithGoogle,
 } from './lib/apis/authentication';
+import { developerLogin } from './lib/apis/developer';
 export const { handlers, signIn, signOut, auth } = NextAuth({
   session: {
     strategy: 'jwt',
@@ -70,6 +71,24 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return user;
       },
     }),
+    Credentials({
+      id: 'developer-login',
+      name: 'Developer Credentials',
+      async authorize(credentials) {
+        const response = await developerLogin({
+          email: credentials.email as string,
+          password: credentials.password as string,
+        });
+
+        if (response.error) {
+          return null;
+        }
+        const developer = response.data as User;
+        developer.type === 'developer';
+
+        return developer;
+      },
+    }),
   ],
   secret: process.env.AUTH_SECRET,
   callbacks: {
@@ -84,7 +103,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }): Promise<string | boolean> {
       if (
         account?.provider === 'user-login' ||
-        account?.provider === 'company-login'
+        account?.provider === 'company-login' ||
+        account?.provider === 'developer-login'
       ) {
         return true;
       }
@@ -109,6 +129,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         } catch (e) {
           await registerUserWithGoogle(email as string);
         }
+      } else if (user.type == 'developer') {
+        return true;
       }
       return true;
     },
@@ -128,7 +150,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           const userForMiddleware = jwtDecode(newToken.accessToken as string);
           token.isVerified = userForMiddleware.isVerified as boolean;
           token.type = token.type;
-        } else {
+        } else if (type == 'company') {
           const newToken = await refreshCompanyToken(
             token.refreshToken as string,
           );

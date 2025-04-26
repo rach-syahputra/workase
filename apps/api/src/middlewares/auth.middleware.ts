@@ -12,9 +12,9 @@ import {
   CompanyToken,
   UserRequest,
   UserToken,
+  DeveloperRequest,
+  UserAndDeveloperRequest,
 } from '@/interfaces/middleware.interface';
-import { UserLogin } from '@/interfaces/user.interface';
-import { User } from '@prisma/client';
 
 export function verifyUser(
   req: UserRequest,
@@ -64,7 +64,7 @@ export function verifyCompany(
 }
 
 export function verifyDeveloper(
-  req: UserRequest,
+  req: DeveloperRequest,
   res: Response,
   next: NextFunction,
 ) {
@@ -77,7 +77,7 @@ export function verifyDeveloper(
     if (!verifiedDeveloper || verifiedDeveloper.role !== 'DEVELOPER')
       throw new ResponseError(403, 'Unauthorized.');
 
-    req.user = verifiedDeveloper;
+    req.developer = verifiedDeveloper;
 
     next();
   } catch (err) {
@@ -107,4 +107,29 @@ export const verifyRefreshToken = (
   }
 };
 
+export function verifyUserAndDeveloper(
+  req: UserAndDeveloperRequest,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    const { authorization } = req.headers;
+    const token = String(authorization || '').split('Bearer ')[1];
+    if (!token) throw new ResponseError(401, 'Unauthenticated.');
 
+    const verifiedUser = jwt.verify(token, JWT_ACCESS_SECRET) as UserToken;
+    if (
+      !verifiedUser ||
+      (verifiedUser.role !== 'USER' && verifiedUser.role !== 'DEVELOPER')
+    )
+      throw new ResponseError(403, 'Unauthorized.');
+
+    if (verifiedUser.role === 'USER') req.user = verifiedUser as UserToken;
+    if (verifiedUser.role === 'DEVELOPER')
+      req.developer = verifiedUser as UserToken;
+
+    next();
+  } catch (err) {
+    next(err);
+  }
+}

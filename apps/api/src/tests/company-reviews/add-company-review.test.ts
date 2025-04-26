@@ -2,7 +2,11 @@ import request from 'supertest';
 import App from '@/app';
 
 import { AddCompanyReviewRequestTest } from '@/interfaces/company-review.interface';
-import { deleteCompanyReview, getAuthToken } from '../utils';
+import { getAuthToken } from '../helpers/auth.helper';
+import {
+  deleteCompanyReview,
+  getCompanyReviewById,
+} from '../helpers/company-review.helper';
 
 const app = new App().getServer();
 
@@ -48,8 +52,13 @@ describe('POST /api/companies/:companyId/reviews', () => {
       }),
     );
 
+    // Delete the company review
     const companyReviewId = response.body.data.companyReview.id;
     await deleteCompanyReview(companyReviewId);
+
+    // Ensure company review has been deleted
+    const companyReview = await getCompanyReviewById(companyReviewId);
+    expect(companyReview).toBeFalsy();
   });
 
   it('should not create a company review if required fields are missing', async () => {
