@@ -1,4 +1,4 @@
-import { AuthProvider, Gender } from '@prisma/client';
+import { AuthProvider, Gender, SubscriptionCategory } from '@prisma/client';
 
 export interface UserLogin {
   id?: string;
@@ -15,4 +15,8 @@ export interface UserLogin {
   address?: string | null;
   jobId?: string | null;
   isDeleted?: boolean;
+}
+
+export interface GetUserStatsRequest {
+  userId: string;
 }
