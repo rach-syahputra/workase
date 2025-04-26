@@ -9,8 +9,10 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from '@/components/shadcn-ui/dialog';
 import { Card } from '@/components/shadcn-ui/card';
+import { Button } from '@/components/shadcn-ui/button';
 
 interface ViewPaymentProofModalProps {
   paymentProof: string;
@@ -23,18 +25,14 @@ const ViewPaymentProofModal = ({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <Card
-        onClick={() => setOpen(true)}
-        className="mt-4 aspect-square cursor-pointer max-md:w-full md:h-full"
-      >
-        <Image
-          src={paymentProof}
-          alt="Payment proof"
-          width={400}
-          height={400}
-          className="aspect-square rounded-md object-cover"
-        />
-      </Card>
+      <DialogTrigger asChild>
+        <button
+          type="button"
+          className="hover:text-primary-blue underline transition-all duration-300 ease-in-out"
+        >
+          View Payment Proof
+        </button>
+      </DialogTrigger>
 
       <DialogContent className="max-h-[80svh] md:max-w-[600px]">
         <DialogHeader>

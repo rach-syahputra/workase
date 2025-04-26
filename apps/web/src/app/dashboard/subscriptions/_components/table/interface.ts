@@ -3,7 +3,7 @@ import {
   SubscriptionPaymentStatusType,
 } from '@/lib/interfaces/subscription';
 
-export interface ICompletedTransactionColumn {
+export interface ITransactionColumn {
   id: string;
   payment: {
     id: string;
@@ -16,6 +16,6 @@ export interface ICompletedTransactionColumn {
   createdAt: string;
 }
 
-export interface GetCompletedTransactionColumnsRequest {
+export interface GetTransactionColumnsRequest {
   onCreatedAtClick: () => void;
 }

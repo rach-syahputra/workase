@@ -11,6 +11,7 @@ import { usePathname } from 'next/navigation';
 import {
   BriefcaseBusiness,
   CreditCard,
+  DollarSign,
   LucideProps,
   NotepadText,
 } from 'lucide-react';
@@ -57,11 +58,6 @@ const UserSidebar = ({ className }: UserSidebarProps) => {
           title: 'Applied Jobs',
           url: '/dashboard/applied-jobs',
           icon: BriefcaseBusiness,
-        },
-        {
-          title: 'Transaction',
-          url: '/dashboard/transactions',
-          icon: CreditCard,
         },
       ];
 
@@ -117,25 +113,43 @@ const UserSidebar = ({ className }: UserSidebarProps) => {
               <Skeleton className="h-9 w-full" />
             </>
           ) : (
-            userDashboardItems?.map((item, index) => {
-              const isActive = pathname === item.url;
+            <>
+              {userDashboardItems?.map((item, index) => {
+                const isActive = pathname === item.url;
 
-              return (
-                <SidebarMenuItem
-                  key={index}
-                  asChild
-                  className={cn({
-                    'bg-primary-blue text-white': isActive,
-                  })}
-                >
-                  <SidebarMenuLink
-                    href={item.url}
-                    label={item.title}
-                    lucideIcon={item.icon}
-                  />
-                </SidebarMenuItem>
-              );
-            })
+                return (
+                  <>
+                    <SidebarMenuItem
+                      key={index}
+                      asChild
+                      className={cn({
+                        'bg-primary-blue text-white': isActive,
+                      })}
+                    >
+                      <SidebarMenuLink
+                        href={item.url}
+                        label={item.title}
+                        lucideIcon={item.icon}
+                      />
+                    </SidebarMenuItem>
+                  </>
+                );
+              })}
+              <SidebarMenuItem
+                key="subscriptions"
+                asChild
+                className={cn({
+                  'bg-primary-blue text-white':
+                    pathname === '/dashboard/subscription',
+                })}
+              >
+                <SidebarMenuLink
+                  href="/dashboard/subscriptions"
+                  label="Subscription"
+                  lucideIcon={DollarSign}
+                />
+              </SidebarMenuItem>
+            </>
           )}
         </SidebarMenu>
       </SidebarGroup>

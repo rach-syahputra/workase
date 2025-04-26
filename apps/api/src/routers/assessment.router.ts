@@ -37,7 +37,7 @@ class AssessmentRouter {
     );
     this.router.get(
       '/:slug',
-      verifyUser,
+      verifyUserAndDeveloper,
       this.assessmentController.getAssessmentBySlug,
     );
     this.router.get(

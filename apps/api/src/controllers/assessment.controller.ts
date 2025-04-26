@@ -7,6 +7,7 @@ import {
 } from '@/interfaces/assessment.interface';
 import {
   DeveloperRequest,
+  UserAndDeveloperRequest,
   UserRequest,
 } from '@/interfaces/middleware.interface';
 import { OrderType } from '@/interfaces/filter.interface';
@@ -75,16 +76,17 @@ class AssessmentController {
   };
 
   getAssessmentBySlug = async (
-    req: UserRequest,
+    req: UserAndDeveloperRequest,
     res: Response,
     next: NextFunction,
   ) => {
     try {
-      if (!req.user) throw new ResponseError(401, 'Unauthenticated');
+      if (!req.user && !req.developer)
+        throw new ResponseError(401, 'Unauthenticated');
 
       const data = await this.assessmentService.getAssessmentBySlug({
         slug: req.params.slug,
-        userId: req.user?.id,
+        userId: req.user?.id!,
       });
 
       ApiResponse({

@@ -21,7 +21,6 @@ const AssessmentQuestionProvider = ({
   const { setCurrentAssessmentSkill } = useDeveloperAssessmentContext();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [assessment, setAssessment] = useState<IAssessmentDetail | undefined>();
-  const skillTitle = assessment?.skill.title;
 
   const fetchAssessmentBySlug = async () => {
     setIsLoading(true);
@@ -43,7 +42,6 @@ const AssessmentQuestionProvider = ({
         setIsLoading,
         assessment,
         setAssessment,
-        skillTitle,
         fetchAssessmentBySlug,
       }}
     >

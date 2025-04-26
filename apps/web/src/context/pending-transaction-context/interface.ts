@@ -1,7 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import { ColumnDef } from '@tanstack/react-table';
 
-import { IPendingTransactionColumn } from '@/app/dashboard/transactions/_components/table/interface';
 import { OrderType } from '@/lib/interfaces/api-request/filter';
 import {
   IFetchGetSubscriptionsRequest,

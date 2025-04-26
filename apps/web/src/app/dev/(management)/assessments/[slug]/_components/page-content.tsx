@@ -16,7 +16,7 @@ interface PageContentProps {
 
 const PageContent = ({ slug }: PageContentProps) => {
   const { currentAssessmentSkill } = useDeveloperAssessmentContext();
-  const { isLoading, assessment, skillTitle, fetchAssessmentBySlug } =
+  const { isLoading, assessment, fetchAssessmentBySlug } =
     useAssessmentQuestionContext();
 
   useEffect(() => {
@@ -39,9 +39,9 @@ const PageContent = ({ slug }: PageContentProps) => {
       <AppBreadCrumb items={BreadCrumbItems} />
       <div className="flex w-full flex-col items-start justify-between gap-4 md:flex-row">
         <DeveloperHeader
-          title={`${skillTitle} Assessment`}
+          title={`${assessment?.skill.title} Assessment`}
           description="Manage assessment with ease."
-          isLoading={isLoading && !skillTitle}
+          isLoading={isLoading && !assessment?.skill.title}
         />
         <CreateQuestionButton
           isLoading={isLoading}

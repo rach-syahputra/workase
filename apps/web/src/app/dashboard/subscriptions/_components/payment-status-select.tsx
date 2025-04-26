@@ -1,8 +1,7 @@
 'use client';
 
-import { ChevronDown } from 'lucide-react';
+import { Dispatch, SetStateAction } from 'react';
 
-import { SubscriptionPaymentStatusType } from '@/lib/interfaces/subscription';
 import { GetSubscriptionStatusType } from '@/lib/interfaces/api-request/subscription';
 import { useDeveloperTransactionContext } from '@/context/developer-transaction-context';
 import {
@@ -15,9 +14,11 @@ import {
   SelectValue,
 } from '@/components/shadcn-ui/select';
 
-const PaymentStatusSelect = () => {
-  const { setStatus } = useDeveloperTransactionContext();
+interface PaymentStatusSelectProps {
+  setStatus: Dispatch<SetStateAction<GetSubscriptionStatusType[]>>;
+}
 
+const PaymentStatusSelect = ({ setStatus }: PaymentStatusSelectProps) => {
   const STATUS_ITEMS = [
     {
       label: 'All',
