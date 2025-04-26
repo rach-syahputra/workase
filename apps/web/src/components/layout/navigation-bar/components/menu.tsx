@@ -27,6 +27,7 @@ export default function Menu() {
     const queryString = searchParams.toString();
     const path = `/${tab.value}${queryString ? '?' + queryString : ''}`;
     router.push(path);
+
     setActiveTab(tab.label);
   };
   return (

@@ -45,7 +45,7 @@ const companyRegistrationSchema = () => {
     phoneNumber: Yup.string()
       .optional()
       .min(8, 'phone number must be at least 8 characters')
-      .max(15, 'phone number must be at most 15 characters'),
+      .max(15, 'phone number must be at most 15 characters').matches(/^\d+$/, 'Nomor telepon hanya boleh berisi angka'),
     authProvider: Yup.string()
       .required('Auth provider is required')
       .oneOf(Object.values(AuthProvider))
