@@ -1,22 +1,16 @@
-import { Button } from '@/components/shadcn-ui//button';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/shadcn-ui/dropdown-menu';
 import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { IoPerson } from 'react-icons/io5';
+import { MdDashboard } from 'react-icons/md';
 
 export default function DropdownMenuDemo() {
   const { data: session } = useSession();
@@ -48,6 +42,12 @@ export default function DropdownMenuDemo() {
           <button onClick={() => signOut()} className="text-left">
             Log Out
           </button>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="flex items-center gap-3">
+          <MdDashboard />
+          <Link href="/dashboard/assessments" className="text-left">
+            Dashboard
+          </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
