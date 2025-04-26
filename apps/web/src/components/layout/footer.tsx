@@ -7,7 +7,7 @@ import Image from 'next/image';
 export default function Footer() {
   const router = useRouter();
   return (
-    <div className="bg-primary-gray-background font-geist bottom-1 w-full border-t-[0.5px] border-t-gray-200 text-[14px] md:bottom-0 md:left-0 md:right-0 md:top-[calc(100vh-64px)] md:py-6">
+    <div className="bg-primary-gray-background font-geist bottom-1 z-50 w-full border-t-[0.5px] border-t-gray-200 text-[14px] md:bottom-0 md:left-0 md:right-0 md:top-[calc(100vh-64px)] md:py-6">
       <div className="w-full justify-around md:flex">
         <div className="hidden justify-center md:flex md:w-[45%] lg:w-[29%]">
           <div className="flex flex-col">

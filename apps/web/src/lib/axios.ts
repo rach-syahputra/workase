@@ -8,11 +8,11 @@ export const axiosPublic = axios.create({
   },
 });
 
-export const axiosPrivate = (token: string) =>
+export const axiosPrivate = (token: string, contentType?: string) =>
   axios.create({
     baseURL: API_BASE_URL,
     headers: {
       Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
+      'Content-Type': contentType || 'application/json',
     },
   });

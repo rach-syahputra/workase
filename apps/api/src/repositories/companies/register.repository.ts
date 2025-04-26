@@ -38,7 +38,11 @@ class registerCompanyRepository {
         throw new ResponseError(404, 'User not found');
       }
       const accessToken = await putCompanyAccessToken(undefined, data.email);
-      await sendEmailVerification(data.email, accessToken.accessToken);
+      await sendEmailVerification(
+        data.email,
+        accessToken.accessToken,
+        'companies',
+      );
     }
   }
 }

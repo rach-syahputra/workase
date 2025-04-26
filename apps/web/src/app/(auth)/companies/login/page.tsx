@@ -9,7 +9,7 @@ import Link from 'next/link';
 import * as React from 'react';
 import { FaGoogle } from 'react-icons/fa6';
 import * as Yup from 'yup';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email().required(), // email is required
   password: Yup.string()
@@ -26,6 +26,8 @@ export interface ILoginProps {}
 const signUpItem = ['User', 'Company'];
 export default function Login(props: ILoginProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectUrl = searchParams.get('redirect') || '/'; // Get the redirect URL from search params
   const initialValues: ILoginForm = {
     email: '',
     password: '',
@@ -42,7 +44,7 @@ export default function Login(props: ILoginProps) {
       alert('Login failed: Email or password was wrong');
     } else {
       // Berhasil login
-      router.push('/');
+      router.replace(redirectUrl);
     }
   };
   const formik = useFormik({

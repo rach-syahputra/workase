@@ -3,11 +3,14 @@ import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import DropdownMenuDemo from './dropdown-menu';
-
+import { usePathname, useSearchParams } from 'next/navigation';
 const tabs = ['Sign in', 'Employers/Post Job'];
 
 export default function Login() {
   const { data: session } = useSession();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const currentPath = `${pathname}${searchParams.toString() ? '?' + searchParams.toString() : ''}`;
   return (
     <div className="mt-[5px] hidden items-center md:flex">
       {session?.user?.email ? (
@@ -33,7 +36,11 @@ export default function Login() {
             {/* Tombol Tab */}
 
             <Link
-              href={tab === 'Sign in' ? '/users/login' : 'companies/login'}
+              href={
+                tab === 'Sign in'
+                  ? `/users/login?redirect=${encodeURIComponent(currentPath)}`
+                  : `companies/login?redirect=${encodeURIComponent(currentPath)}`
+              }
               className={`relative flex h-[68px] w-full items-center px-5 text-[15px] font-medium transition-all ${tab === 'Sign in' ? 'text-primary-dark-blue font-semibold' : 'text-gray-600'} `}
             >
               <button ref={undefined}>{tab}</button>

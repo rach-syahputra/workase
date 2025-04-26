@@ -40,6 +40,9 @@ export default function Register() {
         authProvider: 'EMAIL',
       });
       if (response.status == 201) {
+        alert(
+          'Register Success, We Send Verification Link to Your Email, You Can Verify It or Login',
+        );
         router.push('/users/login');
       }
     } catch (err) {

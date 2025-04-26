@@ -44,7 +44,11 @@ class UsersController {
   ) {
     try {
       const accessToken = req.header('Authorization') as string;
-      await sendEmailVerification(req.user?.email as string, accessToken);
+      await sendEmailVerification(
+        req.user?.email as string,
+        accessToken,
+        'users',
+      );
       ApiResponse({
         res,
         statusCode: 200,
