@@ -56,7 +56,7 @@ const SubscribeModal = () => {
 
     if (response.success) {
       const paymentSlug = response.data?.subscription.payment.slug;
-      router.push(`/dashboard/transactions/payments/${paymentSlug}/new`);
+      router.push(`/dashboard/subscriptions/payments/${paymentSlug}/new`);
     } else {
       if (response.code === 'ERR_NETWORK') {
         // TO DO: add toast action to redirect to the login page
