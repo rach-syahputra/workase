@@ -27,7 +27,6 @@ export function NewestJobs() {
         );
         const data = fiveNewestJobs.data as { data: Job[] };
         setJobs(data.data);
-        console.log('ini jobs dari carausel', data.data);
       } catch (error) {
         console.error('Error fetching jobs:', error);
       }

@@ -30,7 +30,6 @@ export default function ResetPassword(props: IResetPasswordProps) {
 
   const submitResetPassword = async (values: IResetPasswordForm) => {
     try {
-      console.log(props.params.token);
       const response = await axiosPublic.patch(
         '/users/reset-password',
         {

@@ -22,7 +22,7 @@ export const putUserAccessToken = async (user?: UserLogin, email?: string) => {
   }
   const dataBundleUser = { ...userData, role: 'USER' } as UserToken;
   if (!dataBundleUser) throw new ResponseError(401, 'unauthorize email');
-  console.log('ini yang direturn :', dataBundleUser);
+
   const accessToken = sign(dataBundleUser, JWT_ACCESS_SECRET, {
     expiresIn: '1h',
   });
@@ -51,7 +51,7 @@ export const putCompanyAccessToken = async (
     delete companyData.password;
   }
   const dataBundleCompany = { ...companyData, role: 'ADMIN' } as CompanyToken;
-  console.log('ini yang direturn :', dataBundleCompany);
+
   if (!dataBundleCompany) throw new ResponseError(401, 'unauthorize email');
   const accessToken = sign(dataBundleCompany, JWT_ACCESS_SECRET, {
     expiresIn: '1h',

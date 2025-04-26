@@ -20,10 +20,8 @@ export default function VaerifivationSettingsPage() {
       const result = await axiosInstance.post(
         `/${roleUrl[session?.user?.role as keyof typeof roleUrl]}/email-verification-request`,
       );
-      console.log('this is result:', result);
       alert('Verification link has been send successfully to your email');
     } catch (e) {
-      console.log(e);
       alert('Verification link has failed to send to your email');
     }
   };

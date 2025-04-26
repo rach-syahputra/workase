@@ -10,7 +10,6 @@ import { transporter } from '@/helpers/nodemailer';
 class UsersController {
   async register(req: Request, res: Response, next: NextFunction) {
     try {
-      console.log('ini req.body', req.body);
       const result = await usersService.register(req.body);
       ApiResponse({
         res,
@@ -166,7 +165,6 @@ class UsersController {
 
   async refreshToken(req: UserRequest, res: Response, next: NextFunction) {
     try {
-      console.log('ini req.user email:', req.user?.email);
       const data = await usersService.refreshToken(req);
       ApiResponse({
         res,

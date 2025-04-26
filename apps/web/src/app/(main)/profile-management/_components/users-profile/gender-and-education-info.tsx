@@ -15,11 +15,11 @@ interface GenderEducationProps {
 
 export const GenderEducation: React.FC<GenderEducationProps> = ({ formik }) => {
   const { data: session } = useSession();
-  console.log('ini formik', formik.values.gender, formik.values.lastEducation);
+
   return (
     <div className="max-w-[1065px] md:px-[30px]">
       <div className="flex flex-col items-center gap-1 md:flex-row">
-        <div className="flex flex-col justify-center w-full">
+        <div className="flex w-full flex-col justify-center">
           <div className="pb-[5px] pt-[13px] font-medium">Gender</div>
           <Select
             value={formik.values.gender || session?.user?.gender}
@@ -37,7 +37,7 @@ export const GenderEducation: React.FC<GenderEducationProps> = ({ formik }) => {
             </SelectContent>
           </Select>
         </div>
-        <div className="flex flex-col justify-center w-full">
+        <div className="flex w-full flex-col justify-center">
           <div className="pb-[5px] pt-[13px] font-medium">Last Education</div>
           <input
             type="text"

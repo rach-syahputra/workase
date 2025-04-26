@@ -45,7 +45,7 @@ const userRegistrationSchema = () => {
         'If Auth provider is Email, password is required',
         async function (value) {
           const password = this.parent.password;
-          console.log('ini password', password);
+
           if (value) {
             try {
               await authProvider(value, password);

@@ -134,10 +134,8 @@ export default function ProfileSettingPage() {
 
   const submitUpdate = async (values: IUpdateForm) => {
     try {
-      console.log('ini values', values);
       if (values.email === session?.user?.email) {
         values.email = '';
-        console.log('ini email', values.email);
       }
       const response = await axiosPublic.patch(
         `/${roleUrl[session?.user?.role as keyof typeof roleUrl]}`,
@@ -161,7 +159,6 @@ export default function ProfileSettingPage() {
         },
       );
       if (response.status >= 200 && response.status < 300) {
-        console.log('Update Success:', response.data);
         alert('Update Success');
         if (values.email && values.email !== session?.user?.email) {
           alert('Your email has been changed, please login again');
@@ -174,7 +171,6 @@ export default function ProfileSettingPage() {
       }
     } catch (err) {
       alert('Update Failed: Please try again.');
-      console.log('Update Failed:', err);
     }
   };
 

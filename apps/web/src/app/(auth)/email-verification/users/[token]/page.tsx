@@ -24,7 +24,6 @@ export default function EmailVerification(props: IEmailVerificationProps) {
       alert('Your email has been verified successfully');
       router.push('/users/login');
     } catch (e) {
-      console.log(e);
       alert('Verification link has failed to send to your email');
     }
   };

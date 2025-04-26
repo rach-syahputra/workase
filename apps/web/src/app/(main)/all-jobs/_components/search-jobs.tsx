@@ -11,7 +11,7 @@ import { useSearchParams } from 'next/navigation';
 export function SearchJobs() {
   const { jobs, fetchJobs } = useSearchJob();
   const searchParams = useSearchParams();
-  console.log('searchParams', searchParams);
+
   const [query, setQuery] = useState({
     title: '',
     category: '',
@@ -37,8 +37,6 @@ export function SearchJobs() {
       setQuery(nextQuery);
       lastQueryRef.current = nextQuery;
       fetchJobs(nextQuery);
-    } else {
-      console.log('No query change, skip fetch');
     }
   }, [searchParams.toString()]);
 

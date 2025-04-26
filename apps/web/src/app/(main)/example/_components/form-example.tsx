@@ -41,8 +41,6 @@ const FormExample = () => {
         email: values.email,
       })) as GetSampleResponse;
 
-      console.log(response);
-
       if (response.success) {
         setEmail(response.data.email);
       } else {

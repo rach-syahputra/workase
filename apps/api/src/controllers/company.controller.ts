@@ -175,7 +175,6 @@ class CompaniesController {
 
   async refreshToken(req: CompanyRequest, res: Response, next: NextFunction) {
     try {
-      console.log('ini req.user email:', req.user?.email);
       const data = await companiesService.refreshToken(req);
       ApiResponse({
         res,

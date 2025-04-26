@@ -44,7 +44,6 @@ export default function Login(props: ILoginProps) {
     });
 
     if (response?.error) {
-      console.log('LOGIN FAILED:', response.error);
       alert('Login failed: Email or password was wrong');
     } else {
       router.push(callbackUrl || '/'); // ← Selalu pakai redirect param

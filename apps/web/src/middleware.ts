@@ -32,8 +32,6 @@ export async function middleware(req: NextRequest) {
     loginRequiredRoutes.some((route) => pathname.startsWith(route)) &&
     !token
   ) {
-    console.log('redirect guest user to login page...');
-
     let loginUrl: URL;
 
     if (pathname.startsWith('/companies')) {
@@ -56,8 +54,6 @@ export async function middleware(req: NextRequest) {
     token &&
     token.isVerified === false
   ) {
-    console.log('redirect unverified user to homepage...');
-
     const homeUrl = new URL('/', req.url);
     homeUrl.searchParams.set(
       'message',

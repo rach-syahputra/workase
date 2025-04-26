@@ -52,11 +52,6 @@ export function SearchBar() {
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(async (position) => {
-      console.log(
-        'ini position',
-        position.coords.latitude,
-        position.coords.longitude,
-      );
       try {
         fetchJobs({
           title: '',

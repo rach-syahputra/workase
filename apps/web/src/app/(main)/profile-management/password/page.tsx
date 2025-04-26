@@ -55,11 +55,9 @@ export default function PasswordSettingsPage() {
         },
       );
       if (response.status >= 200 && response.status < 300) {
-        console.log('Update Success:', response.data);
         alert('Update Success');
       }
       if (response.status >= 300) {
-        console.log('Update Failed:', response.statusText);
         alert('Update Failed: Please try again.');
       }
     } catch (err) {

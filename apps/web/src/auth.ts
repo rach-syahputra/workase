@@ -115,7 +115,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           user.accessToken = response.data.data.accessToken;
           user.refreshToken = response.data.data.refreshToken;
           user.type = 'user';
-          console.log('ini user', user);
         } catch (e) {
           await registerUserWithGoogle(email as string);
         }
@@ -187,7 +186,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.slug = user.slug;
         session.user.accessToken = token.accessToken as string;
       }
-      console.log('ini session', session);
       return session;
     },
   },

@@ -44,8 +44,6 @@ const BrowseAssessmentProvider = ({
       question: debouncedSearchQuestion,
     });
 
-    console.log('response', response);
-
     if (response.success) {
       setQuestions(
         response.data?.assessmentQuestions.map((question, index) => ({

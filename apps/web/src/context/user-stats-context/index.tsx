@@ -30,10 +30,6 @@ const UserStatsProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [session]);
 
-  useEffect(() => {
-    console.log('user stats in context', userStats);
-  }, [userStats]);
-
   return (
     <UserStatsContext.Provider
       value={{

@@ -93,14 +93,14 @@ export const verifyRefreshToken = (
   try {
     const { authorization } = req.headers;
     const token = String(authorization || '').split('Bearer ')[1];
-    console.log('ini tokennya', token);
+
     const verifiedUser = verify(token, refresh_jwt_secret);
     if (!verifiedUser) {
       throw new ResponseError(401, 'Unauthorized');
     }
-    console.log('ini verified user', verifiedUser);
+
     req.user = verifiedUser as UserToken | CompanyToken;
-    console.log('ini req.user', req.user);
+
     next();
   } catch (error) {
     next(error);
