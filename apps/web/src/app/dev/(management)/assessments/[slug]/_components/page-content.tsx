@@ -1,10 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
-import { getAssessmentBySlug } from '@/lib/apis/assessments';
-import { IAssessmentDetail } from '@/lib/interfaces/assessment';
 import { useDeveloperAssessmentContext } from '@/context/developer-assessment-context';
+import { useAssessmentQuestionContext } from '@/context/assessment-question-context';
 import DeveloperContainer from '@/components/developer/developer-container';
 import DeveloperHeader from '@/components/developer/developer-header';
 import AppBreadCrumb from '@/components/ui/app-breadcrumb';
@@ -16,24 +15,9 @@ interface PageContentProps {
 }
 
 const PageContent = ({ slug }: PageContentProps) => {
-  const { currentAssessmentSkill, setCurrentAssessmentSkill } =
-    useDeveloperAssessmentContext();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [assessment, setAssessment] = useState<IAssessmentDetail>();
-  const skillTitle = assessment?.skill.title;
-
-  const fetchAssessmentBySlug = async () => {
-    setIsLoading(true);
-
-    const response = await getAssessmentBySlug({ slug });
-
-    if (response.success) {
-      setAssessment(response.data?.assessment);
-      setCurrentAssessmentSkill(response.data?.assessment.skill.title || '');
-    }
-
-    setIsLoading(false);
-  };
+  const { currentAssessmentSkill } = useDeveloperAssessmentContext();
+  const { isLoading, assessment, skillTitle, fetchAssessmentBySlug } =
+    useAssessmentQuestionContext();
 
   useEffect(() => {
     fetchAssessmentBySlug();

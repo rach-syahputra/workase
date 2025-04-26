@@ -28,6 +28,7 @@ export interface ICertificate {
 }
 
 export interface ICertificateOwner {
+  id: string;
   email: string;
   slug: string;
   profilePhoto: string;

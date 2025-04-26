@@ -7,7 +7,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/shadcn-ui/tooltip';
-import React from 'react';
 
 interface CreateQuestionButtonProps {
   isLoading: boolean;

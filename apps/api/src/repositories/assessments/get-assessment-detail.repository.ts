@@ -11,12 +11,15 @@ class GetAssessmentDetailRepository {
     this.prisma = prisma;
   }
 
-  isAssessmentTaken = async (req: IsAssessmentTakenRequest) => {
+  isAssessmentPassed = async (req: IsAssessmentTakenRequest) => {
     const assessment = await this.prisma.userAssessment.findFirst({
       where: {
         userId: req.userId,
         assessment: {
           slug: req.assessmentSlug,
+        },
+        score: {
+          gt: 85,
         },
       },
     });
@@ -40,7 +43,7 @@ class GetAssessmentDetailRepository {
       },
     });
 
-    const isAssessmentTaken = await this.isAssessmentTaken({
+    const isAssessmentPassed = await this.isAssessmentPassed({
       userId: req.userId,
       assessmentSlug: req.slug,
     });
@@ -69,7 +72,7 @@ class GetAssessmentDetailRepository {
             isDeleted: question.isDeleted,
             options: question.QuestionOption,
           })),
-          hasTaken: isAssessmentTaken,
+          hasPassed: isAssessmentPassed,
           totalQuestions: assessment.AssessmentQuestion.length,
           totalAttemptsByUser: assessment.UserAssessment.length,
         },

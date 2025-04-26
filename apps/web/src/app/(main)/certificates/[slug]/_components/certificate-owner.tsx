@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 import { ChevronRight } from 'lucide-react';
 import { faLinkedin } from '@fortawesome/free-brands-svg-icons';
 
@@ -27,8 +28,9 @@ interface OwnerEmailProps {
 }
 
 const CertificateOwner = ({ className }: CertificateOwnerProps) => {
+  const session = useSession();
   const { certificate, owner } = useCertificateDetailContext();
-  const isOwner = true;
+  const isOwner = session.data?.user?.id === owner?.id;
 
   return (
     <div

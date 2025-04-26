@@ -1,9 +1,17 @@
+import { getSession } from 'next-auth/react';
+
 import { axiosPrivate } from '../axios';
 import { getAssessmentQuestionGenerationPrompt } from '../assessment-question-generation';
-import { GetAssessmentQuestionsRequest } from '../interfaces/api-request/assessment';
+import {
+  DeleteAssessmentQuestionRequest,
+  GetAssessmentQuestionsRequest,
+} from '../interfaces/api-request/assessment';
 import { GenerateAssessmentQuestionRequest } from '../interfaces/api-request/assessment-question';
 import { GenerateAssessmentQuestionResponse } from '../interfaces/api-response/assessment-question';
-import { GetAssessmentQuestionsResponse } from '../interfaces/api-response/assessments';
+import {
+  DeleteAssessmentQuestionResponse,
+  GetAssessmentQuestionsResponse,
+} from '../interfaces/api-response/assessments';
 import { IGeneratedQuestion } from '../interfaces/assessment-question';
 import { handleApiError } from './error';
 
@@ -11,9 +19,9 @@ export const getAssessmentQuestions = async (
   req?: GetAssessmentQuestionsRequest,
 ): Promise<GetAssessmentQuestionsResponse> => {
   try {
-    // TO DO: retrieve token from session
-    const token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk4NGRmMjdmLWNmY2MtNGI1OS1iYmNhLWQwNjYwNTAxNWIwNSIsImVtYWlsIjoibmFkaXlhcmlza2FAZ21haWwuY29tIiwicm9sZSI6IkRFVkVMT1BFUiIsImlhdCI6MTc0MzcwODU1OCwiZXhwIjoxNzQ2MzAwNTU4fQ.Uy5ucffg4bE5QqzVLNvd8AQMPF4bG2ueUYR7V-6DQTs';
+    const session = await getSession();
+    const token = session?.user?.accessToken;
+
     const queryParams = new URLSearchParams();
 
     if (req?.limit) queryParams.append('limit', req?.limit.toString());
@@ -23,8 +31,25 @@ export const getAssessmentQuestions = async (
       queryParams.append('randomize', req?.randomize.toString());
 
     const query = queryParams.toString();
-    const response = await axiosPrivate(token).get(
+    const response = await axiosPrivate(token || '').get(
       `/assessments/${req?.slug}/questions${query ? `?${query}` : ''}`,
+    );
+
+    return response.data;
+  } catch (error) {
+    return handleApiError(error);
+  }
+};
+
+export const deleteAssessmentQuestion = async (
+  req: DeleteAssessmentQuestionRequest,
+): Promise<DeleteAssessmentQuestionResponse> => {
+  try {
+    const session = await getSession();
+    const token = session?.user?.accessToken;
+
+    const response = await axiosPrivate(token || '').delete(
+      `/assessments/${req?.assessmentId}/questions/${req.assessmentQuestionId}`,
     );
 
     return response.data;

@@ -1,11 +1,12 @@
 import { Dispatch, SetStateAction } from 'react';
+import { ColumnDef } from '@tanstack/react-table';
 
 import {
   IFetchGetSubscriptionsRequest,
   SubscriptionPaymentStatusType,
 } from '@/lib/interfaces/subscription';
+import { GetSubscriptionStatusType } from '@/lib/interfaces/api-request/subscription';
 import { OrderType } from '@/lib/interfaces/api-request/filter';
-import { ColumnDef } from '@tanstack/react-table';
 import { ITransactionColumn } from '@/app/dev/(management)/transactions/_components/table/interface';
 
 export interface IHandlePaymentRequest {
@@ -25,17 +26,12 @@ export interface IDeveloperTransactionContext {
   setLimit: Dispatch<SetStateAction<number>>;
   createdAtOrder: OrderType;
   setCreatedAtOrder: Dispatch<SetStateAction<OrderType>>;
-  status: SubscriptionPaymentStatusType | 'ALL';
-  setStatus: Dispatch<SetStateAction<SubscriptionPaymentStatusType | 'ALL'>>;
+  status: GetSubscriptionStatusType[];
+  setStatus: Dispatch<SetStateAction<GetSubscriptionStatusType[]>>;
   columns: ColumnDef<ITransactionColumn>[];
   setColumns: Dispatch<SetStateAction<ColumnDef<ITransactionColumn>[]>>;
   tableData: ITransactionColumn[];
   setTableData: Dispatch<SetStateAction<ITransactionColumn[]>>;
-  fetchGetSubscriptions: (req?: IFetchGetSubscriptionsRequest) => void;
-  handleSelectStatus: (
-    newStatus: SubscriptionPaymentStatusType | 'ALL',
-  ) => void;
-  handlePageChange: (page: number) => void;
-  handleCreateAtOrderChange: () => void;
+  fetchGetSubscriptions: () => void;
   handlePayment: (req: IHandlePaymentRequest) => void;
 }

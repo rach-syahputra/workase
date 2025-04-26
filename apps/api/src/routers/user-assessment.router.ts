@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import UserAssessmentController from '@/controllers/user-assessment.controller';
+import { verifyUser } from '@/middlewares/auth.middleware';
 
 class UserAssessmentRouter {
   private router: Router;
@@ -13,10 +14,19 @@ class UserAssessmentRouter {
   }
 
   private initializeRoutes(): void {
-    this.router.post('/', this.userAssessmentController.addUserAssessment);
-    this.router.get('/', this.userAssessmentController.getUserAssessments);
+    this.router.post(
+      '/',
+      verifyUser,
+      this.userAssessmentController.addUserAssessment,
+    );
+    this.router.get(
+      '/',
+      verifyUser,
+      this.userAssessmentController.getUserAssessments,
+    );
     this.router.post(
       '/:userAssessmentId/result',
+      verifyUser,
       this.userAssessmentController.calculateAssessmentResult,
     );
   }

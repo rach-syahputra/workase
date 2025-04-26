@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
+import { SessionProvider } from 'next-auth/react';
 import './globals.css';
+
 import { SearchJobProvider } from '@/context/search-job-context';
+import { UserStatsProvider } from '@/context/user-stats-context';
 import { AssessmentSessionProvider } from '@/context/assessment-session-context';
 import { Toaster } from '@/components/shadcn-ui/toaster';
-import { SessionProvider } from 'next-auth/react';
 
 export const metadata: Metadata = {
   title: 'Workase — Exclusive Job Listing',
@@ -51,9 +53,11 @@ export default function RootLayout({
         className={`${geist.variable} ${cocogooes.variable} text-primary-dark font-[family-name:var(--font-geist)] antialiased`}
       >
         <SessionProvider>
-          <SearchJobProvider>
-            <AssessmentSessionProvider>{children}</AssessmentSessionProvider>
-          </SearchJobProvider>
+          <UserStatsProvider>
+            <SearchJobProvider>
+              <AssessmentSessionProvider>{children}</AssessmentSessionProvider>
+            </SearchJobProvider>
+          </UserStatsProvider>
         </SessionProvider>
         <Toaster />
       </body>

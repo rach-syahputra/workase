@@ -24,6 +24,7 @@ const PendingTransactions = () => {
 
   useEffect(() => {
     fetchGetSubscriptions({
+      status: ['PENDING'],
       page,
       limit,
       order: createdAtOrder,

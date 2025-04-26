@@ -51,3 +51,5 @@ export interface AddAssessmentQuestionResponse extends APIResponse {
     question: IAssessmentQuestion;
   };
 }
+
+export interface DeleteAssessmentQuestionResponse extends APIResponse {}

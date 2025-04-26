@@ -2,6 +2,8 @@ import { NextFunction, Request, Response } from 'express';
 
 import CertificateService from '@/services/certificate.service';
 import { ApiResponse } from '@/helpers/api-response';
+import { UserRequest } from '@/interfaces/middleware.interface';
+import { ResponseError } from '@/helpers/error';
 
 class CertificateController {
   private certificateService: CertificateService;
@@ -11,11 +13,13 @@ class CertificateController {
   }
 
   generateCertificateToken = async (
-    req: Request,
+    req: UserRequest,
     res: Response,
     next: NextFunction,
   ) => {
     try {
+      if (!req.user) throw new ResponseError(401, 'Unauthenticated');
+
       const data = await this.certificateService.generateCertificateToken({
         userAssessmentId: req.body.userAssessmentId,
         userName: req.body.userName,
@@ -32,8 +36,14 @@ class CertificateController {
     }
   };
 
-  addCertificate = async (req: Request, res: Response, next: NextFunction) => {
+  addCertificate = async (
+    req: UserRequest,
+    res: Response,
+    next: NextFunction,
+  ) => {
     try {
+      if (!req.user) throw new ResponseError(401, 'Unauthenticated');
+
       const data = await this.certificateService.addCertificate({
         userAssessmentId: req.body.userAssessmentId,
         slug: req.body.slug,

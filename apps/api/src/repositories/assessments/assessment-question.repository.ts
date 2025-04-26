@@ -2,6 +2,7 @@ import { shuffleQuestionOptions } from '@/helpers/assessments/assessment.util';
 import { prisma } from '@/helpers/prisma';
 import {
   AddAssessmentQuestionRepositoryRequest,
+  DeleteAssessmentQuestionRequest,
   GetAssessmentQuestionsRequest,
 } from '@/interfaces/assessment.interface';
 
@@ -123,6 +124,14 @@ class AssessmentQuestionRepository {
           },
         };
       }
+    });
+  };
+
+  deleteAssessmentQuestion = async (req: DeleteAssessmentQuestionRequest) => {
+    return await this.prisma.assessmentQuestion.delete({
+      where: {
+        id: req.assessmentQuestionId,
+      },
     });
   };
 }

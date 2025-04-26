@@ -113,6 +113,7 @@ class CertificateRepository {
           include: {
             user: {
               select: {
+                id: true,
                 email: true,
                 slug: true,
                 profilePhoto: true,

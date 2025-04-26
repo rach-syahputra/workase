@@ -13,8 +13,6 @@ import { OPEN_ROUTER_API_KEYS } from '@/lib/constants/constants';
 import { isGeneratedQuestionValid } from '@/validations/assessment';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/shadcn-ui/button';
-import { Card } from '@/components/shadcn-ui/card';
-import AppLoading from '@/components/ui/app-loading';
 import LoadingOverlay from '@/components/ui/loading-overlay';
 
 interface AutoGenerateQuestionButtonProps {

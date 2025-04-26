@@ -1,10 +1,8 @@
-import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
-
 import { cn } from '@/lib/utils';
 import { IAssessmentQuestion } from '@/lib/interfaces/assessment';
 import { Card } from '@/components/shadcn-ui/card';
-import Icon from '@/components/ui/icon';
 import QuestionImage from './question-image';
+import DeleteQuestionModal from './delete-question-modal';
 
 interface AssessmentQuestionCardProps {
   label: string;
@@ -21,15 +19,13 @@ const AssessmentQuestionCard = ({
         <p className="rounded-md bg-blue-700/30 px-2 py-1 text-xs font-medium">
           {label}
         </p>
-        <div className="justify-center1 flex items-center">
-          <div className="flex aspect-square h-8 w-8 cursor-pointer items-center justify-center">
-            <Icon icon={faPenToSquare} className="text-primary-dark w-4" />
-          </div>
-          <div className="flex aspect-square h-8 w-8 cursor-pointer items-center justify-center">
-            <Icon icon={faTrash} className="text-primary-dark w-[13px]" />
-          </div>
-        </div>
+
+        <DeleteQuestionModal
+          assessmentId={question.assessmentId}
+          assessmentQuestionId={question.id}
+        />
       </div>
+
       {question.image && <QuestionImage label={label} image={question.image} />}
       <p className="font-semibold">{question.question}</p>
       <div className="flex flex-col gap-4">

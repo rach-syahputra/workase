@@ -1,4 +1,5 @@
-import { axiosPublic } from '../axios';
+import { getSession } from 'next-auth/react';
+import { axiosPrivate, axiosPublic } from '../axios';
 import {
   AddUserAssessmentRequest,
   CalculateAssessmentResultRequest,
@@ -14,10 +15,11 @@ import { handleApiError } from './error';
 export const addUserAssessment = async (
   req: AddUserAssessmentRequest,
 ): Promise<AddUserAssessmentResponse> => {
-  // TO DO: retrieve token from user session
+  const session = await getSession();
+  const token = session?.user?.accessToken;
+
   try {
-    const response = await axiosPublic.post('/user-assessments', {
-      userId: req.userId,
+    const response = await axiosPrivate(token || '').post('/user-assessments', {
       assessment: req.assessment,
       score: req.score,
       status: req.status,
@@ -32,9 +34,11 @@ export const addUserAssessment = async (
 export const calculateAssessmentResult = async (
   req: CalculateAssessmentResultRequest,
 ): Promise<CalculateAssessmentResultResponse> => {
-  // TO DO: retrieve token from user session
+  const session = await getSession();
+  const token = session?.user?.accessToken;
+
   try {
-    const response = await axiosPublic.post(
+    const response = await axiosPrivate(token || '').post(
       `/user-assessments/${req.userAssessmentId}/result`,
       req,
     );
@@ -48,8 +52,10 @@ export const calculateAssessmentResult = async (
 export const getUserAssessments = async (
   req?: GetUserAssessmentsRequest,
 ): Promise<GetUserAssessmentsRespone> => {
-  // TO DO: retrieve token from user session
   try {
+    const session = await getSession();
+    const token = session?.user?.accessToken;
+
     const queryParams = new URLSearchParams();
 
     if (req?.order) queryParams.append('order', req?.order);
@@ -58,7 +64,7 @@ export const getUserAssessments = async (
     if (req?.skill) queryParams.append('skill', req?.skill.toString());
 
     const query = queryParams.toString();
-    const response = await axiosPublic.get(
+    const response = await axiosPrivate(token || '').get(
       `/user-assessments${query ? `?${query}` : ''}`,
     );
 

@@ -10,7 +10,7 @@ export interface IAssessment {
   createdAt: string;
   updatedAt: string;
   isDeleted: boolean;
-  hasTaken: boolean;
+  hasPassed: boolean;
   totalQuestions?: number;
   totalAttemptsByUser?: number;
 }

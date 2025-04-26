@@ -5,15 +5,22 @@ import {
   uploadAssessmentQuestionImage,
 } from '@/helpers/multer';
 import AssessmentController from '@/controllers/assessment.controller';
-import { verifyDeveloper } from '@/middlewares/auth.middleware';
+import AssessmentQuestionController from '@/controllers/assessment-question.controller';
+import {
+  verifyDeveloper,
+  verifyUser,
+  verifyUserAndDeveloper,
+} from '@/middlewares/auth.middleware';
 
 class AssessmentRouter {
   private router: Router;
   private assessmentController: AssessmentController;
+  private assessmentQuestionController: AssessmentQuestionController;
 
   constructor() {
     this.router = Router();
     this.assessmentController = new AssessmentController();
+    this.assessmentQuestionController = new AssessmentQuestionController();
     this.initializeRoutes();
   }
 
@@ -25,10 +32,14 @@ class AssessmentRouter {
     );
     this.router.get(
       '/discovery',
-      verifyDeveloper,
+      verifyUser,
       this.assessmentController.getAssessmentDiscovery,
     );
-    this.router.get('/:slug', this.assessmentController.getAssessmentBySlug);
+    this.router.get(
+      '/:slug',
+      verifyUser,
+      this.assessmentController.getAssessmentBySlug,
+    );
     this.router.get(
       '/skills/available',
       verifyDeveloper,
@@ -42,14 +53,19 @@ class AssessmentRouter {
     );
     this.router.get(
       '/:slug/questions',
-      verifyDeveloper,
-      this.assessmentController.getAssessmentQuestions,
+      verifyUserAndDeveloper,
+      this.assessmentQuestionController.getAssessmentQuestions,
     );
     this.router.post(
       '/:assessmentId/questions',
       verifyDeveloper,
       uploadAssessmentQuestionImage.single('image'),
-      this.assessmentController.addAssessmentQuestion,
+      this.assessmentQuestionController.addAssessmentQuestion,
+    );
+    this.router.delete(
+      '/:assessmentId/questions/:assessmentQuestionId',
+      verifyDeveloper,
+      this.assessmentQuestionController.deleteAssessmentQuestion,
     );
   }
 

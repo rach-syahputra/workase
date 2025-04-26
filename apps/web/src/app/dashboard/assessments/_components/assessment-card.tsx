@@ -1,8 +1,12 @@
+'use client';
+
 import Image from 'next/image';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { CircleAlert } from 'lucide-react';
 
 import { IAssessment } from '@/lib/interfaces/assessment';
+import { useToast } from '@/hooks/use-toast';
+import { useUserStatsContext } from '@/context/user-stats-context';
 import { Button } from '@/components/shadcn-ui/button';
 import { Card } from '@/components/shadcn-ui/card';
 import {
@@ -11,6 +15,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/shadcn-ui/tooltip';
+import { ToastAction } from '@/components/shadcn-ui/toast';
 
 interface AssessmentCardProps {
   assessment: IAssessment;
@@ -21,6 +26,36 @@ interface AssessmentCardToolTipProps {
 }
 
 const AssessmentCard = ({ assessment }: AssessmentCardProps) => {
+  const router = useRouter();
+  const { toast } = useToast();
+  const { userStats } = useUserStatsContext();
+
+  const isAssessmentDisabled =
+    (userStats?.subscription.plan === 'STANDARD' &&
+      userStats.assessment.enrollmentCount >= 2) ||
+    !userStats?.subscription.plan;
+
+  const handleUpgradePlan = async () => {
+    router.push('/subscription');
+  };
+
+  const handleTakeAssessment = () => {
+    if (isAssessmentDisabled) {
+      toast({
+        title: 'Unable to Take Assessment',
+        variant: 'destructive',
+        description: 'You have reached assessment enrollment limit.',
+        action: (
+          <ToastAction onClick={handleUpgradePlan} altText="Subscription page">
+            Upgrade Plan
+          </ToastAction>
+        ),
+      });
+    } else {
+      router.push(`/assessments/${assessment.slug}`);
+    }
+  };
+
   return (
     <Card className="group relative flex w-full flex-col items-start justify-center gap-4 overflow-hidden p-4 md:p-5">
       <div className="flex flex-col">
@@ -32,13 +67,8 @@ const AssessmentCard = ({ assessment }: AssessmentCardProps) => {
           Taken by {assessment.totalAttemptsByUser} users
         </span>
       </div>
-      <Button asChild className="max-lg:w-full">
-        <Link
-          href={`/assessments/${assessment.slug}`}
-          aria-label={assessment.skill.title}
-        >
-          Take Assessment
-        </Link>
+      <Button onClick={handleTakeAssessment} className="max-lg:w-full">
+        Take Assessment
       </Button>
       <Image
         src={assessment.image}

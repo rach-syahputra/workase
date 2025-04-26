@@ -13,6 +13,7 @@ import {
   removeFromLocalStorage,
   setLocalStorage,
 } from '@/hooks/use-local-storage';
+import { useUserStatsContext } from '@/context/user-stats-context';
 import { IAssessmentSessionLocalStorage } from '@/context/assessment-session-context/interface';
 import { useAssessmentSessionContext } from '@/context/assessment-session-context';
 import { Button } from '@/components/shadcn-ui/button';
@@ -29,22 +30,21 @@ import Icon from '@/components/ui/icon';
 interface StartAssessmentModalProps {
   slug: string;
   assessmentId: string;
-  hasTaken: boolean;
+  hasPassed: boolean;
 }
 
 const StartAssessmentModal = ({
   slug,
   assessmentId,
-  hasTaken,
+  hasPassed,
 }: StartAssessmentModalProps) => {
   const router = useRouter();
+  const { fetchGetUserStats } = useUserStatsContext();
   const { setPage, setProgress } = useAssessmentSessionContext();
   const [open, setOpen] = useState<boolean>(false);
 
   const handleStartAssessment = async () => {
-    // TO DO: Retrieve userId from user session
     const response = await addUserAssessment({
-      userId: 'ndy-01',
       assessment: {
         id: assessmentId,
         slug,
@@ -62,6 +62,7 @@ const StartAssessmentModal = ({
       } as IAssessmentSessionLocalStorage);
       setPage(1);
       setProgress(0);
+      fetchGetUserStats();
 
       const token = response.data?.userAssessment.token;
       if (token) {
@@ -75,7 +76,7 @@ const StartAssessmentModal = ({
       <DialogTrigger asChild>
         <Button
           type="button"
-          disabled={hasTaken}
+          disabled={hasPassed}
           className="group h-10 text-base tracking-wide transition-all duration-300 ease-in-out sm:w-fit"
         >
           <div className="relative flex h-full w-fit items-center justify-center pr-6">
@@ -117,7 +118,7 @@ const StartAssessmentModal = ({
           </Button>
           <Button
             type="button"
-            disabled={hasTaken}
+            disabled={hasPassed}
             onClick={handleStartAssessment}
             className="w-full"
           >

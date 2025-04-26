@@ -48,9 +48,9 @@ export const getAssessmentDiscovery = async (
   req?: GetAssessmentDiscoveryRequest,
 ): Promise<GetAssessmentDiscoveryResponse> => {
   try {
-    // TO DO: retrieve token from session
-    const token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk4NGRmMjdmLWNmY2MtNGI1OS1iYmNhLWQwNjYwNTAxNWIwNSIsImVtYWlsIjoibmFkaXlhcmlza2FAZ21haWwuY29tIiwicm9sZSI6IkRFVkVMT1BFUiIsImlhdCI6MTc0MzcwODU1OCwiZXhwIjoxNzQ2MzAwNTU4fQ.Uy5ucffg4bE5QqzVLNvd8AQMPF4bG2ueUYR7V-6DQTs';
+    const session = await getSession();
+    const token = session?.user?.accessToken;
+
     const queryParams = new URLSearchParams();
 
     if (req?.order) queryParams.append('order', req?.order);
@@ -59,7 +59,7 @@ export const getAssessmentDiscovery = async (
     if (req?.skill) queryParams.append('skill', req?.skill.toString());
 
     const query = queryParams.toString();
-    const response = await axiosPrivate(token).get(
+    const response = await axiosPrivate(token || '').get(
       `/assessments/discovery${query ? `?${query}` : ''}`,
     );
 
@@ -73,11 +73,12 @@ export const getAssessmentBySlug = async (
   req?: GetAssessmentBySlugRequest,
 ): Promise<GetAssessmentBySlugResponse> => {
   try {
-    // TO DO: retrieve token from session
-    const token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk4NGRmMjdmLWNmY2MtNGI1OS1iYmNhLWQwNjYwNTAxNWIwNSIsImVtYWlsIjoibmFkaXlhcmlza2FAZ21haWwuY29tIiwicm9sZSI6IkRFVkVMT1BFUiIsImlhdCI6MTc0MzcwODU1OCwiZXhwIjoxNzQ2MzAwNTU4fQ.Uy5ucffg4bE5QqzVLNvd8AQMPF4bG2ueUYR7V-6DQTs';
+    const session = await getSession();
+    const token = session?.user?.accessToken;
 
-    const response = await axiosPrivate(token).get(`/assessments/${req?.slug}`);
+    const response = await axiosPrivate(token || '').get(
+      `/assessments/${req?.slug}`,
+    );
 
     return response.data;
   } catch (error) {
@@ -89,9 +90,9 @@ export const getAvailableSkills = async (
   req?: GetAvailableSkillsRequest,
 ): Promise<GetAvailableSkillsResponse> => {
   try {
-    // TO DO: retrieve token from session
-    const token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk4NGRmMjdmLWNmY2MtNGI1OS1iYmNhLWQwNjYwNTAxNWIwNSIsImVtYWlsIjoibmFkaXlhcmlza2FAZ21haWwuY29tIiwicm9sZSI6IkRFVkVMT1BFUiIsImlhdCI6MTc0MzcwODU1OCwiZXhwIjoxNzQ2MzAwNTU4fQ.Uy5ucffg4bE5QqzVLNvd8AQMPF4bG2ueUYR7V-6DQTs';
+    const session = await getSession();
+    const token = session?.user?.accessToken;
+
     const queryParams = new URLSearchParams();
 
     if (req?.limit) queryParams.append('limit', req?.limit.toString());
@@ -99,7 +100,7 @@ export const getAvailableSkills = async (
     if (req?.title) queryParams.append('title', req?.title.toString());
 
     const query = queryParams.toString();
-    const response = await axiosPrivate(token).get(
+    const response = await axiosPrivate(token || '').get(
       `/assessments/skills/available${query ? `?${query}` : ''}`,
     );
 
@@ -113,9 +114,8 @@ export const addAssessment = async (
   req?: AddAssessmentRequest,
 ): Promise<AddAssessmentResponse> => {
   try {
-    // TO DO: retrieve token from session
-    const token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk4NGRmMjdmLWNmY2MtNGI1OS1iYmNhLWQwNjYwNTAxNWIwNSIsImVtYWlsIjoibmFkaXlhcmlza2FAZ21haWwuY29tIiwicm9sZSI6IkRFVkVMT1BFUiIsImlhdCI6MTc0MzcwODU1OCwiZXhwIjoxNzQ2MzAwNTU4fQ.Uy5ucffg4bE5QqzVLNvd8AQMPF4bG2ueUYR7V-6DQTs';
+    const session = await getSession();
+    const token = session?.user?.accessToken;
 
     const formData = new FormData();
     formData.append('skillId', req?.skillId || '');
@@ -124,10 +124,10 @@ export const addAssessment = async (
     }
     formData.append('shortDescription', req?.shortDescription || '');
 
-    const response = await axiosPrivate(token, 'multipart/form-data').post(
-      '/assessments',
-      formData,
-    );
+    const response = await axiosPrivate(
+      token || '',
+      'multipart/form-data',
+    ).post('/assessments', formData);
 
     return response.data;
   } catch (error) {
@@ -139,9 +139,8 @@ export const addAssessmentQuestion = async (
   req?: AddAssessmentQuestionRequest,
 ): Promise<AddAssessmentQuestionResponse> => {
   try {
-    // TO DO: retrieve token from session
-    const token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk4NGRmMjdmLWNmY2MtNGI1OS1iYmNhLWQwNjYwNTAxNWIwNSIsImVtYWlsIjoibmFkaXlhcmlza2FAZ21haWwuY29tIiwicm9sZSI6IkRFVkVMT1BFUiIsImlhdCI6MTc0MzcwODU1OCwiZXhwIjoxNzQ2MzAwNTU4fQ.Uy5ucffg4bE5QqzVLNvd8AQMPF4bG2ueUYR7V-6DQTs';
+    const session = await getSession();
+    const token = session?.user?.accessToken;
 
     const formData = new FormData();
     formData.append('question', req?.question || '');
@@ -156,10 +155,10 @@ export const addAssessmentQuestion = async (
       );
     });
 
-    const response = await axiosPrivate(token, 'multipart/form-data').post(
-      `/assessments/${req?.assessmentId}/questions`,
-      formData,
-    );
+    const response = await axiosPrivate(
+      token || '',
+      'multipart/form-data',
+    ).post(`/assessments/${req?.assessmentId}/questions`, formData);
 
     return response.data;
   } catch (error) {

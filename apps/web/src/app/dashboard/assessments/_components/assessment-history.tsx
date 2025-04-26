@@ -32,7 +32,6 @@ const AssessmentHistory = () => {
     setIsLoading(true);
 
     const response = await getUserAssessments({
-      userId: 'ndy-01',
       page,
       limit,
       order: enrollmentDateOrder,

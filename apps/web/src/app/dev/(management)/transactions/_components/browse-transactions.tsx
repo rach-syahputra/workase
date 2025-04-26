@@ -13,11 +13,11 @@ const BrowseTransactions = () => {
   const {
     isLoading,
     page,
+    setPage,
     totalPages,
     columns,
     tableData,
     fetchGetSubscriptions,
-    handlePageChange,
   } = useDeveloperTransactionContext();
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const BrowseTransactions = () => {
           {totalPages > 1 && (
             <AppPagination
               page={page}
-              onPageChange={handlePageChange}
+              onPageChange={setPage}
               totalPages={totalPages}
             />
           )}

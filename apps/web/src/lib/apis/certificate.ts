@@ -1,6 +1,6 @@
-import axios from 'axios';
+import { getSession } from 'next-auth/react';
 
-import { axiosPublic } from '../axios';
+import { axiosPrivate, axiosPublic } from '../axios';
 import {
   AddCertificateRequest,
   GenerateCertificateTokenRequest,
@@ -11,15 +11,19 @@ import {
   GenerateCertificateTokenResponse,
   GetCertificateDetailResponse,
 } from '../interfaces/api-response/certificate';
-import { API_BASE_URL } from '../constants/constants';
 import { handleApiError } from './error';
 
 export const generateCertificateToken = async (
   req: GenerateCertificateTokenRequest,
 ): Promise<GenerateCertificateTokenResponse> => {
   try {
-    // TO DO: retrieve token from session
-    const response = await axiosPublic.post(`/certificates/token`, req);
+    const session = await getSession();
+    const token = session?.user?.accessToken;
+
+    const response = await axiosPrivate(token || '').post(
+      `/certificates/token`,
+      req,
+    );
 
     return response.data;
   } catch (error) {
@@ -31,7 +35,8 @@ export const addCertificate = async (
   req: AddCertificateRequest,
 ): Promise<AddCertificateResponse> => {
   try {
-    // TO DO: retrieve token from session
+    const session = await getSession();
+    const token = session?.user?.accessToken;
 
     const formData = new FormData();
     formData.append('userAssessmentId', req?.userAssessmentId || '');
@@ -40,12 +45,10 @@ export const addCertificate = async (
     }
     formData.append('slug', req?.slug || '');
 
-    const response = await axios.post('/certificates', formData, {
-      baseURL: API_BASE_URL,
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    const response = await axiosPrivate(
+      token || '',
+      'multipart/form-data',
+    ).post('/certificates', formData);
 
     return response.data;
   } catch (error) {
@@ -57,8 +60,6 @@ export const getCertificateDetail = async (
   req?: GetCertificateDetailRequest,
 ): Promise<GetCertificateDetailResponse> => {
   try {
-    // TO DO: retrieve token from session
-
     const response = await axiosPublic.get(`/certificates/${req?.slug}`);
 
     return response.data;

@@ -16,6 +16,7 @@ import {
   SubscriptionCategoryType,
 } from '@/lib/interfaces/subscription';
 import { getCompletedTransactionColumns } from './table/column';
+import { orderBy } from 'cypress/types/lodash';
 
 const CompletedTransaction = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -27,6 +28,14 @@ const CompletedTransaction = () => {
     ColumnDef<ICompletedTransactionColumn>[]
   >([]);
   const [tableData, setTableData] = useState<ICompletedTransactionColumn[]>([]);
+
+  const initiateColumns = () => {
+    setColumns(
+      getCompletedTransactionColumns({
+        onCreatedAtClick: handleCreateAtOrderChange,
+      }),
+    );
+  };
 
   const fetchGetSubscriptions = async (req?: IFetchGetSubscriptionsRequest) => {
     setIsLoading(true);
@@ -41,11 +50,6 @@ const CompletedTransaction = () => {
     const pagination = response.data?.pagination;
 
     if (response.success && subscriptions) {
-      setColumns(
-        getCompletedTransactionColumns({
-          onCreatedAtClick: handleCreateAtOrderChange,
-        }),
-      );
       setTableData(
         subscriptions.map((subscription) => ({
           id: subscription.id,
@@ -68,7 +72,12 @@ const CompletedTransaction = () => {
   };
 
   const handlePageChange = async (page: number) => {
-    await fetchGetSubscriptions({ page, limit, order: createdAtOrder });
+    await fetchGetSubscriptions({
+      status: ['CONFIRMED', 'REJECTED'],
+      page,
+      limit,
+      order: createdAtOrder,
+    });
   };
 
   const handleCreateAtOrderChange = async () => {
@@ -76,6 +85,7 @@ const CompletedTransaction = () => {
 
     setCreatedAtOrder(updatedOrder);
     await fetchGetSubscriptions({
+      status: ['CONFIRMED', 'REJECTED'],
       page,
       limit,
       order: updatedOrder,
@@ -85,6 +95,10 @@ const CompletedTransaction = () => {
   useEffect(() => {
     fetchGetSubscriptions();
   }, []);
+
+  useEffect(() => {
+    initiateColumns();
+  }, [page, limit, createdAtOrder]);
 
   return (
     <Card className="flex w-full flex-1 flex-col items-start justify-between gap-6 max-md:border-none max-md:p-0 max-md:shadow-none md:p-5">

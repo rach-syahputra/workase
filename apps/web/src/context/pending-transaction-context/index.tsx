@@ -47,7 +47,12 @@ const PendingTransactionProvider = ({
   };
 
   const handlePageChange = async (page: number) => {
-    await fetchGetSubscriptions({ page, limit, order: createdAtOrder });
+    await fetchGetSubscriptions({
+      status: ['PENDING'],
+      page,
+      limit,
+      order: createdAtOrder,
+    });
   };
 
   const handleCreateAtOrderChange = async () => {
@@ -55,6 +60,7 @@ const PendingTransactionProvider = ({
 
     setCreatedAtOrder(updatedOrder);
     await fetchGetSubscriptions({
+      status: ['PENDING'],
       page,
       limit,
       order: updatedOrder,

@@ -1,3 +1,4 @@
+import { getSession } from 'next-auth/react';
 import { axiosPrivate } from '../axios';
 import {
   AddSkillRequest,
@@ -38,11 +39,10 @@ export const addSkill = async (
   req?: AddSkillRequest,
 ): Promise<AddSkillResponse> => {
   try {
-    // TO DO: retrieve token from session
-    const token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk4NGRmMjdmLWNmY2MtNGI1OS1iYmNhLWQwNjYwNTAxNWIwNSIsImVtYWlsIjoibmFkaXlhcmlza2FAZ21haWwuY29tIiwicm9sZSI6IkRFVkVMT1BFUiIsImlhdCI6MTc0MzcwODU1OCwiZXhwIjoxNzQ2MzAwNTU4fQ.Uy5ucffg4bE5QqzVLNvd8AQMPF4bG2ueUYR7V-6DQTs';
+    const session = await getSession();
+    const token = session?.user?.accessToken;
 
-    const response = await axiosPrivate(token).post('/skills', req);
+    const response = await axiosPrivate(token || '').post('/skills', req);
 
     return response.data;
   } catch (error) {

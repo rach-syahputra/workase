@@ -1,8 +1,10 @@
 import { SubscriptionPaymentStatusType } from '../subscription';
 import { IFilter } from './filter';
 
+export type GetSubscriptionStatusType = SubscriptionPaymentStatusType | 'ALL';
+
 export interface GetSubscriptionsRequest extends IFilter {
-  status?: SubscriptionPaymentStatusType[];
+  status?: GetSubscriptionStatusType[];
 }
 
 export interface AddSubscriptionRequest {

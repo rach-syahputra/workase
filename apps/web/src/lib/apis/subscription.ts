@@ -30,7 +30,7 @@ export const getSubscriptions = async (
     if (req?.order) queryParams.append('order', req?.order);
     if (req?.limit) queryParams.append('limit', req?.limit.toString());
     if (req?.page) queryParams.append('page', req?.page.toString());
-    if (req?.status && req.status.length > 0)
+    if (req?.status && !req?.status?.includes('ALL') && req.status.length > 0)
       queryParams.append('status', req.status.join(','));
 
     const query = queryParams.toString();
@@ -131,8 +131,6 @@ export const updateSubscriptionPayment = async (
         paymentStatus: req.paymentStatus,
       },
     );
-
-    console.log('update response', response.data);
 
     return response.data;
   } catch (error) {

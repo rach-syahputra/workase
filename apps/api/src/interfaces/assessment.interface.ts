@@ -14,6 +14,7 @@ export interface GetAssessmentsRequest extends IFilter {
 }
 
 export interface GetAssessmentDiscoveryRequest extends IFilter {
+  userId: string;
   skill?: string;
 }
 
@@ -69,4 +70,9 @@ export interface AddAssessmentQuestionRepositoryRequest {
 export interface IsAssessmentTakenRequest {
   userId: string;
   assessmentSlug: string;
+}
+
+export interface DeleteAssessmentQuestionRequest {
+  assessmentId: string;
+  assessmentQuestionId: string;
 }

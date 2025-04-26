@@ -39,3 +39,8 @@ export interface AddAssessmentQuestionRequest {
     isCorrect: IsCorrectOptionType;
   }[];
 }
+
+export interface DeleteAssessmentQuestionRequest {
+  assessmentId: string;
+  assessmentQuestionId: string;
+}

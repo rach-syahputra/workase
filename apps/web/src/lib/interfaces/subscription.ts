@@ -1,4 +1,5 @@
 import { OrderType } from './api-request/filter';
+import { GetSubscriptionStatusType } from './api-request/subscription';
 
 export type SubscriptionIdType = 'STANDARD' | 'PROFESSIONAL';
 export type SubscriptionCategoryType = 'Standard' | 'Professional';
@@ -52,5 +53,5 @@ export interface IFetchGetSubscriptionsRequest {
   page: number;
   limit: number;
   order: OrderType;
-  status: SubscriptionPaymentStatusType | 'ALL';
+  status: GetSubscriptionStatusType[];
 }

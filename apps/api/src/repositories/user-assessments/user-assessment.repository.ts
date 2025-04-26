@@ -162,7 +162,7 @@ class UserAssessmentRepository {
   };
 
   checkExpiredUserAssessment = async () => {
-    const expirationTime = new Date(new Date().getTime() - 30 * 60 * 1000);
+    const expirationTime = new Date(new Date().getTime() - 30 * 60 * 1000); // 30 minutes
 
     return await this.prisma.userAssessment.updateMany({
       where: {

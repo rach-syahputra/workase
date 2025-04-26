@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import CertificateController from '@/controllers/certificate.controller';
+import { verifyUser } from '@/middlewares/auth.middleware';
 import { uploadCertificatePdf } from '@/helpers/multer';
 
 class CertificateRouter {
@@ -16,11 +17,13 @@ class CertificateRouter {
   private initializeRoutes(): void {
     this.router.post(
       '/token',
+      verifyUser,
       this.certificateController.generateCertificateToken,
     );
     this.router.post(
       '/',
       uploadCertificatePdf.single('pdf'),
+      verifyUser,
       this.certificateController.addCertificate,
     );
     this.router.get('/:slug', this.certificateController.getCertificateDetail);

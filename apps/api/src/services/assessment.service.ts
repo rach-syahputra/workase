@@ -11,6 +11,7 @@ import GetSkillRepository from '@/repositories/assessments/get-skills.repository
 import {
   AddAssessmentQuestionServiceRequest,
   AddAssessmentServiceRequest,
+  DeleteAssessmentQuestionRequest,
   GetAssessmentBySlugRequest,
   GetAssessmentDiscoveryRequest,
   GetAssessmentQuestionsRequest,
@@ -110,6 +111,12 @@ class AssessmentService {
       options: req.options,
       image: questionImage?.secure_url,
     });
+  };
+
+  deleteAssessmentQuestion = async (req: DeleteAssessmentQuestionRequest) => {
+    return await this.assessmentQuestionRepository.deleteAssessmentQuestion(
+      req,
+    );
   };
 }
 

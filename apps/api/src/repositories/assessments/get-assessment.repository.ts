@@ -112,7 +112,9 @@ class GetAssessmentRepository {
             },
           },
           UserAssessment: {
-            none: {},
+            none: {
+              userId: req.userId,
+            },
           },
         },
         include: {

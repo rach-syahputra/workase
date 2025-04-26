@@ -1,31 +1,22 @@
 'use client';
 
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { getSession } from 'next-auth/react';
 import { ColumnDef } from '@tanstack/react-table';
 
+import { getTransactionColumns } from '@/app/dev/(management)/transactions/_components/table/column';
 import { ITransactionColumn } from '@/app/dev/(management)/transactions/_components/table/interface';
+import { GetSubscriptionStatusType } from '@/lib/interfaces/api-request/subscription';
 import {
   getSubscriptions,
   updateSubscriptionPayment,
 } from '@/lib/apis/subscription';
 import { OrderType } from '@/lib/interfaces/api-request/filter';
-import {
-  IFetchGetSubscriptionsRequest,
-  SubscriptionCategoryType,
-  SubscriptionPaymentStatusType,
-} from '@/lib/interfaces/subscription';
+import { SubscriptionCategoryType } from '@/lib/interfaces/subscription';
 import {
   IDeveloperTransactionContext,
   IHandlePaymentRequest,
 } from './interface';
-import { getTransactionColumns } from '@/app/dev/(management)/transactions/_components/table/column';
 
 const DeveloperTransactionContext = createContext<
   IDeveloperTransactionContext | undefined
@@ -41,39 +32,35 @@ const DeveloperTransactionProvider = ({
   const [page, setPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(8);
   const [createdAtOrder, setCreatedAtOrder] = useState<OrderType>('desc');
-  const [status, setStatus] = useState<SubscriptionPaymentStatusType | 'ALL'>(
-    'ALL',
-  );
+  const [status, setStatus] = useState<GetSubscriptionStatusType[]>(['ALL']);
   const [columns, setColumns] = useState<ColumnDef<ITransactionColumn>[]>([]);
   const [tableData, setTableData] = useState<ITransactionColumn[]>([]);
-
-  const initiateColumns = async () => {
-    const session = await getSession();
-
-    setColumns(
-      getTransactionColumns({
-        onCreatedAtClick: handleCreateAtOrderChange,
-        handlePayment: handlePayment,
-        developer: {
-          email: session?.user?.email || '',
-        },
-      }),
-    );
-  };
-
-  const fetchGetSubscriptions = async (req?: IFetchGetSubscriptionsRequest) => {
+  const fetchGetSubscriptions = async () => {
     setIsLoading(true);
 
     const response = await getSubscriptions({
-      page: req?.page || 1,
-      order: req?.order || 'desc',
-      limit: req?.limit || 8,
-      status: !req?.status || req?.status === 'ALL' ? [] : [req.status],
+      page,
+      order: createdAtOrder,
+      limit,
+      status,
     });
     const subscriptions = response.data?.subscriptions;
     const pagination = response.data?.pagination;
 
     if (response.success && subscriptions) {
+      const session = await getSession();
+
+      setColumns(
+        getTransactionColumns({
+          onCreatedAtClick: () =>
+            setCreatedAtOrder(createdAtOrder === 'asc' ? 'desc' : 'asc'),
+          handlePayment: handlePayment,
+          developer: {
+            email: session?.user?.email || '',
+          },
+        }),
+      );
+
       setTableData(
         subscriptions.map((subscription) => ({
           id: subscription.id,
@@ -96,44 +83,13 @@ const DeveloperTransactionProvider = ({
     setIsLoading(false);
   };
 
-  const handleSelectStatus = async (
-    newStatus: SubscriptionPaymentStatusType | 'ALL',
-  ) => {
-    setStatus(newStatus);
-    await fetchGetSubscriptions({
-      page,
-      limit,
-      order: createdAtOrder,
-      status: newStatus,
-    });
-  };
-
-  const handlePageChange = async (page: number) => {
-    setPage(page);
-    await fetchGetSubscriptions({ page, limit, order: createdAtOrder, status });
-  };
-
-  const handleCreateAtOrderChange = async () => {
-    const updatedOrder = createdAtOrder === 'desc' ? 'asc' : 'desc';
-
-    console.log('status in order', status);
-
-    setCreatedAtOrder(updatedOrder);
-    await fetchGetSubscriptions({
-      page,
-      limit,
-      order: updatedOrder,
-      status,
-    });
-  };
-
   const handlePayment = async (req: IHandlePaymentRequest) => {
     await updateSubscriptionPayment(req);
     await fetchGetSubscriptions();
   };
 
   useEffect(() => {
-    initiateColumns();
+    fetchGetSubscriptions();
   }, [page, status, createdAtOrder, limit]);
 
   return (
@@ -156,9 +112,6 @@ const DeveloperTransactionProvider = ({
         tableData,
         setTableData,
         fetchGetSubscriptions,
-        handleSelectStatus,
-        handlePageChange,
-        handleCreateAtOrderChange,
         handlePayment,
       }}
     >

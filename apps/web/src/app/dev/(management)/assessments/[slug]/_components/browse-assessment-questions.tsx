@@ -1,12 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
-import { IAssessmentQuestion } from '@/lib/interfaces/assessment';
-import { getAssessmentQuestions } from '@/lib/apis/assessment-question';
-import { scrollToTop } from '@/lib/utils';
+import { useBrowseAssessmentQuestionContext } from '@/context/browse-assessment-context';
 import { Input } from '@/components/shadcn-ui/input';
 import Icon from '@/components/ui/icon';
 import AppPagination from '@/components/ui/pagination';
@@ -21,45 +19,22 @@ interface BrowseAssessmentQuestionsProps {
 const BrowseAssessmentQuestions = ({
   slug,
 }: BrowseAssessmentQuestionsProps) => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [totalPages, setTotalPages] = useState<number>(1);
-  const [totalQuestions, setTotalQuestions] = useState<number>(0);
-  const [page, setPage] = useState<number>(1);
-  const [searchQuestion, setSearchQuestion] = useState<string>('');
-  const [debouncedSearchQuestion, setDebouncedSearchQuestion] =
-    useState<string>('');
-  const [questions, setQuestions] = useState<IAssessmentQuestion[]>([]);
-  const limit = 10;
-
-  const fetchAssessmentQuestions = async () => {
-    setIsLoading(true);
-
-    const response = await getAssessmentQuestions({
-      limit,
-      page,
-      slug,
-      question: debouncedSearchQuestion,
-    });
-
-    if (response.success) {
-      setQuestions(
-        response.data?.assessmentQuestions.map((question, index) => ({
-          ...question,
-          number: ((page ? page : 1) - 1) * limit + index + 1,
-        })) || [],
-      );
-      setTotalPages(response.data?.pagination?.totalPages || 1);
-      setTotalQuestions(response.data?.pagination?.totalData || 0);
-      setPage(page || 1);
-      scrollToTop();
-    }
-
-    setIsLoading(false);
-  };
+  const {
+    isLoading,
+    totalPages,
+    totalQuestions,
+    page,
+    setPage,
+    setDebouncedSearchQuestion,
+    searchQuestion,
+    setSearchQuestion,
+    questions,
+    fetchAssessmentQuestions,
+  } = useBrowseAssessmentQuestionContext();
 
   useEffect(() => {
     fetchAssessmentQuestions();
-  }, []);
+  }, [slug]);
 
   useEffect(() => {
     const handleDebouncedSearchSkill = setTimeout(() => {
@@ -69,10 +44,6 @@ const BrowseAssessmentQuestions = ({
 
     return () => clearTimeout(handleDebouncedSearchSkill);
   }, [searchQuestion]);
-
-  useEffect(() => {
-    fetchAssessmentQuestions();
-  }, [page, limit, debouncedSearchQuestion]);
 
   return (
     <Card className="flex w-full flex-col items-start justify-center gap-2 md:p-5">

@@ -3,6 +3,8 @@ import { NextFunction, Request, Response } from 'express';
 import { ApiResponse } from '@/helpers/api-response';
 import UserAssessmentService from '@/services/user-assessment.service';
 import { OrderType } from '@/interfaces/filter.interface';
+import { UserRequest } from '@/interfaces/middleware.interface';
+import { ResponseError } from '@/helpers/error';
 
 class UserAssessmentController {
   private userAssessmentService: UserAssessmentService;
@@ -12,14 +14,15 @@ class UserAssessmentController {
   }
 
   addUserAssessment = async (
-    req: Request,
+    req: UserRequest,
     res: Response,
     next: NextFunction,
   ) => {
     try {
-      // TO DO: verify user token
+      if (!req.user) throw new ResponseError(401, 'Unauthenticated');
+
       const data = await this.userAssessmentService.addUserAssessment({
-        userId: req.body.userId,
+        userId: req.user.id,
         assessment: {
           id: req.body.assessment.id,
           slug: req.body.assessment.slug,
@@ -40,12 +43,13 @@ class UserAssessmentController {
   };
 
   calculateAssessmentResult = async (
-    req: Request,
+    req: UserRequest,
     res: Response,
     next: NextFunction,
   ) => {
     try {
-      // TO DO: verify user token
+      if (!req.user) throw new ResponseError(401, 'Unauthenticated');
+
       const data = await this.userAssessmentService.calculateAssessmentResult({
         userAssessmentId: req.params.userAssessmentId,
         assessmentAnswers: req.body.assessmentAnswers,
@@ -63,14 +67,15 @@ class UserAssessmentController {
   };
 
   getUserAssessments = async (
-    req: Request,
+    req: UserRequest,
     res: Response,
     next: NextFunction,
   ) => {
     try {
-      // TO DO: verify user token
+      if (!req.user) throw new ResponseError(401, 'Unauthenticated');
+
       const data = await this.userAssessmentService.getUserAssessments({
-        userId: 'ndy-01',
+        userId: req.user.id,
         limit: Number(req.query.limit),
         order: req.query.order as OrderType,
         skill: req.query.skill as string,
