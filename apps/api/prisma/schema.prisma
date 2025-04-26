@@ -253,6 +253,7 @@ model UserAssessment {
   status       UserAssessmentStatus
   score        Int
 
+
   sessionToken String?              @map("session_token")
 
   createdAt    DateTime             @map("created_at")
