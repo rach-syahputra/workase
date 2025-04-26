@@ -11,7 +11,6 @@ datasource db {
 }
 
 model User {
-<<<<<<< HEAD
   id              String       @id @default(uuid())
   slug            String       @unique
   email           String       @unique
@@ -28,23 +27,6 @@ model User {
   jobId           String?      @map("job_id")
   isPasswordReset Boolean?     @map("is_password_reset")
   isDeleted       Boolean      @default(false) @map("is_deleted")
-=======
-  id            String       @id @default(uuid())
-  slug          String       @unique
-  email         String       @unique
-  password      String?
-  authProvider  AuthProvider @map("auth_provider")
-  skillId       String?      @map("skill_id")
-  isVerified    Boolean?     @map("is_verified")
-  profilePhoto  String?      @map("profile_photo")
-  placeOfBirth  String?      @map("place_of_birth")
-  dateOfBirth   DateTime?    @map("date_of_birth")
-  gender        Gender?
-  lastEducation String?      @map("last_education")
-  address       String?
-  jobId         String?      @map("job_id")
-  isDeleted     Boolean      @default(false) @map("is_deleted")
->>>>>>> 839820f (feat(db): remove auth_id from users table and add skill_id to users table)
 
   skill Skill? @relation(fields: [skillId], references: [id], onUpdate: Cascade)
   job   Job?   @relation(fields: [jobId], references: [id], onUpdate: Cascade)
@@ -212,14 +194,9 @@ model Skill {
   updatedAt DateTime @map("updated_at")
   isDeleted Boolean  @default(false) @map("is_deleted")
 
-<<<<<<< HEAD
+
   Assessment Assessment[]
   User       User[]
-=======
-  Assessment  Assessment[]
-  Certificate Certificate[]
-  User        User[]
->>>>>>> 839820f (feat(db): remove auth_id from users table and add skill_id to users table)
 
   @@map("skills")
 }
