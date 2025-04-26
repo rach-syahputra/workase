@@ -13,13 +13,14 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/shadcn-ui/dropdown-menu';
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { IoPerson } from 'react-icons/io5';
 
 export default function DropdownMenuDemo() {
   const { data: session } = useSession();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="focus:outline-none focus:ring-0 focus:ring-offset-0">
@@ -40,11 +41,13 @@ export default function DropdownMenuDemo() {
         <DropdownMenuSeparator />
         <DropdownMenuItem className="flex items-center gap-3">
           <IoPerson />
-          <Link
-            href={`/profile-management/${session?.user?.role == 'USER' ? 'users' : 'companies'}`}
-          >
-            Profile
-          </Link>
+          <Link href={`/profile-management`}>Profile</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="flex items-center gap-3">
+          <IoPerson />
+          <button onClick={() => signOut()} className="text-left">
+            Log Out
+          </button>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -20,6 +20,7 @@ export default function Sidebar() {
   const [active, setActive] = useState('Find salaries');
   const router = useRouter();
   const pathname = usePathname();
+  const currentPath = `${pathname}${searchParams.toString() ? '?' + searchParams.toString() : ''}`;
 
   useEffect(() => {
     const current = pathname.split('/')[1];
@@ -61,7 +62,11 @@ export default function Sidebar() {
           {loginItems.map((item) => (
             <Link
               key={item}
-              href={item === 'Sign in' ? '/users/login' : 'users/register'}
+              href={
+                item === 'Sign in'
+                  ? `/users/login?redirect=${encodeURIComponent(currentPath)}`
+                  : 'users/register'
+              }
             >
               <button
                 onClick={() => {}}

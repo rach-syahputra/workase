@@ -136,6 +136,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     async jwt({ token, user, trigger }) {
       if (user) {
+        const userForMiddleware = jwtDecode(user.accessToken as string);
+        token.isVerified = userForMiddleware.isVerified as boolean;
         token.accessToken = user.accessToken;
         token.refreshToken = user.refreshToken;
         token.type = user.type;
@@ -145,6 +147,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           const newToken = await refreshUserToken(token.refreshToken as string);
           token.accessToken = newToken.accessToken;
           token.refreshToken = newToken.refreshToken;
+          const userForMiddleware = jwtDecode(newToken.accessToken as string);
+          token.isVerified = userForMiddleware.isVerified as boolean;
           token.type = token.type;
         } else if (type == 'company') {
           const newToken = await refreshCompanyToken(
@@ -152,6 +156,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           );
           token.accessToken = newToken.accessToken;
           token.refreshToken = newToken.refreshToken;
+          const userForMiddleware = jwtDecode(newToken.accessToken as string);
+          token.isVerified = userForMiddleware.isVerified as boolean;
           token.type = token.type;
         }
       }
@@ -165,6 +171,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.location = user.location ?? '';
         session.user.profilePhoto = user.profilePhoto as string;
         session.user.placeOfBirth = user.placeOfBirth;
+        session.user.dateOfBirth = user.dateOfBirth;
         session.user.gender = user.gender;
         session.user.lastEducation = user.lastEducation;
         session.user.address = user.address;
@@ -173,13 +180,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.email = user.email as string;
         session.user.authProvider = user.authProvider;
         session.user.logoUrl = user.logoUrl;
-        session.user.descipton = user.descipton;
+        session.user.description = user.description;
         session.user.category = user.category;
         session.user.name = user.name;
         session.user.phoneNumber = user.phoneNumber;
         session.user.slug = user.slug;
         session.user.accessToken = token.accessToken as string;
       }
+      console.log('ini session', session);
       return session;
     },
   },

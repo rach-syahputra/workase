@@ -1,5 +1,6 @@
 import cloudinary, { getPublicId } from '@/helpers/cloudinary';
 import { ResponseError } from '@/helpers/error';
+import { generateHashedPassword } from '@/helpers/utils';
 import { UserRequest } from '@/interfaces/middleware.interface';
 import prisma from '@/prisma';
 import { Prisma } from '@prisma/client';
@@ -33,7 +34,7 @@ class updateUserProfileRepository {
   static async updateUserProfile(req: UserRequest) {
     const {
       email,
-      passsword,
+      password,
       placeOfBirth,
       dateOfBirth,
       gender,
@@ -45,7 +46,7 @@ class updateUserProfileRepository {
     if (email) data.email = email;
     if (email) data.slug = email.split('@')[0];
     if (email) data.isVerified = false;
-    if (passsword) data.password = passsword;
+    if (password) data.password = await generateHashedPassword(password);
     if (placeOfBirth) data.placeOfBirth = placeOfBirth;
     if (dateOfBirth) data.dateOfBirth = dateOfBirth;
     if (gender) data.gender = gender;

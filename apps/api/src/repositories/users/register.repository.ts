@@ -33,7 +33,7 @@ class registerUsersRepository {
       }
       const accessToken = await putUserAccessToken(undefined, data.email);
       console.log('ini yang dikirim :', accessToken.accessToken);
-      await sendEmailVerification(data.email, accessToken.accessToken);
+      await sendEmailVerification(data.email, accessToken.accessToken, 'users');
     }
   }
 }
