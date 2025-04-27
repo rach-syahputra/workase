@@ -7,7 +7,7 @@ interface CreateQuestionPageProps {
 
 const CreateQuestionPage = async ({ params }: CreateQuestionPageProps) => {
   const slug = (await params).slug;
-  const response = await getAssessmentBySlug({ slug });
+  const response = await getAssessmentBySlug({ isOnClient: false, slug });
   const assessment = response.data?.assessment;
 
   return assessment ? (

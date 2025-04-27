@@ -63,11 +63,19 @@ export const getTransactionColumns = ({
   {
     accessorKey: 'paymentProof',
     header: 'Payment Proof',
-    cell: ({ row }) => (
-      <div className="w-[150px]">
-        <ViewPaymentProofModal paymentProof={row.original.paymentProof || ''} />
-      </div>
-    ),
+    cell: ({ row }) => {
+      const paymentProof = row.original.paymentProof;
+
+      return (
+        <div className="w-[150px]">
+          {paymentProof ? (
+            <ViewPaymentProofModal paymentProof={paymentProof || ''} />
+          ) : (
+            <p className="text-primary-gray">No payment proof.</p>
+          )}
+        </div>
+      );
+    },
   },
   {
     accessorKey: 'createdAt',

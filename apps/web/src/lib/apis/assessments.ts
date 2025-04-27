@@ -1,5 +1,6 @@
 import { getSession } from 'next-auth/react';
 import { axiosPrivate } from '../axios';
+import { auth } from '@/auth';
 
 import {
   AddAssessmentQuestionRequest,
@@ -70,14 +71,19 @@ export const getAssessmentDiscovery = async (
 };
 
 export const getAssessmentBySlug = async (
-  req?: GetAssessmentBySlugRequest,
+  req: GetAssessmentBySlugRequest,
 ): Promise<GetAssessmentBySlugResponse> => {
   try {
-    const session = await getSession();
+    let session;
+    if (req.isOnClient) {
+      session = await getSession();
+    } else {
+      session = await auth();
+    }
     const token = session?.user?.accessToken;
 
     const response = await axiosPrivate(token || '').get(
-      `/assessments/${req?.slug}`,
+      `/assessments/${req.slug}`,
     );
 
     return response.data;

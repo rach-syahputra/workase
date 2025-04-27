@@ -21,7 +21,7 @@ export default function AssessmentsPage() {
               <BrowseSkills />
               <CreateAssessment />
             </div>
-            <div className="flex flex-col items-start justify-center gap-4">
+            <div className="mt-16 flex flex-col items-start justify-center gap-4 md:mt-0">
               <BrowseAssessments />
             </div>
           </AssessmentProvider>

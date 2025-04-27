@@ -47,7 +47,7 @@ const BrowseSkillsProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     fetchSkills();
-  }, [debouncedSearchSkill]);
+  }, [page, debouncedSearchSkill]);
 
   return (
     <BrowseSkillsContext.Provider

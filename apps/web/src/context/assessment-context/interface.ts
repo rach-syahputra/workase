@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
+import { ColumnDef } from '@tanstack/react-table';
 
-import { IAssessment } from '@/lib/interfaces/assessment';
+import { IAssessmentColumn } from '@/app/dev/(management)/assessments/_components/table/interface';
 import { OrderType } from '@/lib/interfaces/api-request/filter';
 
 export interface fetchGetAssessmentsQuery {
@@ -24,7 +25,9 @@ export interface IAssessmentContext {
   setSearchSkill: Dispatch<SetStateAction<string>>;
   debouncedSearchSkill: string;
   setDebouncedSearchSkill: Dispatch<SetStateAction<string>>;
-  assessments: IAssessment[];
-  setAssessments: Dispatch<SetStateAction<IAssessment[]>>;
+  columns: ColumnDef<IAssessmentColumn>[];
+  setColumns: Dispatch<SetStateAction<ColumnDef<IAssessmentColumn>[]>>;
+  tableData: IAssessmentColumn[];
+  setTableData: Dispatch<SetStateAction<IAssessmentColumn[]>>;
   fetchGetAssessments: () => void;
 }

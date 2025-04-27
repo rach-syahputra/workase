@@ -1,10 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { ColumnDef } from '@tanstack/react-table';
-
-import { IAssessmentColumn } from './table/interface';
-import { getAssessmentColumns } from './table/column';
 import { useAssessmentContext } from '@/context/assessment-context';
 import { DataTable } from '@/components/ui/table/data-table';
 import { Input } from '@/components/shadcn-ui/input';
@@ -20,34 +16,14 @@ const BrowseAssessments = () => {
     page,
     setPage,
     totalPages,
-    order,
-    setOrder,
     fetchGetAssessments,
-    assessments,
+    columns,
+    tableData,
   } = useAssessmentContext();
-  const [columns, setColumns] = useState<ColumnDef<IAssessmentColumn>[]>([]);
-  const [tableData, setTableData] = useState<IAssessmentColumn[]>([]);
 
   useEffect(() => {
     fetchGetAssessments();
   }, []);
-
-  useEffect(() => {
-    setColumns(
-      getAssessmentColumns({
-        onLastUpdatedHeaderClick: () =>
-          setOrder(order === 'desc' ? 'asc' : 'desc'),
-      }),
-    );
-    setTableData(
-      assessments.map((assesment) => ({
-        slug: assesment.slug,
-        updatedAt: assesment.updatedAt,
-        skill: assesment.skill.title,
-        totalQuestions: assesment.totalQuestions || 0,
-      })),
-    );
-  }, [assessments]);
 
   return (
     <Card className="flex w-full flex-col items-start justify-center gap-2 max-md:border-none max-md:shadow-none md:p-5">

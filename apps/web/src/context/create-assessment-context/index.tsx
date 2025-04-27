@@ -56,7 +56,7 @@ const CreateAssessmentProvider = ({
 
   useEffect(() => {
     fetchAvailableSkills();
-  }, [debouncedSearchSkill]);
+  }, [page, debouncedSearchSkill]);
 
   return (
     <CreateAssessmentContext.Provider

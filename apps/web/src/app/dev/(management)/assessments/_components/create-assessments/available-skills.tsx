@@ -16,16 +16,16 @@ interface SkillsProps {
 }
 
 const AvailableSkills = ({ skills, isLoading, className }: SkillsProps) => {
-  const { fetchSkills, page, totalPages } = useCreateAssessmentContext();
+  const { page, setPage, totalPages } = useCreateAssessmentContext();
 
   return (
     <Card
       className={cn(
-        'flex min-h-[410px] w-full items-center justify-center max-md:border-none max-md:shadow-none md:p-4',
+        'flex w-full items-start justify-center max-md:border-none max-md:shadow-none md:min-h-[410px] md:p-4',
         className,
       )}
     >
-      <div className="flex h-full w-full flex-col items-center justify-between gap-4">
+      <div className="flex h-full w-full flex-col justify-between gap-4">
         {isLoading ? (
           Array.from({ length: 5 }).map((_, index) => (
             <React.Fragment key={index}>
@@ -46,7 +46,7 @@ const AvailableSkills = ({ skills, isLoading, className }: SkillsProps) => {
             {totalPages > 1 && (
               <AppPagination
                 page={page}
-                onPageChange={fetchSkills}
+                onPageChange={setPage}
                 totalPages={totalPages}
                 className="mt-2"
               />

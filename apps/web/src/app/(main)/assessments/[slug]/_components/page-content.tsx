@@ -20,7 +20,7 @@ const PageContent = ({ slug }: PageContentProps) => {
     setIsLoading(true);
 
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    const response = await getAssessmentBySlug({ slug });
+    const response = await getAssessmentBySlug({ isOnClient: true, slug });
 
     if (response.success) {
       setAssessment(response.data?.assessment);

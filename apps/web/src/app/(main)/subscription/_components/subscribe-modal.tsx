@@ -111,7 +111,7 @@ const SubscribeModal = () => {
                   </Button>
                   <Button
                     onClick={() =>
-                      router.push('/dashboard/transactions?tab=pending')
+                      router.push('/dashboard/subscriptions?tab=pending')
                     }
                     disabled={isSubmitting}
                     className="w-full"

@@ -25,7 +25,7 @@ const AssessmentQuestionProvider = ({
   const fetchAssessmentBySlug = async () => {
     setIsLoading(true);
 
-    const response = await getAssessmentBySlug({ slug });
+    const response = await getAssessmentBySlug({ isOnClient: true, slug });
 
     if (response.success) {
       setAssessment(response.data?.assessment);

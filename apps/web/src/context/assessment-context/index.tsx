@@ -1,11 +1,14 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
+import { ColumnDef } from '@tanstack/react-table';
 
+import { IAssessmentColumn } from '@/app/dev/(management)/assessments/_components/table/interface';
 import { getAssessments } from '@/lib/apis/assessments';
 import { IAssessment } from '@/lib/interfaces/assessment';
 import { OrderType } from '@/lib/interfaces/api-request/filter';
 import { IAssessmentContext } from './interface';
+import { getAssessmentColumns } from '@/app/dev/(management)/assessments/_components/table/column';
 
 const AssessmentContext = createContext<IAssessmentContext | undefined>(
   undefined,
@@ -19,7 +22,8 @@ const AssessmentProvider = ({ children }: { children: React.ReactNode }) => {
   const [order, setOrder] = useState<OrderType>('desc');
   const [searchSkill, setSearchSkill] = useState<string>('');
   const [debouncedSearchSkill, setDebouncedSearchSkill] = useState<string>('');
-  const [assessments, setAssessments] = useState<IAssessment[]>([]);
+  const [columns, setColumns] = useState<ColumnDef<IAssessmentColumn>[]>([]);
+  const [tableData, setTableData] = useState<IAssessmentColumn[]>([]);
 
   const fetchGetAssessments = async () => {
     setIsLoading(true);
@@ -32,8 +36,20 @@ const AssessmentProvider = ({ children }: { children: React.ReactNode }) => {
     });
 
     if (response.success) {
-      setAssessments(
-        response.data?.assessments.map((assessment) => assessment) || [],
+      setColumns(
+        getAssessmentColumns({
+          onLastUpdatedHeaderClick: () =>
+            setOrder(order === 'desc' ? 'asc' : 'desc'),
+        }),
+      );
+
+      setTableData(
+        response.data?.assessments?.map((assesment) => ({
+          slug: assesment.slug,
+          updatedAt: assesment.updatedAt,
+          skill: assesment.skill.title,
+          totalQuestions: assesment.totalQuestions || 0,
+        })) || [],
       );
       setTotalPages(response.data?.pagination?.totalPages || 1);
       setPage(page || 1);
@@ -72,8 +88,10 @@ const AssessmentProvider = ({ children }: { children: React.ReactNode }) => {
         setSearchSkill,
         debouncedSearchSkill,
         setDebouncedSearchSkill,
-        assessments,
-        setAssessments,
+        columns,
+        setColumns,
+        tableData,
+        setTableData,
         fetchGetAssessments,
       }}
     >

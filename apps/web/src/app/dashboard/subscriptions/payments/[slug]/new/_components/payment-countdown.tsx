@@ -11,7 +11,7 @@ const PaymentCountdown = ({ startTime }: PaymentCountdownProps) => {
   const router = useRouter();
 
   const handleExpiredTime = () => {
-    router.push('/dashboard/transactions');
+    router.push('/dashboard/subscriptions');
   };
 
   return (

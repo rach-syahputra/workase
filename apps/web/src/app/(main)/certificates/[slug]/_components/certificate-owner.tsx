@@ -65,15 +65,6 @@ const CertificateOwner = ({ className }: CertificateOwnerProps) => {
             {formatCertificateDate(new Date(certificate?.createdAt as string))}
           </p>
         </div>
-        <Separator />
-        <Link
-          href="/" // TO DO: redirect to user profile
-          aria-label="Assessment detail page"
-          className="text-primary-blue flex w-fit items-center text-sm hover:underline"
-        >
-          View User Profile
-          <ChevronRight size={20} />
-        </Link>
       </Card>
 
       {isOwner && (
