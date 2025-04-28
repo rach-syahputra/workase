@@ -13,6 +13,7 @@ import * as Yup from 'yup';
 
 import { corsOptions, PORT } from './config';
 import { ResponseError } from './helpers/error';
+import { subscriptionExpiryReminderEmail } from './helpers/scheduler';
 import apiRouter from './routers/api.router';
 
 export default class App {
@@ -22,6 +23,7 @@ export default class App {
     this.app = express();
     this.configure();
     this.routes();
+    this.scheduler();
     this.handleError();
   }
 
@@ -46,6 +48,10 @@ export default class App {
     this.app.get('/api', (req: Request, res: Response) => {
       res.send(`Hello, Purwadhika Student API!`);
     });
+  }
+
+  private scheduler() {
+    subscriptionExpiryReminderEmail();
   }
 
   private handleError(): void {

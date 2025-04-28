@@ -67,3 +67,9 @@ export interface GetSubscriptionPaymentBySlugRequest {
 export interface CheckPaymentExpirationsRequest {
   userId: string;
 }
+
+export interface SendSubscriptionExpiryReminderEmailRequest {
+  destinationEmail: string;
+  subscriptionPlan: string;
+  expirationDate: Date;
+}
