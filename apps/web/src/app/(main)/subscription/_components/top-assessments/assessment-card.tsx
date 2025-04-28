@@ -1,11 +1,11 @@
 import Image from 'next/image';
 
-import { IAssessment } from '@/lib/interfaces/assessment';
+import { ITopAssessment } from '@/lib/interfaces/assessment';
 import { Card } from '@/components/shadcn-ui/card';
 
 interface AssessmentCardProps {
   number: number;
-  assessment: IAssessment;
+  assessment: ITopAssessment;
 }
 
 const AssessmentCard = ({ number, assessment }: AssessmentCardProps) => {
@@ -26,7 +26,7 @@ const AssessmentCard = ({ number, assessment }: AssessmentCardProps) => {
       <div className="flex flex-col items-start">
         <span className="font-medium">{assessment.skill.title}</span>
         <span className="text-primary-gray text-sm">
-          {assessment.totalAttemptsByUser} Enrolled
+          {assessment.totalEnrollmentCount} Enrolled
         </span>
       </div>
     </div>

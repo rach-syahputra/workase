@@ -2,6 +2,7 @@ import {
   IAssessment,
   IAssessmentDetail,
   IAssessmentQuestion,
+  ITopAssessment,
 } from '../assessment';
 import { ISkill } from '../skill';
 import { APIResponse, IPagination } from './response';
@@ -49,6 +50,12 @@ export interface GetAssessmentQuestionsResponse extends APIResponse {
 export interface AddAssessmentQuestionResponse extends APIResponse {
   data?: {
     question: IAssessmentQuestion;
+  };
+}
+
+export interface GetTopAssessmentsResponse extends APIResponse {
+  data?: {
+    topAssessments: ITopAssessment[];
   };
 }
 

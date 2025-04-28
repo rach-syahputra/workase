@@ -5,7 +5,8 @@ export interface IUserStats {
     enrollmentCount: number;
   };
   subscription: {
-    plan: SubscriptionPlanType | null;
+    plan: SubscriptionPlanType | 'FREE';
     hasPendingTransaction: boolean;
+    expiresAt: string;
   };
 }

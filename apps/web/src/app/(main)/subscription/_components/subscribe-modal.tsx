@@ -4,46 +4,37 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
-import {
-  addSubscription,
-  getSubscriptionTransactionStatus,
-} from '@/lib/apis/subscription';
+import { cn } from '@/lib/utils';
+import { addSubscription } from '@/lib/apis/subscription';
 import { useAppToast } from '@/hooks/use-app-toast';
 import { useSubscriptionPlanContext } from '@/context/subscription-plan-context';
+import { useUserStatsContext } from '@/context/user-stats-context';
 import { Button } from '@/components/shadcn-ui/button';
 import {
   Dialog,
-  DialogTrigger,
   DialogContent,
   DialogTitle,
   DialogHeader,
+  DialogTrigger,
 } from '@/components/shadcn-ui/dialog';
 import Icon from '@/components/ui/icon';
 import LoadingOverlay from '@/components/ui/loading-overlay';
+import PendingSubscriptionModal from './pending-subscription-modal';
+import ExtendPlanModal from './extend-plan-modal';
+import UpgradePlanModal from './upgrade-plan-modal';
 
-const SubscribeModal = () => {
+interface SubscribeModalProps {
+  className?: string;
+}
+
+const SubscribeModal = ({ className }: SubscribeModalProps) => {
   const router = useRouter();
   const { appToast } = useAppToast();
+  const { userStats } = useUserStatsContext();
   const { activeSubscriptionPlan } = useSubscriptionPlanContext();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
-  const [hasPendingTransaction, setHasPendingTransaction] =
-    useState<boolean>(false);
-
-  const handleStartYourPlan = async () => {
-    setIsLoading(true);
-
-    const response = await getSubscriptionTransactionStatus();
-    const pendingTransaction = response.data?.subscription.pendingTransaction;
-
-    if (pendingTransaction) {
-      setHasPendingTransaction(true);
-    }
-
-    setOpen(true);
-    setIsLoading(false);
-  };
 
   const handleProceedToPayment = async () => {
     setIsSubmitting(true);
@@ -56,10 +47,9 @@ const SubscribeModal = () => {
 
     if (response.success) {
       const paymentSlug = response.data?.subscription.payment.slug;
-      router.push(`/dashboard/subscriptions/payments/${paymentSlug}/new`);
+      router.push(`/dashboard/subscription/payments/${paymentSlug}/new`);
     } else {
       if (response.code === 'ERR_NETWORK') {
-        // TO DO: add toast action to redirect to the login page
         appToast('ERROR_NETWORK');
       } else if (response.code === 'ERR_UNAUTHENTICATED') {
         appToast('ERROR_UNAUTHENTICATED');
@@ -74,12 +64,17 @@ const SubscribeModal = () => {
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
-        <div
-          onClick={handleStartYourPlan}
-          className="flex w-full flex-col gap-2"
-        >
-          <Button className="hover:bg-primary-blue-hover group h-10 w-full text-base tracking-wide transition-all duration-300 ease-in-out">
-            Start Your Plan
+        <DialogTrigger asChild>
+          <Button
+            className={cn(
+              'hover:bg-primary-blue-hover group flex h-10 w-full text-base tracking-wide transition-all duration-300 ease-in-out',
+              className,
+            )}
+          >
+            {userStats?.subscription.plan === 'STANDARD' ||
+            userStats?.subscription.plan === 'PROFESSIONAL'
+              ? 'Extend Your Plan'
+              : 'Upgrade Your Plan'}
             <div className="relative flex h-full items-center justify-center pr-6">
               <Icon
                 icon={faArrowRight}
@@ -87,65 +82,38 @@ const SubscribeModal = () => {
               />
             </div>
           </Button>
-        </div>
+        </DialogTrigger>
 
-        <DialogContent className="max-w-screen-sm">
+        <DialogContent className="max-w-[500px]">
           <DialogHeader>
-            <DialogTitle className="sr-only">Subscribe Form</DialogTitle>
+            <DialogTitle>
+              {userStats?.subscription.hasPendingTransaction
+                ? 'Pending Subscription'
+                : new Date(userStats?.subscription.expiresAt!) > new Date()
+                  ? 'Extend Plan'
+                  : 'Upgrade Plan'}
+            </DialogTitle>
           </DialogHeader>
-          <div className="flex flex-col items-center justify-center gap-4">
-            {hasPendingTransaction ? (
-              <>
-                <p className="text-center">
-                  You have a pending payment. Please complete it or wait for
-                  approval before starting a new upgrade.
-                </p>
-                <div className="flex w-full items-center justify-between gap-4">
-                  <Button
-                    onClick={() => setOpen(false)}
-                    disabled={isSubmitting}
-                    variant="outline"
-                    className="w-full"
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    onClick={() =>
-                      router.push('/dashboard/subscriptions?tab=pending')
-                    }
-                    disabled={isSubmitting}
-                    className="w-full"
-                  >
-                    View Transaction
-                  </Button>
-                </div>
-              </>
-            ) : (
-              <>
-                <p className="text-center">
-                  Are you sure you want to upgrade to the{' '}
-                  <strong>{activeSubscriptionPlan.label}</strong> plan?
-                </p>
-                <div className="flex w-full items-center justify-between gap-4">
-                  <Button
-                    onClick={() => setOpen(false)}
-                    disabled={isSubmitting}
-                    variant="outline"
-                    className="w-full"
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    onClick={handleProceedToPayment}
-                    disabled={isSubmitting}
-                    className="w-full"
-                  >
-                    Proceed to Payment
-                  </Button>
-                </div>
-              </>
-            )}
-          </div>
+
+          {userStats?.subscription.hasPendingTransaction ? (
+            <PendingSubscriptionModal
+              onCloseModal={() => setOpen(false)}
+              onSubmit={() => router.push('/dashboard/subscription')}
+              isSubmitting={isSubmitting}
+            />
+          ) : new Date(userStats?.subscription.expiresAt!) > new Date() ? (
+            <ExtendPlanModal
+              onCloseModal={() => setOpen(false)}
+              onSubmit={handleProceedToPayment}
+              isSubmitting={isSubmitting}
+            />
+          ) : (
+            <UpgradePlanModal
+              onCloseModal={() => setOpen(false)}
+              onSubmit={handleProceedToPayment}
+              isSubmitting={isSubmitting}
+            />
+          )}
         </DialogContent>
       </Dialog>
 

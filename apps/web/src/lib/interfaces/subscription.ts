@@ -34,6 +34,7 @@ export interface ISubscription {
 
 export interface ISubscriptionPayment {
   id: string;
+  category: SubscriptionIdType;
   subscriptionId: string;
   totalPrice: number;
   paymentStatus: SubscriptionPaymentStatusType;

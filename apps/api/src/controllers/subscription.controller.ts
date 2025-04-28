@@ -128,30 +128,6 @@ class SubscriptionController {
     }
   };
 
-  getSubscriptionTransactionStatus = async (
-    req: UserRequest,
-    res: Response,
-    next: NextFunction,
-  ) => {
-    try {
-      if (!req.user) throw new ResponseError(401, 'Unauthenticated');
-
-      const data =
-        await this.subscriptionService.getSubscriptionTransactionStatus({
-          userId: req.user.id,
-        });
-
-      ApiResponse({
-        res,
-        statusCode: 200,
-        message: 'Subscription transaction status retrieved successfully.',
-        data,
-      });
-    } catch (err) {
-      next(err);
-    }
-  };
-
   getSubscriptionPaymentBySlug = async (
     req: UserRequest,
     res: Response,

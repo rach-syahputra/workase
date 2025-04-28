@@ -22,12 +22,13 @@ class AssessmentController {
   }
 
   getAssessments = async (
-    req: DeveloperRequest,
+    req: UserAndDeveloperRequest,
     res: Response,
     next: NextFunction,
   ) => {
     try {
-      if (!req.developer) throw new ResponseError(401, 'Unauthenticated.');
+      if (!req.user && !req.developer)
+        throw new ResponseError(401, 'Unauthenticated.');
 
       const data = await this.assessmentService.getAssessments({
         limit: Number(req.query.limit),
@@ -144,6 +145,25 @@ class AssessmentController {
         res,
         statusCode: 201,
         message: 'Assessment created successfully.',
+        data,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  getTopAssessments = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const data = await this.assessmentService.getTopAssessments();
+
+      ApiResponse({
+        res,
+        statusCode: 200,
+        message: 'Top assessments retrieved successfully.',
         data,
       });
     } catch (err) {

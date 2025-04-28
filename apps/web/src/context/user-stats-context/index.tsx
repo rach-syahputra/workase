@@ -17,9 +17,16 @@ const UserStatsProvider = ({ children }: { children: React.ReactNode }) => {
 
   const fetchGetUserStats = async () => {
     const response = await getUserStats();
+    const stats = response.data?.stats;
 
-    if (response.success) {
-      setUserStats(response.data?.stats);
+    if (response.success && stats) {
+      setUserStats({
+        ...stats,
+        subscription: {
+          ...stats.subscription,
+          plan: !stats.subscription.plan ? 'FREE' : stats.subscription.plan,
+        },
+      });
     }
   };
 

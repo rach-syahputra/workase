@@ -1,13 +1,13 @@
 'use client';
 
+import Link from 'next/link';
 import { ColumnDef } from '@tanstack/react-table';
 
 import { cn, formatTableDate } from '@/lib/utils';
 import { GetTransactionColumnsRequest, ITransactionColumn } from './interface';
 import TableHeaderOrderButton from '@/components/ui/table/table-header-order-button';
-import ViewPaymentProofModal from '../view-payment-proof-modal';
 import { Button } from '@/components/shadcn-ui/button';
-import Link from 'next/link';
+import ViewPaymentProofModal from '../../view-payment-proof-modal';
 
 export const getTransactionColumns = ({
   onCreatedAtClick,
@@ -15,13 +15,13 @@ export const getTransactionColumns = ({
   {
     accessorKey: 'category',
     header: 'Category',
-    cell: ({ row }) => <div className="w-[150px]">{row.original.category}</div>,
+    cell: ({ row }) => <div className="w-[120px]">{row.original.category}</div>,
   },
   {
     accessorKey: 'price',
     header: 'Price',
     cell: ({ row }) => (
-      <div className="w-[150px] font-bold">${row.original.price}</div>
+      <div className="w-[80px] font-bold">${row.original.price}</div>
     ),
   },
   {
@@ -31,7 +31,7 @@ export const getTransactionColumns = ({
       const status = row.original.payment.status;
 
       return (
-        <div className="w-[150px]">
+        <div className="w-[120px]">
           <span
             className={cn('rounded-md px-3 py-2 text-xs font-medium', {
               'bg-yellow-400 text-yellow-800': status === 'PENDING',
@@ -51,8 +51,8 @@ export const getTransactionColumns = ({
       <TableHeaderOrderButton label="Created At" onClick={onCreatedAtClick} />
     ),
     cell: ({ row }) => (
-      <div className="w-[200px]">
-        {formatTableDate(new Date(row.original.createdAt))}
+      <div className="w-[160px]">
+        {formatTableDate(new Date(row.original.payment.createdAt))}
       </div>
     ),
   },
@@ -73,7 +73,7 @@ export const getTransactionColumns = ({
           ) : (
             <Button asChild>
               <Link
-                href={`/dashboard/subscriptions/payments/${slug}/new`}
+                href={`/dashboard/subscription/payments/${slug}/new`}
                 aria-label="Submit payment page"
               >
                 Submit Payment

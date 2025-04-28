@@ -16,7 +16,7 @@ const SubscriptionHeroHeader = ({ className }: SubscriptionHeroHeaderProps) => {
         <span className="text-primary-dark-blue">advanced features</span> and{' '}
         <span className="text-primary-dark-blue">exclusive resources.</span>
       </p>
-      <SubscribeModal />
+      <SubscribeModal className="max-md:hidden" />
     </div>
   );
 };

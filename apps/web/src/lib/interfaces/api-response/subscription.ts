@@ -5,6 +5,8 @@ import {
 } from '../subscription';
 import { APIResponse, IPagination } from './response';
 
+export type SubscriptionActiveTabType = 'billing' | 'overview';
+
 export interface GetSubsciptionsResponse extends APIResponse {
   data?: {
     subscriptions: ISubscriptionWithPayment[];

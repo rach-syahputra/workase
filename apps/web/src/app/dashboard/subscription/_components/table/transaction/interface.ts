@@ -9,11 +9,11 @@ export interface ITransactionColumn {
     id: string;
     status: SubscriptionPaymentStatusType;
     slug: string;
+    createdAt: string;
   };
   paymentProof: string | null;
   category: SubscriptionCategoryType;
   price: number;
-  createdAt: string;
 }
 
 export interface GetTransactionColumnsRequest {

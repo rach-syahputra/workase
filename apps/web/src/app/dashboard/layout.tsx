@@ -1,11 +1,19 @@
+import { redirect } from 'next/navigation';
+
+import { auth } from '@/auth';
 import NavigationBar from '@/components/layout/navigation-bar/navigation-bar';
 import UserSidebar from '@/components/user-dashboard/user-sidebar';
 
-export default function UserDashboardLayout({
+export default async function UserDashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await auth();
+  if (!session?.user?.role) {
+    redirect('/');
+  }
+
   return (
     <div className="flex min-h-screen w-screen flex-col">
       <NavigationBar />

@@ -38,16 +38,16 @@ export default function DropdownMenuDemo() {
           <Link href={`/profile-management`}>Profile</Link>
         </DropdownMenuItem>
         <DropdownMenuItem className="flex items-center gap-3">
+          <MdDashboard />
+          <Link href="/dashboard/subscription" className="text-left">
+            Dashboard
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="flex items-center gap-3">
           <IoPerson />
           <button onClick={() => signOut()} className="text-left">
             Log Out
           </button>
-        </DropdownMenuItem>
-        <DropdownMenuItem className="flex items-center gap-3">
-          <MdDashboard />
-          <Link href="/dashboard/assessments" className="text-left">
-            Dashboard
-          </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

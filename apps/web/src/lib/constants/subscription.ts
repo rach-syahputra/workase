@@ -14,7 +14,11 @@ export const SUBSCRIPTION_CARDS: ISubscriptionCard[] = [
     id: 'PROFESSIONAL',
     category: 'Professional',
     price: 5.0,
-    benefits: ['CV Generator', 'Unlimited Assessment Enrollment'],
+    benefits: [
+      'CV Generator',
+      'Unlimited Assessment Enrollment',
+      'Priority Review on Job Applications',
+    ],
   },
 ];
 

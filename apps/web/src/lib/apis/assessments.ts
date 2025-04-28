@@ -1,5 +1,5 @@
 import { getSession } from 'next-auth/react';
-import { axiosPrivate } from '../axios';
+import { axiosPrivate, axiosPublic } from '../axios';
 import { auth } from '@/auth';
 
 import {
@@ -8,7 +8,6 @@ import {
   GetAssessmentBySlugRequest,
   GetAssessmentDiscoveryRequest,
   GetAssessmentsRequest,
-  GetAvailableSkillsRequest,
 } from '../interfaces/api-request/assessment';
 import {
   AddAssessmentQuestionResponse,
@@ -16,7 +15,7 @@ import {
   GetAssessmentBySlugResponse,
   GetAssessmentDiscoveryResponse,
   GetAssessmentsResponse,
-  GetAvailableSkillsResponse,
+  GetTopAssessmentsResponse,
 } from '../interfaces/api-response/assessments';
 import { handleApiError } from './error';
 
@@ -92,30 +91,6 @@ export const getAssessmentBySlug = async (
   }
 };
 
-export const getAvailableSkills = async (
-  req?: GetAvailableSkillsRequest,
-): Promise<GetAvailableSkillsResponse> => {
-  try {
-    const session = await getSession();
-    const token = session?.user?.accessToken;
-
-    const queryParams = new URLSearchParams();
-
-    if (req?.limit) queryParams.append('limit', req?.limit.toString());
-    if (req?.page) queryParams.append('page', req?.page.toString());
-    if (req?.title) queryParams.append('title', req?.title.toString());
-
-    const query = queryParams.toString();
-    const response = await axiosPrivate(token || '').get(
-      `/assessments/skills/available${query ? `?${query}` : ''}`,
-    );
-
-    return response.data;
-  } catch (error) {
-    return handleApiError(error);
-  }
-};
-
 export const addAssessment = async (
   req?: AddAssessmentRequest,
 ): Promise<AddAssessmentResponse> => {
@@ -171,3 +146,14 @@ export const addAssessmentQuestion = async (
     return handleApiError(error);
   }
 };
+
+export const getTopAssessments =
+  async (): Promise<GetTopAssessmentsResponse> => {
+    try {
+      const response = await axiosPublic.get('/assessments/top');
+
+      return response.data;
+    } catch (error) {
+      return handleApiError(error);
+    }
+  };

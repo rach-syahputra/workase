@@ -3,7 +3,6 @@ import {
   AddSubscriptionRequest,
   GetSubscriptionByIdRequest,
   GetSubscriptionsRequest,
-  GetSubscriptionTransactionStatusRequest,
 } from '@/interfaces/subscription.interface';
 
 class SubscriptionRepository {
@@ -58,10 +57,10 @@ class SubscriptionRepository {
     const page = req.page ? req.page : 1;
     const skipConfig = (page - 1) * limit;
     const orderConfig = {
-      startedAt: req.order ? req.order : 'asc',
+      createdAt: req.order ? req.order : 'asc',
     };
 
-    const [totalSubscriptions, subscriptions] = await this.prisma.$transaction([
+    const [totalSubscriptions, payments] = await this.prisma.$transaction([
       this.prisma.subscription.count({
         where: {
           ...(req.userId && { userId: req.userId }),
@@ -74,24 +73,19 @@ class SubscriptionRepository {
           },
         },
       }),
-      this.prisma.subscription.findMany({
+      this.prisma.subscriptionPayment.findMany({
         where: {
-          ...(req.userId && { userId: req.userId }),
-          SubscriptionPayment: {
-            some: {
-              paymentStatus: {
-                in: req.paymentStatuses,
-              },
-            },
+          subscription: {
+            ...(req.userId && { userId: req.userId }),
+          },
+          paymentStatus: {
+            in: req.paymentStatuses,
           },
         },
         include: {
-          SubscriptionPayment: {
-            take: 1,
-          },
-          user: {
-            select: {
-              email: true,
+          subscription: {
+            include: {
+              user: true,
             },
           },
         },
@@ -102,48 +96,20 @@ class SubscriptionRepository {
     ]);
 
     return {
-      subscriptions: subscriptions.map((subscription) => ({
-        id: subscription.id,
-        userId: subscription.userId,
-        category: subscription.category,
-        startedAt: subscription.startedAt,
-        expiresAt: subscription.expiresAt,
-        isDeleted: subscription.isDeleted,
-        payment: subscription.SubscriptionPayment[0],
-        user: subscription.user,
+      subscriptions: payments.map((payment) => ({
+        id: payment.subscription.id,
+        userId: payment.subscription.userId,
+        category: payment.subscription.category,
+        startedAt: payment.subscription.startedAt,
+        expiresAt: payment.subscription.expiresAt,
+        isDeleted: payment.subscription.isDeleted,
+        payment: payment,
+        user: payment.subscription.user,
       })),
       pagination: {
         totalData: totalSubscriptions,
         totalPages: Math.ceil(totalSubscriptions / limit),
         page,
-      },
-    };
-  };
-
-  getSubcsriptionTransactionStatus = async (
-    req: GetSubscriptionTransactionStatusRequest,
-  ) => {
-    const subscription = await this.prisma.subscription.findFirst({
-      where: {
-        userId: req.userId,
-        SubscriptionPayment: {
-          some: {
-            paymentStatus: 'PENDING',
-          },
-        },
-      },
-      include: {
-        SubscriptionPayment: true,
-      },
-    });
-
-    const transaction = subscription?.SubscriptionPayment[0];
-    const pendingTransaction =
-      transaction?.paymentStatus === 'PENDING' ? transaction : null;
-
-    return {
-      subscription: {
-        pendingTransaction,
       },
     };
   };

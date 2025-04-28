@@ -67,3 +67,29 @@ export const formatSubscriptionStat = (n: number) => {
 
   return n.toString();
 };
+
+export const capitalizeString = (str: string) => {
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+};
+
+export const formatSubscriptionTimeLeft = (expiredDate: Date) => {
+  const now = new Date();
+
+  let diffMs: number = expiredDate.getTime() - now.getTime(); // different in milliseconds
+
+  if (diffMs <= 0) {
+    return 'Expired';
+  }
+
+  const days: number = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  const minutes: number = Math.floor(diffMs / (1000 * 60));
+  const seconds: number = Math.floor(diffMs / 1000);
+
+  if (days > 0) {
+    return `${days} day${days > 1 ? 's' : ''}`;
+  } else if (minutes > 0) {
+    return `${minutes} minute${minutes > 1 ? 's' : ''}`;
+  } else {
+    return `${seconds} second${seconds > 1 ? 's' : ''}`;
+  }
+};

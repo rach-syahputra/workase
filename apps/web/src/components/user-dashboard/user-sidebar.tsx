@@ -52,32 +52,30 @@ const UserSidebar = ({ className }: UserSidebarProps) => {
   const getUserDashboardItems = () => {
     setIsLoading(true);
 
-    if (userStats) {
-      let USER_DASHBOARD_ITEMS = [
+    let USER_DASHBOARD_ITEMS = [
+      {
+        title: 'Applied Jobs',
+        url: '/dashboard/applied-jobs',
+        icon: BriefcaseBusiness,
+      },
+    ];
+
+    if (
+      userStats?.subscription.plan === 'STANDARD' ||
+      userStats?.subscription.plan === 'PROFESSIONAL'
+    ) {
+      USER_DASHBOARD_ITEMS = [
+        ...USER_DASHBOARD_ITEMS,
         {
-          title: 'Applied Jobs',
-          url: '/dashboard/applied-jobs',
-          icon: BriefcaseBusiness,
+          title: 'Assessment',
+          url: '/dashboard/assessments',
+          icon: NotepadText,
         },
       ];
-
-      if (
-        userStats?.subscription.plan === 'STANDARD' ||
-        userStats?.subscription.plan === 'PROFESSIONAL'
-      ) {
-        USER_DASHBOARD_ITEMS = [
-          ...USER_DASHBOARD_ITEMS,
-          {
-            title: 'Assessment',
-            url: '/dashboard/assessments',
-            icon: NotepadText,
-          },
-        ];
-      }
-
-      setUserDashboardItems(USER_DASHBOARD_ITEMS);
-      setIsLoading(false);
     }
+
+    setUserDashboardItems(USER_DASHBOARD_ITEMS);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -144,7 +142,7 @@ const UserSidebar = ({ className }: UserSidebarProps) => {
                 })}
               >
                 <SidebarMenuLink
-                  href="/dashboard/subscriptions"
+                  href="/dashboard/subscription"
                   label="Subscription"
                   lucideIcon={DollarSign}
                 />

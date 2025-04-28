@@ -29,12 +29,6 @@ class SubscriptionRouter {
       verifyUser,
       this.subscriptionController.addSubscription,
     );
-    this.router.get(
-      '/transaction-status',
-      verifyUser,
-      this.subscriptionController.getSubscriptionTransactionStatus,
-    );
-
     this.router.put(
       '/:subscriptionId/payments/:subscriptionPaymentId',
       verifyDeveloper,

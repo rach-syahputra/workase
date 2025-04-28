@@ -41,7 +41,7 @@ const PaymentForm = ({ payment }: PaymentFormProps) => {
       const response = await uploadSubcsriptionPaymentProof(values);
 
       if (response.success) {
-        router.push('/dashboard/subscriptions');
+        router.push('/dashboard/subscription');
 
         resetForm();
       } else {
@@ -85,6 +85,12 @@ const PaymentForm = ({ payment }: PaymentFormProps) => {
             Pay within
           </span>
           <PaymentCountdown startTime={new Date(payment.createdAt)} />
+        </div>
+        <div className="flex flex-col">
+          <span className="text-primary-gray text-sm font-medium">
+            Subscription Plan
+          </span>
+          <p className="text-lg font-bold">{payment.category}</p>
         </div>
         <div className="flex flex-col">
           <span className="text-primary-gray text-sm font-medium">

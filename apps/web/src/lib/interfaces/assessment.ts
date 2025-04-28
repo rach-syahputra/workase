@@ -39,3 +39,18 @@ export interface IAssessmentQuestionOption {
 export interface IAssessmentDetail extends IAssessment {
   questions: IAssessmentQuestion[];
 }
+
+export interface ITopAssessment {
+  id: string;
+  skill: {
+    id: string;
+    title: string;
+  };
+  slug: string;
+  image: string;
+  shortDescription: string;
+  createdAt: string;
+  updatedAt: string;
+  isDeleted: boolean;
+  totalEnrollmentCount: number;
+}

@@ -8,6 +8,7 @@ import GetAssessmentDetailRepository from '@/repositories/assessments/get-assess
 import AddAssessmentRepository from '@/repositories/assessments/add-assessment.repository';
 import AssessmentQuestionRepository from '@/repositories/assessments/assessment-question.repository';
 import GetSkillRepository from '@/repositories/assessments/get-skills.repository';
+import UserStatsService from './user-stats.service';
 import {
   AddAssessmentQuestionServiceRequest,
   AddAssessmentServiceRequest,
@@ -29,6 +30,7 @@ class AssessmentService {
   private addAssessmentRepository: AddAssessmentRepository;
   private assessmentQuestionRepository: AssessmentQuestionRepository;
   private getSkillRepository: GetSkillRepository;
+  private userStatsService: UserStatsService;
 
   constructor() {
     this.imageRepository = new ImageRepository();
@@ -37,6 +39,7 @@ class AssessmentService {
     this.addAssessmentRepository = new AddAssessmentRepository();
     this.assessmentQuestionRepository = new AssessmentQuestionRepository();
     this.getSkillRepository = new GetSkillRepository();
+    this.userStatsService = new UserStatsService();
   }
 
   getAssessments = async (req: GetAssessmentsRequest) => {
@@ -44,6 +47,13 @@ class AssessmentService {
   };
 
   getAssessmentDisovery = async (req: GetAssessmentDiscoveryRequest) => {
+    const userStats = await this.userStatsService.getUserStats({
+      userId: req.userId,
+    });
+
+    if (!userStats.stats.subscription.plan)
+      throw new ResponseError(403, 'Unauthorized');
+
     return await this.getAssessmentRepository.getAssessmentDiscovery(req);
   };
 
@@ -117,6 +127,10 @@ class AssessmentService {
     return await this.assessmentQuestionRepository.deleteAssessmentQuestion(
       req,
     );
+  };
+
+  getTopAssessments = async () => {
+    return await this.getAssessmentRepository.getTopAssessments();
   };
 }
 

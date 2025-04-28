@@ -27,7 +27,7 @@ class AssessmentRouter {
   private initializeRoutes(): void {
     this.router.get(
       '/',
-      verifyDeveloper,
+      verifyUserAndDeveloper,
       this.assessmentController.getAssessments,
     );
     this.router.get(
@@ -35,6 +35,7 @@ class AssessmentRouter {
       verifyUser,
       this.assessmentController.getAssessmentDiscovery,
     );
+    this.router.get('/top', this.assessmentController.getTopAssessments);
     this.router.get(
       '/:slug',
       verifyUserAndDeveloper,
@@ -51,6 +52,7 @@ class AssessmentRouter {
       uploadAssessmentImage.single('image'),
       this.assessmentController.addAssessment,
     );
+
     this.router.get(
       '/:slug/questions',
       verifyUserAndDeveloper,

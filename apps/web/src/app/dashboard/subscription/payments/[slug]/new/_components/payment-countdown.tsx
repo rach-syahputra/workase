@@ -11,13 +11,13 @@ const PaymentCountdown = ({ startTime }: PaymentCountdownProps) => {
   const router = useRouter();
 
   const handleExpiredTime = () => {
-    router.push('/dashboard/subscriptions');
+    router.push('/dashboard/subscription');
   };
 
   return (
     startTime && (
       <Countdown
-        date={startTime.getTime() + 2 * 60 * 60 * 1000} // 2 hours countdown
+        date={startTime.getTime() + 24 * 60 * 60 * 1000} // 24 hours countdown
         onComplete={handleExpiredTime}
         renderer={({ hours, minutes, seconds }) => (
           <span className="text-lg font-bold md:text-base">

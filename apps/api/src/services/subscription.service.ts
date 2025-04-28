@@ -76,18 +76,10 @@ class SubscriptionService {
 
     if (subscription?.userId !== req.userId) {
       throw new ResponseError(
-        401,
+        403,
         `You don't have access to this subscription`,
       );
     }
-  };
-
-  getSubscriptionTransactionStatus = async (
-    req: GetSubscriptionTransactionStatusRequest,
-  ) => {
-    return await this.subscriptionRepository.getSubcsriptionTransactionStatus(
-      req,
-    );
   };
 
   getSubscriptionPaymentBySlug = async (

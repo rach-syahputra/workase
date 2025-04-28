@@ -7,15 +7,14 @@ import { OrderType } from '@/lib/interfaces/api-request/filter';
 import { getSubscriptions } from '@/lib/apis/subscription';
 import { GetSubscriptionStatusType } from '@/lib/interfaces/api-request/subscription';
 import { SubscriptionCategoryType } from '@/lib/interfaces/subscription';
-import { ITransactionColumn } from './table/interface';
+import { ITransactionColumn } from './table/transaction/interface';
 import AppPagination from '@/components/ui/pagination';
 import { DataTable } from '@/components/ui/table/data-table';
 import TableSkeleton from '@/components/ui/table/table-skeleton';
 import { Card } from '@/components/shadcn-ui/card';
-import UserDashboardHeader from '@/components/user-dashboard/user-dashboard-header';
 
 import PaymentStatusSelect from './payment-status-select';
-import { getTransactionColumns } from './table/column';
+import { getTransactionColumns } from './table/transaction/column';
 
 const Transaction = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -54,12 +53,12 @@ const Transaction = () => {
       setTableData(
         subscriptions.map((subscription) => ({
           id: subscription.id,
-          createdAt: subscription.payment.createdAt,
           category: subscription.category as SubscriptionCategoryType,
           payment: {
             id: subscription.payment.id,
             slug: subscription.payment.slug,
             status: subscription.payment.paymentStatus,
+            createdAt: subscription.payment.createdAt,
           },
           paymentProof: subscription.payment.paymentProof,
           price: subscription.payment.totalPrice,
@@ -82,10 +81,7 @@ const Transaction = () => {
 
   return (
     <Card className="flex w-full flex-1 flex-col items-start justify-between gap-6 max-md:border-none max-md:p-0 max-md:shadow-none md:p-5">
-      <UserDashboardHeader
-        title="Transaction"
-        description="View all confirmed or rejected transactions."
-      />
+      <h2 className="heading-2">Billing History</h2>
 
       <PaymentStatusSelect setStatus={setStatus} />
 

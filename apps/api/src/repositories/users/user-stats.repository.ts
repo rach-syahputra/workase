@@ -15,9 +15,13 @@ class UserStatsRepository {
       },
     });
 
+    // Find active plan
     const subscription = await this.prisma.subscription.findFirst({
       where: {
         userId: req.userId,
+        startedAt: {
+          lt: new Date(),
+        },
         expiresAt: {
           gt: new Date(),
         },
@@ -41,6 +45,7 @@ class UserStatsRepository {
         subscription: {
           plan: subscription?.category || null,
           hasPendingTransaction: !!pendingTransaction,
+          expiresAt: subscription?.expiresAt,
         },
       },
     };

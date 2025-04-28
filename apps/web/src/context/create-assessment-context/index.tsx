@@ -2,8 +2,8 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
 
-import { getAvailableSkills } from '@/lib/apis/assessments';
 import { ISkill } from '@/lib/interfaces/skill';
+import { getAvailableSkills } from '@/lib/apis/skill';
 import { ICreateAssessmentContext, ISelectedSkill } from './interface';
 
 const CreateAssessmentContext = createContext<
