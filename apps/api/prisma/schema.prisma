@@ -36,6 +36,7 @@ model User {
   Subscription        Subscription[]
   UserAssessment      UserAssessment[]
   PreselectionAttempt PreselectionAttempt[]
+  Cv                  Cv[]
 
   @@map("users")
 }
@@ -195,7 +196,6 @@ model Skill {
   updatedAt DateTime @map("updated_at")
   isDeleted Boolean  @default(false) @map("is_deleted")
 
-
   Assessment Assessment[]
   User       User[]
 
@@ -254,11 +254,10 @@ model UserAssessment {
   status       UserAssessmentStatus
   score        Int
 
+  sessionToken String? @map("session_token")
 
-  sessionToken String?              @map("session_token")
-
-  createdAt    DateTime             @map("created_at")
-  isDeleted    Boolean              @default(false) @map("is_deleted")
+  createdAt DateTime @map("created_at")
+  isDeleted Boolean  @default(false) @map("is_deleted")
 
   user        User         @relation(fields: [userId], references: [id], onUpdate: Cascade)
   assessment  Assessment   @relation(fields: [assessmentId], references: [id], onUpdate: Cascade)
@@ -278,6 +277,20 @@ model Certificate {
   userAssessment UserAssessment @relation(fields: [userAssessmentId], references: [id], onUpdate: Cascade)
 
   @@map("certificates")
+}
+
+model Cv {
+  id        String   @id @default(uuid())
+  slug      String   @unique
+  userId    String   @map("user_id")
+  data      Json
+  createdAt DateTime @map("created_at")
+  updatedAt DateTime @map("updated_at")
+  isDeleted Boolean  @default(false) @map("is_deleted")
+
+  user User @relation(fields: [userId], references: [id], onUpdate: Cascade)
+
+  @@map("cvs")
 }
 
 model PreselectionTest {
