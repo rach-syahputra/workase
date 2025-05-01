@@ -35,7 +35,7 @@ const EducationForm = () => {
   };
 
   return (
-    <Card className="flex flex-col gap-4 p-5">
+    <Card className="flex flex-col gap-4 max-md:border-none max-md:shadow-none md:p-5">
       <h2 className="text-xl font-bold">Education</h2>
 
       {formik.values.data.education?.contents?.map((content, index) => (
@@ -46,7 +46,7 @@ const EducationForm = () => {
               <ContentAction onRemove={() => handleRemoveContent(index)} />
             </div>
             <Separator />
-            <div className="grid grid-cols-2 gap-x-4 gap-y-6 p-4">
+            <div className="flex flex-col gap-x-4 gap-y-6 p-4 md:grid md:grid-cols-2">
               <FormInput
                 type="text"
                 labelColor="gray"

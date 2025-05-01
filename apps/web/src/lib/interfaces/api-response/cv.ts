@@ -7,6 +7,12 @@ export interface GetCvBySlugResponse extends APIResponse {
   };
 }
 
+export interface AddCvResponse extends APIResponse {
+  data?: {
+    cv: ICv;
+  };
+}
+
 export interface UpdateCvResponse extends APIResponse {
   data?: {
     cv: ICv;

@@ -10,7 +10,7 @@ const SummaryForm = () => {
   const { formik } = useCvEditFormContext();
 
   return (
-    <Card className="flex flex-col gap-4 p-5">
+    <Card className="flex flex-col gap-4 max-md:border-none max-md:shadow-none md:p-5">
       <h2 className="text-xl font-bold">Summary</h2>
       <TextareaFormInput
         labelColor="gray"

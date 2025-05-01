@@ -16,7 +16,7 @@ export default function DropdownMenuDemo() {
   const { data: session } = useSession();
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger className="focus:outline-none focus:ring-0 focus:ring-offset-0">
         <Image
           src={
@@ -35,7 +35,7 @@ export default function DropdownMenuDemo() {
         <DropdownMenuSeparator />
         <DropdownMenuItem className="flex items-center gap-3">
           <IoPerson />
-          <Link href={`/profile-management`}>Profile</Link>
+          <Link href={`/profile/${session?.user?.slug}`}>Profile</Link>
         </DropdownMenuItem>
         <DropdownMenuItem className="flex items-center gap-3">
           <MdDashboard />

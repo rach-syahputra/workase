@@ -40,14 +40,7 @@ const CvPreviewTemplateOne = ({ className }: CvPreviewTemplateOneProps) => {
 
         {summary?.content && (
           <CvSection title="SUMMARY">
-            <p className="leading-snug">
-              Detail-oriented Accountant with 5+ years of experience in
-              financial reporting, budgeting, and tax preparation. Skilled in
-              using accounting software such as QuickBooks and SAP. Proven track
-              record of maintaining accurate records, streamlining financial
-              processes, and ensuring compliance with regulations. Strong
-              analytical skills and a commitment to accuracy.
-            </p>
+            <p className="leading-snug">{summary.content}</p>
           </CvSection>
         )}
 

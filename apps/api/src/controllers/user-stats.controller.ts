@@ -1,4 +1,4 @@
-import { NextFunction, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
 import { UserRequest } from '@/interfaces/middleware.interface';
 import UserStatsService from '@/services/user-stats.service';
@@ -28,6 +28,23 @@ class UserStatsController {
         res,
         statusCode: 200,
         message: 'User stats retrieved successfully.',
+        data,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  getUserDetail = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const data = await this.userStatsService.getUserDetail({
+        userSlug: req.params.slug,
+      });
+
+      ApiResponse({
+        res,
+        statusCode: 200,
+        message: 'User detail retrieved successfully.',
         data,
       });
     } catch (err) {

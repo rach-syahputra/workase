@@ -1,5 +1,8 @@
 import UserStatsRepository from '@/repositories/users/user-stats.repository';
-import { GetUserStatsRequest } from '@/interfaces/user.interface';
+import {
+  GetUserDetailRequest,
+  GetUserStatsRequest,
+} from '@/interfaces/user.interface';
 
 class UserStatsService {
   private userStatsRepository: UserStatsRepository;
@@ -10,6 +13,10 @@ class UserStatsService {
 
   getUserStats = async (req: GetUserStatsRequest) => {
     return await this.userStatsRepository.getUserStats(req);
+  };
+
+  getUserDetail = async (req: GetUserDetailRequest) => {
+    return await this.userStatsRepository.getUserDetail(req);
   };
 }
 

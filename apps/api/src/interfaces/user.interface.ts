@@ -20,3 +20,7 @@ export interface UserLogin {
 export interface GetUserStatsRequest {
   userId: string;
 }
+
+export interface GetUserDetailRequest {
+  userSlug: string;
+}

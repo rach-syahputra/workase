@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
+import { useSession } from 'next-auth/react';
 import {
   AlignJustify,
   ArrowDownToLine,
@@ -26,7 +27,7 @@ import {
 import { Skeleton } from '@/components/shadcn-ui/skeleton';
 import AppLogo from '@/components/ui/app-logo';
 import { Separator } from '@/components/shadcn-ui/separator';
-import CvPreviewPdf from '../cv-preview/cv-preview-pdf';
+import CvPreviewPdf from '@/components/cv-preview/cv-preview-pdf';
 
 const PDFDownloadLink = dynamic(
   () => import('@react-pdf/renderer').then((mod) => mod.PDFDownloadLink),
@@ -37,6 +38,7 @@ const PDFDownloadLink = dynamic(
 );
 
 const Menu = () => {
+  const { data: session } = useSession();
   const { showPreview, setShowPreview, cvData } = useCvEditFormContext();
   const [open, setOpen] = useState<boolean>(false);
 
@@ -64,7 +66,10 @@ const Menu = () => {
                 </Link>
               </Button>
               <Button variant="ghost" asChild className="h-14">
-                <Link href="/profile">
+                <Link
+                  href={`/profile/${session?.user?.slug}`}
+                  aria-label="Profile page"
+                >
                   <User size={16} />
                   My Profile
                 </Link>

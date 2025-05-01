@@ -58,5 +58,6 @@ export const usersRouter = () => {
     userController.addImageCloudinary,
   );
   router.get('/stats', verifyUser, userStatsController.getUserStats);
+  router.get('/:slug/detail', userStatsController.getUserDetail);
   return router;
 };

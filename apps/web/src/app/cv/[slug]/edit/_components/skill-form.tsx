@@ -52,7 +52,7 @@ const SkillForm = () => {
   }, [showSkillInput]);
 
   return (
-    <Card className="flex flex-col gap-4 p-5">
+    <Card className="flex flex-col gap-4 max-md:border-none max-md:shadow-none md:p-5">
       <h2 className="text-xl font-bold">Skill</h2>
       <div className="flex flex-wrap items-center justify-start gap-2">
         {skills &&

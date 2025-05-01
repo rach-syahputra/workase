@@ -5,11 +5,11 @@ import { ArrowDownToLine, Columns, Palette } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { useCvEditFormContext } from '@/context/cv-edit-form-context';
+import CvPreviewPdf from '@/components/cv-preview/cv-preview-pdf';
 import { Button } from '@/components/shadcn-ui/button';
 import { Separator } from '@/components/shadcn-ui/separator';
 import AppLogo from '@/components/ui/app-logo';
 import { Skeleton } from '@/components/shadcn-ui/skeleton';
-import CvPreviewPdf from '../cv-preview/cv-preview-pdf';
 import SaveChangesButton from '../save-changes-button';
 import Profile from './profile';
 import Menu from './menu';

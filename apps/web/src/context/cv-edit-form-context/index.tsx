@@ -48,8 +48,6 @@ const CvEditFormProvider = ({
     onSubmit: async (values: AddCvFormValues, { resetForm }) => {
       formik.setStatus('');
 
-      console.log('values:', values);
-
       const response = await updateCv({ cvId: cv.id, data: values.data });
 
       if (response.success) {
