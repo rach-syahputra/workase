@@ -42,6 +42,29 @@ const cocogooes = localFont({
   variable: '--font-cocogoose',
 });
 
+const timesNewRoman = localFont({
+  src: [
+    {
+      path: '../fonts/times-new-roman.ttf',
+      weight: '400',
+    },
+    {
+      path: '../fonts/times-new-roman-italic.ttf',
+      weight: '400',
+      style: 'italic',
+    },
+    {
+      path: '../fonts/Geist-SemiBold.ttf',
+      weight: '600',
+    },
+    {
+      path: '../fonts/times-new-roman-bold.ttf',
+      weight: '700',
+    },
+  ],
+  variable: '--font-times-new-roman',
+});
+
 export default function RootLayout({
   children,
 }: {
@@ -50,7 +73,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geist.variable} ${cocogooes.variable} text-primary-dark font-[family-name:var(--font-geist)] antialiased`}
+        className={`${geist.variable} ${cocogooes.variable} ${timesNewRoman.variable} text-primary-dark font-[family-name:var(--font-geist)] antialiased`}
       >
         <SessionProvider>
           <UserStatsProvider>

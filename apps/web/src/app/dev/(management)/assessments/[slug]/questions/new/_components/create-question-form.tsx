@@ -123,7 +123,6 @@ const CreateQuestionForm = ({ assessment }: CreateQuestionFormProps) => {
                 className="flex w-full items-center justify-start gap-2"
               >
                 <FormInput
-                  // label={`Option ${index + 1}`}
                   label={`${index === 0 ? 'Correct Option' : 'Incorrect Option'}`}
                   labelColor={`${index === 0 ? 'green' : 'red'}`}
                   type="text"
@@ -132,18 +131,6 @@ const CreateQuestionForm = ({ assessment }: CreateQuestionFormProps) => {
                   value={option.text}
                   className="w-full"
                 />
-                {/* <IsCorrectFormInput
-                  name="correctOption"
-                  onChange={() => {
-                    const updated = formik.values.options.map((opt, i) => ({
-                      ...opt,
-                      isCorrect: i === index ? 1 : 0,
-                    }));
-                    formik.setFieldValue('options', updated);
-                  }}
-                  value={option.isCorrect}
-                  checked={option.isCorrect === 1}
-                /> */}
               </div>
             ))}
             {formik.errors.options && (
