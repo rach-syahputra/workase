@@ -1,6 +1,12 @@
 'use client';
 
-import { Document, Page, Text, View, Image } from '@react-pdf/renderer';
+import {
+  Document,
+  Page,
+  Text,
+  View,
+  Image as PDFImage,
+} from '@react-pdf/renderer';
 
 import { certificateStyles as styles } from './certificate-pdf-styles';
 
@@ -24,14 +30,14 @@ const CertificatePdf = ({
       <View style={styles.outerBorder}>
         <View style={styles.innerBorder}>
           <View style={styles.content}>
-            <Image style={styles.logo} src="/workase.png" />
+            <PDFImage style={styles.logo} src="/workase.png" />
 
             <Text style={styles.title}>Certificate of Completion</Text>
             <Text style={styles.description}>
               Awarded for successfully completing a skill-based assessment in
             </Text>
             <View style={styles.skillBox}>
-              <Image
+              <PDFImage
                 style={styles.skillBoxBackground}
                 src="/certificate-skill-background.png"
               />
@@ -45,14 +51,14 @@ const CertificatePdf = ({
           <View style={styles.footer}>
             <View style={styles.signatureContainer}>
               <Text style={styles.signatureDate}>{date}</Text>
-              <Image style={styles.signature} src="/signature.png" />
+              <PDFImage style={styles.signature} src="/signature.png" />
               <View style={styles.signatureFooter}>
                 <Text style={styles.signatureName}>Rachmat Syahputra</Text>
                 <Text>Chief Executive Officer</Text>
               </View>
             </View>
             <View style={styles.qrCodeContainer}>
-              <Image style={styles.qrCodeImage} src={qrCodeUrl} />
+              <PDFImage style={styles.qrCodeImage} src={qrCodeUrl} />
               <View style={styles.qrCodeFooter}>
                 <Text style={styles.qrCodeText}>Certificate Verification</Text>
                 <Text>ID: {slug}</Text>

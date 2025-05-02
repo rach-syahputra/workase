@@ -3,6 +3,7 @@
 import {
   ForwardRefExoticComponent,
   RefAttributes,
+  useCallback,
   useEffect,
   useState,
 } from 'react';
@@ -10,7 +11,6 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import {
   BriefcaseBusiness,
-  CreditCard,
   DollarSign,
   LucideProps,
   NotepadText,
@@ -49,7 +49,7 @@ const UserSidebar = ({ className }: UserSidebarProps) => {
     IUserDashboardItem[]
   >([]);
 
-  const getUserDashboardItems = () => {
+  const getUserDashboardItems = useCallback(() => {
     setIsLoading(true);
 
     let USER_DASHBOARD_ITEMS = [
@@ -76,11 +76,11 @@ const UserSidebar = ({ className }: UserSidebarProps) => {
 
     setUserDashboardItems(USER_DASHBOARD_ITEMS);
     setIsLoading(false);
-  };
+  }, [userStats]);
 
   useEffect(() => {
     getUserDashboardItems();
-  }, [userStats]);
+  }, [getUserDashboardItems]);
 
   return (
     <Sidebar theme="light" className={cn('fixed left-0 top-0', className)}>
@@ -116,21 +116,19 @@ const UserSidebar = ({ className }: UserSidebarProps) => {
                 const isActive = pathname === item.url;
 
                 return (
-                  <>
-                    <SidebarMenuItem
-                      key={index}
-                      asChild
-                      className={cn({
-                        'bg-primary-blue text-white': isActive,
-                      })}
-                    >
-                      <SidebarMenuLink
-                        href={item.url}
-                        label={item.title}
-                        lucideIcon={item.icon}
-                      />
-                    </SidebarMenuItem>
-                  </>
+                  <SidebarMenuItem
+                    key={index}
+                    asChild
+                    className={cn({
+                      'bg-primary-blue text-white': isActive,
+                    })}
+                  >
+                    <SidebarMenuLink
+                      href={item.url}
+                      label={item.title}
+                      lucideIcon={item.icon}
+                    />
+                  </SidebarMenuItem>
                 );
               })}
               <SidebarMenuItem

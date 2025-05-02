@@ -1,6 +1,12 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { ColumnDef } from '@tanstack/react-table';
 
 import { IAssessmentColumn } from '@/app/dev/(management)/assessments/_components/table/interface';
@@ -25,7 +31,7 @@ const AssessmentProvider = ({ children }: { children: React.ReactNode }) => {
   const [columns, setColumns] = useState<ColumnDef<IAssessmentColumn>[]>([]);
   const [tableData, setTableData] = useState<IAssessmentColumn[]>([]);
 
-  const fetchGetAssessments = async () => {
+  const fetchGetAssessments = useCallback(async () => {
     setIsLoading(true);
 
     const response = await getAssessments({
@@ -56,7 +62,7 @@ const AssessmentProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     setIsLoading(false);
-  };
+  }, [page, limit, order, debouncedSearchSkill]);
 
   useEffect(() => {
     const handleDebouncedSearchSkill = setTimeout(() => {
@@ -69,7 +75,7 @@ const AssessmentProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     fetchGetAssessments();
-  }, [page, limit, order, debouncedSearchSkill]);
+  }, [fetchGetAssessments]);
 
   return (
     <AssessmentContext.Provider

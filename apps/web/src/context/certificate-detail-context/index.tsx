@@ -1,6 +1,12 @@
 'use client';
 
-import { createContext, useContext, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 
 import { ICertificate, ICertificateOwner } from '@/lib/interfaces/certificate';
 import { getCertificateDetail } from '@/lib/apis/certificate';
@@ -12,8 +18,10 @@ const CertificateDetailContext = createContext<
 >(undefined);
 
 const CertificateDetailProvider = ({
+  slug,
   children,
 }: {
+  slug: string;
   children: React.ReactNode;
 }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -21,7 +29,7 @@ const CertificateDetailProvider = ({
   const [owner, setOwner] = useState<ICertificateOwner | null>(null);
   const [assessment, setAssessment] = useState<IAssessment | null>(null);
 
-  const fetchGetCertificateDetail = async (slug: string) => {
+  const fetchGetCertificateDetail = useCallback(async () => {
     setIsLoading(true);
 
     const response = await getCertificateDetail({ slug });
@@ -36,7 +44,11 @@ const CertificateDetailProvider = ({
     }
 
     setIsLoading(false);
-  };
+  }, [slug]);
+
+  useEffect(() => {
+    fetchGetCertificateDetail();
+  }, [fetchGetCertificateDetail]);
 
   return (
     <CertificateDetailContext.Provider

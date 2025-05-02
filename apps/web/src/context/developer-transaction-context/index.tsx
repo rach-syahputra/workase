@@ -1,6 +1,12 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { getSession } from 'next-auth/react';
 import { ColumnDef } from '@tanstack/react-table';
 
@@ -35,7 +41,7 @@ const DeveloperTransactionProvider = ({
   const [status, setStatus] = useState<GetSubscriptionStatusType[]>(['ALL']);
   const [columns, setColumns] = useState<ColumnDef<ITransactionColumn>[]>([]);
   const [tableData, setTableData] = useState<ITransactionColumn[]>([]);
-  const fetchGetSubscriptions = async () => {
+  const fetchGetSubscriptions = useCallback(async () => {
     setIsLoading(true);
 
     const response = await getSubscriptions({
@@ -48,19 +54,6 @@ const DeveloperTransactionProvider = ({
     const pagination = response.data?.pagination;
 
     if (response.success && subscriptions) {
-      const session = await getSession();
-
-      setColumns(
-        getTransactionColumns({
-          onCreatedAtClick: () =>
-            setCreatedAtOrder(createdAtOrder === 'asc' ? 'desc' : 'asc'),
-          handlePayment: handlePayment,
-          developer: {
-            email: session?.user?.email || '',
-          },
-        }),
-      );
-
       setTableData(
         subscriptions.map((subscription) => ({
           id: subscription.id,
@@ -81,16 +74,42 @@ const DeveloperTransactionProvider = ({
     }
 
     setIsLoading(false);
-  };
+  }, [page, status, limit, createdAtOrder]);
 
-  const handlePayment = async (req: IHandlePaymentRequest) => {
-    await updateSubscriptionPayment(req);
-    await fetchGetSubscriptions();
-  };
+  const handlePayment = useCallback(
+    async (req: IHandlePaymentRequest) => {
+      await updateSubscriptionPayment(req);
+      await fetchGetSubscriptions();
+    },
+    [fetchGetSubscriptions],
+  );
+
+  const initiateColumns = useCallback(async () => {
+    const session = await getSession();
+
+    setColumns(
+      getTransactionColumns({
+        onCreatedAtClick: () =>
+          setCreatedAtOrder(createdAtOrder === 'asc' ? 'desc' : 'asc'),
+        handlePayment: handlePayment,
+        developer: {
+          email: session?.user?.email || '',
+        },
+      }),
+    );
+  }, [createdAtOrder, handlePayment]);
 
   useEffect(() => {
     fetchGetSubscriptions();
-  }, [page, status, createdAtOrder, limit]);
+    initiateColumns();
+  }, [
+    page,
+    status,
+    createdAtOrder,
+    limit,
+    fetchGetSubscriptions,
+    initiateColumns,
+  ]);
 
   return (
     <DeveloperTransactionContext.Provider

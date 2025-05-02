@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ColumnDef } from '@tanstack/react-table';
 
 import { OrderType } from '@/lib/interfaces/api-request/filter';
@@ -26,16 +26,16 @@ const Transaction = () => {
   const [columns, setColumns] = useState<ColumnDef<ITransactionColumn>[]>([]);
   const [tableData, setTableData] = useState<ITransactionColumn[]>([]);
 
-  const initiateColumns = () => {
+  const initiateColumns = useCallback(() => {
     setColumns(
       getTransactionColumns({
         onCreatedAtClick: () =>
           setCreatedAtOrder(createdAtOrder === 'desc' ? 'asc' : 'desc'),
       }),
     );
-  };
+  }, [createdAtOrder]);
 
-  const fetchGetSubscriptions = async () => {
+  const fetchGetSubscriptions = useCallback(async () => {
     setIsLoading(true);
 
     const response = await getSubscriptions({
@@ -69,15 +69,11 @@ const Transaction = () => {
     }
 
     setIsLoading(false);
-  };
+  }, [page, limit, status, createdAtOrder, initiateColumns]);
 
   useEffect(() => {
     fetchGetSubscriptions();
-  }, []);
-
-  useEffect(() => {
-    fetchGetSubscriptions();
-  }, [page, limit, status, createdAtOrder]);
+  }, [fetchGetSubscriptions]);
 
   return (
     <Card className="flex w-full flex-1 flex-col items-start justify-between gap-6 max-md:border-none max-md:p-0 max-md:shadow-none md:p-5">

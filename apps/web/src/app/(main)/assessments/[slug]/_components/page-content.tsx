@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { IAssessment } from '@/lib/interfaces/assessment';
 import { getAssessmentBySlug } from '@/lib/apis/assessments';
@@ -16,7 +16,7 @@ const PageContent = ({ slug }: PageContentProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [assessment, setAssessment] = useState<IAssessment>();
 
-  const fetchAssessment = async () => {
+  const fetchAssessment = useCallback(async () => {
     setIsLoading(true);
 
     await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -27,11 +27,11 @@ const PageContent = ({ slug }: PageContentProps) => {
     }
 
     setIsLoading(false);
-  };
+  }, [slug]);
 
   useEffect(() => {
     fetchAssessment();
-  }, [slug]);
+  }, [fetchAssessment]);
 
   return (
     <div className="bg-primary-gray-background flex min-h-[calc(100svh-68px)] w-full flex-col gap-8">

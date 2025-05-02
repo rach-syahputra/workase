@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import jwt from 'jsonwebtoken';
 
@@ -28,7 +28,7 @@ const PageContent = () => {
     getAssessmentSessionFromLocalStorage,
   } = useAssessmentSessionContext();
 
-  const fetchGetAssessmentQuestions = async () => {
+  const fetchGetAssessmentQuestions = useCallback(async () => {
     setIsLoading(true);
 
     // Retrieve token from url query
@@ -90,11 +90,18 @@ const PageContent = () => {
     }
 
     setIsLoading(false);
-  };
+  }, [
+    searchParams,
+    getAssessmentSessionFromLocalStorage,
+    setCurrentQuestion,
+    setQuestions,
+    setIsLoading,
+    setUserAssessment,
+  ]);
 
   useEffect(() => {
     fetchGetAssessmentQuestions();
-  }, [searchParams]);
+  }, [fetchGetAssessmentQuestions]);
 
   return isLoading ? (
     <div className="bg-background fixed left-0 top-0 z-[100] flex min-h-screen w-screen flex-1 items-center justify-center">

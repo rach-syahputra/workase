@@ -4,6 +4,7 @@ import {
   createContext,
   Dispatch,
   SetStateAction,
+  useCallback,
   useContext,
   useEffect,
   useState,
@@ -38,32 +39,35 @@ const CompaniesReviewsProvider = ({
   const [hasMore, setHasMore] = useState<boolean>(false);
   const [reviews, setReviews] = useState<ICompanyReview[]>([]);
 
-  const fetchCompaniesReviews = async (option?: IOption) => {
-    setIsLoading(true);
+  const fetchCompaniesReviews = useCallback(
+    async (option?: IOption) => {
+      setIsLoading(true);
 
-    const response = await getCompaniesReviews({
-      order: 'desc',
-      cursor,
-      limit: 15,
-    });
+      const response = await getCompaniesReviews({
+        order: 'desc',
+        cursor,
+        limit: 15,
+      });
 
-    if (response.success) {
-      const newReviews = response.data?.reviews;
-      const updatedReviews = option?.isLoadMore
-        ? [...reviews, ...(newReviews || [])]
-        : newReviews || [];
+      if (response.success) {
+        const newReviews = response.data?.reviews;
+        const updatedReviews = option?.isLoadMore
+          ? [...reviews, ...(newReviews || [])]
+          : newReviews || [];
 
-      setReviews(updatedReviews);
-      setCursor(response.data?.pagination.cursor || '');
-      setHasMore(
-        updatedReviews.length >= (response.data?.pagination.totalData || 0)
-          ? false
-          : true,
-      );
-    }
+        setReviews(updatedReviews);
+        setCursor(response.data?.pagination.cursor || '');
+        setHasMore(
+          updatedReviews.length >= (response.data?.pagination.totalData || 0)
+            ? false
+            : true,
+        );
+      }
 
-    setIsLoading(false);
-  };
+      setIsLoading(false);
+    },
+    [cursor, reviews],
+  );
 
   useEffect(() => {
     const handleInfiniteScroll = () => {
@@ -79,7 +83,7 @@ const CompaniesReviewsProvider = ({
 
     window.addEventListener('scroll', handleInfiniteScroll);
     return () => window.removeEventListener('scroll', handleInfiniteScroll);
-  }, [isLoading, hasMore]);
+  }, [isLoading, hasMore, fetchCompaniesReviews]);
 
   return (
     <CompaniesReviewsContext.Provider

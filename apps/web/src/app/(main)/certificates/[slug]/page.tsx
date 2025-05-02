@@ -11,8 +11,8 @@ const CertificateDetailPage = async ({
   const slug = (await params).slug;
 
   return (
-    <CertificateDetailProvider>
-      <PageContent slug={slug} />;
+    <CertificateDetailProvider slug={slug}>
+      <PageContent />;
     </CertificateDetailProvider>
   );
 };

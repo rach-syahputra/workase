@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { getCompanyRating } from '@/lib/apis/company-reviews';
 import { ICompanyRating } from '@/lib/interfaces/company-review';
@@ -37,7 +37,7 @@ const CompanyRating = ({ companyId }: CompanyRatingProps) => {
   });
   const [totalReviews, setTotalReviews] = useState<number>(0);
 
-  const fetchCompanyRating = async () => {
+  const fetchCompanyRating = useCallback(async () => {
     setIsLoading(true);
 
     const response = await getCompanyRating(companyId);
@@ -48,11 +48,11 @@ const CompanyRating = ({ companyId }: CompanyRatingProps) => {
     }
 
     setIsLoading(false);
-  };
+  }, [companyId]);
 
   useEffect(() => {
     fetchCompanyRating();
-  }, [companyId]);
+  }, [fetchCompanyRating]);
 
   return (
     <>

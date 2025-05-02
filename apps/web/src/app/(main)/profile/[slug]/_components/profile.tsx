@@ -26,7 +26,7 @@ const Profile = () => {
 
   useEffect(() => {
     setActiveProfileMenuItemId(1);
-  }, []);
+  }, [setActiveProfileMenuItemId]);
 
   return (
     <div className="flex w-full flex-col gap-4 p-5">

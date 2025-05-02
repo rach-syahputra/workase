@@ -21,7 +21,7 @@ const PageContent = ({ slug }: PageContentProps) => {
 
   useEffect(() => {
     fetchAssessmentBySlug();
-  }, [slug]);
+  }, [fetchAssessmentBySlug]);
 
   const BreadCrumbItems = [
     {

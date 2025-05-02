@@ -19,7 +19,7 @@ const CompaniesReviews = () => {
 
   useEffect(() => {
     fetchCompaniesReviews();
-  }, []);
+  }, [fetchCompaniesReviews]);
 
   return (
     <Tabs defaultValue="reviews" className="w-full">

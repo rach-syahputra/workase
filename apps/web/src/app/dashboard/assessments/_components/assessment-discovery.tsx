@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { IAssessment } from '@/lib/interfaces/assessment';
 import { getAssessmentDiscovery } from '@/lib/apis/assessments';
@@ -22,7 +22,7 @@ const AssessmentDiscovery = () => {
   const [debouncedSearchSkill, setDebouncedSearchSkill] = useState<string>('');
   const [assessments, setAssessments] = useState<IAssessment[]>([]);
 
-  const fetchGetAssessmentDiscovery = async () => {
+  const fetchGetAssessmentDiscovery = useCallback(async () => {
     setIsLoading(true);
 
     const response = await getAssessmentDiscovery({
@@ -41,11 +41,11 @@ const AssessmentDiscovery = () => {
     }
 
     setIsLoading(false);
-  };
+  }, [page, limit, order, debouncedSearchSkill]);
 
   useEffect(() => {
     fetchGetAssessmentDiscovery();
-  }, []);
+  }, [fetchGetAssessmentDiscovery]);
 
   useEffect(() => {
     const handleDebouncedSearchSkill = setTimeout(() => {
@@ -55,10 +55,6 @@ const AssessmentDiscovery = () => {
 
     return () => clearTimeout(handleDebouncedSearchSkill);
   }, [searchSkill]);
-
-  useEffect(() => {
-    fetchGetAssessmentDiscovery();
-  }, [page, limit, order, debouncedSearchSkill]);
 
   return (
     <Card className="flex w-full flex-col items-start justify-center gap-6 max-md:border-none max-md:p-0 max-md:shadow-none md:p-5">

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ColumnDef } from '@tanstack/react-table';
 
 import { OrderType } from '@/lib/interfaces/api-request/filter';
@@ -24,16 +24,16 @@ const Overview = () => {
   const [columns, setColumns] = useState<ColumnDef<IOverviewColumn>[]>([]);
   const [tableData, setTableData] = useState<IOverviewColumn[]>([]);
 
-  const initiateColumns = () => {
+  const initiateColumns = useCallback(() => {
     setColumns(
       getOverviewColumns({
         onCreatedAtClick: () =>
           setCreatedAtOrder(createdAtOrder === 'desc' ? 'asc' : 'desc'),
       }),
     );
-  };
+  }, [createdAtOrder]);
 
-  const fetchGetSubscriptions = async () => {
+  const fetchGetSubscriptions = useCallback(async () => {
     setIsLoading(true);
 
     const response = await getSubscriptions({
@@ -61,15 +61,11 @@ const Overview = () => {
     }
 
     setIsLoading(false);
-  };
+  }, [page, limit, createdAtOrder, initiateColumns]);
 
   useEffect(() => {
     fetchGetSubscriptions();
-  }, []);
-
-  useEffect(() => {
-    fetchGetSubscriptions();
-  }, [page, limit, status, createdAtOrder]);
+  }, [fetchGetSubscriptions, status]);
 
   return (
     <Card className="flex w-full flex-1 flex-col items-start justify-between gap-6 max-md:border-none max-md:p-0 max-md:shadow-none md:p-5">

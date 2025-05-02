@@ -7,7 +7,6 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/shadcn-ui/button';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
-import { axiosPublic } from '@/lib/axios';
 import { useSearchJob } from '@/context/search-job-context';
 import { useRouter } from 'next/navigation';
 interface SearchBarProps {
@@ -62,7 +61,7 @@ export function SearchBar() {
         console.error('there is no location', error);
       }
     });
-  }, []);
+  }, [fetchJobs]);
 
   const formik = useFormik({
     initialValues,

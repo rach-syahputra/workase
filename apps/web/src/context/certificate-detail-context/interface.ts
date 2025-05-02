@@ -12,5 +12,5 @@ export interface ICertificateDetailContext {
   setOwner: Dispatch<SetStateAction<ICertificateOwner | null>>;
   assessment: IAssessment | null;
   setAssessment: Dispatch<SetStateAction<IAssessment | null>>;
-  fetchGetCertificateDetail: (slug: string) => void;
+  fetchGetCertificateDetail: () => void;
 }

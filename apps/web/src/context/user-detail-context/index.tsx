@@ -1,6 +1,12 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 
 import { IUserDetail } from '@/lib/interfaces/user-stats';
 import { getUserDetail } from '@/lib/apis/user-stats';
@@ -23,7 +29,7 @@ const UserDetailProvider = ({
   >(null);
   const [user, setUser] = useState<IUserDetail>();
 
-  const fetchGetUserDetail = async () => {
+  const fetchGetUserDetail = useCallback(async () => {
     setIsLoading(true);
 
     const response = await getUserDetail({ slug });
@@ -33,11 +39,11 @@ const UserDetailProvider = ({
     }
 
     setIsLoading(false);
-  };
+  }, [slug]);
 
   useEffect(() => {
     fetchGetUserDetail();
-  }, [slug]);
+  }, [fetchGetUserDetail]);
 
   return (
     <UserDetailContext.Provider

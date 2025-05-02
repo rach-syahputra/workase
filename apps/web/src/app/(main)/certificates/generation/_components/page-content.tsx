@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import jwt from 'jsonwebtoken';
 
@@ -27,7 +27,7 @@ const PageContent = () => {
     null,
   );
 
-  const getCertificateTokenData = async () => {
+  const getCertificateTokenData = useCallback(async () => {
     setIsLoading(true);
 
     const certificateToken = searchParams.get('token');
@@ -48,9 +48,9 @@ const PageContent = () => {
     }
 
     setIsLoading(false);
-  };
+  }, [searchParams]);
 
-  const fetchAddCertificate = async () => {
+  const fetchAddCertificate = useCallback(async () => {
     if (certificate) {
       // Generate certificate as jsx element
       const doc = (
@@ -79,17 +79,17 @@ const PageContent = () => {
         router.push(`/certificates/${response.data?.certificate.slug}`);
       }
     }
-  };
+  }, [certificate, router]);
 
   useEffect(() => {
     getCertificateTokenData();
-  }, []);
+  }, [getCertificateTokenData]);
 
   useEffect(() => {
     if (certificate) {
       fetchAddCertificate();
     }
-  }, [certificate]);
+  }, [fetchAddCertificate, certificate]);
 
   return (
     <Container className="flex min-h-[calc(100svh-68px)] items-center justify-center">

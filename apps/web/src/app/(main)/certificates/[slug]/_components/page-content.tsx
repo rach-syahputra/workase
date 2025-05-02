@@ -6,16 +6,12 @@ import { useCertificateDetailContext } from '@/context/certificate-detail-contex
 import CertificatePreviewSection from './certificate-preview-section';
 import CertificateDetailSection from './certificate-detail-section';
 
-interface PageContentProps {
-  slug: string;
-}
-
-const PageContent = ({ slug }: PageContentProps) => {
+const PageContent = () => {
   const { fetchGetCertificateDetail } = useCertificateDetailContext();
 
   useEffect(() => {
-    fetchGetCertificateDetail(slug);
-  }, [slug]);
+    fetchGetCertificateDetail();
+  }, [fetchGetCertificateDetail]);
 
   return (
     <div className="flex min-h-[calc(100svh-68px)] w-full flex-col">

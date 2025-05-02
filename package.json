@@ -15,7 +15,7 @@
     "@commitlint/cli": "^18.4.2",
     "@commitlint/config-conventional": "^18.4.2",
     "@typescript-eslint/parser": "^8.31.1",
-    "eslint": "^8.48.0",
+    "eslint": "^8.57.1",
     "husky": "^8.0.0",
     "lint-staged": "^15.1.0",
     "prettier": "^3.5.3",
@@ -40,5 +40,9 @@
     "axios": "^1.8.4",
     "cloudinary": "^2.6.0",
     "react-use": "^17.6.0"
+  },
+  "resolutions": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }

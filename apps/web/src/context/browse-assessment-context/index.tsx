@@ -1,6 +1,12 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 
 import { IAssessmentQuestion } from '@/lib/interfaces/assessment';
 import { getAssessmentQuestions } from '@/lib/apis/assessment-question';
@@ -32,37 +38,38 @@ const BrowseAssessmentProvider = ({
   const [questions, setQuestions] = useState<IAssessmentQuestion[]>([]);
   const limit = 10;
 
-  const fetchAssessmentQuestions = async (
-    req?: IFetchAssessmentQuestionsRequest,
-  ) => {
-    setIsLoading(true);
+  const fetchAssessmentQuestions = useCallback(
+    async (req?: IFetchAssessmentQuestionsRequest) => {
+      setIsLoading(true);
 
-    const response = await getAssessmentQuestions({
-      limit,
-      page: req?.page || page,
-      slug,
-      question: debouncedSearchQuestion,
-    });
+      const response = await getAssessmentQuestions({
+        limit,
+        page: req?.page || page,
+        slug,
+        question: debouncedSearchQuestion,
+      });
 
-    if (response.success) {
-      setQuestions(
-        response.data?.assessmentQuestions.map((question, index) => ({
-          ...question,
-          number: ((page ? page : 1) - 1) * limit + index + 1,
-        })) || [],
-      );
-      setTotalPages(response.data?.pagination?.totalPages || 1);
-      setTotalQuestions(response.data?.pagination?.totalData || 0);
-      setPage(response.data?.pagination?.page || 1);
-      scrollToTop();
-    }
+      if (response.success) {
+        setQuestions(
+          response.data?.assessmentQuestions.map((question, index) => ({
+            ...question,
+            number: ((page ? page : 1) - 1) * limit + index + 1,
+          })) || [],
+        );
+        setTotalPages(response.data?.pagination?.totalPages || 1);
+        setTotalQuestions(response.data?.pagination?.totalData || 0);
+        setPage(response.data?.pagination?.page || 1);
+        scrollToTop();
+      }
 
-    setIsLoading(false);
-  };
+      setIsLoading(false);
+    },
+    [debouncedSearchQuestion, page, slug],
+  );
 
   useEffect(() => {
     fetchAssessmentQuestions();
-  }, [page, debouncedSearchQuestion]);
+  }, [fetchAssessmentQuestions]);
 
   useEffect(() => {});
 

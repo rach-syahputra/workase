@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useClickAway } from 'react-use';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
@@ -19,7 +19,7 @@ const SearchCompanyReviewsBar = () => {
 
   const searchBarRef = useRef<HTMLDivElement | null>(null);
 
-  const fetchSearchCompanyReviews = async () => {
+  const fetchSearchCompanyReviews = useCallback(async () => {
     setIsLoading(true);
 
     const response = await searchCompanyReviews({
@@ -31,7 +31,7 @@ const SearchCompanyReviewsBar = () => {
     }
 
     setIsLoading(false);
-  };
+  }, [debouncedQuery]);
 
   useEffect(() => {
     const handleDebouncedQuery = setTimeout(() => {
@@ -43,7 +43,7 @@ const SearchCompanyReviewsBar = () => {
 
   useEffect(() => {
     fetchSearchCompanyReviews();
-  }, [debouncedQuery]);
+  }, [fetchSearchCompanyReviews]);
 
   useClickAway(searchBarRef, () => setOpenDropdown(false));
 

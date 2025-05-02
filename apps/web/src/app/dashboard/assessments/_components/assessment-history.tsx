@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ColumnDef } from '@tanstack/react-table';
 
 import { getUserAssessments } from '@/lib/apis/user-assessment';
@@ -28,7 +28,7 @@ const AssessmentHistory = () => {
   );
   const [tableData, setTableData] = useState<IUserAssessmentColumn[]>([]);
 
-  const fetchGetUserAssessments = async () => {
+  const fetchGetUserAssessments = useCallback(async () => {
     setIsLoading(true);
 
     const response = await getUserAssessments({
@@ -66,11 +66,11 @@ const AssessmentHistory = () => {
     }
 
     setIsLoading(false);
-  };
+  }, [debouncedSearchSkill, page, limit, enrollmentDateOrder]);
 
   useEffect(() => {
     fetchGetUserAssessments();
-  }, []);
+  }, [fetchGetUserAssessments]);
 
   useEffect(() => {
     const handleDebouncedSearchSkill = setTimeout(() => {
@@ -80,10 +80,6 @@ const AssessmentHistory = () => {
 
     return () => clearTimeout(handleDebouncedSearchSkill);
   }, [searchSkill]);
-
-  useEffect(() => {
-    fetchGetUserAssessments();
-  }, [debouncedSearchSkill]);
 
   return (
     <Card className="flex w-full flex-col items-start justify-center gap-6 max-md:border-none max-md:p-0 max-md:shadow-none md:p-5">

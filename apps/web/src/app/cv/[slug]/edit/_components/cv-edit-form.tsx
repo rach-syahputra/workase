@@ -3,6 +3,7 @@
 import { cn } from '@/lib/utils';
 import { useCvEditFormContext } from '@/context/cv-edit-form-context';
 import CvPreviewTemplateOne from '@/components/cv-preview/cv-preview-template-one';
+import { Separator } from '@/components/shadcn-ui/separator';
 import CvEditTopBar from './top-bar/cv-edit-top-bar';
 import HeaderForm from './header-form';
 import SummaryForm from './summay-form';
@@ -10,7 +11,6 @@ import ExperienceForm from './experience-form';
 import EducationForm from './education-form';
 import SkillForm from './skill-form';
 import SaveChangesButton from './save-changes-button';
-import { Separator } from '@/components/shadcn-ui/separator';
 
 const CvEditForm = () => {
   const { formik, showPreview } = useCvEditFormContext();
@@ -35,9 +35,9 @@ const CvEditForm = () => {
           <Separator className="md:hidden" />
           <SummaryForm />
           <Separator className="md:hidden" />
-          <ExperienceForm />
-          <Separator className="md:hidden" />
           <EducationForm />
+          <Separator className="md:hidden" />
+          <ExperienceForm />
           <Separator className="md:hidden" />
           <SkillForm />
         </div>

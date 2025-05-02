@@ -43,7 +43,7 @@ const CertificateOwner = ({ className }: CertificateOwnerProps) => {
         <div className="flex flex-col items-center justify-center gap-2">
           {owner?.profilePhoto ? (
             <Image
-              src="/workase.png"
+              src={owner.profilePhoto}
               alt="User image"
               width={100}
               height={100}

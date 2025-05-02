@@ -1,6 +1,12 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 
 import { ISkill } from '@/lib/interfaces/skill';
 import { getAvailableSkills } from '@/lib/apis/skill';
@@ -28,7 +34,7 @@ const CreateAssessmentProvider = ({
   });
   const limit = 5;
 
-  const fetchAvailableSkills = async () => {
+  const fetchAvailableSkills = useCallback(async () => {
     setIsLoading(true);
 
     const response = await getAvailableSkills({
@@ -44,7 +50,7 @@ const CreateAssessmentProvider = ({
     }
 
     setIsLoading(false);
-  };
+  }, [page, debouncedSearchSkill]);
 
   useEffect(() => {
     const handleDebouncedSearchSkill = setTimeout(() => {
@@ -56,7 +62,7 @@ const CreateAssessmentProvider = ({
 
   useEffect(() => {
     fetchAvailableSkills();
-  }, [page, debouncedSearchSkill]);
+  }, [fetchAvailableSkills]);
 
   return (
     <CreateAssessmentContext.Provider

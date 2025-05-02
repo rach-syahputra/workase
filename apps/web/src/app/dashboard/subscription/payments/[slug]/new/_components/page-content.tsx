@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { getSubscriptionPaymentBySlug } from '@/lib/apis/subscription';
 import { ISubscriptionPayment } from '@/lib/interfaces/subscription';
@@ -15,7 +15,7 @@ const PageContent = ({ slug }: PageContentProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [payment, setPayment] = useState<ISubscriptionPayment>();
 
-  const fetchGetSubscriptionPaymentBySlug = async () => {
+  const fetchGetSubscriptionPaymentBySlug = useCallback(async () => {
     setIsLoading(true);
 
     const response = await getSubscriptionPaymentBySlug({ slug });
@@ -26,11 +26,11 @@ const PageContent = ({ slug }: PageContentProps) => {
     }
 
     setIsLoading(false);
-  };
+  }, [slug]);
 
   useEffect(() => {
     fetchGetSubscriptionPaymentBySlug();
-  }, []);
+  }, [fetchGetSubscriptionPaymentBySlug]);
 
   return isLoading ? (
     <PaymentFormSkeleton />

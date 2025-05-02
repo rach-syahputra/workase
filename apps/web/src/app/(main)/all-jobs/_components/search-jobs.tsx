@@ -38,7 +38,7 @@ export function SearchJobs() {
       lastQueryRef.current = nextQuery;
       fetchJobs(nextQuery);
     }
-  }, [searchParams.toString()]);
+  }, [fetchJobs, searchParams]);
 
   return (
     <div className="w-full max-w-[90%] pt-[12px] md:pt-0 lg:max-w-[90%]">

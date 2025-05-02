@@ -34,7 +34,7 @@ const BrowseAssessmentQuestions = ({
 
   useEffect(() => {
     fetchAssessmentQuestions();
-  }, [slug]);
+  }, [fetchAssessmentQuestions]);
 
   useEffect(() => {
     const handleDebouncedSearchSkill = setTimeout(() => {
@@ -43,7 +43,7 @@ const BrowseAssessmentQuestions = ({
     }, 500);
 
     return () => clearTimeout(handleDebouncedSearchSkill);
-  }, [searchQuestion]);
+  }, [searchQuestion, setDebouncedSearchQuestion, setPage]);
 
   return (
     <Card className="flex w-full flex-col items-start justify-center gap-2 md:p-5">

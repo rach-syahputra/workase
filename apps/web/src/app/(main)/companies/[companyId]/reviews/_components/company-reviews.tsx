@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useCallback, useEffect, useState } from 'react';
 
 import { getCompanyReviews } from '@/lib/apis/company-reviews';
 import { ICompanyReview } from '@/lib/interfaces/company-review';
@@ -28,35 +28,38 @@ const CompanyReviews = ({ companyId }: CompanyReviewsProps) => {
   const [hasMore, setHasMore] = useState<boolean>(false);
   const [reviews, setReviews] = useState<ICompanyReview[]>([]);
 
-  const fetchCompanyReviews = async (option?: IOption) => {
-    setIsLoading(true);
+  const fetchCompanyReviews = useCallback(
+    async (option?: IOption) => {
+      setIsLoading(true);
 
-    const response = await getCompanyReviews(companyId, {
-      cursor,
-      limit: 15,
-      order: 'desc',
-    });
+      const response = await getCompanyReviews(companyId, {
+        cursor,
+        limit: 15,
+        order: 'desc',
+      });
 
-    if (response.success) {
-      const newReviews = response.data?.reviews;
-      const updatedReviews = option?.isLoadMore
-        ? [...reviews, ...(newReviews || [])]
-        : newReviews || [];
+      if (response.success) {
+        const newReviews = response.data?.reviews;
+        const updatedReviews = option?.isLoadMore
+          ? [...reviews, ...(newReviews || [])]
+          : newReviews || [];
 
-      setReviews(updatedReviews);
-      setCursor(response.data?.pagination.cursor || '');
-      setHasMore(
-        updatedReviews.length >= (response.data?.pagination.totalData || 0)
-          ? false
-          : true,
-      );
-    }
-    setIsLoading(false);
-  };
+        setReviews(updatedReviews);
+        setCursor(response.data?.pagination.cursor || '');
+        setHasMore(
+          updatedReviews.length >= (response.data?.pagination.totalData || 0)
+            ? false
+            : true,
+        );
+      }
+      setIsLoading(false);
+    },
+    [companyId, cursor, reviews],
+  );
 
   useEffect(() => {
     fetchCompanyReviews();
-  }, [companyId]);
+  }, [fetchCompanyReviews]);
 
   useEffect(() => {
     const handleInfiniteScroll = () => {
@@ -72,7 +75,7 @@ const CompanyReviews = ({ companyId }: CompanyReviewsProps) => {
 
     window.addEventListener('scroll', handleInfiniteScroll);
     return () => window.removeEventListener('scroll', handleInfiniteScroll);
-  }, [isLoading, hasMore]);
+  }, [isLoading, hasMore, fetchCompanyReviews]);
 
   return (
     <Tabs defaultValue="reviews" className="w-full">

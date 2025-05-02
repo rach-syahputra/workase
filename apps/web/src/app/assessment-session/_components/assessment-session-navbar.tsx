@@ -42,7 +42,7 @@ const AssessmentSessionNavbar = () => {
     window.addEventListener('scroll', handleScroll);
 
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
+  }, [lastScrollY, setOnTopOfScreen]);
 
   return (
     <nav

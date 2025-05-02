@@ -23,7 +23,7 @@ const BrowseAssessments = () => {
 
   useEffect(() => {
     fetchGetAssessments();
-  }, []);
+  }, [fetchGetAssessments]);
 
   return (
     <Card className="flex w-full flex-col items-start justify-center gap-2 max-md:border-none max-md:shadow-none md:p-5">

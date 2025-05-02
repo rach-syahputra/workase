@@ -1,6 +1,12 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { useSession } from 'next-auth/react';
 
 import { IUserStats } from '@/lib/interfaces/user-stats';
@@ -15,7 +21,7 @@ const UserStatsProvider = ({ children }: { children: React.ReactNode }) => {
   const session = useSession();
   const [userStats, setUserStats] = useState<IUserStats | undefined>(undefined);
 
-  const fetchGetUserStats = async () => {
+  const fetchGetUserStats = useCallback(async () => {
     const response = await getUserStats();
     const stats = response.data?.stats;
 
@@ -28,14 +34,14 @@ const UserStatsProvider = ({ children }: { children: React.ReactNode }) => {
         },
       });
     }
-  };
+  }, []);
 
   useEffect(() => {
     // Initiate user stats for the first time
     if (session.data?.user?.role === 'USER' && !userStats) {
       fetchGetUserStats();
     }
-  }, [session]);
+  }, [session, fetchGetUserStats, userStats]);
 
   return (
     <UserStatsContext.Provider

@@ -1,6 +1,12 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 
 import { getSkills } from '@/lib/apis/skill';
 import { ISkill } from '@/lib/interfaces/skill';
@@ -19,7 +25,7 @@ const BrowseSkillsProvider = ({ children }: { children: React.ReactNode }) => {
   const [skills, setSkills] = useState<ISkill[]>([]);
   const limit = 8;
 
-  const fetchSkills = async () => {
+  const fetchSkills = useCallback(async () => {
     setIsLoading(true);
 
     const response = await getSkills({
@@ -35,7 +41,7 @@ const BrowseSkillsProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     setIsLoading(false);
-  };
+  }, [page, debouncedSearchSkill]);
 
   useEffect(() => {
     const handleDebouncedSearchSkill = setTimeout(() => {
@@ -47,7 +53,7 @@ const BrowseSkillsProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     fetchSkills();
-  }, [page, debouncedSearchSkill]);
+  }, [fetchSkills]);
 
   return (
     <BrowseSkillsContext.Provider

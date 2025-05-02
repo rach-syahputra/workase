@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState } from 'react';
+import { createContext, useCallback, useContext, useState } from 'react';
 
 import { IAssessmentDetail } from '@/lib/interfaces/assessment';
 import { getAssessmentBySlug } from '@/lib/apis/assessments';
@@ -22,7 +22,7 @@ const AssessmentQuestionProvider = ({
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [assessment, setAssessment] = useState<IAssessmentDetail | undefined>();
 
-  const fetchAssessmentBySlug = async () => {
+  const fetchAssessmentBySlug = useCallback(async () => {
     setIsLoading(true);
 
     const response = await getAssessmentBySlug({ isOnClient: true, slug });
@@ -33,7 +33,7 @@ const AssessmentQuestionProvider = ({
     }
 
     setIsLoading(false);
-  };
+  }, [slug, setCurrentAssessmentSkill]);
 
   return (
     <AssessmentQuestionContext.Provider
