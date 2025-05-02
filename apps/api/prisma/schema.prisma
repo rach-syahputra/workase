@@ -37,6 +37,7 @@ model User {
   UserAssessment      UserAssessment[]
   PreselectionAttempt PreselectionAttempt[]
   Cv                  Cv[]
+  SavedReview         SavedReview[]
 
   @@map("users")
 }
@@ -171,6 +172,7 @@ model CompanyReview {
 
   company              Company               @relation(fields: [companyId], references: [id], onUpdate: Cascade)
   CompanyReviewRatings CompanyReviewRatings?
+  SavedReview          SavedReview[]
 
   @@map("company_reviews")
 }
@@ -187,6 +189,18 @@ model CompanyReviewRatings {
   companyReview CompanyReview @relation(fields: [companyReviewId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
   @@map("company_review_ratings")
+}
+
+model SavedReview {
+  userId          String   @map("user_id")
+  companyReviewId String   @map("company_review_id")
+  createdAt       DateTime @map("created_at")
+
+  user          User          @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  companyReview CompanyReview @relation(fields: [companyReviewId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@id([userId, companyReviewId])
+  @@map("saved_reviews")
 }
 
 model Skill {
