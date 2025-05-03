@@ -68,7 +68,11 @@ export const config = {
   matcher: [
     '/profile-management/:path*',
     '/apply-job/:path*',
-    ...publicAuthPage,
-    ...verifiedUserRoutes,
+    '/users/login',
+    '/users/register',
+    '/companies/login',
+    '/companies/register',
+    '/apply-job',
+    '/((?!api|_next/static|_next/image|auth|favicon.ico).*)',
   ],
 };
