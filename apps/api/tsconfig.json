@@ -1,17 +1,10 @@
 {
   "compilerOptions": {
-    "target": "ES2015",
+    "target": "es2016",
     "module": "commonjs",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "outDir": "./dist",
-    "baseUrl": "./",
-    "paths": {
-      "@/*": ["src/*"]
-    }
-  },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+    "forceConsistentCasingInFileNames": true
+  }
 }
