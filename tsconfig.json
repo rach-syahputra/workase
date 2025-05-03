@@ -1,18 +1,17 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "Node",
-    "baseUrl": ".", // ini root dari workase
-    "paths": {
-      "*": ["node_modules/*"],
-      "axios": ["node_modules/axios"],
-      "@/*": ["./apps/web/src/*"]
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": ["**/.env.*local"],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [".next/**", "!.next/cache/**"]
     },
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
-  },
-  "exclude": ["node_modules", "dist"]
+    "lint": {},
+    "test": {},
+    "serve": {},
+    "dev": {
+      "cache": false,
+      "persistent": true
+    }
+  }
 }
