@@ -1,0 +1,16 @@
+{
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      "env": [
+        "AUTH_SECRET",
+        "NEXT_PUBLIC_API_BASE_URL",
+        "NEXT_PUBLIC_OPEN_ROUTER_API_KEY",
+        "NEXT_PUBLIC_OPEN_ROUTER_API_KEY_2",
+        "NEXT_PUBLIC_OPEN_ROUTER_API_KEY_3",
+        "NEXT_PUBLIC_OPEN_ROUTER_API_KEY_4",
+        "NEXT_PUBLIC_OPEN_ROUTER_API_KEY_5"
+      ]
+    }
+  }
+}
