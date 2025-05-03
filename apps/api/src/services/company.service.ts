@@ -1,14 +1,14 @@
-import { CompanyRequest } from '@/interfaces/middleware.interface';
-import loginCompaniesRepository from '@/repositories/companies/login.repository';
-import registerCompaniesRepository from '@/repositories/companies/register.repository';
-import verifiedCompanyEmailRepository from '@/repositories/companies/verified-email.repository';
-import resetCompanyPasswordRepository from '@/repositories/companies/reset-password.repository';
+import { CompanyRequest } from '../interfaces/middleware.interface';
+import loginCompaniesRepository from '../repositories/companies/login.repository';
+import registerCompaniesRepository from '../repositories/companies/register.repository';
+import verifiedCompanyEmailRepository from '../repositories/companies/verified-email.repository';
+import resetCompanyPasswordRepository from '../repositories/companies/reset-password.repository';
 import getCompanyProfileRepository, {
   updateCompanyProfileRepository,
   updateCompanyLogoRepository,
-} from '@/repositories/companies/company-profile.repository';
-import { ResponseError } from '@/helpers/error';
-import { putCompanyAccessToken } from '@/helpers/jwt';
+} from '../repositories/companies/company-profile.repository';
+import { ResponseError } from '../helpers/error';
+import { putCompanyAccessToken } from '../helpers/jwt';
 class CompaniesService {
   async register(data: {
     name: string;

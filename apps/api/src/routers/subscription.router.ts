@@ -1,12 +1,12 @@
 import { Router } from 'express';
 
-import SubscriptionController from '@/controllers/subscription.controller';
+import SubscriptionController from '../controllers/subscription.controller';
 import {
   verifyDeveloper,
   verifyUser,
   verifyUserAndDeveloper,
-} from '@/middlewares/auth.middleware';
-import { uploadPaymentProof } from '@/helpers/multer';
+} from '../middlewares/auth.middleware';
+import { uploadPaymentProof } from '../helpers/multer';
 
 class SubscriptionRouter {
   private router: Router;

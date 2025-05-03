@@ -1,7 +1,7 @@
-import { CLOUDINARY_SUBSCRIPTION_PAYMENT_PROOF_FOLDER } from '@/config';
-import ImageRepository from '@/repositories/cloudinary/image.repository';
-import SubscriptionRepository from '@/repositories/subscriptions/supscription.repository';
-import SubscriptionPaymentRepository from '@/repositories/subscriptions/subscription-payment.repository';
+import { CLOUDINARY_SUBSCRIPTION_PAYMENT_PROOF_FOLDER } from '../config';
+import ImageRepository from '../repositories/cloudinary/image.repository';
+import SubscriptionRepository from '../repositories/subscriptions/supscription.repository';
+import SubscriptionPaymentRepository from '../repositories/subscriptions/subscription-payment.repository';
 import {
   AddSubscriptionRequest,
   CheckPaymentExpirationsRequest,
@@ -10,13 +10,13 @@ import {
   GetSubscriptionTransactionStatusRequest,
   UpdateSubscriptionPaymentServiceRequest,
   VerifySubscriptionOwnerRequest,
-} from '@/interfaces/subscription.interface';
+} from '../interfaces/subscription.interface';
 import {
   addSubscriptionSchema,
   updateSubscriptionPaymentSchema,
-} from '@/validations/subscription.validation';
-import { validate } from '@/helpers/validation';
-import { ResponseError } from '@/helpers/error';
+} from '../validations/subscription.validation';
+import { validate } from '../helpers/validation';
+import { ResponseError } from '../helpers/error';
 
 class SubscriptionService {
   private imageRepository: ImageRepository;

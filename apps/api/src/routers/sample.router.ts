@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
-import SampleController from '@/controllers/sample/sample.controller';
-import { uploadDeveloperImage } from '@/helpers/multer';
+import SampleController from '../controllers/sample/sample.controller';
+import { uploadDeveloperImage } from '../helpers/multer';
 
 class SampleRouter {
   private router: Router;

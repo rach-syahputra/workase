@@ -1,8 +1,8 @@
 import {
   AssessmentSortType,
   IQuestionOption,
-} from '@/interfaces/assessment.interface';
-import { OrderType } from '@/interfaces/filter.interface';
+} from '../../interfaces/assessment.interface';
+import { OrderType } from '../../interfaces/filter.interface';
 
 export const getAssessmentsOrderConfig = (
   sortBy: AssessmentSortType,

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import DeveloperController from '@/controllers/developer.controller';
+import DeveloperController from '../controllers/developer.controller';
 
 class DeveloperRouter {
   private router: Router;

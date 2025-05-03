@@ -1,13 +1,13 @@
 import {
   CLOUDINARY_ASSESSMENT_IMAGE_FOLDER,
   CLOUDINARY_ASSESSMENT_QUESTION_IMAGE_FOLDER,
-} from '@/config';
-import ImageRepository from '@/repositories/cloudinary/image.repository';
-import GetAssessmentRepository from '@/repositories/assessments/get-assessment.repository';
-import GetAssessmentDetailRepository from '@/repositories/assessments/get-assessment-detail.repository';
-import AddAssessmentRepository from '@/repositories/assessments/add-assessment.repository';
-import AssessmentQuestionRepository from '@/repositories/assessments/assessment-question.repository';
-import GetSkillRepository from '@/repositories/assessments/get-skills.repository';
+} from '../config';
+import ImageRepository from '../repositories/cloudinary/image.repository';
+import GetAssessmentRepository from '../repositories/assessments/get-assessment.repository';
+import GetAssessmentDetailRepository from '../repositories/assessments/get-assessment-detail.repository';
+import AddAssessmentRepository from '../repositories/assessments/add-assessment.repository';
+import AssessmentQuestionRepository from '../repositories/assessments/assessment-question.repository';
+import GetSkillRepository from '../repositories/assessments/get-skills.repository';
 import UserStatsService from './user-stats.service';
 import {
   AddAssessmentQuestionServiceRequest,
@@ -18,10 +18,10 @@ import {
   GetAssessmentQuestionsRequest,
   GetAssessmentsRequest,
   GetAvailableSkillsRequest,
-} from '@/interfaces/assessment.interface';
-import { addAssessmentQuestionSchema } from '@/validations/assessment.validation';
-import { validate } from '@/helpers/validation';
-import { ResponseError } from '@/helpers/error';
+} from '../interfaces/assessment.interface';
+import { addAssessmentQuestionSchema } from '../validations/assessment.validation';
+import { validate } from '../helpers/validation';
+import { ResponseError } from '../helpers/error';
 
 class AssessmentService {
   private imageRepository: ImageRepository;

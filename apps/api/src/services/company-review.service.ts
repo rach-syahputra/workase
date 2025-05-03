@@ -5,15 +5,15 @@ import {
   GetCompanyRatingRequest,
   GetCompanyReviewsRequest,
   VerifyUserEmploymentRequest,
-} from '@/interfaces/company-review.interface';
-import AddCompanyReviewRepository from '@/repositories/company-reviews/add-company-review.repository';
-import GetCompanyReviewRepository from '@/repositories/company-reviews/get-company-review.repository';
-import { addCompanyReviewSchema } from '@/validations/company-review.validation';
-import GetCompanyRatingRepository from '@/repositories/company-reviews/get-company-rating.repository';
-import GetCompanyHeaderRepository from '@/repositories/company-reviews/get-company-header.repository';
+} from '../interfaces/company-review.interface';
+import AddCompanyReviewRepository from '../repositories/company-reviews/add-company-review.repository';
+import GetCompanyReviewRepository from '../repositories/company-reviews/get-company-review.repository';
+import { addCompanyReviewSchema } from '../validations/company-review.validation';
+import GetCompanyRatingRepository from '../repositories/company-reviews/get-company-rating.repository';
+import GetCompanyHeaderRepository from '../repositories/company-reviews/get-company-header.repository';
 
-import { ResponseError } from '@/helpers/error';
-import { validate } from '@/helpers/validation';
+import { ResponseError } from '../helpers/error';
+import { validate } from '../helpers/validation';
 
 class CompanyReviewService {
   private addCompanyReviewRepository: AddCompanyReviewRepository;

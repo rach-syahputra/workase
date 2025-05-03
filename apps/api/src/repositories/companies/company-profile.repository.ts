@@ -1,8 +1,8 @@
-import cloudinary, { getPublicId } from '@/helpers/cloudinary';
-import { ResponseError } from '@/helpers/error';
-import { generateHashedPassword } from '@/helpers/utils';
-import { CompanyRequest } from '@/interfaces/middleware.interface';
-import prisma from '@/prisma';
+import cloudinary, { getPublicId } from '../../helpers/cloudinary';
+import { ResponseError } from '../../helpers/error';
+import { generateHashedPassword } from '../../helpers/utils';
+import { CompanyRequest } from '../../interfaces/middleware.interface';
+import prisma from '../../prisma';
 import { Prisma } from '@prisma/client';
 
 class getCompanyProfileRepository {
@@ -44,7 +44,7 @@ class updateCompanyProfileRepository {
     const data: Prisma.CompanyUpdateInput = {};
     if (name) data.name = name;
     if (email) data.email = email;
-    if (email) data.slug = email.split('@')[0];
+    if (email) data.slug = email.split('../..')[0];
     if (email) data.isVerified = false;
     if (password) data.password = await generateHashedPassword(password);
     if (phoneNumber) data.phoneNumber = phoneNumber;

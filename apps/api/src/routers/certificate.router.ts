@@ -1,8 +1,8 @@
 import { Router } from 'express';
 
-import CertificateController from '@/controllers/certificate.controller';
-import { verifyUser } from '@/middlewares/auth.middleware';
-import { uploadCertificatePdf } from '@/helpers/multer';
+import CertificateController from '../controllers/certificate.controller';
+import { verifyUser } from '../middlewares/auth.middleware';
+import { uploadCertificatePdf } from '../helpers/multer';
 
 class CertificateRouter {
   private router: Router;

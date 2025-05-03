@@ -1,9 +1,9 @@
-import { CompanyRequest} from "@/interfaces/middleware.interface";
-import prisma from "@/prisma";
-import { Prisma } from "@prisma/client";
+import { CompanyRequest } from '../../interfaces/middleware.interface';
+import prisma from '../../prisma';
+import { Prisma } from '@prisma/client';
 
 class verifiedCompanyEmailRepository {
-  async verifiedEmail(req:CompanyRequest) {
+  async verifiedEmail(req: CompanyRequest) {
     const id = req.user?.id;
     const data: Prisma.CompanyUpdateInput = {};
     data.isVerified = true;
@@ -15,4 +15,4 @@ class verifiedCompanyEmailRepository {
     });
   }
 }
-export default new verifiedCompanyEmailRepository()
+export default new verifiedCompanyEmailRepository();

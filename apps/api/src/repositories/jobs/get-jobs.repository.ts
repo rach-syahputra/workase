@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import prisma from '@/prisma';
+import prisma from '../../prisma';
 class GetJobsRepository {
   static async getJobs(req: Request) {
     const limit = req.query.limit || 10;

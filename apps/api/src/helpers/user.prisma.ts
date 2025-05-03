@@ -1,4 +1,4 @@
-import prisma from '@/prisma';
+import prisma from '../prisma';
 import { ResponseError } from './error';
 
 export const getUserByEmail = async (email: string) => {

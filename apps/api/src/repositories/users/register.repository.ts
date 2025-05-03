@@ -1,19 +1,19 @@
-import { sendEmailVerification } from '@/helpers/email-verification';
-import prisma from '@/prisma';
+import { sendEmailVerification } from '../../helpers/email-verification';
+import prisma from '../../prisma';
 import { AuthProvider } from '@prisma/client';
 import { Request } from 'express';
 import { putUserAccessToken } from '../../helpers/jwt';
-import { ResponseError } from '@/helpers/error';
+import { ResponseError } from '../../helpers/error';
 
-import { getUserByEmail } from '@/helpers/user.prisma';
-import { generateHashedPassword } from '@/helpers/utils';
+import { getUserByEmail } from '../../helpers/user.prisma';
+import { generateHashedPassword } from '../../helpers/utils';
 class registerUsersRepository {
   async register(data: {
     email: string;
     password: string;
     authProvider: string;
   }) {
-    const slug = data.email.split('@')[0];
+    const slug = data.email.split('../..')[0];
     const userPassword = data.password
       ? await generateHashedPassword(data.password)
       : '';

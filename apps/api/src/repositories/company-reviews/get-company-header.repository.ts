@@ -1,5 +1,5 @@
-import { prisma } from '@/helpers/prisma';
-import { GetCompanyHeaderRequest } from '@/interfaces/company-review.interface';
+import { prisma } from '../../helpers/prisma';
+import { GetCompanyHeaderRequest } from '../../interfaces/company-review.interface';
 
 class GetCompanyHeaderRepository {
   private prisma: typeof prisma;

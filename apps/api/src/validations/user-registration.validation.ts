@@ -1,6 +1,6 @@
-import { ResponseError } from '@/helpers/error';
-import { getUserByEmail } from '@/helpers/user.prisma';
-import { UserLogin } from '@/interfaces/user.interface';
+import { ResponseError } from '../helpers/error';
+import { getUserByEmail } from '../helpers/user.prisma';
+import { UserLogin } from '../interfaces/user.interface';
 import { AuthProvider } from '@prisma/client';
 import * as Yup from 'yup';
 

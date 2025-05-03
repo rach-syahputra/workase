@@ -1,14 +1,14 @@
 import { NextFunction, Response } from 'express';
 
-import { ApiResponse } from '@/helpers/api-response';
-import { ResponseError } from '@/helpers/error';
-import SubscriptionService from '@/services/subscription.service';
+import { ApiResponse } from '../helpers/api-response';
+import { ResponseError } from '../helpers/error';
+import SubscriptionService from '../services/subscription.service';
 import {
   DeveloperRequest,
   UserAndDeveloperRequest,
   UserRequest,
-} from '@/interfaces/middleware.interface';
-import { OrderType } from '@/interfaces/filter.interface';
+} from '../interfaces/middleware.interface';
+import { OrderType } from '../interfaces/filter.interface';
 import { PaymentStatus } from '@prisma/client';
 
 class SubscriptionController {

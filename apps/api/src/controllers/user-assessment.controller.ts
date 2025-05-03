@@ -1,10 +1,10 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Response } from 'express';
 
-import { ApiResponse } from '@/helpers/api-response';
-import UserAssessmentService from '@/services/user-assessment.service';
-import { OrderType } from '@/interfaces/filter.interface';
-import { UserRequest } from '@/interfaces/middleware.interface';
-import { ResponseError } from '@/helpers/error';
+import { ApiResponse } from '../helpers/api-response';
+import UserAssessmentService from '../services/user-assessment.service';
+import { OrderType } from '../interfaces/filter.interface';
+import { UserRequest } from '../interfaces/middleware.interface';
+import { ResponseError } from '../helpers/error';
 
 class UserAssessmentController {
   private userAssessmentService: UserAssessmentService;

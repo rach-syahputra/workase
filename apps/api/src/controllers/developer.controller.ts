@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 
-import { ApiResponse } from '@/helpers/api-response';
-import DeveloperService from '@/services/developer.service';
+import { ApiResponse } from '../helpers/api-response';
+import DeveloperService from '../services/developer.service';
 
 class DeveloperController {
   private developerService: DeveloperService;

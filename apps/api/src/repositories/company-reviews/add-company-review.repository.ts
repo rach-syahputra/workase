@@ -1,9 +1,9 @@
 import {
   AddCompanyReviewRequest,
   VerifyUserEmploymentRequest,
-} from '@/interfaces/company-review.interface';
-import { prisma } from '@/helpers/prisma';
-import { calculateRating } from '@/helpers/company-reviews/company-review.util';
+} from '../../interfaces/company-review.interface';
+import { prisma } from '../../helpers/prisma';
+import { calculateRating } from '../../helpers/company-reviews/company-review.util';
 
 class AddCompanyReviewRepository {
   private prisma: typeof prisma;

@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt';
 
-import { ResponseError } from '@/helpers/error';
-import { generateDeveloperAccessToken } from '@/helpers/jwt';
-import DeveloperRepository from '@/repositories/developers/developer.repository';
-import { LoginDeveloperRequest } from '@/interfaces/developer.interface';
+import { ResponseError } from '../helpers/error';
+import { generateDeveloperAccessToken } from '../helpers/jwt';
+import DeveloperRepository from '../repositories/developers/developer.repository';
+import { LoginDeveloperRequest } from '../interfaces/developer.interface';
 
 class DeveloperService {
   private developerRepository: DeveloperRepository;

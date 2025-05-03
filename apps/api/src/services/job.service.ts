@@ -1,4 +1,4 @@
-import GetJobsRepository from '@/repositories/jobs/get-jobs.repository';
+import GetJobsRepository from '../repositories/jobs/get-jobs.repository';
 import { Request } from 'express';
 
 class JobsService {

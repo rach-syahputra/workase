@@ -1,18 +1,18 @@
 import jwt, { sign } from 'jsonwebtoken';
 
-import { JWT_ACCESS_SECRET, JWT_REFRESH_SECRET } from '@/config';
+import { JWT_ACCESS_SECRET, JWT_REFRESH_SECRET } from '../config';
 import {
   DeveloperToken,
   CompanyToken,
   UserToken,
-} from '@/interfaces/middleware.interface';
-import { UserAssessmentToken } from '@/interfaces/user-assessment.interface';
-import { CertificateTokenData } from '@/interfaces/certificate.interface';
-import { UserLogin } from '@/interfaces/user.interface';
+} from '../interfaces/middleware.interface';
+import { UserAssessmentToken } from '../interfaces/user-assessment.interface';
+import { CertificateTokenData } from '../interfaces/certificate.interface';
+import { UserLogin } from '../interfaces/user.interface';
 import { getUserByEmail } from './user.prisma';
 import { ResponseError } from './error';
 import { getCompanyByEmail } from './company.prisma';
-import { CompanyLogin } from '@/interfaces/company.interface';
+import { CompanyLogin } from '../interfaces/company.interface';
 
 export const putUserAccessToken = async (user?: UserLogin, email?: string) => {
   //kalo nda` lewat login bisa lewat yang lain, untuk generate token, dari email misalnya

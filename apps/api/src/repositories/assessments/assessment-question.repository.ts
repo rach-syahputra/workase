@@ -1,10 +1,10 @@
-import { shuffleQuestionOptions } from '@/helpers/assessments/assessment.util';
-import { prisma } from '@/helpers/prisma';
+import { shuffleQuestionOptions } from '../../helpers/assessments/assessment.util';
+import { prisma } from '../../helpers/prisma';
 import {
   AddAssessmentQuestionRepositoryRequest,
   DeleteAssessmentQuestionRequest,
   GetAssessmentQuestionsRequest,
-} from '@/interfaces/assessment.interface';
+} from '../../interfaces/assessment.interface';
 
 class AssessmentQuestionRepository {
   private prisma: typeof prisma;

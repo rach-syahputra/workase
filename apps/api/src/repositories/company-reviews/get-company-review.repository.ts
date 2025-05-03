@@ -1,8 +1,8 @@
 import {
   GetCompaniesReviewsRequest,
   GetCompanyReviewsRequest,
-} from '@/interfaces/company-review.interface';
-import { prisma } from '@/helpers/prisma';
+} from '../../interfaces/company-review.interface';
+import { prisma } from '../../helpers/prisma';
 
 class GetCompanyReviewRepository {
   private prisma: typeof prisma;

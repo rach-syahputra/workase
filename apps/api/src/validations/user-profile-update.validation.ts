@@ -1,9 +1,9 @@
 import * as Yup from 'yup';
-import { ResponseError } from '@/helpers/error';
+import { ResponseError } from '../helpers/error';
 
 import { AuthProvider, Gender } from '@prisma/client';
-import { getUserByEmail } from '@/helpers/user.prisma';
-import { UserLogin } from '@/interfaces/user.interface';
+import { getUserByEmail } from '../helpers/user.prisma';
+import { UserLogin } from '../interfaces/user.interface';
 
 const checkUserExists = async (email: string) => {
   const user = (await getUserByEmail(email)) as UserLogin;

@@ -1,5 +1,5 @@
-import prisma from '@/prisma';
-import { GetDeveloperByEmailRequest } from '@/interfaces/developer.interface';
+import prisma from '../../prisma';
+import { GetDeveloperByEmailRequest } from '../../interfaces/developer.interface';
 
 class DeveloperRepository {
   private prisma: typeof prisma;

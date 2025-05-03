@@ -1,7 +1,7 @@
-import { getCompanyByEmail } from '@/helpers/company.prisma';
-import { ResponseError } from '@/helpers/error';
-import { CompanyLogin } from '@/interfaces/company.interface';
-import { UserLogin } from '@/interfaces/user.interface';
+import { getCompanyByEmail } from '../helpers/company.prisma';
+import { ResponseError } from '../helpers/error';
+import { CompanyLogin } from '../interfaces/company.interface';
+import { UserLogin } from '../interfaces/user.interface';
 import { AuthProvider } from '@prisma/client';
 import * as Yup from 'yup';
 
@@ -45,7 +45,8 @@ const companyRegistrationSchema = () => {
     phoneNumber: Yup.string()
       .optional()
       .min(8, 'phone number must be at least 8 characters')
-      .max(15, 'phone number must be at most 15 characters').matches(/^\d+$/, 'Nomor telepon hanya boleh berisi angka'),
+      .max(15, 'phone number must be at most 15 characters')
+      .matches(/^\d+$/, 'Nomor telepon hanya boleh berisi angka'),
     authProvider: Yup.string()
       .required('Auth provider is required')
       .oneOf(Object.values(AuthProvider))

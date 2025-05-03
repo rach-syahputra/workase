@@ -1,6 +1,6 @@
-import { generateHashedPassword } from '@/helpers/utils';
-import { CompanyRequest } from '@/interfaces/middleware.interface';
-import prisma from '@/prisma';
+import { generateHashedPassword } from '../../helpers/utils';
+import { CompanyRequest } from '../../interfaces/middleware.interface';
+import prisma from '../../prisma';
 import { Prisma } from '@prisma/client';
 
 class resetCompanyPasswordRepository {

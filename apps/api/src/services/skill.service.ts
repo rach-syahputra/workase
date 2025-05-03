@@ -1,8 +1,8 @@
-import SkillRepository from '@/repositories/skills/skill.repository';
+import SkillRepository from '../repositories/skills/skill.repository';
 import {
   AddSkillRequest,
   GetSkillsRequest,
-} from '@/interfaces/skill.interface';
+} from '../interfaces/skill.interface';
 
 class SkillService {
   private skillRepository: SkillRepository;

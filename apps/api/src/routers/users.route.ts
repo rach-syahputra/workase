@@ -2,11 +2,11 @@ import {
   verifyCompany,
   verifyRefreshToken,
   verifyUser,
-} from '@/middlewares/auth.middleware';
-import userController from '@/controllers/user.controller';
+} from '../middlewares/auth.middleware';
+import userController from '../controllers/user.controller';
 
 import { Router } from 'express';
-import usersController from '@/controllers/user.controller';
+import usersController from '../controllers/user.controller';
 import {
   validateNewUserPassword,
   validateEmailUser,
@@ -14,9 +14,9 @@ import {
   markPasswordResetAsIncomplete,
   verifyPasswordResetStatus,
   markPasswordResetTokenAsUsed,
-} from '@/middlewares/user.middleware';
-import { uploadUserImage } from '@/helpers/multer';
-import userStatsController from '@/controllers/user-stats.controller';
+} from '../middlewares/user.middleware';
+import { uploadUserImage } from '../helpers/multer';
+import userStatsController from '../controllers/user-stats.controller';
 export const usersRouter = () => {
   const router = Router();
   router.post('/token', verifyRefreshToken, usersController.refreshToken);

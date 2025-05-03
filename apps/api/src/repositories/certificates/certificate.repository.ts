@@ -1,11 +1,11 @@
-import { prisma } from '@/helpers/prisma';
+import { prisma } from '../../helpers/prisma';
 import {
   AddCertificateRepositoryRequest,
   GetCertificateBySlugRequest,
   GetCertificateDetailRequest,
-} from '@/interfaces/certificate.interface';
-import { GetUserAssessmentByIdRequest } from '@/interfaces/user-assessment.interface';
-import { generateCertificateSlug } from '@/helpers/utils';
+} from '../../interfaces/certificate.interface';
+import { GetUserAssessmentByIdRequest } from '../../interfaces/user-assessment.interface';
+import { generateCertificateSlug } from '../../helpers/utils';
 
 class CertificateRepository {
   private prisma: typeof prisma;

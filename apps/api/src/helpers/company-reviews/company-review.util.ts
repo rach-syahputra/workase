@@ -1,4 +1,4 @@
-import { CompanyReviewRating } from '@/interfaces/company-review.interface';
+import { CompanyReviewRating } from '../../interfaces/company-review.interface';
 
 export const calculateRating = (ratings: number[]): number => {
   if (ratings.length === 0) return 0;

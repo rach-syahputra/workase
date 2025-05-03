@@ -1,6 +1,6 @@
-import { generateHashedPassword } from '@/helpers/utils';
-import { UserRequest } from '@/interfaces/middleware.interface';
-import prisma from '@/prisma';
+import { generateHashedPassword } from '../../helpers/utils';
+import { UserRequest } from '../../interfaces/middleware.interface';
+import prisma from '../../prisma';
 import { Prisma } from '@prisma/client';
 
 class resetUserPasswordRepository {

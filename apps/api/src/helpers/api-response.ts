@@ -1,4 +1,4 @@
-import { IApiResponse } from '@/interfaces/response/api-response';
+import { IApiResponse } from '../interfaces/response/api-response';
 
 export const ApiResponse = ({
   res,

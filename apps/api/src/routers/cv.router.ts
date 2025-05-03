@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
-import { verifyUser } from '@/middlewares/auth.middleware';
-import CvController from '@/controllers/cv.controller';
+import { verifyUser } from '../middlewares/auth.middleware';
+import CvController from '../controllers/cv.controller';
 
 class CvRouter {
   private router: Router;

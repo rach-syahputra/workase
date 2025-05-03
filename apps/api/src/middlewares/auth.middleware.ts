@@ -1,12 +1,11 @@
 import { NextFunction, Response } from 'express';
 import jwt, { verify } from 'jsonwebtoken';
-import { IncomingHttpHeaders } from 'http';
 
 import {
   JWT_ACCESS_SECRET,
   JWT_REFRESH_SECRET as refresh_jwt_secret,
-} from '@/config';
-import { ResponseError } from '@/helpers/error';
+} from '../config';
+import { ResponseError } from '../helpers/error';
 import {
   CompanyRequest,
   CompanyToken,
@@ -14,7 +13,7 @@ import {
   UserToken,
   DeveloperRequest,
   UserAndDeveloperRequest,
-} from '@/interfaces/middleware.interface';
+} from '../interfaces/middleware.interface';
 
 export function verifyUser(
   req: UserRequest,

@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 
-import { SendSubscriptionExpiryReminderEmailRequest } from '@/interfaces/subscription.interface';
+import { SendSubscriptionExpiryReminderEmailRequest } from '../..//interfaces/subscription.interface';
 import { hbs } from '../handlebars';
 import { transporter } from '../nodemailer';
 import { ResponseError } from '../error';

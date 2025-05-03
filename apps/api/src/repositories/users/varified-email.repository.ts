@@ -1,9 +1,9 @@
-import { UserRequest } from "@/interfaces/middleware.interface";
-import prisma from "@/prisma";
-import { Prisma } from "@prisma/client";
+import { UserRequest } from '../../interfaces/middleware.interface';
+import prisma from '../../prisma';
+import { Prisma } from '@prisma/client';
 
 class verifiedUserEmailRepository {
-  async verifiedEmail(req:UserRequest) {
+  async verifiedEmail(req: UserRequest) {
     const id = req.user?.id;
     const data: Prisma.UserUpdateInput = {};
     data.isVerified = true;
@@ -15,4 +15,4 @@ class verifiedUserEmailRepository {
     });
   }
 }
-export default new verifiedUserEmailRepository()
+export default new verifiedUserEmailRepository();

@@ -3,9 +3,8 @@ import { PrismaClient } from '@prisma/client';
 import {
   AddSampleRequestRepository,
   GetSampleByEmailRequest,
-} from '@/interfaces/sample/sample.interface';
-import { generateRandomString, generateSlug } from '@/helpers/utils';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+} from '../../interfaces/sample/sample.interface';
+import { generateRandomString, generateSlug } from '../../helpers/utils';
 
 class SampleRepository {
   private prisma: PrismaClient;

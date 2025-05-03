@@ -1,14 +1,14 @@
-import { responseHandler } from '@/helpers/response.handler';
+import { responseHandler } from '../helpers/response.handler';
 import { NextFunction, Response } from 'express';
 import { Request } from 'express';
-import companiesService from '@/services/company.service';
-import { ApiResponse } from '@/helpers/api-response';
-import { CompanyRequest } from '@/interfaces/middleware.interface';
-import { sendEmailVerification } from '@/helpers/email-verification';
-import companyService from '@/services/company.service';
-import { hbs } from '@/helpers/handlebars';
-import { putCompanyAccessToken } from '@/helpers/jwt';
-import { transporter } from '@/helpers/nodemailer';
+import companiesService from '../services/company.service';
+import { ApiResponse } from '../helpers/api-response';
+import { CompanyRequest } from '../interfaces/middleware.interface';
+import { sendEmailVerification } from '../helpers/email-verification';
+import companyService from '../services/company.service';
+import { hbs } from '../helpers/handlebars';
+import { putCompanyAccessToken } from '../helpers/jwt';
+import { transporter } from '../helpers/nodemailer';
 class CompaniesController {
   async register(req: Request, res: Response, next: NextFunction) {
     try {

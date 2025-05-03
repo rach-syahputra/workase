@@ -4,18 +4,18 @@ import {
   AddSampleRequestService,
   GetSampleByEmailRequest,
   LoginSampleRequest,
-} from '@/interfaces/sample/sample.interface';
-import { ResponseError } from '@/helpers/error';
-import SampleRepository from '@/repositories/sample/sample.repository';
-import { validate } from '@/helpers/validation';
+} from '../interfaces/sample/sample.interface';
+import { ResponseError } from '../helpers/error';
+import SampleRepository from '../repositories/sample/sample.repository';
+import { validate } from '../helpers/validation';
 import {
   addSampleSchema,
   getSampleByEmailSchema,
-} from '@/validations/sample/sample.validation';
-import { generateHashedPassword } from '@/helpers/utils';
-import ImageRepository from '@/repositories/cloudinary/image.repository';
-import { CLOUDINARY_DEVELOPER_IMAGE_FOLDER } from '@/config';
-// import { putAccessToken } from '@/helpers/jwt';
+} from '../validations/sample/sample.validation';
+import { generateHashedPassword } from '../helpers/utils';
+import ImageRepository from '../repositories/cloudinary/image.repository';
+import { CLOUDINARY_DEVELOPER_IMAGE_FOLDER } from '../config';
+// import { putAccessToken } from '../helpers/jwt';
 
 class SampleService {
   private sampleRepository: SampleRepository;

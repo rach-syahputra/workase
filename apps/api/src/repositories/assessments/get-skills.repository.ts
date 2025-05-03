@@ -1,5 +1,5 @@
-import { prisma } from '@/helpers/prisma';
-import { GetAvailableSkillsRequest } from '@/interfaces/assessment.interface';
+import { prisma } from '../../helpers/prisma';
+import { GetAvailableSkillsRequest } from '../../interfaces/assessment.interface';
 
 class GetSkillRepository {
   private prisma: typeof prisma;

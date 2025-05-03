@@ -1,12 +1,12 @@
-import { generateUserAssessmentAccessToken } from '@/helpers/jwt';
-import { validate } from '@/helpers/validation';
+import { generateUserAssessmentAccessToken } from '../helpers/jwt';
+import { validate } from '../helpers/validation';
 import {
   AddUserAssessmentRequest,
   CalculateAssessmentResultRequest,
   GetUserAssessmentRequest,
-} from '@/interfaces/user-assessment.interface';
-import UserAssessmentRepository from '@/repositories/user-assessments/user-assessment.repository';
-import { CalculateAssessmentResultSchema } from '@/validations/user-assessment.validation';
+} from '../interfaces/user-assessment.interface';
+import UserAssessmentRepository from '../repositories/user-assessments/user-assessment.repository';
+import { CalculateAssessmentResultSchema } from '../validations/user-assessment.validation';
 import { UserAssessmentStatus } from '@prisma/client';
 
 class UserAssessmentService {

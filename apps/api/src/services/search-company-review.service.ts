@@ -1,5 +1,5 @@
-import SearchCompanyReviewRepository from '@/repositories/company-reviews/search-company-review.repository';
-import { searchCompanyReviewsRequest } from '@/interfaces/search-company-review.interface';
+import SearchCompanyReviewRepository from '../repositories/company-reviews/search-company-review.repository';
+import { searchCompanyReviewsRequest } from '../interfaces/search-company-review.interface';
 
 class SearchCompanyReviewService {
   private searchCompanyReviewRepository: SearchCompanyReviewRepository;

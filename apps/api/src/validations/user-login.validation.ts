@@ -1,7 +1,7 @@
-import { hashedPassword } from '@/helpers/bcrypt';
-import { ResponseError } from '@/helpers/error';
-import { getUserByEmail } from '@/helpers/user.prisma';
-import { UserLogin } from '@/interfaces/user.interface';
+import { hashedPassword } from '../helpers/bcrypt';
+import { ResponseError } from '../helpers/error';
+import { getUserByEmail } from '../helpers/user.prisma';
+import { UserLogin } from '../interfaces/user.interface';
 import { AuthProvider } from '@prisma/client';
 import { compare } from 'bcrypt';
 import * as Yup from 'yup';

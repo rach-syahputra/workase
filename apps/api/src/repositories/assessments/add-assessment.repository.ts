@@ -1,6 +1,6 @@
-import { prisma } from '@/helpers/prisma';
-import { generateRandomString, generateSlug } from '@/helpers/utils';
-import { AddAssessmentRepositoryRequest } from '@/interfaces/assessment.interface';
+import { prisma } from '../../helpers/prisma';
+import { generateRandomString, generateSlug } from '../../helpers/utils';
+import { AddAssessmentRepositoryRequest } from '../../interfaces/assessment.interface';
 
 class AddAssessmentRepository {
   private prisma: typeof prisma;

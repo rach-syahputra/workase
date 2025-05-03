@@ -1,10 +1,10 @@
-import { prisma } from '@/helpers/prisma';
+import { prisma } from '../../helpers/prisma';
 import {
   AddUserAssessmentRequest,
   CalculateAssessmentResultRequest,
   GetUserAssessmentRequest,
   UpdateUserAssessmentRequest,
-} from '@/interfaces/user-assessment.interface';
+} from '../../interfaces/user-assessment.interface';
 
 class UserAssessmentRepository {
   private prisma: typeof prisma;

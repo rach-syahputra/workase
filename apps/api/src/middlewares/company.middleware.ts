@@ -1,13 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 
-import companyRegistrationSchema from '@/validations/company-registration.validation';
-import companyLoginSchema from '@/validations/company-login.validation';
-import companySendResetPasswordSchema from '@/validations/company-send-reset-password.validation';
-import userAndCompanyResetPasswordSchema from '@/validations/user-and-company-reset-password.validation';
-import companyProfileUpdateSchema from '@/validations/company-profile-update.validation';
-import prisma from '@/prisma';
+import companyRegistrationSchema from '../validations/company-registration.validation';
+import companyLoginSchema from '../validations/company-login.validation';
+import companySendResetPasswordSchema from '../validations/company-send-reset-password.validation';
+import userAndCompanyResetPasswordSchema from '../validations/user-and-company-reset-password.validation';
+import companyProfileUpdateSchema from '../validations/company-profile-update.validation';
+import prisma from '../prisma';
 import { Prisma } from '@prisma/client';
-import { CompanyRequest } from '@/interfaces/middleware.interface';
+import { CompanyRequest } from '../interfaces/middleware.interface';
 const validateCompanyRegistration = async (
   req: Request,
   res: Response,

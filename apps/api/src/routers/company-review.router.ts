@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
-import CompanyReviewController from '@/controllers/company-review.controller';
-import { verifyUser } from '@/middlewares/auth.middleware';
+import CompanyReviewController from '../controllers/company-review.controller';
+import { verifyUser } from '../middlewares/auth.middleware';
 
 class CompanyReviewRouter {
   private router: Router;

@@ -1,15 +1,15 @@
-import { UserRequest } from '@/interfaces/middleware.interface';
+import { UserRequest } from '../interfaces/middleware.interface';
 
-import loginUsersRepository from '@/repositories/users/login.repository';
-import registerUsersRepository from '@/repositories/users/register.repository';
-import verifiedUserEmailRepository from '@/repositories/users/varified-email.repository';
-import resetUserPasswordRepository from '@/repositories/users/reset-password.repository';
+import loginUsersRepository from '../repositories/users/login.repository';
+import registerUsersRepository from '../repositories/users/register.repository';
+import verifiedUserEmailRepository from '../repositories/users/varified-email.repository';
+import resetUserPasswordRepository from '../repositories/users/reset-password.repository';
 import getUserProfileRepository, {
   updateUserPhotoProfileRepository,
   updateUserProfileRepository,
-} from '@/repositories/users/user-profile.repository';
-import { ResponseError } from '@/helpers/error';
-import { putUserAccessToken } from '@/helpers/jwt';
+} from '../repositories/users/user-profile.repository';
+import { ResponseError } from '../helpers/error';
+import { putUserAccessToken } from '../helpers/jwt';
 class UsersService {
   async register(data: {
     email: string;

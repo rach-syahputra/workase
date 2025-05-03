@@ -1,15 +1,15 @@
 import { Router } from 'express';
-import UsersController from '@/controllers/user.controller';
-import CompaniesController from '@/controllers/company.controller';
+import UsersController from '../controllers/user.controller';
+import CompaniesController from '../controllers/company.controller';
 import {
   validateUserRegistration,
   validateUserLogin,
-} from '@/middlewares/user.middleware';
+} from '../middlewares/user.middleware';
 import {
   validateCompanyLogin,
   validateCompanyRegistration,
-} from '@/middlewares/company.middleware';
-import { verifyRefreshToken } from '@/middlewares/auth.middleware';
+} from '../middlewares/company.middleware';
+import { verifyRefreshToken } from '../middlewares/auth.middleware';
 
 export const authRouter = () => {
   const router = Router();

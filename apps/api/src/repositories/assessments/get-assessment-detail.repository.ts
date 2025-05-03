@@ -1,8 +1,8 @@
-import { prisma } from '@/helpers/prisma';
+import { prisma } from '../../helpers/prisma';
 import {
   GetAssessmentBySlugRequest,
   IsAssessmentTakenRequest,
-} from '@/interfaces/assessment.interface';
+} from '../../interfaces/assessment.interface';
 
 class GetAssessmentDetailRepository {
   private prisma: typeof prisma;

@@ -1,10 +1,10 @@
 import { NextFunction, Response } from 'express';
 
-import SkillService from '@/services/skill.service';
-import { DeveloperRequest } from '@/interfaces/middleware.interface';
-import { OrderType } from '@/interfaces/filter.interface';
-import { ApiResponse } from '@/helpers/api-response';
-import { ResponseError } from '@/helpers/error';
+import SkillService from '../services/skill.service';
+import { DeveloperRequest } from '../interfaces/middleware.interface';
+import { OrderType } from '../interfaces/filter.interface';
+import { ApiResponse } from '../helpers/api-response';
+import { ResponseError } from '../helpers/error';
 
 class SkillController {
   private skillService: SkillService;

@@ -1,6 +1,6 @@
-import { calculateRating } from '@/helpers/company-reviews/company-review.util';
-import { prisma } from '@/helpers/prisma';
-import { searchCompanyReviewsRequest } from '@/interfaces/search-company-review.interface';
+import { calculateRating } from '../../helpers/company-reviews/company-review.util';
+import { prisma } from '../../helpers/prisma';
+import { searchCompanyReviewsRequest } from '../../interfaces/search-company-review.interface';
 
 class SearchCompanyReviewRepository {
   private prisma: typeof prisma;

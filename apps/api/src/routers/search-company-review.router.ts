@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import SearchCompanyReviewController from '@/controllers/search-company-review.controller';
+import SearchCompanyReviewController from '../controllers/search-company-review.controller';
 
 class SearchCompanyReviewRouter {
   private router: Router;

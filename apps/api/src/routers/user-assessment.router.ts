@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
-import UserAssessmentController from '@/controllers/user-assessment.controller';
-import { verifyUser } from '@/middlewares/auth.middleware';
+import UserAssessmentController from '../controllers/user-assessment.controller';
+import { verifyUser } from '../middlewares/auth.middleware';
 
 class UserAssessmentRouter {
   private router: Router;

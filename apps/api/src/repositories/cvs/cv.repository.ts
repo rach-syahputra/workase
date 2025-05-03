@@ -5,9 +5,9 @@ import {
   CheckCvOwnershipRequest,
   GetCvBySlugRequest,
   UpdateCvRequest,
-} from '@/interfaces/cv.interface';
-import { prisma } from '@/helpers/prisma';
-import { generateCertificateSlug } from '@/helpers/utils';
+} from '../../interfaces/cv.interface';
+import { prisma } from '../../helpers/prisma';
+import { generateCertificateSlug } from '../../helpers/utils';
 
 class CvRepository {
   private prisma: typeof prisma;

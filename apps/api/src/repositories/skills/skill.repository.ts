@@ -1,8 +1,8 @@
-import { prisma } from '@/helpers/prisma';
+import { prisma } from '../../helpers/prisma';
 import {
   AddSkillRequest,
   GetSkillsRequest,
-} from '@/interfaces/skill.interface';
+} from '../../interfaces/skill.interface';
 
 class SkillRepository {
   private prisma: typeof prisma;

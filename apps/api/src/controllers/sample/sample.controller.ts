@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 
-import { ApiResponse } from '@/helpers/api-response';
-import SampleService from '@/services/sample.service';
+import { ApiResponse } from '../../helpers/api-response';
+import SampleService from '../../services/sample.service';
 
 class SampleController {
   private sampleService: SampleService;

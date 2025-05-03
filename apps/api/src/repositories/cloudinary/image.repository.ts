@@ -1,4 +1,4 @@
-import cloudinary from '@/helpers/cloudinary';
+import cloudinary from '../../helpers/cloudinary';
 
 class ImageRepository {
   upload = async (imagePath: string, folder: string) => {

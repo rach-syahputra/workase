@@ -1,12 +1,12 @@
-import { userLoginSchema } from '@/validations/user-login.validation';
-import userRegistrationSchema from '@/validations/user-registration.validation';
-import userResetPasswordSchema from '@/validations/user-and-company-reset-password.validation';
-import userSendResetPasswordSchema from '@/validations/user-send-reset-password.validation';
+import { userLoginSchema } from '../validations/user-login.validation';
+import userRegistrationSchema from '../validations/user-registration.validation';
+import userResetPasswordSchema from '../validations/user-and-company-reset-password.validation';
+import userSendResetPasswordSchema from '../validations/user-send-reset-password.validation';
 import { Request, Response, NextFunction } from 'express';
-import userProfileUpdateSchema from '@/validations/user-profile-update.validation';
+import userProfileUpdateSchema from '../validations/user-profile-update.validation';
 import { Prisma } from '@prisma/client';
-import prisma from '@/prisma';
-import { UserRequest } from '@/interfaces/middleware.interface';
+import prisma from '../prisma';
+import { UserRequest } from '../interfaces/middleware.interface';
 
 const validateUserRegistration = async (
   req: Request,
@@ -144,7 +144,6 @@ const verifyPasswordResetStatus = async (
   }
 };
 
-
 export {
   validateUserRegistration,
   validateUserLogin,
@@ -153,5 +152,5 @@ export {
   validateUserProfileUpdate,
   markPasswordResetAsIncomplete,
   markPasswordResetTokenAsUsed,
-  verifyPasswordResetStatus
+  verifyPasswordResetStatus,
 };

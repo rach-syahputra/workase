@@ -1,8 +1,8 @@
-import { prisma } from '@/helpers/prisma';
+import { prisma } from '../../helpers/prisma';
 import {
   GetUserDetailRequest,
   GetUserStatsRequest,
-} from '@/interfaces/user.interface';
+} from '../../interfaces/user.interface';
 
 class UserStatsRepository {
   private prisma: typeof prisma;

@@ -1,13 +1,13 @@
 import { NextFunction, Response } from 'express';
 
-import AssessmentService from '@/services/assessment.service';
-import { AddAssessmentQuestionBodyRequest } from '@/interfaces/assessment.interface';
+import AssessmentService from '../services/assessment.service';
+import { AddAssessmentQuestionBodyRequest } from '../interfaces/assessment.interface';
 import {
   DeveloperRequest,
   UserAndDeveloperRequest,
-} from '@/interfaces/middleware.interface';
-import { ApiResponse } from '@/helpers/api-response';
-import { ResponseError } from '@/helpers/error';
+} from '../interfaces/middleware.interface';
+import { ApiResponse } from '../helpers/api-response';
+import { ResponseError } from '../helpers/error';
 
 class AssessmentQuestionController {
   private assessmentService: AssessmentService;

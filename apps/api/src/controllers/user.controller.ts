@@ -1,12 +1,12 @@
 import { NextFunction, Response } from 'express';
 import { Request } from 'express';
-import { sendEmailVerification } from '@/helpers/email-verification';
-import usersService from '@/services/user.service';
-import { ApiResponse } from '@/helpers/api-response';
-import { UserRequest } from '@/interfaces/middleware.interface';
-import { hbs } from '@/helpers/handlebars';
-import { putUserAccessToken } from '@/helpers/jwt';
-import { transporter } from '@/helpers/nodemailer';
+import { sendEmailVerification } from '../helpers/email-verification';
+import usersService from '../services/user.service';
+import { ApiResponse } from '../helpers/api-response';
+import { UserRequest } from '../interfaces/middleware.interface';
+import { hbs } from '../helpers/handlebars';
+import { putUserAccessToken } from '../helpers/jwt';
+import { transporter } from '../helpers/nodemailer';
 class UsersController {
   async register(req: Request, res: Response, next: NextFunction) {
     try {

@@ -1,16 +1,16 @@
-import { CLOUDINARY_CERTIFICATE_FOLDER } from '@/config';
-import CertificateRepository from '@/repositories/certificates/certificate.repository';
-import ImageRepository from '@/repositories/cloudinary/image.repository';
+import { CLOUDINARY_CERTIFICATE_FOLDER } from '../config';
+import CertificateRepository from '../repositories/certificates/certificate.repository';
+import ImageRepository from '../repositories/cloudinary/image.repository';
 import {
   AddCertificateServiceRequest,
   GenerateCertificateTokenRequest,
   GetCertificateBySlugRequest,
   GetCertificateDetailRequest,
-} from '@/interfaces/certificate.interface';
-import { AddCertificateSchema } from '@/validations/certificate.validation';
-import { validate } from '@/helpers/validation';
-import { generateCertificateSlug } from '@/helpers/utils';
-import { generateCertificateCrCodeToken } from '@/helpers/jwt';
+} from '../interfaces/certificate.interface';
+import { AddCertificateSchema } from '../validations/certificate.validation';
+import { validate } from '../helpers/validation';
+import { generateCertificateSlug } from '../helpers/utils';
+import { generateCertificateCrCodeToken } from '../helpers/jwt';
 
 class CertificateService {
   private imageRepository: ImageRepository;

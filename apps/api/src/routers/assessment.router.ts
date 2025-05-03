@@ -3,14 +3,14 @@ import { Router } from 'express';
 import {
   uploadAssessmentImage,
   uploadAssessmentQuestionImage,
-} from '@/helpers/multer';
-import AssessmentController from '@/controllers/assessment.controller';
-import AssessmentQuestionController from '@/controllers/assessment-question.controller';
+} from '../helpers/multer';
+import AssessmentController from '../controllers/assessment.controller';
+import AssessmentQuestionController from '../controllers/assessment-question.controller';
 import {
   verifyDeveloper,
   verifyUser,
   verifyUserAndDeveloper,
-} from '@/middlewares/auth.middleware';
+} from '../middlewares/auth.middleware';
 
 class AssessmentRouter {
   private router: Router;

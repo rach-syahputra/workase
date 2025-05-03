@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 
-import CvService from '@/services/cv.service';
-import { UserRequest } from '@/interfaces/middleware.interface';
-import { ApiResponse } from '@/helpers/api-response';
-import { ResponseError } from '@/helpers/error';
+import CvService from '../services/cv.service';
+import { UserRequest } from '../interfaces/middleware.interface';
+import { ApiResponse } from '../helpers/api-response';
+import { ResponseError } from '../helpers/error';
 
 class CvController {
   private cvService: CvService;

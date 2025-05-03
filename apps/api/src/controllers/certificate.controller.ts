@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 
-import CertificateService from '@/services/certificate.service';
-import { ApiResponse } from '@/helpers/api-response';
-import { UserRequest } from '@/interfaces/middleware.interface';
-import { ResponseError } from '@/helpers/error';
+import CertificateService from '../services/certificate.service';
+import { ApiResponse } from '../helpers/api-response';
+import { UserRequest } from '../interfaces/middleware.interface';
+import { ResponseError } from '../helpers/error';
 
 class CertificateController {
   private certificateService: CertificateService;

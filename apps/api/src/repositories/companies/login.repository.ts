@@ -1,6 +1,6 @@
-import { getCompanyByEmail } from '@/helpers/company.prisma';
-import { ResponseError } from '@/helpers/error';
-import { putCompanyAccessToken, putUserAccessToken } from '@/helpers/jwt';
+import { getCompanyByEmail } from '../../helpers/company.prisma';
+import { ResponseError } from '../../helpers/error';
+import { putCompanyAccessToken, putUserAccessToken } from '../../helpers/jwt';
 import { Request } from 'express';
 class loginCompaniesRepository {
   async login(data: { email: string; password: string; authProvider: string }) {

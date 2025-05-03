@@ -1,6 +1,6 @@
-import { ResponseError } from '@/helpers/error';
-import { putUserAccessToken } from '@/helpers/jwt';
-import { getUserByEmail } from '@/helpers/user.prisma';
+import { ResponseError } from '../../helpers/error';
+import { putUserAccessToken } from '../../helpers/jwt';
+import { getUserByEmail } from '../../helpers/user.prisma';
 
 class loginUsersRepository {
   async login(data: { email: string; password: string; authProvider: string }) {

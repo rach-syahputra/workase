@@ -1,18 +1,15 @@
 import { NextFunction, Request, Response } from 'express';
 
-import AssessmentService from '@/services/assessment.service';
-import {
-  AddAssessmentQuestionBodyRequest,
-  AssessmentSortType,
-} from '@/interfaces/assessment.interface';
+import AssessmentService from '../services/assessment.service';
+import { AssessmentSortType } from '../interfaces/assessment.interface';
 import {
   DeveloperRequest,
   UserAndDeveloperRequest,
   UserRequest,
-} from '@/interfaces/middleware.interface';
-import { OrderType } from '@/interfaces/filter.interface';
-import { ApiResponse } from '@/helpers/api-response';
-import { ResponseError } from '@/helpers/error';
+} from '../interfaces/middleware.interface';
+import { OrderType } from '../interfaces/filter.interface';
+import { ApiResponse } from '../helpers/api-response';
+import { ResponseError } from '../helpers/error';
 
 class AssessmentController {
   private assessmentService: AssessmentService;

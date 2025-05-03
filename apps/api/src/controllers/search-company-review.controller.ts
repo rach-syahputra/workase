@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 
-import SearchCompanyReviewService from '@/services/search-company-review.service';
-import { ApiResponse } from '@/helpers/api-response';
+import SearchCompanyReviewService from '../services/search-company-review.service';
+import { ApiResponse } from '../helpers/api-response';
 
 class SearchCompanyReviewController {
   private searchCompanyReviewService: SearchCompanyReviewService;

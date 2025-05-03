@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 
-import { UserRequest } from '@/interfaces/middleware.interface';
-import UserStatsService from '@/services/user-stats.service';
-import { ApiResponse } from '@/helpers/api-response';
-import { ResponseError } from '@/helpers/error';
+import { UserRequest } from '../interfaces/middleware.interface';
+import UserStatsService from '../services/user-stats.service';
+import { ApiResponse } from '../helpers/api-response';
+import { ResponseError } from '../helpers/error';
 
 class UserStatsController {
   private userStatsService: UserStatsService;

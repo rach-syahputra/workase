@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
 
-import CompanyReviewService from '@/services/company-review.service';
+import CompanyReviewService from '../services/company-review.service';
 
-import { UserRequest } from '@/interfaces/middleware.interface';
-import { AddCompanyReviewRequest } from '@/interfaces/company-review.interface';
-import { OrderType } from '@/interfaces/filter.interface';
+import { UserRequest } from '../interfaces/middleware.interface';
+import { AddCompanyReviewRequest } from '../interfaces/company-review.interface';
+import { OrderType } from '../interfaces/filter.interface';
 
-import { ApiResponse } from '@/helpers/api-response';
-import { ResponseError } from '@/helpers/error';
+import { ApiResponse } from '../helpers/api-response';
+import { ResponseError } from '../helpers/error';
 
 class CompanyReviewController {
   private companyReviewService: CompanyReviewService;

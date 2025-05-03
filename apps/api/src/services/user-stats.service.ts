@@ -1,8 +1,8 @@
-import UserStatsRepository from '@/repositories/users/user-stats.repository';
+import UserStatsRepository from '../repositories/users/user-stats.repository';
 import {
   GetUserDetailRequest,
   GetUserStatsRequest,
-} from '@/interfaces/user.interface';
+} from '../interfaces/user.interface';
 
 class UserStatsService {
   private userStatsRepository: UserStatsRepository;

@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import companiesController from '@/controllers/company.controller';
+import companiesController from '../controllers/company.controller';
 import {
   verifyCompany,
   verifyRefreshToken,
-} from '@/middlewares/auth.middleware';
-import companyController from '@/controllers/company.controller';
+} from '../middlewares/auth.middleware';
+import companyController from '../controllers/company.controller';
 import {
   markPasswordResetAsIncomplete,
   markPasswordResetTokenAsUsed,
@@ -12,8 +12,8 @@ import {
   validateEmailCompany,
   validateNewCompanyPassword,
   verifyPasswordResetStatus,
-} from '@/middlewares/company.middleware';
-import { uploadCompanyImage } from '@/helpers/multer';
+} from '../middlewares/company.middleware';
+import { uploadCompanyImage } from '../helpers/multer';
 export const companiesRouter = () => {
   const router = Router();
   router.post('/token', verifyRefreshToken, companiesController.refreshToken);

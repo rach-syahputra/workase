@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
-import SkillController from '@/controllers/skill.controller';
-import { verifyDeveloper } from '@/middlewares/auth.middleware';
+import SkillController from '../controllers/skill.controller';
+import { verifyDeveloper } from '../middlewares/auth.middleware';
 
 class SkillRouter {
   private router: Router;

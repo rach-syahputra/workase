@@ -1,9 +1,9 @@
-import { prisma } from '@/helpers/prisma';
+import { prisma } from '../../helpers/prisma';
 import {
   CheckPaymentExpirationsRequest,
   GetSubscriptionPaymentBySlugRequest,
   UpdateSubscriptionPaymentRepositoryRequest,
-} from '@/interfaces/subscription.interface';
+} from '../../interfaces/subscription.interface';
 
 class SubscriptionPaymentRepository {
   private prisma: typeof prisma;

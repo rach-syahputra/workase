@@ -1,8 +1,8 @@
-import { OPENCAGE_API_KEY } from '@/config';
-import jobFilterSchema from '@/validations/job.validation';
+import { OPENCAGE_API_KEY } from '../config';
+import jobFilterSchema from '../validations/job.validation';
 import { NextFunction, Request, Response } from 'express';
 import axios from 'axios';
-import { ResponseError } from '@/helpers/error';
+import { ResponseError } from '../helpers/error';
 const validateJobFilter = async (
   req: Request,
   res: Response,

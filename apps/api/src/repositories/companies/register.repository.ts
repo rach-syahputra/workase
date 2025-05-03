@@ -1,10 +1,10 @@
-import { hashedPassword } from '@/helpers/bcrypt';
-import { getCompanyByEmail } from '@/helpers/company.prisma';
-import { sendEmailVerification } from '@/helpers/email-verification';
-import { ResponseError } from '@/helpers/error';
-import { putCompanyAccessToken, putUserAccessToken } from '@/helpers/jwt';
-import { generateHashedPassword } from '@/helpers/utils';
-import prisma from '@/prisma';
+import { hashedPassword } from '../../helpers/bcrypt';
+import { getCompanyByEmail } from '../../helpers/company.prisma';
+import { sendEmailVerification } from '../../helpers/email-verification';
+import { ResponseError } from '../../helpers/error';
+import { putCompanyAccessToken, putUserAccessToken } from '../../helpers/jwt';
+import { generateHashedPassword } from '../../helpers/utils';
+import prisma from '../../prisma';
 import { AuthProvider } from '@prisma/client';
 import { Request } from 'express';
 class registerCompanyRepository {
@@ -15,7 +15,7 @@ class registerCompanyRepository {
     phoneNumber: string;
     authProvider: string;
   }) {
-    const slug = data.email.split('@')[0];
+    const slug = data.email.split('../..')[0];
     const userPassword = data.password
       ? await generateHashedPassword(data.password)
       : '';

@@ -1,4 +1,4 @@
-import prisma from '@/prisma';
+import prisma from '../prisma';
 import { Request, Response, NextFunction } from 'express';
 import * as Yup from 'yup';
 

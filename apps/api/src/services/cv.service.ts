@@ -1,11 +1,11 @@
-import CvRepository from '@/repositories/cvs/cv.repository';
+import CvRepository from '../repositories/cvs/cv.repository';
 import {
   AddCvRequest,
   CheckCvOwnershipRequest,
   GetCvBySlugRequest,
   UpdateCvRequest,
-} from '@/interfaces/cv.interface';
-import { ResponseError } from '@/helpers/error';
+} from '../interfaces/cv.interface';
+import { ResponseError } from '../helpers/error';
 
 class CvService {
   private cvRepository: CvRepository;

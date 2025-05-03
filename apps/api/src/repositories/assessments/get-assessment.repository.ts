@@ -1,9 +1,9 @@
-import { getAssessmentsOrderConfig } from '@/helpers/assessments/assessment.util';
-import { prisma } from '@/helpers/prisma';
+import { getAssessmentsOrderConfig } from '../../helpers/assessments/assessment.util';
+import { prisma } from '../../helpers/prisma';
 import {
   GetAssessmentDiscoveryRequest,
   GetAssessmentsRequest,
-} from '@/interfaces/assessment.interface';
+} from '../../interfaces/assessment.interface';
 
 class GetAssessmentRepository {
   private prisma: typeof prisma;

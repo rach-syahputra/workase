@@ -1,5 +1,5 @@
-import { ApiResponse } from '@/helpers/api-response';
-import jobsService from '@/services/job.service';
+import { ApiResponse } from '../helpers/api-response';
+import jobsService from '../services/job.service';
 import { NextFunction, Request, Response } from 'express';
 
 class JobsController {

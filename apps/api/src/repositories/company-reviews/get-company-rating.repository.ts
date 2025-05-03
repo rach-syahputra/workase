@@ -1,9 +1,9 @@
-import { prisma } from '@/helpers/prisma';
+import { prisma } from '../../helpers/prisma';
 import {
   calculateRating,
   calculateRatingPercentages,
-} from '@/helpers/company-reviews/company-review.util';
-import { GetCompanyRatingRequest } from '@/interfaces/company-review.interface';
+} from '../../helpers/company-reviews/company-review.util';
+import { GetCompanyRatingRequest } from '../../interfaces/company-review.interface';
 
 class GetCompanyRatingRepository {
   private prisma: typeof prisma;
