@@ -16,7 +16,6 @@
   },
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
     "@prisma/client": "^5.7.1",
     "@types/bcrypt": "^5.0.2",
