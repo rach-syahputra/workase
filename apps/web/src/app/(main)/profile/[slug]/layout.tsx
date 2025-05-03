@@ -12,6 +12,8 @@ interface ProfilePageProps {
 const ProfileLayout = ({ params, children }: ProfilePageProps) => {
   const slug = params.slug;
 
+  alert(`SLUG: ${slug}`);
+
   return (
     <UserDetailProvider slug={slug}>
       <Container className="flex min-h-[calc(100svh-70px)] w-full flex-col items-start gap-6 p-0 lg:grid lg:grid-cols-7 lg:px-8">
