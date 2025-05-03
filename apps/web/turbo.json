@@ -9,7 +9,7 @@
         "NEXT_PUBLIC_OPEN_ROUTER_API_KEY_3",
         "NEXT_PUBLIC_OPEN_ROUTER_API_KEY_4",
         "NEXT_PUBLIC_OPEN_ROUTER_API_KEY_5",
-        "AUTH_SECRET",
+        "NEXTAUTH_SECRET",
         "NEXTAUTH_URL"
       ]
     }
