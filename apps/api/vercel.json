@@ -6,8 +6,5 @@
       "src": "/(.*)",
       "dest": "src/index.ts"
     }
-  ],
-  "paths": {
-    "@/*": ["src/*"]
-  }
+  ]
 }

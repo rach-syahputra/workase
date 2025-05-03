@@ -1,3 +1,4 @@
+import 'tsconfig-paths/register';
 import App from './app';
 
 const main = () => {
@@ -6,4 +7,3 @@ const main = () => {
 };
 
 main();
-//
