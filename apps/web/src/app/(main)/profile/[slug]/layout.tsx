@@ -5,12 +5,12 @@ import Container from '@/components/layout/container';
 import ProfileMenu from './_components/profile-menu';
 
 interface ProfilePageProps {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
   children: React.ReactNode;
 }
 
-const ProfileLayout = async ({ params, children }: ProfilePageProps) => {
-  const slug = (await params).slug;
+const ProfileLayout = ({ params, children }: ProfilePageProps) => {
+  const slug = params.slug;
 
   return (
     <UserDetailProvider slug={slug}>
