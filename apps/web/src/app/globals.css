@@ -5,10 +5,14 @@
 :root {
   --primary-blue: #0066ff;
   --primary-blue-hover: #2f82ff;
-  --primary-dark-blue: #00388b;
+  --primary-dark-blue: #020e59;
   --primary-dark: #09090b;
+  --primary-dark-background: #121216;
   --primary-gray: #71717a;
   --primary-gray-background: #f4f4f5;
+  --sidebar-width: 240px;
+  --assessment-session-header-height: 65px;
+  --assessment-session-navbar-height: 60px;
 }
 
 html {
@@ -117,7 +121,19 @@ a {
 }
 
 @layer components {
-  .heading {
-    @apply text-[30px] font-bold;
+  .heading-1 {
+    @apply text-4xl font-bold;
+  }
+  .heading-2 {
+    @apply text-2xl font-bold;
+  }
+  .heading-3 {
+    @apply text-xl font-bold;
+  }
+  .heading-4 {
+    @apply text-lg font-bold;
+  }
+  .heading-5 {
+    @apply text-base font-bold;
   }
 }

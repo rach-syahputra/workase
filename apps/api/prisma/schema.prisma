@@ -11,36 +11,44 @@ datasource db {
 }
 
 model User {
-  id            String       @id @default(uuid())
-  email         String       @unique
-  password      String?
-  authProvider  AuthProvider @map("auth_provider")
-  authId        String?      @map("auth_id")
-  isVerified    Boolean      @map("is_verified")
-  location      String
-  profilePhoto  String       @map("profile_photo")
-  placeOfBirth  String       @map("place_of_birth")
-  dateOfBirth   DateTime     @map("date_of_birth")
-  gender        Gender
-  lastEducation String       @map("last_education")
-  address       String
-  isDeleted     Boolean      @default(false) @map("is_deleted")
+  id              String       @id @default(uuid())
+  slug            String       @unique
+  email           String       @unique
+  password        String?
+  authProvider    AuthProvider @map("auth_provider")
+  skillId         String?      @map("skill_id")
+  isVerified      Boolean?     @map("is_verified")
+  profilePhoto    String?      @map("profile_photo")
+  placeOfBirth    String?      @map("place_of_birth")
+  dateOfBirth     DateTime?    @map("date_of_birth")
+  gender          Gender?
+  lastEducation   String?      @map("last_education")
+  address         String?
+  jobId           String?      @map("job_id")
+  isPasswordReset Boolean?     @map("is_password_reset")
+  isDeleted       Boolean      @default(false) @map("is_deleted")
+
+  skill Skill? @relation(fields: [skillId], references: [id], onUpdate: Cascade)
+  job   Job?   @relation(fields: [jobId], references: [id], onUpdate: Cascade)
 
   AppliedJob          AppliedJob[]
   SavedJob            SavedJob[]
   Subscription        Subscription[]
-  UserAssesment       UserAssesment[]
-  Certificate         Certificate[]
+  UserAssessment      UserAssessment[]
   PreselectionAttempt PreselectionAttempt[]
+  Cv                  Cv[]
+  SavedReview         SavedReview[]
 
   @@map("users")
 }
 
 model Developer {
   id        String  @id @default(uuid())
+  slug      String  @unique
   email     String  @unique
   name      String
   password  String
+  image     String?
   isDeleted Boolean @default(false) @map("is_deleted")
 
   SubscriptionPayment SubscriptionPayment[]
@@ -49,16 +57,21 @@ model Developer {
 }
 
 model Company {
-  id          String  @id @default(uuid())
-  name        String
-  email       String  @unique
-  password    String
-  phoneNumber String  @map("phone_number")
-  logoUrl     String  @map("logo_url")
-  description String
-  category    String
-  location    String
-  isDeleted   Boolean @default(false) @map("is_deleted")
+  id              String       @id @default(uuid())
+  slug            String       @unique
+  name            String
+  email           String       @unique
+  password        String
+  authProvider    AuthProvider @map("auth_provider")
+  authId          String?      @map("auth_id")
+  phoneNumber     String       @map("phone_number")
+  isVerified      Boolean?     @map("is_verified")
+  logoUrl         String?      @map("logo_url")
+  description     String?
+  category        String?
+  location        String?
+  isPasswordReset Boolean?     @map("is_password_reset")
+  isDeleted       Boolean      @default(false) @map("is_deleted")
 
   Job           Job[]
   CompanyReview CompanyReview[]
@@ -68,6 +81,7 @@ model Company {
 
 model Job {
   id          String      @id @default(uuid())
+  slug        String      @unique
   title       String
   category    JobCategory
   description String
@@ -80,6 +94,7 @@ model Job {
   AppliedJob       AppliedJob[]
   SavedJob         SavedJob[]
   PreselectionTest PreselectionTest[]
+  User             User[]
 
   @@map("jobs")
 }
@@ -118,7 +133,7 @@ model Subscription {
   userId    String               @map("user_id")
   category  SubscriptionCategory
   startedAt DateTime             @map("started_at")
-  expiresAt DateTime             @map("expires_at")
+  expiresAt DateTime?            @map("expires_at")
   isDeleted Boolean              @default(false) @map("is_deleted")
 
   user                User                  @relation(fields: [userId], references: [id], onUpdate: Cascade)
@@ -129,15 +144,18 @@ model Subscription {
 
 model SubscriptionPayment {
   id             String        @id @default(uuid())
-  subscriptionId String        @map("subscription_id")
+  slug           String        @unique
+  subscriptionId String        @unique @map("subscription_id")
   paymentStatus  PaymentStatus @map("payment_status")
-  paymentProof   String        @map("payment_proof")
-  approvedBy     String        @map("approved_by")
+  paymentProof   String?       @map("payment_proof")
+  approvedBy     String?       @map("approved_by")
+  totalPrice     Decimal       @map("total_price")
   createdAt      DateTime      @map("created_at")
+  updatedAt      DateTime      @map("updated_at")
   isDeleted      Boolean       @default(false) @map("is_deleted")
 
   subscription Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  developer    Developer    @relation(fields: [approvedBy], references: [id], onUpdate: Cascade)
+  developer    Developer?   @relation(fields: [approvedBy], references: [id], onUpdate: Cascade)
 
   @@map("subscription_payments")
 }
@@ -148,14 +166,41 @@ model CompanyReview {
   title          String
   jobTitle       String   @map("job_title")
   salaryEstimate Int      @map("salary_estimate")
-  rating         Int
   content        String
   createdAt      DateTime @map("created_at")
   isDeleted      Boolean  @default(false) @map("is_deleted")
 
-  company Company @relation(fields: [companyId], references: [id], onUpdate: Cascade)
+  company              Company               @relation(fields: [companyId], references: [id], onUpdate: Cascade)
+  CompanyReviewRatings CompanyReviewRatings?
+  SavedReview          SavedReview[]
 
   @@map("company_reviews")
+}
+
+model CompanyReviewRatings {
+  id              String @id @default(uuid())
+  companyReviewId String @unique @map("company_review_id")
+  overallRating   Int    @map("overall_rating")
+  workCulture     Int    @map("work_culture")
+  workLifeBalance Int    @map("work_life_balance")
+  facilities      Int
+  careerGrowth    Int    @map("career_growth")
+
+  companyReview CompanyReview @relation(fields: [companyReviewId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@map("company_review_ratings")
+}
+
+model SavedReview {
+  userId          String   @map("user_id")
+  companyReviewId String   @map("company_review_id")
+  createdAt       DateTime @map("created_at")
+
+  user          User          @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  companyReview CompanyReview @relation(fields: [companyReviewId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@id([userId, companyReviewId])
+  @@map("saved_reviews")
 }
 
 model Skill {
@@ -165,82 +210,101 @@ model Skill {
   updatedAt DateTime @map("updated_at")
   isDeleted Boolean  @default(false) @map("is_deleted")
 
-  Assesment   Assesment[]
-  Certificate Certificate[]
+  Assessment Assessment[]
+  User       User[]
 
   @@map("skills")
 }
 
-model Assesment {
-  id        String   @id @default(uuid())
-  skillId   String   @map("skill_id")
-  createdAt DateTime @map("created_at")
-  updatedAt DateTime @map("updated_at")
-  isDeleted Boolean  @default(false) @map("is_deleted")
+model Assessment {
+  id               String   @id @default(uuid())
+  slug             String   @unique
+  skillId          String   @map("skill_id")
+  shortDescription String?  @map("short_description")
+  image            String?
+  createdAt        DateTime @map("created_at")
+  updatedAt        DateTime @map("updated_at")
+  isDeleted        Boolean  @default(false) @map("is_deleted")
 
-  skill             Skill               @relation(fields: [skillId], references: [id], onUpdate: Cascade)
-  AssesmentQuestion AssesmentQuestion[]
-  UserAssesment     UserAssesment[]
+  skill              Skill                @relation(fields: [skillId], references: [id], onUpdate: Cascade)
+  AssessmentQuestion AssessmentQuestion[]
+  UserAssessment     UserAssessment[]
 
-  @@map("assesments")
+  @@map("assessments")
 }
 
-model AssesmentQuestion {
-  id          String   @id @default(uuid())
-  assesmentId String   @map("assesment_id")
-  question    String
-  image       String?
-  createdAt   DateTime @map("created_at")
-  updatedAt   DateTime @map("updated_at")
-  isDeleted   Boolean  @default(false) @map("is_deleted")
+model AssessmentQuestion {
+  id           String   @id @default(uuid())
+  assessmentId String   @map("assessment_id")
+  question     String
+  image        String?
+  createdAt    DateTime @map("created_at")
+  updatedAt    DateTime @map("updated_at")
+  isDeleted    Boolean  @default(false) @map("is_deleted")
 
-  assesment      Assesment        @relation(fields: [assesmentId], references: [id], onUpdate: Cascade)
+  assessment     Assessment       @relation(fields: [assessmentId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   QuestionOption QuestionOption[]
 
-  @@map("assesment_questions")
+  @@map("assessment_questions")
 }
 
 model QuestionOption {
-  id                  String   @id @default(uuid())
-  assesmentQuestionId String   @map("assesment_question_id")
-  option              String
-  isCorrect           Boolean  @map("is_correct")
-  createdAt           DateTime @map("created_at")
-  isDeleted           Boolean  @default(false) @map("is_deleted")
+  id                   String   @id @default(uuid())
+  assessmentQuestionId String   @map("assessment_question_id")
+  option               String
+  isCorrect            Boolean  @map("is_correct")
+  createdAt            DateTime @map("created_at")
+  isDeleted            Boolean  @default(false) @map("is_deleted")
 
-  assesmentQuestion AssesmentQuestion @relation(fields: [assesmentQuestionId], references: [id], onUpdate: Cascade)
+  assessmentQuestion AssessmentQuestion @relation(fields: [assessmentQuestionId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
   @@map("question_options")
 }
 
-model UserAssesment {
-  id          String              @id @default(uuid())
-  userId      String              @map("user_id")
-  assesmentId String              @map("assesment_id")
-  status      UserAssesmentStatus
-  score       Int
-  createdAt   DateTime            @map("created_at")
-  isDeleted   Boolean             @default(false) @map("is_deleted")
+model UserAssessment {
+  id           String               @id @default(uuid())
+  userId       String               @map("user_id")
+  assessmentId String               @map("assessment_id")
+  status       UserAssessmentStatus
+  score        Int
 
-  user      User      @relation(fields: [userId], references: [id], onUpdate: Cascade)
-  assesment Assesment @relation(fields: [assesmentId], references: [id], onUpdate: Cascade)
+  sessionToken String? @map("session_token")
 
-  @@map("user_assesments")
-}
-
-model Certificate {
-  id        String   @id @default(uuid())
-  userId    String   @map("user_id")
-  skillId   String   @map("skill_id")
-  url       String
-  qrCode    String   @unique @map("qr_code")
   createdAt DateTime @map("created_at")
   isDeleted Boolean  @default(false) @map("is_deleted")
 
-  user  User  @relation(fields: [userId], references: [id], onUpdate: Cascade)
-  skill Skill @relation(fields: [skillId], references: [id], onUpdate: Cascade)
+  user        User         @relation(fields: [userId], references: [id], onUpdate: Cascade)
+  assessment  Assessment   @relation(fields: [assessmentId], references: [id], onUpdate: Cascade)
+  Certificate Certificate?
+
+  @@map("user_assessments")
+}
+
+model Certificate {
+  id               String   @id @default(uuid())
+  slug             String   @unique
+  userAssessmentId String   @unique @map("user_assessment_id")
+  url              String
+  createdAt        DateTime @map("created_at")
+  isDeleted        Boolean  @default(false) @map("is_deleted")
+
+  userAssessment UserAssessment @relation(fields: [userAssessmentId], references: [id], onUpdate: Cascade)
 
   @@map("certificates")
+}
+
+model Cv {
+  id        String   @id @default(uuid())
+  slug      String   @unique
+  userId    String   @map("user_id")
+  data      Json
+  createdAt DateTime @map("created_at")
+  updatedAt DateTime @map("updated_at")
+  isDeleted Boolean  @default(false) @map("is_deleted")
+
+  user User @relation(fields: [userId], references: [id], onUpdate: Cascade)
+
+  @@map("cvs")
 }
 
 model PreselectionTest {
@@ -319,8 +383,6 @@ model PreselectionResponse {
 enum AuthProvider {
   EMAIL
   GOOGLE
-  FACEBOOK
-  TWITTER
 }
 
 enum Gender {
@@ -353,7 +415,8 @@ enum PaymentStatus {
   CONFIRMED
 }
 
-enum UserAssesmentStatus {
+enum UserAssessmentStatus {
+  ON_GOING
   PASSED
   FAILED
 }

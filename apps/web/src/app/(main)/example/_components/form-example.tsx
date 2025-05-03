@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -9,8 +8,8 @@ import { GetSampleResponse } from '@/lib/interfaces/api-response/sample';
 import { useSampleContext } from '@/context/sample-context';
 import { Button } from '@/components/shadcn-ui/button';
 import { Card } from '@/components/shadcn-ui/card';
-import Loading from '@/components/ui/loading';
 import FormInput from '@/components/ui/form-input';
+import AppLoading from '@/components/ui/app-loading';
 
 interface FormValues {
   email: string;
@@ -38,11 +37,9 @@ const FormExample = () => {
 
       await new Promise((resolve) => setTimeout(resolve, 5000));
 
-      const response: GetSampleResponse = await GetSampleByEmail({
+      const response = (await GetSampleByEmail({
         email: values.email,
-      });
-
-      console.log(response);
+      })) as GetSampleResponse;
 
       if (response.success) {
         setEmail(response.data.email);
@@ -57,7 +54,7 @@ const FormExample = () => {
     <>
       <Card className="p-5">
         <form onSubmit={formik.handleSubmit} className="flex flex-col gap-4">
-          <h2 className="text-xl font-bold">Login</h2>
+          <h2 className="heading-3">Login</h2>
           <FormInput
             label="Email"
             type="text"
@@ -82,7 +79,7 @@ const FormExample = () => {
       </Card>
       <div className="flex items-center justify-center gap-6">
         {formik.isSubmitting ? (
-          <Loading size="sm" label="Submitting" />
+          <AppLoading size="sm" label="Submitting" />
         ) : (
           <p>{email}</p>
         )}

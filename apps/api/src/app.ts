@@ -13,7 +13,8 @@ import * as Yup from 'yup';
 
 import { corsOptions, PORT } from './config';
 import { ResponseError } from './helpers/error';
-import SampleRouter from './routers/sample/sample.router';
+import { subscriptionExpiryReminderEmail } from './helpers/scheduler';
+import apiRouter from './routers/api.router';
 
 export default class App {
   private app: Express;
@@ -22,6 +23,7 @@ export default class App {
     this.app = express();
     this.configure();
     this.routes();
+    this.scheduler();
     this.handleError();
   }
 
@@ -39,6 +41,17 @@ export default class App {
     });
     this.app.use(json());
     this.app.use(urlencoded({ extended: true }));
+  }
+
+  private routes(): void {
+    this.app.use('/api', apiRouter);
+    this.app.get('/api', (req: Request, res: Response) => {
+      res.send(`Hello, Purwadhika Student API!`);
+    });
+  }
+
+  private scheduler() {
+    subscriptionExpiryReminderEmail();
   }
 
   private handleError(): void {
@@ -95,15 +108,8 @@ export default class App {
       },
     );
   }
-
-  private routes(): void {
-    const sampleRouter = new SampleRouter();
-
-    this.app.get('/api', (req: Request, res: Response) => {
-      res.send(`Hello, Purwadhika Student API!`);
-    });
-
-    this.app.use('/api/samples', sampleRouter.getRouter());
+  public getServer(): Express {
+    return this.app;
   }
 
   public start(): void {

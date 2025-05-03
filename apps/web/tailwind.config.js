@@ -5,6 +5,30 @@ module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {
+      width: {
+        sidebar: 'var(--sidebar-width)',
+        'assessment-session-header-height':
+          'var(--assessment-session-header-height)',
+        'assessment-session-navbar-height':
+          'var(--assessment-session-navbar-height)',
+      },
+      spacing: {
+        sidebar: 'var(--sidebar-width)',
+        'assessment-session-header-height':
+          'var(--assessment-session-header-height)',
+        'assessment-session-navbar-height':
+          'var(--assessment-session-navbar-height)',
+      },
+      margin: {
+        sidebar: 'var(--sidebar-width)',
+        'assessment-session-header-height':
+          'var(--assessment-session-header-height)',
+        'assessment-session-navbar-height':
+          'var(--assessment-session-navbar-height)',
+      },
+      screens: {
+        sm: '440px',
+      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
@@ -15,6 +39,7 @@ module.exports = {
         'primary-blue-hover': 'var(--primary-blue-hover)',
         'primary-dark-blue': 'var(--primary-dark-blue)',
         'primary-dark': 'var(--primary-dark)',
+        'primary-dark-background': 'var(--primary-dark-background)',
         'primary-gray': 'var(--primary-gray)',
         'primary-gray-background': 'var(--primary-gray-background)',
         background: 'hsl(var(--background))',

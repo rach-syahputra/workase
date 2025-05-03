@@ -1,7 +1,11 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
+import { SessionProvider } from 'next-auth/react';
 import './globals.css';
 
+import { SearchJobProvider } from '@/context/search-job-context';
+import { UserStatsProvider } from '@/context/user-stats-context';
+import { AssessmentSessionProvider } from '@/context/assessment-session-context';
 import { Toaster } from '@/components/shadcn-ui/toaster';
 
 export const metadata: Metadata = {
@@ -38,6 +42,29 @@ const cocogooes = localFont({
   variable: '--font-cocogoose',
 });
 
+const timesNewRoman = localFont({
+  src: [
+    {
+      path: '../fonts/times-new-roman.ttf',
+      weight: '400',
+    },
+    {
+      path: '../fonts/times-new-roman-italic.ttf',
+      weight: '400',
+      style: 'italic',
+    },
+    {
+      path: '../fonts/Geist-SemiBold.ttf',
+      weight: '600',
+    },
+    {
+      path: '../fonts/times-new-roman-bold.ttf',
+      weight: '700',
+    },
+  ],
+  variable: '--font-times-new-roman',
+});
+
 export default function RootLayout({
   children,
 }: {
@@ -46,9 +73,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geist.variable} ${cocogooes.variable} text-primary-dark font-[family-name:var(--font-geist)] antialiased`}
+        className={`${geist.variable} ${cocogooes.variable} ${timesNewRoman.variable} text-primary-dark font-[family-name:var(--font-geist)] antialiased`}
       >
-        {children}
+        <SessionProvider>
+          <UserStatsProvider>
+            <SearchJobProvider>
+              <AssessmentSessionProvider>{children}</AssessmentSessionProvider>
+            </SearchJobProvider>
+          </UserStatsProvider>
+        </SessionProvider>
         <Toaster />
       </body>
     </html>
