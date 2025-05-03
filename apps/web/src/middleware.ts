@@ -73,6 +73,5 @@ export const config = {
     '/companies/login',
     '/companies/register',
     '/apply-job',
-    '/((?!api|_next/static|_next/image|auth|favicon.ico).*)',
   ],
 };
