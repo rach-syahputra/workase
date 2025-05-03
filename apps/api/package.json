@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development ts-node-dev -r tsconfig-paths/register src/index.ts",
     "nodemon-dev": "nodemon src/index.ts",
-    "build": "tsc && tsc-alias",
+    "build": "tsc",
+    "start": "node src/index.ts",
     "serve": "cross-env NODE_ENV=production node dist/index.js",
     "test-dev": "jest --watchAll",
     "format": "prettier --write .",
@@ -15,6 +16,7 @@
   },
   "author": "",
   "license": "ISC",
+  "type": "commonjs",
   "dependencies": {
     "@prisma/client": "^5.7.1",
     "@types/bcrypt": "^5.0.2",
