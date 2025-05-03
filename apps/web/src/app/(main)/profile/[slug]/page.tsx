@@ -1,7 +1,7 @@
-import PageContent from './_components/page-content';
+// import PageContent from './_components/page-content';
 
-const ProfilePage = async () => {
-  return <PageContent />;
-};
+// const ProfilePage = async () => {
+//   return <PageContent />;
+// };
 
-export default ProfilePage;
+// export default ProfilePage;
