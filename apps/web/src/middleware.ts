@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
+import { NEXTAUTH_SECRET } from './lib/constants/constants';
 
 // route yang butuh login dulu
 const loginRequiredRoutes = ['/apply-job', '/profile-management'];
@@ -15,6 +16,9 @@ const publicAuthPage = [
 export async function middleware(req: NextRequest) {
   // ambil token dari cookie
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  console.log('env:', process.env.NEXTAUTH_SECRET);
+  console.log('constant:', NEXTAUTH_SECRET);
+  console.log('token:', token);
   // ambil path URL yang sedang aktif
   const { pathname } = req.nextUrl;
   // cek apakah user sudah login
