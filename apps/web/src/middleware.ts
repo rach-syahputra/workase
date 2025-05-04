@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
-import { NEXTAUTH_SECRET } from './lib/constants/constants';
 
 // route yang butuh login dulu
 const loginRequiredRoutes = ['/apply-job', '/profile-management'];
@@ -15,10 +14,7 @@ const publicAuthPage = [
 ];
 export async function middleware(req: NextRequest) {
   // ambil token dari cookie
-  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-  console.log('env:', process.env.NEXTAUTH_SECRET);
-  console.log('constant:', NEXTAUTH_SECRET);
-  console.log('token:', token);
+  const token = await getToken({ req, secret: process.env.AUTH_SECRET });
   // ambil path URL yang sedang aktif
   const { pathname } = req.nextUrl;
   // cek apakah user sudah login
@@ -36,6 +32,8 @@ export async function middleware(req: NextRequest) {
     loginRequiredRoutes.some((route) => pathname.startsWith(route)) &&
     !token
   ) {
+    console.log('redirect guest user to login page...');
+
     let loginUrl: URL;
 
     if (pathname.startsWith('/companies')) {
@@ -58,6 +56,8 @@ export async function middleware(req: NextRequest) {
     token &&
     token.isVerified === false
   ) {
+    console.log('redirect unverified user to homepage...');
+
     const homeUrl = new URL('/', req.url);
     homeUrl.searchParams.set(
       'message',
@@ -72,10 +72,7 @@ export const config = {
   matcher: [
     '/profile-management/:path*',
     '/apply-job/:path*',
-    '/users/login',
-    '/users/register',
-    '/companies/login',
-    '/companies/register',
-    '/apply-job',
+    ...publicAuthPage,
+    ...verifiedUserRoutes,
   ],
 };
