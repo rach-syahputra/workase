@@ -58,6 +58,11 @@ export const usersRouter = () => {
     userController.addImageCloudinary,
   );
   router.get('/stats', verifyUser, userStatsController.getUserStats);
+  router.get(
+    '/current-companies',
+    verifyUser,
+    userStatsController.getCurrentCompany,
+  );
   router.get('/:slug/detail', userStatsController.getUserDetail);
   return router;
 };

@@ -29,7 +29,6 @@ class CompanyReviewRouter {
     this.router.post(
       '/:companyId/reviews',
       verifyUser,
-
       this.companyReviewController.addCompanyReview,
     );
     this.router.get(

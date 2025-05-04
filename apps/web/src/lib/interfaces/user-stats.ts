@@ -40,3 +40,9 @@ export interface IUserDetail extends IUser {
   cv: ICv;
   badges: IBadge[];
 }
+
+export interface ICurrentCompany {
+  id: string;
+  name: string;
+  jobTitle: string;
+}

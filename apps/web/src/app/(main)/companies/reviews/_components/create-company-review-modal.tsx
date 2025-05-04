@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 
+import { useCompaniesReviewsContext } from '@/context/companies-reviews-context';
 import { Button } from '@/components/shadcn-ui/button';
 import {
   Dialog,
@@ -14,14 +15,21 @@ import {
 import CreateCompanyReviewForm from './create-company-review-form';
 
 const CreateCompanyReviewModal = () => {
+  const { userCurrentCompanies } = useCompaniesReviewsContext();
   const [open, onOpenChange] = useState<boolean>(false);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
-        <Button>Create Review</Button>
+        <Button
+          disabled={
+            !userCurrentCompanies.length || userCurrentCompanies.length === 0
+          }
+        >
+          Create Review
+        </Button>
       </DialogTrigger>
-      <DialogContent className="max-h-svh gap-6 overflow-y-auto sm:max-h-[80vh] sm:max-w-[425px]">
+      <DialogContent className="max-h-svh gap-6 overflow-y-auto sm:max-h-[80vh] sm:max-w-[500px]">
         <DialogHeader className="space-y-0">
           <DialogTitle className="text-xl">Post Review</DialogTitle>
           <DialogDescription>

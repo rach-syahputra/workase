@@ -1,5 +1,6 @@
 import { prisma } from '../../helpers/prisma';
 import {
+  GetCurrentCompanyRequest,
   GetUserDetailRequest,
   GetUserStatsRequest,
 } from '../../interfaces/user.interface';
@@ -100,6 +101,29 @@ class UserStatsRepository {
           score: userAssessment.score,
         })),
       },
+    };
+  };
+
+  getCurrentCompany = async (req: GetCurrentCompanyRequest) => {
+    const appliedJobs = await this.prisma.appliedJob.findMany({
+      where: {
+        userId: req.userId,
+      },
+      select: {
+        job: {
+          include: {
+            company: true,
+          },
+        },
+      },
+    });
+
+    return {
+      currentCompanies: appliedJobs.map((appliedJob) => ({
+        id: appliedJob.job.company.id,
+        name: appliedJob.job.company.name,
+        jobTitle: appliedJob.job.title,
+      })),
     };
   };
 }

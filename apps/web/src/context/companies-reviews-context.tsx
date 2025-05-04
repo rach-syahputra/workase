@@ -3,15 +3,18 @@
 import {
   createContext,
   Dispatch,
+  Ref,
   SetStateAction,
   useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 
 import { ICompanyReview } from '@/lib/interfaces/company-review';
 import { getCompaniesReviews } from '@/lib/apis/company-reviews';
+import { ICurrentCompany } from '@/lib/interfaces/user-stats';
 
 interface ICompaniesReviewsContext {
   isLoading: boolean;
@@ -19,10 +22,17 @@ interface ICompaniesReviewsContext {
   reviews: ICompanyReview[];
   setReviews: Dispatch<SetStateAction<ICompanyReview[]>>;
   fetchCompaniesReviews: (option?: IOption) => void;
+  firstRenderRef: React.MutableRefObject<boolean>;
+  userCurrentCompanies: ICurrentCompany[];
 }
 
 interface IOption {
   isLoadMore: boolean;
+}
+
+interface CompaniesReviewsProviderProps {
+  userCurrentCompanies: ICurrentCompany[];
+  children: React.ReactNode;
 }
 
 const CompaniesReviewsContext = createContext<
@@ -30,10 +40,10 @@ const CompaniesReviewsContext = createContext<
 >(undefined);
 
 const CompaniesReviewsProvider = ({
+  userCurrentCompanies,
   children,
-}: {
-  children: React.ReactNode;
-}) => {
+}: CompaniesReviewsProviderProps) => {
+  const firstRenderRef = useRef(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [cursor, setCursor] = useState<string>('');
   const [hasMore, setHasMore] = useState<boolean>(false);
@@ -51,23 +61,32 @@ const CompaniesReviewsProvider = ({
 
       if (response.success) {
         const newReviews = response.data?.reviews;
-        const updatedReviews = option?.isLoadMore
-          ? [...reviews, ...(newReviews || [])]
-          : newReviews || [];
 
-        setReviews(updatedReviews);
-        setCursor(response.data?.pagination.cursor || '');
-        setHasMore(
-          updatedReviews.length >= (response.data?.pagination.totalData || 0)
-            ? false
-            : true,
+        setReviews((prev) =>
+          option?.isLoadMore
+            ? [...prev, ...(newReviews || [])]
+            : newReviews || [],
         );
+        setCursor(response.data?.pagination.cursor || '');
+
+        const totalData = response.data?.pagination.totalData || 0;
+        const totalFetched =
+          (option?.isLoadMore ? reviews.length : 0) +
+          (newReviews && newReviews.length ? newReviews.length : 0);
+        setHasMore(totalFetched < totalData);
       }
 
       setIsLoading(false);
     },
-    [cursor, reviews],
+    [cursor, reviews.length],
   );
+
+  useEffect(() => {
+    if (firstRenderRef.current) return;
+    firstRenderRef.current = true;
+
+    fetchCompaniesReviews();
+  }, [fetchCompaniesReviews]);
 
   useEffect(() => {
     const handleInfiniteScroll = () => {
@@ -93,6 +112,8 @@ const CompaniesReviewsProvider = ({
         reviews,
         setReviews,
         fetchCompaniesReviews,
+        firstRenderRef,
+        userCurrentCompanies,
       }}
     >
       {children}

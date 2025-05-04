@@ -2,11 +2,13 @@ import { getSession } from 'next-auth/react';
 
 import { axiosPrivate, axiosPublic } from '../axios';
 import {
+  GetCurrentCompaniesResponse,
   GetUserDetailResponse,
   GetUserStatsResponse,
 } from '../interfaces/api-response/user-stats';
 import { handleApiError } from './error';
 import { GetUserDetailRequest } from '../interfaces/api-request/user-stats';
+import { auth } from '@/auth';
 
 export const getUserStats = async (): Promise<GetUserStatsResponse> => {
   try {
@@ -32,3 +34,19 @@ export const getUserDetail = async (
     return handleApiError(error);
   }
 };
+
+export const getCurrentCompanies =
+  async (): Promise<GetCurrentCompaniesResponse> => {
+    try {
+      const session = await auth();
+      const token = session?.user?.accessToken;
+
+      const response = await axiosPrivate(token || '').get(
+        `/users/current-companies`,
+      );
+
+      return response.data;
+    } catch (error) {
+      return handleApiError(error);
+    }
+  };

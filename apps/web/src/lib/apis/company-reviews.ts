@@ -1,3 +1,5 @@
+import { getSession } from 'next-auth/react';
+
 import { AddCompanyReviewRequest } from '../interfaces/api-request/company-review';
 import {
   AddCompanyReviewResponse,
@@ -15,9 +17,10 @@ export const addCompanyReview = async (
   req: AddCompanyReviewRequest,
 ): Promise<AddCompanyReviewResponse> => {
   try {
-    const token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Im5vdmktYXp5LXdrd2siLCJlbWFpbCI6Im5vdmlhenlAdXNlci5jb20iLCJqb2JJZCI6ImdycGhjLWRnbi0xIiwiaWF0IjoxNzQyOTEyMDk2LCJleHAiOjE3NDU1MDQwOTZ9.MZwoRDHghUh28fGZyOg7cDmIKN7O83PLUl_B7Do7zb4';
-    const response = await axiosPrivate(token).post(
+    const session = await getSession();
+    const token = session?.user?.accessToken;
+
+    const response = await axiosPrivate(token || '').post(
       `/companies/${req.companyId}/reviews`,
       req,
     );

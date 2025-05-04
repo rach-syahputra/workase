@@ -1,17 +1,20 @@
 'use client';
 
 import { useFormik } from 'formik';
+import { useState } from 'react';
 
 import { addCompanyReview } from '@/lib/apis/company-reviews';
 import { AddCompanyReviewFormValues } from '@/lib/interfaces/form/company-review';
+import { addCompanyReviewSchema } from '@/validations/company-review';
 import { useAppToast } from '@/hooks/use-app-toast';
 import { useCompaniesReviewsContext } from '@/context/companies-reviews-context';
-import { addCompanyReviewSchema } from '@/validations/company-review';
 import { Button } from '@/components/shadcn-ui/button';
 import FormInput from '@/components/ui/form-input';
+import { Label } from '@/components/shadcn-ui/label';
 import RatingFormInput from '@/components/ui/rating-form-input';
 import TextareaFormInput from '@/components/ui/textarea-form-input';
 import DisabledFormInput from '@/components/ui/disabled-form-input.tsx';
+import CompanyNameSelect from './company-name-select';
 
 interface CreateCompanyReviewFormProps {
   onOpenChange: (open: boolean) => void;
@@ -21,11 +24,13 @@ const CreateCompanyReviewForm = ({
   onOpenChange,
 }: CreateCompanyReviewFormProps) => {
   const { appToast } = useAppToast();
-  const { fetchCompaniesReviews } = useCompaniesReviewsContext();
+  const { fetchCompaniesReviews, firstRenderRef, userCurrentCompanies } =
+    useCompaniesReviewsContext();
+  const [jobTitle, setJobTitle] = useState<string>('-');
 
   const formik = useFormik<AddCompanyReviewFormValues>({
     initialValues: {
-      companyId: 'akame-cmp', // TO DO: retrieve companyId, companyName and jobTitle from user session or api
+      companyId: userCurrentCompanies[0].id,
       title: '',
       salaryEstimate: 0,
       rating: {
@@ -47,6 +52,7 @@ const CreateCompanyReviewForm = ({
       if (response.success) {
         resetForm();
         onOpenChange(false);
+        firstRenderRef.current = false;
         fetchCompaniesReviews();
 
         appToast('SUCCESS', {
@@ -72,17 +78,15 @@ const CreateCompanyReviewForm = ({
 
   return (
     <form onSubmit={formik.handleSubmit} className="flex flex-col gap-4">
-      <DisabledFormInput
-        label="Company Name"
-        type="text"
-        name="companyName"
-        value="Akame ga Kill Studio"
-      />
+      <div className="flex flex-col gap-2">
+        <Label>Company Name</Label>
+        <CompanyNameSelect formik={formik} setJobTitle={setJobTitle} />
+      </div>
       <DisabledFormInput
         label="Job Title"
         type="text"
         name="jobTitle"
-        value="Graphic Designer"
+        value={jobTitle}
       />
       <FormInput
         label="Review Title"

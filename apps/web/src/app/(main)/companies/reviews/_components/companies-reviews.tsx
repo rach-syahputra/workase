@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useEffect } from 'react';
+import { Fragment } from 'react';
 
 import { useCompaniesReviewsContext } from '@/context/companies-reviews-context';
 import CompanyReviewCard from '@/components/company/reviews/company-review-card';
@@ -14,12 +14,7 @@ import {
 import { Separator } from '@/components/shadcn-ui/separator';
 
 const CompaniesReviews = () => {
-  const { isLoading, reviews, fetchCompaniesReviews } =
-    useCompaniesReviewsContext();
-
-  useEffect(() => {
-    fetchCompaniesReviews();
-  }, [fetchCompaniesReviews]);
+  const { isLoading, reviews } = useCompaniesReviewsContext();
 
   return (
     <Tabs defaultValue="reviews" className="w-full">
@@ -48,7 +43,7 @@ const CompaniesReviews = () => {
           {!isLoading && reviews.length === 0 && (
             <div className="flex w-full items-center justify-center px-4 py-4">
               <p className="text-primary-gray text-center">
-                There are currently no reviews for this company.
+                There are currently no reviews.
               </p>
             </div>
           )}

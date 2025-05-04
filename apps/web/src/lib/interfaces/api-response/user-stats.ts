@@ -1,4 +1,4 @@
-import { IUserDetail, IUserStats } from '../user-stats';
+import { ICurrentCompany, IUserDetail, IUserStats } from '../user-stats';
 import { APIResponse } from './response';
 
 export interface GetUserStatsResponse extends APIResponse {
@@ -10,5 +10,11 @@ export interface GetUserStatsResponse extends APIResponse {
 export interface GetUserDetailResponse extends APIResponse {
   data?: {
     user: IUserDetail;
+  };
+}
+
+export interface GetCurrentCompaniesResponse extends APIResponse {
+  data?: {
+    currentCompanies: ICurrentCompany[];
   };
 }
