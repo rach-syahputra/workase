@@ -14,7 +14,7 @@ const publicAuthPage = [
 ];
 export async function middleware(req: NextRequest) {
   // ambil token dari cookie
-  const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
   // ambil path URL yang sedang aktif
   const { pathname } = req.nextUrl;
   // cek apakah user sudah login
