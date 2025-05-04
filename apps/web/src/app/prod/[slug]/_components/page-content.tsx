@@ -4,7 +4,7 @@ import { NEXTAUTH_SECRET } from '@/lib/constants/constants';
 
 function PageContent() {
   return (
-    <div className="flex flex-col items-center justify-center gap-2">
+    <div className="flex flex-col items-center justify-center gap-2 p-4">
       <span>{process.env.NEXTAUTH_SECRET}</span>
       <span>{NEXTAUTH_SECRET}</span>
     </div>
