@@ -34,17 +34,33 @@ export interface VerifyUserEmploymentRequest {
 }
 
 export interface GetCompanyHeaderRequest {
-  companyId: string;
+  slug: string;
 }
 
 export interface GetCompanyRatingRequest {
-  companyId: string;
+  slug: string;
 }
 
 export interface GetCompanyReviewsRequest extends IFilter {
-  companyId: string;
+  userId?: string;
+  slug: string;
 }
 
 export interface GetCompaniesReviewsRequest extends IFilter {
+  userId?: string;
   q: string;
+}
+
+export interface AddSavedReviewRequest {
+  companyReviewId: string;
+  userId: string;
+}
+
+export interface RemoveSavedReviewRequest {
+  companyReviewId: string;
+  userId: string;
+}
+
+export interface GetSavedReviewsRequest extends IFilter {
+  userId: string;
 }

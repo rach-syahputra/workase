@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useCallback, useEffect, useState } from 'react';
+import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 
 import { getCompanyReviews } from '@/lib/apis/company-reviews';
 import { ICompanyReview } from '@/lib/interfaces/company-review';
@@ -15,14 +15,15 @@ import {
 import { Separator } from '@/components/shadcn-ui/separator';
 
 interface CompanyReviewsProps {
-  companyId: string;
+  slug: string;
 }
 
 interface IOption {
   isLoadMore: boolean;
 }
 
-const CompanyReviews = ({ companyId }: CompanyReviewsProps) => {
+const CompanyReviews = ({ slug }: CompanyReviewsProps) => {
+  const firstRenderRef = useRef(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [cursor, setCursor] = useState<string>('');
   const [hasMore, setHasMore] = useState<boolean>(false);
@@ -32,7 +33,7 @@ const CompanyReviews = ({ companyId }: CompanyReviewsProps) => {
     async (option?: IOption) => {
       setIsLoading(true);
 
-      const response = await getCompanyReviews(companyId, {
+      const response = await getCompanyReviews(slug, {
         cursor,
         limit: 15,
         order: 'desc',
@@ -54,10 +55,13 @@ const CompanyReviews = ({ companyId }: CompanyReviewsProps) => {
       }
       setIsLoading(false);
     },
-    [companyId, cursor, reviews],
+    [slug, cursor, reviews],
   );
 
   useEffect(() => {
+    if (firstRenderRef.current) return;
+    firstRenderRef.current = true;
+
     fetchCompanyReviews();
   }, [fetchCompanyReviews]);
 

@@ -23,7 +23,7 @@ class SearchCompanyReviewController {
       ApiResponse({
         res,
         statusCode: 200,
-        message: `Search company reviews with query containing '${req.query.q}' retrieved successfully.`,
+        message: `Search company reviews with query containing '${req.query.q || ''}' retrieved successfully.`,
         data,
       });
     } catch (err) {

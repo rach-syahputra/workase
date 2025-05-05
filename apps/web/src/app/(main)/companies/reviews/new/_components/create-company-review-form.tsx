@@ -1,7 +1,8 @@
 'use client';
 
-import { useFormik } from 'formik';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useFormik } from 'formik';
 
 import { addCompanyReview } from '@/lib/apis/company-reviews';
 import { AddCompanyReviewFormValues } from '@/lib/interfaces/form/company-review';
@@ -16,13 +17,8 @@ import TextareaFormInput from '@/components/ui/textarea-form-input';
 import DisabledFormInput from '@/components/ui/disabled-form-input.tsx';
 import CompanyNameSelect from './company-name-select';
 
-interface CreateCompanyReviewFormProps {
-  onOpenChange: (open: boolean) => void;
-}
-
-const CreateCompanyReviewForm = ({
-  onOpenChange,
-}: CreateCompanyReviewFormProps) => {
+const CreateCompanyReviewForm = () => {
+  const router = useRouter();
   const { appToast } = useAppToast();
   const { fetchCompaniesReviews, firstRenderRef, userCurrentCompanies } =
     useCompaniesReviewsContext();
@@ -30,7 +26,7 @@ const CreateCompanyReviewForm = ({
 
   const formik = useFormik<AddCompanyReviewFormValues>({
     initialValues: {
-      companyId: userCurrentCompanies[0].id,
+      companyId: userCurrentCompanies[0]?.id || '',
       title: '',
       salaryEstimate: 0,
       rating: {
@@ -51,9 +47,9 @@ const CreateCompanyReviewForm = ({
 
       if (response.success) {
         resetForm();
-        onOpenChange(false);
         firstRenderRef.current = false;
         fetchCompaniesReviews();
+        router.push('/companies/reviews');
 
         appToast('SUCCESS', {
           title: 'Review Successfully Posted',
@@ -77,7 +73,14 @@ const CreateCompanyReviewForm = ({
   });
 
   return (
-    <form onSubmit={formik.handleSubmit} className="flex flex-col gap-4">
+    <form onSubmit={formik.handleSubmit} className="flex flex-col gap-4 p-5">
+      <div className="mb-4">
+        <h1 className="heading-2 text-xl">Post Review</h1>
+        <p className="text-primary-gray text-sm">
+          Share your professional experience to guide job seekers in their
+          decisions.
+        </p>
+      </div>
       <div className="flex flex-col gap-2">
         <Label>Company Name</Label>
         <CompanyNameSelect formik={formik} setJobTitle={setJobTitle} />
@@ -168,19 +171,10 @@ const CreateCompanyReviewForm = ({
       </div>
 
       <p className="text-sm text-red-500">{formik.status}</p>
-      <div className="flex flex-col gap-2">
-        <Button
-          type="button"
-          onClick={() => onOpenChange(false)}
-          variant="outline"
-          disabled={formik.isSubmitting}
-        >
-          Cancel
-        </Button>
-        <Button type="submit" disabled={formik.isSubmitting}>
-          Post
-        </Button>
-      </div>
+
+      <Button type="submit" disabled={formik.isSubmitting}>
+        Post
+      </Button>
     </form>
   );
 };

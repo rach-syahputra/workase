@@ -23,10 +23,10 @@ const SearchCompanyReviewsBar = () => {
     setIsLoading(true);
 
     const response = await searchCompanyReviews({
-      q: debouncedQuery,
+      q: debouncedQuery || '',
     });
 
-    if (response.success) {
+    if (response.data?.companies && response.data?.companies.length > 0) {
       setCompanies(response.data?.companies || []);
     }
 
@@ -51,7 +51,7 @@ const SearchCompanyReviewsBar = () => {
     <div ref={searchBarRef} className="relative w-full">
       <div className="relative w-full">
         <Input
-          placeholder="Find company or job title"
+          placeholder="Search company..."
           onFocus={() => setOpenDropdown(true)}
           onChange={(e) => setQuery(e.target.value)}
         />
@@ -60,11 +60,12 @@ const SearchCompanyReviewsBar = () => {
           className="text-primary-gray absolute right-3 top-3 w-3"
         />
       </div>
-      <SearchCompanyReviewsDropdown
-        companies={companies}
-        open={openDropdown}
-        isLoading={isLoading}
-      />
+      {openDropdown && (
+        <SearchCompanyReviewsDropdown
+          companies={companies || []}
+          isLoading={isLoading}
+        />
+      )}
     </div>
   );
 };

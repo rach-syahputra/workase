@@ -11,7 +11,7 @@ class GetCompanyHeaderRepository {
   getCompanyHeader = async (req: GetCompanyHeaderRequest) => {
     const company = await this.prisma.company.findUnique({
       where: {
-        id: req.companyId,
+        slug: req.slug,
       },
       select: {
         id: true,

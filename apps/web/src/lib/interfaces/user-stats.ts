@@ -45,4 +45,5 @@ export interface ICurrentCompany {
   id: string;
   name: string;
   jobTitle: string;
+  slug: string;
 }

@@ -13,57 +13,67 @@ class GetCompanyRatingRepository {
   }
 
   getCompanyRating = async (req: GetCompanyRatingRequest) => {
-    const [company, totalReviews, ratings] = await this.prisma.$transaction([
-      this.prisma.company.findUnique({
+    return await this.prisma.$transaction(async (trx) => {
+      const company = await trx.company.findUnique({
         where: {
-          id: req.companyId,
+          slug: req.slug,
         },
         select: {
           id: true,
           name: true,
           logoUrl: true,
         },
-      }),
-      this.prisma.companyReview.count({
+      });
+
+      const totalReviews = await trx.companyReview.count({
         where: {
-          companyId: req.companyId,
+          companyId: company?.id,
         },
-      }),
-      this.prisma.companyReviewRatings.findMany({
+      });
+
+      console.log('total reviews: ', totalReviews);
+
+      const ratings = await trx.companyReviewRatings.findMany({
         where: {
           companyReview: {
-            companyId: req.companyId,
+            companyId: company?.id,
           },
         },
-      }),
-    ]);
+      });
 
-    return {
-      rating: {
-        overall: calculateRating(ratings.map((rating) => rating.overallRating)),
-        workCulture: calculateRating(
-          ratings.map((rating) => rating.workCulture),
-        ),
-        workLifeBalance: calculateRating(
-          ratings.map((rating) => rating.workLifeBalance),
-        ),
-        facilities: calculateRating(ratings.map((rating) => rating.facilities)),
-        careerGrowth: calculateRating(
-          ratings.map((rating) => rating.careerGrowth),
-        ),
+      console.log('ratings: ', ratings);
 
-        percentage: calculateRatingPercentages(
-          ratings.map((rating) => ({
-            overallRating: rating.overallRating,
-            workCulture: rating.workCulture,
-            workLifeBalance: rating.workLifeBalance,
-            facilities: rating.facilities,
-            careerGrowth: rating.careerGrowth,
-          })),
-        ),
-      },
-      totalReviews,
-    };
+      return {
+        rating: {
+          overall: calculateRating(
+            ratings.map((rating) => rating.overallRating),
+          ),
+          workCulture: calculateRating(
+            ratings.map((rating) => rating.workCulture),
+          ),
+          workLifeBalance: calculateRating(
+            ratings.map((rating) => rating.workLifeBalance),
+          ),
+          facilities: calculateRating(
+            ratings.map((rating) => rating.facilities),
+          ),
+          careerGrowth: calculateRating(
+            ratings.map((rating) => rating.careerGrowth),
+          ),
+
+          percentage: calculateRatingPercentages(
+            ratings.map((rating) => ({
+              overallRating: rating.overallRating,
+              workCulture: rating.workCulture,
+              workLifeBalance: rating.workLifeBalance,
+              facilities: rating.facilities,
+              careerGrowth: rating.careerGrowth,
+            })),
+          ),
+        },
+        totalReviews,
+      };
+    });
   };
 }
 

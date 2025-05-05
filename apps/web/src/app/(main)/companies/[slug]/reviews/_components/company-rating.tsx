@@ -8,10 +8,10 @@ import CompanyRatingCard from '@/components/company/reviews/company-rating-card'
 import CompanyRatingLoading from './company-rating-loading';
 
 interface CompanyRatingProps {
-  companyId: string;
+  slug: string;
 }
 
-const CompanyRating = ({ companyId }: CompanyRatingProps) => {
+const CompanyRating = ({ slug }: CompanyRatingProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [rating, setRating] = useState<ICompanyRating>({
     overall: 0,
@@ -40,7 +40,7 @@ const CompanyRating = ({ companyId }: CompanyRatingProps) => {
   const fetchCompanyRating = useCallback(async () => {
     setIsLoading(true);
 
-    const response = await getCompanyRating(companyId);
+    const response = await getCompanyRating(slug);
 
     if (response.success) {
       setRating(response.data?.rating!);
@@ -48,7 +48,7 @@ const CompanyRating = ({ companyId }: CompanyRatingProps) => {
     }
 
     setIsLoading(false);
-  }, [companyId]);
+  }, [slug]);
 
   useEffect(() => {
     fetchCompanyRating();

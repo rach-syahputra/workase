@@ -4,15 +4,15 @@ import CompanyRating from './company-rating';
 import CompanyReviews from './company-reviews';
 
 interface PageContentProps {
-  companyId: string;
+  slug: string;
 }
 
-const PageContent = ({ companyId }: PageContentProps) => {
+const PageContent = ({ slug }: PageContentProps) => {
   return (
     <section className="relative mx-auto flex w-full max-w-screen-md flex-col">
       <div className="flex w-full flex-col items-center justify-center gap-4">
-        <CompanyRating companyId={companyId} />
-        <CompanyReviews companyId={companyId} />
+        <CompanyRating slug={slug} />
+        <CompanyReviews slug={slug} />
       </div>
     </section>
   );

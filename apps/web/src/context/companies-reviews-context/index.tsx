@@ -2,9 +2,6 @@
 
 import {
   createContext,
-  Dispatch,
-  Ref,
-  SetStateAction,
   useCallback,
   useContext,
   useEffect,
@@ -15,20 +12,7 @@ import {
 import { ICompanyReview } from '@/lib/interfaces/company-review';
 import { getCompaniesReviews } from '@/lib/apis/company-reviews';
 import { ICurrentCompany } from '@/lib/interfaces/user-stats';
-
-interface ICompaniesReviewsContext {
-  isLoading: boolean;
-  setIsLoading: Dispatch<SetStateAction<boolean>>;
-  reviews: ICompanyReview[];
-  setReviews: Dispatch<SetStateAction<ICompanyReview[]>>;
-  fetchCompaniesReviews: (option?: IOption) => void;
-  firstRenderRef: React.MutableRefObject<boolean>;
-  userCurrentCompanies: ICurrentCompany[];
-}
-
-interface IOption {
-  isLoadMore: boolean;
-}
+import { ICompaniesReviewsContext, IOption } from './interface';
 
 interface CompaniesReviewsProviderProps {
   userCurrentCompanies: ICurrentCompany[];

@@ -123,6 +123,7 @@ class UserStatsRepository {
         id: appliedJob.job.company.id,
         name: appliedJob.job.company.name,
         jobTitle: appliedJob.job.title,
+        slug: appliedJob.job.company.slug,
       })),
     };
   };

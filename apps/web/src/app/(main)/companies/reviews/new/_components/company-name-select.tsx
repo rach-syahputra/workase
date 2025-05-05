@@ -37,7 +37,7 @@ const CompanyNameSelect = ({ formik, setJobTitle }: CompanyNameSelectProps) => {
       <SelectTrigger className="w-[280px]">
         <SelectValue
           placeholder="-- Select Your Company --"
-          defaultValue={userCurrentCompanies[0].name || '--'}
+          defaultValue={userCurrentCompanies[0]?.name || '--'}
           className="w-full"
         />
       </SelectTrigger>
