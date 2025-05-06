@@ -65,6 +65,17 @@ const CertificateOwner = ({ className }: CertificateOwnerProps) => {
             {formatCertificateDate(new Date(certificate?.createdAt as string))}
           </p>
         </div>
+        {!isOwner && (
+          <>
+            <Separator />
+            <Link
+              href={`/profile/${owner?.slug}`}
+              className="text-primary-blue text-sm hover:underline"
+            >
+              View Profile
+            </Link>
+          </>
+        )}
       </Card>
 
       {isOwner && (

@@ -32,7 +32,7 @@ const AssessmentCard = ({ assessment }: AssessmentCardProps) => {
 
   const isAssessmentDisabled =
     (userStats?.subscription.plan === 'STANDARD' &&
-      userStats.assessment.enrollmentCount >= 2) ||
+      userStats.subscription.assessmentEnrollmentCount >= 2) ||
     !userStats?.subscription.plan;
 
   const handleUpgradePlan = async () => {

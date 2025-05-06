@@ -6,6 +6,7 @@ export interface AddUserAssessmentRequest {
     id: string;
     slug: string;
   };
+  subscriptionId: string;
   score: number;
   status: UserAssessmentStatus;
 }

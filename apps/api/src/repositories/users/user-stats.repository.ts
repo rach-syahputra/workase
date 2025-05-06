@@ -13,12 +13,6 @@ class UserStatsRepository {
   }
 
   getUserStats = async (req: GetUserStatsRequest) => {
-    const userAssessment = await this.prisma.userAssessment.findMany({
-      where: {
-        userId: req.userId,
-      },
-    });
-
     // Find active plan
     const subscription = await this.prisma.subscription.findFirst({
       where: {
@@ -43,10 +37,9 @@ class UserStatsRepository {
 
     return {
       stats: {
-        assessment: {
-          enrollmentCount: userAssessment.length,
-        },
         subscription: {
+          id: subscription?.id,
+          assessmentEnrollmentCount: subscription?.assessmentEnrollmentCount,
           plan: subscription?.category || null,
           hasPendingTransaction: !!pendingTransaction,
           expiresAt: subscription?.expiresAt,

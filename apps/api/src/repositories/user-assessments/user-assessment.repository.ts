@@ -14,26 +14,44 @@ class UserAssessmentRepository {
   }
 
   addUserAssessment = async (req: AddUserAssessmentRequest) => {
-    const userAssessment = await this.prisma.userAssessment.create({
-      data: {
-        userId: req.userId,
-        assessmentId: req.assessment.id,
-        score: req.score,
-        status: req.status ? req.status : req.score > 75 ? 'PASSED' : 'FAILED',
-        createdAt: new Date(),
-      },
-      include: {
-        assessment: {
-          include: {
-            skill: true,
+    return await this.prisma.$transaction(async (trx) => {
+      const userAssessment = await trx.userAssessment.create({
+        data: {
+          userId: req.userId,
+          assessmentId: req.assessment.id,
+          score: req.score,
+          status: req.status
+            ? req.status
+            : req.score > 75
+              ? 'PASSED'
+              : 'FAILED',
+          createdAt: new Date(),
+        },
+        include: {
+          assessment: {
+            include: {
+              skill: true,
+            },
           },
         },
-      },
-    });
+      });
 
-    return {
-      userAssessment,
-    };
+      // Increment assessmentEnrollmentCount from subscriptions table
+      await trx.subscription.update({
+        where: {
+          id: req.subscriptionId,
+        },
+        data: {
+          assessmentEnrollmentCount: {
+            increment: 1,
+          },
+        },
+      });
+
+      return {
+        userAssessment,
+      };
+    });
   };
 
   calculateAssessmentResult = async (req: CalculateAssessmentResultRequest) => {

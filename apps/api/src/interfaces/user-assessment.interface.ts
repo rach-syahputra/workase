@@ -28,6 +28,7 @@ export interface AddUserAssessmentRequest {
     id: string;
     slug: string;
   };
+  subscriptionId: string;
   score: number;
   sessionToken?: string;
   status: UserAssessmentStatus;
