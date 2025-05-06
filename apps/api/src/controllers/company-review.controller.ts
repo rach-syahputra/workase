@@ -105,6 +105,7 @@ class CompanyReviewController {
         cursor: req.query.cursor as string,
         limit: req.query.limit ? Number(req.query.limit) : undefined,
         userId: req.query.userId as string,
+        q: req.query.q as string,
       });
 
       ApiResponse({

@@ -4,14 +4,12 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { getCompanyRating } from '@/lib/apis/company-reviews';
 import { ICompanyRating } from '@/lib/interfaces/company-review';
+import { useCompanyReviewsContext } from '@/context/company-reviews-context';
 import CompanyRatingCard from '@/components/company/reviews/company-rating-card';
 import CompanyRatingLoading from './company-rating-loading';
 
-interface CompanyRatingProps {
-  slug: string;
-}
-
-const CompanyRating = ({ slug }: CompanyRatingProps) => {
+const CompanyRating = () => {
+  const { slug } = useCompanyReviewsContext();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [rating, setRating] = useState<ICompanyRating>({
     overall: 0,

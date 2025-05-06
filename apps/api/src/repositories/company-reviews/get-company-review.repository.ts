@@ -26,6 +26,10 @@ class GetCompanyReviewRepository {
             company: {
               slug: req.slug,
             },
+            content: {
+              contains: req.q,
+              mode: 'insensitive',
+            },
           },
         }),
         this.prisma.companyReview.findMany({
@@ -54,6 +58,10 @@ class GetCompanyReviewRepository {
           where: {
             company: {
               slug: req.slug,
+            },
+            content: {
+              contains: req.q,
+              mode: 'insensitive',
             },
           },
           orderBy: orderConfig,
@@ -101,22 +109,10 @@ class GetCompanyReviewRepository {
       await this.prisma.$transaction([
         this.prisma.companyReview.count({
           where: {
-            OR: [
-              {
-                jobTitle: {
-                  contains: req.q,
-                  mode: 'insensitive',
-                },
-              },
-              {
-                company: {
-                  name: {
-                    contains: req.q,
-                    mode: 'insensitive',
-                  },
-                },
-              },
-            ],
+            content: {
+              contains: req.q,
+              mode: 'insensitive',
+            },
           },
         }),
         this.prisma.companyReview.findMany({
@@ -137,22 +133,10 @@ class GetCompanyReviewRepository {
             }),
           },
           where: {
-            OR: [
-              {
-                jobTitle: {
-                  contains: req.q,
-                  mode: 'insensitive',
-                },
-              },
-              {
-                company: {
-                  name: {
-                    contains: req.q,
-                    mode: 'insensitive',
-                  },
-                },
-              },
-            ],
+            content: {
+              contains: req.q,
+              mode: 'insensitive',
+            },
           },
           orderBy: orderConfig,
           cursor: cursorConfig,

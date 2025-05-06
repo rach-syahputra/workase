@@ -1,9 +1,8 @@
 'use client';
 
-import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
+import { Fragment } from 'react';
 
-import { getCompanyReviews } from '@/lib/apis/company-reviews';
-import { ICompanyReview } from '@/lib/interfaces/company-review';
+import { useCompanyReviewsContext } from '@/context/company-reviews-context';
 import CompanyReviewCard from '@/components/company/reviews/company-review-card';
 import CompanyReviewCardLoading from '@/components/company/reviews/company-review-card-loading';
 import {
@@ -13,73 +12,11 @@ import {
   TabsTrigger,
 } from '@/components/shadcn-ui/tabs';
 import { Separator } from '@/components/shadcn-ui/separator';
+import SearchCompanyReviewsBar from './search-company-reviews-bar';
 
-interface CompanyReviewsProps {
-  slug: string;
-}
-
-interface IOption {
-  isLoadMore: boolean;
-}
-
-const CompanyReviews = ({ slug }: CompanyReviewsProps) => {
-  const firstRenderRef = useRef(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [cursor, setCursor] = useState<string>('');
-  const [hasMore, setHasMore] = useState<boolean>(false);
-  const [reviews, setReviews] = useState<ICompanyReview[]>([]);
-
-  const fetchCompanyReviews = useCallback(
-    async (option?: IOption) => {
-      setIsLoading(true);
-
-      const response = await getCompanyReviews(slug, {
-        cursor,
-        limit: 15,
-        order: 'desc',
-      });
-
-      if (response.success) {
-        const newReviews = response.data?.reviews;
-        const updatedReviews = option?.isLoadMore
-          ? [...reviews, ...(newReviews || [])]
-          : newReviews || [];
-
-        setReviews(updatedReviews);
-        setCursor(response.data?.pagination.cursor || '');
-        setHasMore(
-          updatedReviews.length >= (response.data?.pagination.totalData || 0)
-            ? false
-            : true,
-        );
-      }
-      setIsLoading(false);
-    },
-    [slug, cursor, reviews],
-  );
-
-  useEffect(() => {
-    if (firstRenderRef.current) return;
-    firstRenderRef.current = true;
-
-    fetchCompanyReviews();
-  }, [fetchCompanyReviews]);
-
-  useEffect(() => {
-    const handleInfiniteScroll = () => {
-      if (
-        window.innerHeight + window.scrollY >=
-          document.body.offsetHeight - 100 &&
-        !isLoading &&
-        hasMore
-      ) {
-        fetchCompanyReviews({ isLoadMore: true });
-      }
-    };
-
-    window.addEventListener('scroll', handleInfiniteScroll);
-    return () => window.removeEventListener('scroll', handleInfiniteScroll);
-  }, [isLoading, hasMore, fetchCompanyReviews]);
+const CompanyReviews = () => {
+  const { isLoading, reviews, renderWithQ, handleSavedReview } =
+    useCompanyReviewsContext();
 
   return (
     <Tabs defaultValue="reviews" className="w-full">
@@ -89,23 +26,32 @@ const CompanyReviews = ({ slug }: CompanyReviewsProps) => {
         </TabsTrigger>
       </TabsList>
       <TabsContent value="reviews">
-        <div className="flex w-full flex-col items-center justify-center gap-4">
-          {reviews.length > 0 &&
+        <div className="flex w-full flex-col items-center justify-center gap-2 md:gap-4">
+          <div className="flex w-full items-center justify-center px-4 md:px-0">
+            <SearchCompanyReviewsBar />
+          </div>
+          {!renderWithQ.current &&
+            reviews &&
+            reviews.length > 0 &&
             reviews.map((review, index) => (
               <Fragment key={index}>
-                <CompanyReviewCard review={review} />
+                <CompanyReviewCard
+                  review={review}
+                  onBookmark={() =>
+                    handleSavedReview({
+                      companyReviewId: review.id,
+                      companySlug: review.companySlug,
+                      action: review.saved ? 'REMOVE' : 'ADD',
+                    })
+                  }
+                />
                 {index !== reviews.length - 1 && <Separator />}
               </Fragment>
             ))}
 
-          {isLoading && (
-            <>
-              <CompanyReviewCardLoading />
-              <CompanyReviewCardLoading />
-            </>
-          )}
+          {isLoading && <CompanyReviewCardLoading />}
 
-          {!isLoading && reviews.length === 0 && (
+          {!isLoading && (!reviews || reviews.length === 0) && (
             <div className="flex w-full items-center justify-center px-4 py-4">
               <p className="text-primary-gray text-center">
                 There are currently no reviews for this company.

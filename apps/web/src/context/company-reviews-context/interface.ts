@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 
 import { ICompanyReview } from '@/lib/interfaces/company-review';
-import { ICurrentCompany } from '@/lib/interfaces/user-stats';
 import { OrderType } from '@/lib/interfaces/api-request/filter';
 
 export interface IOption {
@@ -9,7 +8,13 @@ export interface IOption {
   cursor: string;
 }
 
-export interface ICompaniesReviewsContext {
+export interface HandleSavedReviewRequest {
+  companyReviewId: string;
+  companySlug: string;
+  action: 'ADD' | 'REMOVE';
+}
+
+export interface ICompanyReviewsContext {
   isLoading: boolean;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   order: OrderType;
@@ -17,8 +22,9 @@ export interface ICompaniesReviewsContext {
   query: string;
   setQuery: Dispatch<SetStateAction<string>>;
   setReviews: Dispatch<SetStateAction<ICompanyReview[]>>;
-  fetchCompaniesReviews: (option?: IOption) => void;
+  fetchGetCompanyReviews: (option?: IOption) => void;
+  handleSavedReview: (req: HandleSavedReviewRequest) => void;
   firstRenderRef: React.MutableRefObject<boolean>;
   renderWithQ: React.MutableRefObject<boolean>;
-  userCurrentCompanies: ICurrentCompany[];
+  slug: string;
 }

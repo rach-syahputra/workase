@@ -44,6 +44,7 @@ export interface GetCompanyRatingRequest {
 export interface GetCompanyReviewsRequest extends IFilter {
   userId?: string;
   slug: string;
+  q: string;
 }
 
 export interface GetCompaniesReviewsRequest extends IFilter {

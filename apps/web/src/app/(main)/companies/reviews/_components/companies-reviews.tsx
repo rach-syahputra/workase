@@ -16,7 +16,7 @@ import { Separator } from '@/components/shadcn-ui/separator';
 import SearchCompanyReviewsBar from './search-company-reviews-bar';
 
 const CompaniesReviews = () => {
-  const { isLoading, reviews } = useCompaniesReviewsContext();
+  const { isLoading, renderWithQ, reviews } = useCompaniesReviewsContext();
   const { handleSavedReview } = useSavedReviewsContext();
 
   return (
@@ -31,10 +31,12 @@ const CompaniesReviews = () => {
           <div className="flex w-full items-center justify-center px-4 pt-4">
             <SearchCompanyReviewsBar />
           </div>
-          {reviews.length > 0 &&
+          {!renderWithQ.current &&
+            reviews &&
+            reviews?.length > 0 &&
             reviews.map((review, index) => (
               <Fragment key={index}>
-                <div className="w-full p-4">
+                <div className="mt-2 w-full md:mt-0 md:p-4">
                   <CompanyReviewCard
                     review={review}
                     onBookmark={() =>
@@ -50,15 +52,7 @@ const CompaniesReviews = () => {
               </Fragment>
             ))}
 
-          {isLoading && (
-            <>
-              <CompanyReviewCardLoading />
-              <Separator />
-              <CompanyReviewCardLoading />
-              <Separator />
-              <CompanyReviewCardLoading />
-            </>
-          )}
+          {isLoading && <CompanyReviewCardLoading />}
 
           {!isLoading && (!reviews || reviews.length === 0) && (
             <div className="flex w-full items-center justify-center px-4 py-4">

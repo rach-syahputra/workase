@@ -20,9 +20,9 @@ const CompaniesReviewsLayout = async ({
   return (
     <CompaniesReviewsProvider userCurrentCompanies={userCurrentCompanies || []}>
       <SavedReviewsProvider>
-        <div className="relative mx-auto flex w-full max-w-screen-xl flex-col gap-4 px-4 py-4 lg:grid lg:grid-cols-9 lg:gap-6 lg:px-8">
+        <div className="relative mx-auto flex w-full max-w-screen-xl flex-col gap-4 py-4 md:px-4 lg:grid lg:grid-cols-9 lg:gap-6 lg:px-8">
           <SavedReviewsSection className="h-fit w-full max-lg:hidden lg:sticky lg:top-[84px] lg:col-span-2" />
-          <Card className="mx-auto w-full max-w-screen-md lg:col-span-5 lg:min-h-[calc(100svh-96px)]">
+          <Card className="mx-auto min-h-[calc(100svh-96px)] w-full max-w-screen-md max-md:border-none max-md:shadow-none lg:col-span-5">
             {children}
           </Card>
           <AddReviewSection className="h-fit w-full max-lg:hidden lg:sticky lg:top-[84px] lg:col-span-2" />

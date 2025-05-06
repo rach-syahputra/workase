@@ -3,7 +3,7 @@ import { Skeleton } from '@/components/shadcn-ui/skeleton';
 
 const CompanyReviewCardLoading = () => {
   return (
-    <div className="w-full p-4">
+    <div className="w-full">
       <Card className="flex w-full flex-col gap-3 p-4">
         <div className="flex h-9 w-1/2 gap-2 md:w-1/4">
           <Skeleton className="aspect-square h-full" />

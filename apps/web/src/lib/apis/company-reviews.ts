@@ -3,6 +3,7 @@ import { getSession } from 'next-auth/react';
 import {
   AddCompanyReviewRequest,
   AddSavedReviewRequest,
+  GetCompanyReviewsRequest,
   GetCompaniesReviewsRequest,
   GetSavedReviewsRequest,
   RemoveSavedReviewRequest,
@@ -65,14 +66,14 @@ export const getCompanyRating = async (
 };
 
 export const getCompanyReviews = async (
-  slug: string,
-  req?: IFilter,
+  req: GetCompanyReviewsRequest,
 ): Promise<GetCompanyReviewsResponse> => {
   try {
     const session = await getSession();
 
     const queryParams = new URLSearchParams();
 
+    if (req?.q) queryParams.append('q', req?.q);
     if (req?.order) queryParams.append('order', req?.order);
     if (req?.limit) queryParams.append('limit', req?.limit.toString());
     if (req?.cursor) queryParams.append('cursor', req?.cursor);
@@ -80,7 +81,7 @@ export const getCompanyReviews = async (
 
     const query = queryParams.toString();
     const response = await axiosPublic.get(
-      `/companies/${slug}/reviews${query ? `?${query}` : ''}`,
+      `/companies/${req.slug}/reviews${query ? `?${query}` : ''}`,
     );
 
     return response.data as GetCompanyReviewsResponse;

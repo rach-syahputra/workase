@@ -9,27 +9,37 @@ import {
   useState,
 } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { getSession } from 'next-auth/react';
 
 import { ICompanyReview } from '@/lib/interfaces/company-review';
-import { getCompaniesReviews } from '@/lib/apis/company-reviews';
-import { ICurrentCompany } from '@/lib/interfaces/user-stats';
+import {
+  addSavedReview,
+  getCompanyReviews,
+  removeSavedReview,
+} from '@/lib/apis/company-reviews';
 import { OrderType } from '@/lib/interfaces/api-request/filter';
-import { ICompaniesReviewsContext, IOption } from './interface';
+import {
+  HandleSavedReviewRequest,
+  ICompanyReviewsContext,
+  IOption,
+} from './interface';
+import { useAppToast } from '@/hooks/use-app-toast';
 
-interface CompaniesReviewsProviderProps {
-  userCurrentCompanies: ICurrentCompany[];
+interface CompanyReviewsProviderProps {
+  slug: string;
   children: React.ReactNode;
 }
 
-const CompaniesReviewsContext = createContext<
-  ICompaniesReviewsContext | undefined
->(undefined);
+const CompanyReviewsContext = createContext<ICompanyReviewsContext | undefined>(
+  undefined,
+);
 
-const CompaniesReviewsProvider = ({
-  userCurrentCompanies,
+const CompanyReviewsProvider = ({
+  slug,
   children,
-}: CompaniesReviewsProviderProps) => {
+}: CompanyReviewsProviderProps) => {
   const searchParams = useSearchParams();
+  const { appToast } = useAppToast();
   const firstRenderRef = useRef(false);
   const renderWithQ = useRef(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -40,15 +50,16 @@ const CompaniesReviewsProvider = ({
   const [reviews, setReviews] = useState<ICompanyReview[]>([]);
   const order = searchParams.get('order') as OrderType;
 
-  const fetchCompaniesReviews = useCallback(
+  const fetchGetCompanyReviews = useCallback(
     async (option?: IOption) => {
       setIsLoading(true);
 
-      const response = await getCompaniesReviews({
+      const response = await getCompanyReviews({
         order: order || 'desc',
         cursor: option?.cursor,
         q: debouncedQuery,
         limit: 15,
+        slug,
       });
 
       if (response.success) {
@@ -76,8 +87,46 @@ const CompaniesReviewsProvider = ({
       renderWithQ.current = false;
       setIsLoading(false);
     },
-    [order, debouncedQuery, reviews.length],
+    [order, slug, debouncedQuery, reviews.length],
   );
+
+  const handleSavedReview = async (req: HandleSavedReviewRequest) => {
+    const session = await getSession();
+    if (!session?.user || !session.user.accessToken) {
+      return appToast('ERROR_UNAUTHENTICATED', {
+        title: 'Unauthenticated',
+        description: 'Sign in to start saving company reviews.',
+      });
+    }
+
+    if (req.action === 'ADD') {
+      const response = await addSavedReview(req);
+
+      if (response.success) {
+        setReviews((prev) =>
+          prev.map((review) =>
+            review.id === req.companyReviewId
+              ? { ...review, saved: true, savedCount: review.savedCount + 1 }
+              : review,
+          ),
+        );
+      }
+    } else if (req.action === 'REMOVE') {
+      const response = await removeSavedReview(req);
+
+      if (response.success) {
+        setReviews((prev) =>
+          prev.map((review) =>
+            review.id === req.companyReviewId
+              ? { ...review, saved: false, savedCount: review.savedCount - 1 }
+              : review,
+          ),
+        );
+      }
+    }
+
+    fetchGetCompanyReviews();
+  };
 
   useEffect(() => {
     const handleDebouncedQuery = setTimeout(() => {
@@ -93,8 +142,8 @@ const CompaniesReviewsProvider = ({
     if (firstRenderRef.current) return;
     firstRenderRef.current = true;
 
-    fetchCompaniesReviews();
-  }, [fetchCompaniesReviews]);
+    fetchGetCompanyReviews();
+  }, [fetchGetCompanyReviews]);
 
   useEffect(() => {
     const handleInfiniteScroll = () => {
@@ -104,16 +153,16 @@ const CompaniesReviewsProvider = ({
         !isLoading &&
         hasMore
       ) {
-        fetchCompaniesReviews({ isLoadMore: true, cursor });
+        fetchGetCompanyReviews({ isLoadMore: true, cursor });
       }
     };
 
     window.addEventListener('scroll', handleInfiniteScroll);
     return () => window.removeEventListener('scroll', handleInfiniteScroll);
-  }, [isLoading, cursor, hasMore, fetchCompaniesReviews]);
+  }, [isLoading, cursor, hasMore, fetchGetCompanyReviews]);
 
   return (
-    <CompaniesReviewsContext.Provider
+    <CompanyReviewsContext.Provider
       value={{
         isLoading,
         setIsLoading,
@@ -122,25 +171,26 @@ const CompaniesReviewsProvider = ({
         setReviews,
         query,
         setQuery,
-        fetchCompaniesReviews,
+        fetchGetCompanyReviews,
+        handleSavedReview,
         firstRenderRef,
         renderWithQ,
-        userCurrentCompanies,
+        slug,
       }}
     >
       {children}
-    </CompaniesReviewsContext.Provider>
+    </CompanyReviewsContext.Provider>
   );
 };
 
-const useCompaniesReviewsContext = (): ICompaniesReviewsContext => {
-  const context = useContext(CompaniesReviewsContext);
+const useCompanyReviewsContext = (): ICompanyReviewsContext => {
+  const context = useContext(CompanyReviewsContext);
   if (context === undefined) {
     throw new Error(
-      'useCompaniesReviewsContext must be used within a CompaniesReviewsProvider',
+      'useCompanyReviewsContext must be used within a CompanyReviewsProvider',
     );
   }
   return context;
 };
 
-export { CompaniesReviewsProvider, useCompaniesReviewsContext };
+export { CompanyReviewsProvider, useCompanyReviewsContext };

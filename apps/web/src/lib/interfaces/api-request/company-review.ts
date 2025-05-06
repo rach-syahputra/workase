@@ -13,6 +13,9 @@ export interface AddCompanyReviewRequest {
   content: string;
 }
 
+export interface GetCompanyReviewsRequest extends IFilter {
+  slug: string;
+}
 export interface GetCompaniesReviewsRequest extends IFilter {}
 
 export interface AddSavedReviewRequest {

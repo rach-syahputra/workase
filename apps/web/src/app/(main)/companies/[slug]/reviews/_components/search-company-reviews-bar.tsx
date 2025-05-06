@@ -3,13 +3,13 @@
 import { useRef } from 'react';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
-import { useCompaniesReviewsContext } from '@/context/companies-reviews-context';
+import { useCompanyReviewsContext } from '@/context/company-reviews-context';
 import { Input } from '@/components/shadcn-ui/input';
 import Icon from '@/components/ui/icon';
 import ReviewsOrderSelect from './reviews-order-select';
 
 const SearchCompanyReviewsBar = () => {
-  const { setQuery } = useCompaniesReviewsContext();
+  const { setQuery } = useCompanyReviewsContext();
   const searchBarRef = useRef<HTMLDivElement | null>(null);
 
   return (

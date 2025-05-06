@@ -1,4 +1,5 @@
 import { getCompanyHeader } from '@/lib/apis/company-reviews';
+import { CompanyReviewsProvider } from '@/context/company-reviews-context';
 import Container from '@/components/layout/container';
 import { DetailPageHeader } from '@/components/layout/detail-page-header';
 import PageContent from './_components/page-content';
@@ -18,10 +19,12 @@ const CompanyReviewsPage = async ({ params }: CompanyReviewsPageProps) => {
         href={`/companies/${slug}`}
         label={companyHeader?.name as string}
         image={companyHeader?.logoUrl as string}
-        className="top-[68px] z-10"
+        className="top-[52px] z-10 md:top-[68px]"
       />
       <Container className="max-md:px-0">
-        <PageContent slug={slug} />
+        <CompanyReviewsProvider slug={slug}>
+          <PageContent />
+        </CompanyReviewsProvider>
       </Container>
     </>
   );
