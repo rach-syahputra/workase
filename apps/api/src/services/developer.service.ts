@@ -28,6 +28,8 @@ class DeveloperService {
       id: developer?.id!,
       email: developer?.email!,
       role: 'DEVELOPER',
+      name: developer?.name!,
+      slug: developer?.slug!,
     });
 
     return {
