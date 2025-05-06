@@ -1,8 +1,3 @@
-export interface CvData {
-  section: string;
-  items: any[];
-}
-
 export interface CheckCvOwnershipRequest {
   userId: string;
   cvId: string;
@@ -14,11 +9,11 @@ export interface GetCvBySlugRequest {
 
 export interface AddCvRequest {
   userId: string;
-  data: CvData[];
+  data: any;
 }
 
 export interface UpdateCvRequest {
   cvId: string;
   userId: string;
-  data: CvData[];
+  data: any;
 }

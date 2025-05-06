@@ -19,7 +19,10 @@ import {
   GetAssessmentsRequest,
   GetAvailableSkillsRequest,
 } from '../interfaces/assessment.interface';
-import { addAssessmentQuestionSchema } from '../validations/assessment.validation';
+import {
+  addAssessmentQuestionSchema,
+  addAssessmentSchema,
+} from '../validations/assessment.validation';
 import { validate } from '../helpers/validation';
 import { ResponseError } from '../helpers/error';
 
@@ -73,6 +76,8 @@ class AssessmentService {
   };
 
   addAssessment = async (req: AddAssessmentServiceRequest) => {
+    validate(addAssessmentSchema, req);
+
     let assessmentImage;
 
     if (req.image) {

@@ -1,9 +1,11 @@
 import bcrypt from 'bcrypt';
 
-import { ResponseError } from '../helpers/error';
-import { generateDeveloperAccessToken } from '../helpers/jwt';
 import DeveloperRepository from '../repositories/developers/developer.repository';
 import { LoginDeveloperRequest } from '../interfaces/developer.interface';
+import { loginDeveloperSchema } from '../validations/developer.validation';
+import { validate } from '../helpers/validation';
+import { generateDeveloperAccessToken } from '../helpers/jwt';
+import { ResponseError } from '../helpers/error';
 
 class DeveloperService {
   private developerRepository: DeveloperRepository;
@@ -13,6 +15,8 @@ class DeveloperService {
   }
 
   login = async (req: LoginDeveloperRequest) => {
+    validate(loginDeveloperSchema, req);
+
     const developer = await this.developerRepository.getDeveloperByEmail({
       email: req.email,
     });
