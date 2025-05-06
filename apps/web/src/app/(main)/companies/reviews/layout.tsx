@@ -16,15 +16,16 @@ const CompaniesReviewsLayout = async ({
 }: CompaniesReviewsLayoutProps) => {
   const response = await getCurrentCompanies();
   const userCurrentCompanies = response?.data?.currentCompanies;
+
   return (
     <CompaniesReviewsProvider userCurrentCompanies={userCurrentCompanies || []}>
       <SavedReviewsProvider>
-        <div className="relative mx-auto grid w-full max-w-screen-xl grid-cols-9 gap-6 px-8 py-4">
-          <SavedReviewsSection />
-          <Card className="col-span-5 min-h-[calc(100svh-96px)]">
+        <div className="relative mx-auto flex w-full max-w-screen-xl flex-col gap-4 px-4 py-4 lg:grid lg:grid-cols-9 lg:gap-6 lg:px-8">
+          <SavedReviewsSection className="h-fit w-full max-lg:hidden lg:sticky lg:top-[84px] lg:col-span-2" />
+          <Card className="mx-auto w-full max-w-screen-md lg:col-span-5 lg:min-h-[calc(100svh-96px)]">
             {children}
           </Card>
-          <AddReviewSection className="sticky top-[84px] col-span-2 h-fit w-full" />
+          <AddReviewSection className="h-fit w-full max-lg:hidden lg:sticky lg:top-[84px] lg:col-span-2" />
         </div>
       </SavedReviewsProvider>
     </CompaniesReviewsProvider>

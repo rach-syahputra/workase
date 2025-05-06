@@ -9,11 +9,15 @@ import { Separator } from '@/components/shadcn-ui/separator';
 import SavedReviewCard from '@/components/company/reviews/saved-review-card';
 import SavedReviewCardSkeleton from '@/components/company/reviews/saved-review-card-skeleton';
 
-const SavedReviewsSection = () => {
+interface SavedReviewsSectionProps {
+  className?: string;
+}
+
+const SavedReviewsSection = ({ className }: SavedReviewsSectionProps) => {
   const { isLoading, savedReviews } = useSavedReviewsContext();
 
   return (
-    <Card className="sticky top-[84px] col-span-2 h-fit w-full">
+    <Card className={className}>
       <div className="flex w-full flex-col gap-4">
         <h2 className="p-4 text-sm font-medium">Saved Reviews</h2>
       </div>

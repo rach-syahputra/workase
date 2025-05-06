@@ -12,7 +12,7 @@ const PageContent = () => {
     useSavedReviewsContext();
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col max-md:min-h-[calc(100svh-132px)]">
       <h1 className="heading-5 p-4">Saved Company Reviews</h1>
       <Separator />
       <div className="flex flex-col">

@@ -6,7 +6,7 @@ const tabs = [
   { label: 'Home', value: '/' },
   { label: 'Jobs', value: '/all-jobs' },
   { label: 'Companies', value: '/companies' },
-  { label: 'Company Reviews', value: '/companies/reviews' },
+  { label: 'Reviews', value: '/companies/reviews' },
 ];
 export default function Menu() {
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
