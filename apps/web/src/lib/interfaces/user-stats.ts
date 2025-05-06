@@ -33,6 +33,7 @@ export interface IBadge {
   slug: string;
   title: string;
   score: number;
+  certificateSlug: string;
 }
 
 export interface IUserDetail extends IUser {

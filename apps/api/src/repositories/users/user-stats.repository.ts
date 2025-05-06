@@ -76,6 +76,11 @@ class UserStatsRepository {
                 },
               },
             },
+            Certificate: {
+              select: {
+                slug: true,
+              },
+            },
           },
         },
       },
@@ -92,6 +97,7 @@ class UserStatsRepository {
           slug: userAssessment.assessment.slug,
           title: userAssessment.assessment.skill.title,
           score: userAssessment.score,
+          certificateSlug: userAssessment.Certificate?.slug,
         })),
       },
     };
