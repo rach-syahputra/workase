@@ -27,10 +27,11 @@ const SavedReviewCard = ({ savedReview, className }: SavedReviewCardProps) => {
           {savedReview.companyReview.companyName}
         </span>
       </div>
-      <p className="text-sm">
-        {savedReview.companyReview.content.slice(0, 100)}
-        {savedReview.companyReview.content.length > 100 && '...'}
-      </p>
+      <div>
+        <p className="line-clamp-4 text-sm">
+          {savedReview.companyReview.content}
+        </p>
+      </div>
     </div>
   );
 };

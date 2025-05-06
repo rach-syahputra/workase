@@ -15,7 +15,7 @@ const SavedReviewsSection = () => {
   return (
     <Card className="sticky top-[84px] col-span-2 h-fit w-full">
       <div className="flex w-full flex-col gap-4">
-        <h2 className="p-4 font-medium">Saved Reviews</h2>
+        <h2 className="p-4 text-sm font-medium">Saved Reviews</h2>
       </div>
       <Separator />
       <div className="flex flex-col">
@@ -42,7 +42,7 @@ const SavedReviewsSection = () => {
           <Separator />
           <div className="p-4">
             <Link
-              href=""
+              href="/companies/reviews/saved"
               aria-label="Saved reviews page"
               className="hover:text-primary-blue text-sm underline"
             >
