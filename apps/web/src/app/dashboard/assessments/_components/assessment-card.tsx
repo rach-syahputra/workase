@@ -64,7 +64,7 @@ const AssessmentCard = ({ assessment }: AssessmentCardProps) => {
           <AssessmentCardToolTip content={assessment.shortDescription} />
         </div>
         <span className="text-primary-gray text-sm">
-          Taken by {assessment.totalAttemptsByUser} users
+          Enrolled by {assessment.totalAttemptsByUser} users
         </span>
       </div>
       <Button onClick={handleTakeAssessment} className="max-lg:w-full">

@@ -82,55 +82,44 @@ class GetAssessmentRepository {
     const limit = req.limit ? req.limit : 9;
     const page = req.page ? req.page : 1;
     const skipConfig = (page - 1) * limit;
+
+    // Order by assessment enrollment count
     const orderConfig = {
-      createdAt: req.order ? req.order : 'asc',
+      UserAssessment: {
+        _count: req.order ? req.order : 'desc',
+      },
     };
 
-    const [totalAssessments, assessments] = await this.prisma.$transaction([
-      this.prisma.assessment.count({
-        where: {
-          isDeleted: false,
-          skill: {
-            title: {
-              contains: req.skill,
-              mode: 'insensitive',
-            },
-          },
-          UserAssessment: {
-            none: {},
+    const assessments = await this.prisma.assessment.findMany({
+      where: {
+        isDeleted: false,
+        skill: {
+          title: {
+            contains: req.skill,
+            mode: 'insensitive',
           },
         },
-      }),
-      this.prisma.assessment.findMany({
-        where: {
-          isDeleted: false,
-          skill: {
-            title: {
-              contains: req.skill,
-              mode: 'insensitive',
-            },
-          },
-          UserAssessment: {
-            none: {
-              userId: req.userId,
-            },
+        UserAssessment: {
+          none: {
+            userId: req.userId,
           },
         },
-        include: {
-          skill: true,
-          AssessmentQuestion: true,
-          UserAssessment: true,
-        },
-        orderBy: orderConfig,
-        take: limit,
-        skip: skipConfig,
-      }),
-    ]);
+      },
+      include: {
+        skill: true,
+        AssessmentQuestion: true,
+        UserAssessment: true,
+      },
+      orderBy: orderConfig,
+      take: limit,
+      skip: skipConfig,
+    });
 
     // Retrieve assessment with at least 25 questions
     const filteredAssessments = assessments.filter(
       (assessment) => assessment.AssessmentQuestion.length >= 25,
     );
+    const totalAssessments = filteredAssessments.length || 0;
 
     return {
       assessments: filteredAssessments.map((assessment) => ({
