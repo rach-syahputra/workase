@@ -5,16 +5,19 @@ import { ColumnDef } from '@tanstack/react-table';
 
 import { OrderType } from '@/lib/interfaces/api-request/filter';
 import { getSubscriptions } from '@/lib/apis/subscription';
-import { GetSubscriptionStatusType } from '@/lib/interfaces/api-request/subscription';
+import {
+  GetSubscriptionCategoryType,
+  GetSubscriptionStatusType,
+} from '@/lib/interfaces/api-request/subscription';
 import { SubscriptionCategoryType } from '@/lib/interfaces/subscription';
 import { ITransactionColumn } from './table/transaction/interface';
 import AppPagination from '@/components/ui/pagination';
 import { DataTable } from '@/components/ui/table/data-table';
 import TableSkeleton from '@/components/ui/table/table-skeleton';
 import { Card } from '@/components/shadcn-ui/card';
-
 import PaymentStatusSelect from './payment-status-select';
 import { getTransactionColumns } from './table/transaction/column';
+import SubscriptionCategorySelect from './subscription-category-select';
 
 const Transaction = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -23,6 +26,7 @@ const Transaction = () => {
   const [createdAtOrder, setCreatedAtOrder] = useState<OrderType>('desc');
   const [totalPages, setTotalPages] = useState<number>(0);
   const [status, setStatus] = useState<GetSubscriptionStatusType[]>(['ALL']);
+  const [category, setCategory] = useState<GetSubscriptionCategoryType>('ALL');
   const [columns, setColumns] = useState<ColumnDef<ITransactionColumn>[]>([]);
   const [tableData, setTableData] = useState<ITransactionColumn[]>([]);
 
@@ -43,6 +47,7 @@ const Transaction = () => {
       order: createdAtOrder,
       limit,
       status,
+      category,
     });
     const subscriptions = response.data?.subscriptions;
     const pagination = response.data?.pagination;
@@ -69,7 +74,7 @@ const Transaction = () => {
     }
 
     setIsLoading(false);
-  }, [page, limit, status, createdAtOrder, initiateColumns]);
+  }, [page, category, limit, status, createdAtOrder, initiateColumns]);
 
   useEffect(() => {
     fetchGetSubscriptions();
@@ -79,7 +84,10 @@ const Transaction = () => {
     <Card className="flex w-full flex-1 flex-col items-start justify-between gap-6 max-md:border-none max-md:p-0 max-md:shadow-none md:p-5">
       <h2 className="heading-2">Billing History</h2>
 
-      <PaymentStatusSelect setStatus={setStatus} />
+      <div className="flex w-full flex-col items-center gap-4 md:flex-row">
+        <SubscriptionCategorySelect setCategory={setCategory} />
+        <PaymentStatusSelect setStatus={setStatus} />
+      </div>
 
       {isLoading ? (
         <TableSkeleton />

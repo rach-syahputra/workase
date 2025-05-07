@@ -1,8 +1,7 @@
 'use client';
 
-import { Dispatch, SetStateAction } from 'react';
-
 import { GetSubscriptionCategoryType } from '@/lib/interfaces/api-request/subscription';
+import { useDeveloperTransactionContext } from '@/context/developer-transaction-context';
 import {
   Select,
   SelectContent,
@@ -13,20 +12,16 @@ import {
   SelectValue,
 } from '@/components/shadcn-ui/select';
 
-interface OverviewCategorySelectProps {
-  setCategory: Dispatch<SetStateAction<GetSubscriptionCategoryType>>;
-}
+const SubscriptionCategorySelect = () => {
+  const { setCategory } = useDeveloperTransactionContext();
 
-const OverviewCategorySelect = ({
-  setCategory,
-}: OverviewCategorySelectProps) => {
   return (
     <Select
       onValueChange={(value) => {
         setCategory(value as GetSubscriptionCategoryType);
       }}
     >
-      <SelectTrigger className="w-[280px]">
+      <SelectTrigger className="w-full md:w-[240px]">
         <SelectValue
           placeholder="Select Category"
           defaultValue="ALL"
@@ -51,4 +46,4 @@ const OverviewCategorySelect = ({
   );
 };
 
-export default OverviewCategorySelect;
+export default SubscriptionCategorySelect;

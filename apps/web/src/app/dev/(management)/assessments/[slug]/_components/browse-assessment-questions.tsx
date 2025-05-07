@@ -11,6 +11,7 @@ import AppPagination from '@/components/ui/pagination';
 import { Card } from '@/components/shadcn-ui/card';
 import AssessmentQuestionCard from './assessment-question-card';
 import AssessmentQuestionCardSkeleton from './assessment-question-card-skeleton';
+import AssessmentQuestionsOrderSelect from './assessment-questions-order-select';
 
 interface BrowseAssessmentQuestionsProps {
   slug: string;
@@ -49,13 +50,16 @@ const BrowseAssessmentQuestions = ({
     <Card className="flex w-full flex-col items-start justify-center gap-2 md:p-5">
       <h2 className="heading-4 font-semibold">Browse Questions</h2>
 
-      <Input
-        type="text"
-        placeholder="Search questions..."
-        onChange={(e) => setSearchQuestion(e.target.value)}
-        value={searchQuestion}
-        className="w-full md:w-1/2"
-      />
+      <div className="flex w-full flex-col gap-2 md:flex-row">
+        <Input
+          type="text"
+          placeholder="Search questions..."
+          onChange={(e) => setSearchQuestion(e.target.value)}
+          value={searchQuestion}
+          className="w-full md:w-1/2"
+        />
+        <AssessmentQuestionsOrderSelect />
+      </div>
 
       <div className="flex w-full flex-col gap-2">
         {isLoading ? (

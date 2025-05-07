@@ -14,7 +14,7 @@ import TableSkeleton from '@/components/ui/table/table-skeleton';
 import { Card } from '@/components/shadcn-ui/card';
 import { getOverviewColumns } from './table/overview/column';
 import { IOverviewColumn } from './table/overview/interface';
-import OverviewCategorySelect from './overview-category-select';
+import SubscriptionCategorySelect from './subscription-category-select';
 
 const Overview = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -74,7 +74,7 @@ const Overview = () => {
     <Card className="flex w-full flex-1 flex-col items-start justify-between gap-6 max-md:border-none max-md:p-0 max-md:shadow-none md:p-5">
       <h2 className="heading-2">Overview</h2>
 
-      <OverviewCategorySelect setCategory={setCategory} />
+      <SubscriptionCategorySelect setCategory={setCategory} />
 
       {isLoading ? (
         <TableSkeleton />
