@@ -35,7 +35,7 @@ export default function DropdownMenuDemo() {
         <DropdownMenuSeparator />
         <DropdownMenuItem className="flex items-center gap-3">
           <IoPerson />
-          <Link href={`/profile/${session?.user?.slug}`}>Profile</Link>
+          <Link href={`/w/${session?.user?.slug}`}>Profile</Link>
         </DropdownMenuItem>
         <DropdownMenuItem className="flex items-center gap-3">
           <MdDashboard />

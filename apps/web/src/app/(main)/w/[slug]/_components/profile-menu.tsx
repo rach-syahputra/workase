@@ -29,7 +29,7 @@ const ProfileMenu = ({ className }: ProfileMenuProps) => {
       id: 1,
       label: 'Profile',
       icon: <User size={16} />,
-      href: `/profile/${user?.slug}`,
+      href: `/w/${user?.slug}`,
     },
   ];
 

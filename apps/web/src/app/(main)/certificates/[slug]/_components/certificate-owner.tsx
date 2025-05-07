@@ -69,7 +69,7 @@ const CertificateOwner = ({ className }: CertificateOwnerProps) => {
           <>
             <Separator />
             <Link
-              href={`/profile/${owner?.slug}`}
+              href={`/w/${owner?.slug}`}
               className="text-primary-blue text-sm hover:underline"
             >
               View Profile
