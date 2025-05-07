@@ -99,6 +99,7 @@ const Transaction = () => {
               page={page}
               onPageChange={setPage}
               totalPages={totalPages}
+              disabled={isLoading}
             />
           )}
         </>

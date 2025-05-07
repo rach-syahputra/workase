@@ -44,6 +44,7 @@ const BrowseTransactions = () => {
               page={page}
               onPageChange={setPage}
               totalPages={totalPages}
+              disabled={isLoading}
             />
           )}
         </>

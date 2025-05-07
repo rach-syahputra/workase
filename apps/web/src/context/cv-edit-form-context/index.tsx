@@ -81,8 +81,6 @@ const CvEditFormProvider = ({
   }, [cv]);
 
   useEffect(() => {
-    console.log('formik values', formik.values);
-
     setCvData((prev) => ({
       ...prev!,
       data: formik.values.data,

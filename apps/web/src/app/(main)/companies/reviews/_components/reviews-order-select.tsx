@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 
 import { OrderType } from '@/lib/interfaces/api-request/filter';
+import { useCompaniesReviewsContext } from '@/context/companies-reviews-context';
 import {
   Select,
   SelectContent,
@@ -12,7 +13,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/shadcn-ui/select';
-import { useCompaniesReviewsContext } from '@/context/companies-reviews-context';
 
 const ReviewsOrderSelect = () => {
   const router = useRouter();
@@ -32,13 +32,7 @@ const ReviewsOrderSelect = () => {
     >
       <SelectTrigger className="w-full md:w-[280px]">
         <SelectValue
-          placeholder={
-            order === 'desc'
-              ? 'Newest'
-              : order === 'asc'
-                ? 'Oldest'
-                : '-- Reviews Order --'
-          }
+          placeholder={order === 'asc' ? 'Oldest' : 'Newest'}
           defaultValue="desc"
           className="w-full"
         />

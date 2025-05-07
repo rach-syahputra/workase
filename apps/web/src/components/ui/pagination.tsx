@@ -11,7 +11,7 @@ interface AppPaginationProps {
   page: number;
   onPageChange: (page: number) => void;
   totalPages: number;
-  disabled?: boolean;
+  disabled: boolean;
   className?: string;
 }
 
@@ -40,7 +40,7 @@ const AppPagination = ({
         <PaginationPrevious
           page={page}
           onPageChange={onPageChange}
-          disabled={page === 1}
+          disabled={page === 1 || disabled}
         />
         {Array.from({ length: totalPages >= 5 ? 5 : totalPages }).map(
           (_, index) => {
@@ -76,7 +76,7 @@ const AppPagination = ({
         <PaginationNext
           page={page}
           onPageChange={onPageChange}
-          disabled={page === totalPages}
+          disabled={page === totalPages || disabled}
         />
       </PaginationContent>
     </Pagination>

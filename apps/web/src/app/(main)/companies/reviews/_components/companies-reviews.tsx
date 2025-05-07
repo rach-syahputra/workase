@@ -52,7 +52,11 @@ const CompaniesReviews = () => {
               </Fragment>
             ))}
 
-          {isLoading && <CompanyReviewCardLoading />}
+          {isLoading && (
+            <div className="mt-2 w-full md:mt-0 md:p-4">
+              <CompanyReviewCardLoading />
+            </div>
+          )}
 
           {!isLoading && (!reviews || reviews.length === 0) && (
             <div className="flex w-full items-center justify-center px-4 py-4">

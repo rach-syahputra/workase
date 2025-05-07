@@ -83,6 +83,7 @@ const Overview = () => {
           <DataTable columns={columns} pageSize={8} data={tableData} />
           {totalPages > 1 && (
             <AppPagination
+              disabled={isLoading}
               page={page}
               onPageChange={setPage}
               totalPages={totalPages}

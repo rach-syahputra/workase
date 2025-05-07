@@ -1,19 +1,15 @@
 'use client';
 
-import { useEffect } from 'react';
-
 import { useBrowseSkillsContext } from '@/context/browse-skills-context';
 import { Card } from '@/components/shadcn-ui/card';
 import { Input } from '@/components/shadcn-ui/input';
 import Skills from './skills';
 import CreateSkillModal from './create-skill-modal';
+import AppPagination from '@/components/ui/pagination';
 
 const BrowseSkills = () => {
-  const { searchSkill, setSearchSkill, fetchSkills } = useBrowseSkillsContext();
-
-  useEffect(() => {
-    fetchSkills();
-  }, [fetchSkills]);
+  const { isLoading, totalPages, page, setPage, searchSkill, setSearchSkill } =
+    useBrowseSkillsContext();
 
   return (
     <Card className="flex w-full flex-col items-start justify-between gap-2 max-md:border-none max-md:shadow-none md:p-5">
@@ -27,7 +23,17 @@ const BrowseSkills = () => {
       />
       <Card className="mt-4 flex h-full w-full flex-1 flex-col items-start justify-between gap-8 max-md:border-none max-md:shadow-none md:p-5">
         <Skills />
-        <CreateSkillModal />
+        <div className="flex w-full flex-col gap-4">
+          {totalPages > 1 && (
+            <AppPagination
+              page={page}
+              onPageChange={setPage}
+              totalPages={totalPages}
+              disabled={isLoading}
+            />
+          )}
+          <CreateSkillModal />
+        </div>
       </Card>
     </Card>
   );

@@ -82,6 +82,7 @@ const BrowseAssessmentQuestions = ({
               page={page}
               onPageChange={setPage}
               totalPages={totalPages}
+              disabled={isLoading}
               className="mt-4"
             />
           </>

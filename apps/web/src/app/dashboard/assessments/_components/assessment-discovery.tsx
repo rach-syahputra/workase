@@ -110,6 +110,7 @@ const AssessmentDiscovery = () => {
               {totalPages > 1 && (
                 <AppPagination
                   page={page}
+                  disabled={isLoading}
                   onPageChange={setPage}
                   totalPages={totalPages}
                   className="mt-2"
