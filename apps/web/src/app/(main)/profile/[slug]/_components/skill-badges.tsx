@@ -1,16 +1,15 @@
 'use client';
 
+import Link from 'next/link';
 import { CircleHelp } from 'lucide-react';
 
+import { useUserDetailContext } from '@/context/user-detail-context';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/shadcn-ui/tooltip';
-import { useUserDetailContext } from '@/context/user-detail-context';
-import Link from 'next/link';
-import { Separator } from '@/components/shadcn-ui/separator';
 
 const SkillBadges = () => {
   const { user } = useUserDetailContext();
@@ -31,8 +30,7 @@ const SkillBadges = () => {
         </TooltipProvider>
       </div>
       <div className="flex w-full flex-wrap gap-4">
-        {user?.badges &&
-          user.badges.length > 0 &&
+        {user?.badges && user.badges.length > 0 ? (
           user.badges.map((badge, index) => (
             <div
               key={index}
@@ -62,7 +60,10 @@ const SkillBadges = () => {
                 View Certificate
               </Link>
             </div>
-          ))}
+          ))
+        ) : (
+          <p className="text-primary-gray text-sm">No badges.</p>
+        )}
       </div>
     </div>
   );

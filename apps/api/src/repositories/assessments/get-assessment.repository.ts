@@ -68,7 +68,7 @@ class GetAssessmentRepository {
         updatedAt: assessment.updatedAt,
         isDeleted: assessment.isDeleted,
         totalQuestions: assessment.AssessmentQuestion.length,
-        totalAttemptsByUser: assessment.UserAssessment.length,
+        totalEnrollmentCount: assessment.UserAssessment.length,
       })),
       pagination: {
         totalData: totalAssessments,
@@ -102,6 +102,9 @@ class GetAssessmentRepository {
         UserAssessment: {
           none: {
             userId: req.userId,
+            score: {
+              gte: 75,
+            },
           },
         },
       },
@@ -135,7 +138,7 @@ class GetAssessmentRepository {
         updatedAt: assessment.updatedAt,
         isDeleted: assessment.isDeleted,
         totalQuestions: assessment.AssessmentQuestion.length,
-        totalAttemptsByUser: assessment.UserAssessment.length,
+        totalEnrollmentCount: assessment.UserAssessment.length,
       })),
       pagination: {
         totalData: totalAssessments,

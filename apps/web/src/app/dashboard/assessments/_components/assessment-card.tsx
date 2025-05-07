@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { CircleAlert } from 'lucide-react';
+import { CircleAlert, FileDigit, User } from 'lucide-react';
 
 import { IAssessment } from '@/lib/interfaces/assessment';
 import { useToast } from '@/hooks/use-toast';
@@ -63,9 +63,12 @@ const AssessmentCard = ({ assessment }: AssessmentCardProps) => {
           <h3 className="heading-3">{assessment.skill.title}</h3>
           <AssessmentCardToolTip content={assessment.shortDescription} />
         </div>
-        <span className="text-primary-gray text-sm">
-          Enrolled by {assessment.totalAttemptsByUser} users
-        </span>
+        <div className="text-primary-gray flex items-center gap-2">
+          <User size={16} />
+          <span className="text-sm">
+            Enrolled {assessment.totalEnrollmentCount} times
+          </span>
+        </div>
       </div>
       <Button onClick={handleTakeAssessment} className="max-lg:w-full">
         Take Assessment

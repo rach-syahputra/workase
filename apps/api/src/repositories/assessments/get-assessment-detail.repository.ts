@@ -74,7 +74,7 @@ class GetAssessmentDetailRepository {
           })),
           hasPassed: isAssessmentPassed,
           totalQuestions: assessment.AssessmentQuestion.length,
-          totalAttemptsByUser: assessment.UserAssessment.length,
+          totalEnrollmentCount: assessment.UserAssessment.length,
         },
       };
     }
