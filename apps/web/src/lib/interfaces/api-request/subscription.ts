@@ -1,10 +1,15 @@
-import { SubscriptionPaymentStatusType } from '../subscription';
+import {
+  SubscriptionCategoryType,
+  SubscriptionPaymentStatusType,
+} from '../subscription';
 import { IFilter } from './filter';
 
 export type GetSubscriptionStatusType = SubscriptionPaymentStatusType | 'ALL';
+export type GetSubscriptionCategoryType = 'STANDARD' | 'PROFESSIONAL' | 'ALL';
 
 export interface GetSubscriptionsRequest extends IFilter {
   status?: GetSubscriptionStatusType[];
+  category?: GetSubscriptionCategoryType;
 }
 
 export interface AddSubscriptionRequest {

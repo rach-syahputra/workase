@@ -9,7 +9,7 @@ import {
   UserRequest,
 } from '../interfaces/middleware.interface';
 import { OrderType } from '../interfaces/filter.interface';
-import { PaymentStatus } from '@prisma/client';
+import { PaymentStatus, SubscriptionCategory } from '@prisma/client';
 
 class SubscriptionController {
   private subscriptionService: SubscriptionService;
@@ -115,6 +115,7 @@ class SubscriptionController {
           : Array.isArray(req.query.status)
             ? req.query.status
             : undefined) as PaymentStatus[],
+        category: req.query.category as SubscriptionCategory,
       });
 
       ApiResponse({
