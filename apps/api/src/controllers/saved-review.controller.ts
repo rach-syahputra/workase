@@ -1,12 +1,10 @@
 import { NextFunction, Response } from 'express';
 
 import CompanyReviewService from '../services/company-review.service';
-
 import { UserRequest } from '../interfaces/middleware.interface';
-
+import { OrderType } from '../interfaces/filter.interface';
 import { ApiResponse } from '../helpers/api-response';
 import { ResponseError } from '../helpers/error';
-import { OrderType } from 'src/interfaces/filter.interface';
 
 class SavedReviewController {
   private companyReviewService: CompanyReviewService;
@@ -75,6 +73,7 @@ class SavedReviewController {
         limit: Number(req.query.limit),
         page: Number(req.query.page),
         order: req.query.order as OrderType,
+        q: req.query.q as string,
         userId: req.user.id,
       });
 

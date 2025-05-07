@@ -1,9 +1,7 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-
 import { OrderType } from '@/lib/interfaces/api-request/filter';
-import { useCompanyReviewsContext } from '@/context/company-reviews-context';
+import { useSavedReviewsContext } from '@/context/saved-reviews-context';
 import {
   Select,
   SelectContent,
@@ -15,14 +13,11 @@ import {
 } from '@/components/shadcn-ui/select';
 
 const ReviewsOrderSelect = () => {
-  const router = useRouter();
-  const { firstRenderRef, renderWithQ, order, slug } =
-    useCompanyReviewsContext();
+  const { order, setOrder, firstRenderRef } = useSavedReviewsContext();
 
   const handleOrderChange = (value: OrderType) => {
     firstRenderRef.current = false;
-    renderWithQ.current = true;
-    router.push(`/companies/${slug}/reviews?order=${value}`);
+    setOrder(value as OrderType);
   };
 
   return (
@@ -33,7 +28,7 @@ const ReviewsOrderSelect = () => {
     >
       <SelectTrigger className="w-full md:w-[280px]">
         <SelectValue
-          placeholder={order === 'desc' ? 'Newest' : 'Oldest'}
+          placeholder={order === 'asc' ? 'Oldest' : 'Newest'}
           defaultValue="desc"
           className="w-full"
         />

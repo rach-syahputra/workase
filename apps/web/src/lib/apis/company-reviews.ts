@@ -181,6 +181,7 @@ export const getSavedReviews = async (
     if (req?.order) queryParams.append('order', req?.order);
     if (req?.limit) queryParams.append('limit', req?.limit.toString());
     if (req?.page) queryParams.append('page', req?.page.toString());
+    if (req?.q) queryParams.append('q', req?.q);
 
     const query = queryParams.toString();
     const response = await axiosPrivate(token || '').get(

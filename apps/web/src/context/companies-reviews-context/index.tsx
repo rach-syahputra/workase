@@ -54,10 +54,6 @@ const CompaniesReviewsProvider = ({
       if (response.success) {
         const newReviews = response.data?.reviews;
 
-        if (renderWithQ.current) {
-          setReviews(newReviews || []);
-        } else {
-        }
         setReviews((prev) =>
           option?.isLoadMore
             ? [...prev, ...(newReviews || [])]
@@ -82,7 +78,7 @@ const CompaniesReviewsProvider = ({
   useEffect(() => {
     const handleDebouncedQuery = setTimeout(() => {
       firstRenderRef.current = false;
-      renderWithQ.current = true;
+
       setDebouncedQuery(query);
     }, 300);
 

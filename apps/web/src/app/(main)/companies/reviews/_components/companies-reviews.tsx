@@ -17,7 +17,7 @@ import SearchCompanyReviewsBar from './search-company-reviews-bar';
 
 const CompaniesReviews = () => {
   const { isLoading, renderWithQ, reviews } = useCompaniesReviewsContext();
-  const { handleSavedReview } = useSavedReviewsContext();
+  const { handleSavedReview, isSaving } = useSavedReviewsContext();
 
   return (
     <Tabs defaultValue="reviews" className="w-full">
@@ -39,6 +39,7 @@ const CompaniesReviews = () => {
                 <div className="mt-2 w-full md:mt-0 md:p-4">
                   <CompanyReviewCard
                     review={review}
+                    disabled={isSaving}
                     onBookmark={() =>
                       handleSavedReview({
                         companyReviewId: review.id,

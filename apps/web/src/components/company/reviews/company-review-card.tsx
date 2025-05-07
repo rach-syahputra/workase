@@ -15,12 +15,14 @@ import CompanyReviewRating from './company-review-rating';
 interface CompanyReviewCardProps {
   review: ICompanyReview;
   onBookmark: () => void;
+  disabled?: boolean;
   className?: string;
 }
 
 const CompanyReviewCard = ({
   review,
   onBookmark,
+  disabled,
   className,
 }: CompanyReviewCardProps) => {
   const [isExpandedContent, setIsExpandedContent] = useState<boolean>(false);
@@ -56,7 +58,9 @@ const CompanyReviewCard = ({
           <span className="text-primary-gray text-xs font-medium">
             {review.savedCount}
           </span>
-          <div
+          <button
+            type="button"
+            disabled={disabled}
             onClick={onBookmark}
             className="flex cursor-pointer items-center justify-center p-4"
           >
@@ -64,7 +68,7 @@ const CompanyReviewCard = ({
               icon={review.saved ? faBookmarkCheck : faBookmark}
               className="text-primary-dark w-2.5"
             />
-          </div>
+          </button>
         </div>
       </div>
 

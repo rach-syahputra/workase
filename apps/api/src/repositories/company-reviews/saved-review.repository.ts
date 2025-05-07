@@ -49,11 +49,23 @@ class SavedReviewRepository {
       this.prisma.savedReview.count({
         where: {
           userId: req.userId,
+          companyReview: {
+            content: {
+              contains: req.q,
+              mode: 'insensitive',
+            },
+          },
         },
       }),
       this.prisma.savedReview.findMany({
         where: {
           userId: req.userId,
+          companyReview: {
+            content: {
+              contains: req.q,
+              mode: 'insensitive',
+            },
+          },
         },
         include: {
           companyReview: {

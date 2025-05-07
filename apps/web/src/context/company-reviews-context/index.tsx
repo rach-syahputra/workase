@@ -43,6 +43,7 @@ const CompanyReviewsProvider = ({
   const firstRenderRef = useRef(false);
   const renderWithQ = useRef(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
   const [cursor, setCursor] = useState<string>('');
   const [query, setQuery] = useState<string>('');
   const [debouncedQuery, setDebouncedQuery] = useState<string>('');
@@ -91,6 +92,8 @@ const CompanyReviewsProvider = ({
   );
 
   const handleSavedReview = async (req: HandleSavedReviewRequest) => {
+    setIsSaving(true);
+
     const session = await getSession();
     if (!session?.user || !session.user.accessToken) {
       return appToast('ERROR_UNAUTHENTICATED', {
@@ -126,6 +129,7 @@ const CompanyReviewsProvider = ({
     }
 
     fetchGetCompanyReviews();
+    setIsSaving(false);
   };
 
   useEffect(() => {
@@ -166,6 +170,8 @@ const CompanyReviewsProvider = ({
       value={{
         isLoading,
         setIsLoading,
+        isSaving,
+        setIsSaving,
         order,
         reviews,
         setReviews,

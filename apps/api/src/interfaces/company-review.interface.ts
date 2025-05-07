@@ -64,4 +64,5 @@ export interface RemoveSavedReviewRequest {
 
 export interface GetSavedReviewsRequest extends IFilter {
   userId: string;
+  q: string;
 }

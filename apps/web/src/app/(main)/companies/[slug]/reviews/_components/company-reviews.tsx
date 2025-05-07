@@ -15,7 +15,7 @@ import { Separator } from '@/components/shadcn-ui/separator';
 import SearchCompanyReviewsBar from './search-company-reviews-bar';
 
 const CompanyReviews = () => {
-  const { isLoading, reviews, renderWithQ, handleSavedReview } =
+  const { isLoading, isSaving, reviews, renderWithQ, handleSavedReview } =
     useCompanyReviewsContext();
 
   return (
@@ -37,6 +37,7 @@ const CompanyReviews = () => {
               <Fragment key={index}>
                 <CompanyReviewCard
                   review={review}
+                  disabled={isSaving}
                   onBookmark={() =>
                     handleSavedReview({
                       companyReviewId: review.id,

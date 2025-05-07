@@ -11,6 +11,7 @@ import {
 import { getSession } from 'next-auth/react';
 
 import { ISavedReview } from '@/lib/interfaces/company-review';
+import { OrderType } from '@/lib/interfaces/api-request/filter';
 import {
   addSavedReview,
   getSavedReviews,
@@ -33,18 +34,23 @@ const SavedReviewsProvider = ({ children }: SavedReviewsProviderProps) => {
   const { setReviews } = useCompaniesReviewsContext();
   const firstRenderRef = useRef(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [totalSavedReviews, setTotalSavedReviews] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
+  const [query, setQuery] = useState<string>('');
+  const [debouncedQuery, setDebouncedQuery] = useState<string>('');
+  const [order, setOrder] = useState<OrderType>('desc');
   const [savedReviews, setSavedReviews] = useState<ISavedReview[]>([]);
 
   const fetchGetSavedReviews = useCallback(async () => {
     setIsLoading(true);
 
     const response = await getSavedReviews({
-      limit: 10,
+      limit: 8,
       page: page || 1,
-      order: 'desc',
+      order,
+      q: debouncedQuery,
     });
 
     if (response.success) {
@@ -55,9 +61,11 @@ const SavedReviewsProvider = ({ children }: SavedReviewsProviderProps) => {
     }
 
     setIsLoading(false);
-  }, [page]);
+  }, [page, debouncedQuery, order]);
 
   const handleSavedReview = async (req: HandleSavedReviewRequest) => {
+    setIsSaving(true);
+
     const session = await getSession();
     if (!session?.user || !session.user.accessToken) {
       return appToast('ERROR_UNAUTHENTICATED', {
@@ -93,7 +101,17 @@ const SavedReviewsProvider = ({ children }: SavedReviewsProviderProps) => {
     }
 
     fetchGetSavedReviews();
+    setIsSaving(false);
   };
+
+  useEffect(() => {
+    const handleDebouncedQuery = setTimeout(() => {
+      firstRenderRef.current = false;
+      setDebouncedQuery(query);
+    }, 300);
+
+    return () => clearTimeout(handleDebouncedQuery);
+  }, [query]);
 
   useEffect(() => {
     if (firstRenderRef.current === true) return;
@@ -107,10 +125,16 @@ const SavedReviewsProvider = ({ children }: SavedReviewsProviderProps) => {
       value={{
         isLoading,
         setIsLoading,
+        isSaving,
+        setIsSaving,
         page,
         setPage,
         totalPages,
         setTotalPages,
+        order,
+        setOrder,
+        query,
+        setQuery,
         totalSavedReviews,
         setTotalSavedReviews,
         savedReviews,

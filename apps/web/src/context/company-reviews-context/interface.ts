@@ -17,6 +17,8 @@ export interface HandleSavedReviewRequest {
 export interface ICompanyReviewsContext {
   isLoading: boolean;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
+  isSaving: boolean;
+  setIsSaving: Dispatch<SetStateAction<boolean>>;
   order: OrderType;
   reviews: ICompanyReview[];
   query: string;
