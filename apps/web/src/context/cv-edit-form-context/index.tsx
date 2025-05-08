@@ -89,14 +89,6 @@ const CvEditFormProvider = ({
     }));
   }, [formik.values]);
 
-  useEffect(() => {
-    console.log('formik errors', formik.errors);
-  }, [formik.errors]);
-
-  useEffect(() => {
-    console.log('formik ');
-  }, [formik.status]);
-
   return (
     <CvEditFormContext.Provider
       value={{
