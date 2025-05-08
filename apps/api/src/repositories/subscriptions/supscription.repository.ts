@@ -71,12 +71,14 @@ class SubscriptionRepository {
               },
             },
           },
+          category: req.category,
         },
       }),
       this.prisma.subscriptionPayment.findMany({
         where: {
           subscription: {
             ...(req.userId && { userId: req.userId }),
+            category: req.category,
           },
           paymentStatus: {
             in: req.paymentStatuses,

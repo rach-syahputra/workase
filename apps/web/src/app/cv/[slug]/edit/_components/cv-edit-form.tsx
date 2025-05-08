@@ -6,14 +6,15 @@ import CvPreviewTemplateOne from '@/components/cv-preview/cv-preview-template-on
 import { Separator } from '@/components/shadcn-ui/separator';
 import CvEditTopBar from './top-bar/cv-edit-top-bar';
 import HeaderForm from './header-form';
-import SummaryForm from './summay-form';
+import SummaryForm from './summary-form';
 import ExperienceForm from './experience-form';
 import EducationForm from './education-form';
 import SkillForm from './skill-form';
 import SaveChangesButton from './save-changes-button';
+import GeneratedSummary from './generated-summary';
 
 const CvEditForm = () => {
-  const { formik, showPreview } = useCvEditFormContext();
+  const { formik, showPreview, isComparingSummary } = useCvEditFormContext();
 
   return (
     <form
@@ -26,24 +27,31 @@ const CvEditForm = () => {
         className={cn(
           'mx-auto mb-4 mt-20 flex w-full max-w-screen-md flex-col items-start pb-14 md:pb-0 lg:grid',
           {
-            'gap-y-8 lg:max-w-screen-xl lg:grid-cols-2': showPreview,
+            'gap-y-8 lg:max-w-screen-xl lg:grid-cols-2':
+              (showPreview && !isComparingSummary) ||
+              (!showPreview && isComparingSummary),
           },
         )}
       >
         <div className="flex w-full flex-col gap-6 px-4 md:gap-4">
-          <HeaderForm />
+          {!isComparingSummary && <HeaderForm />}
           <Separator className="md:hidden" />
           <SummaryForm />
           <Separator className="md:hidden" />
-          <EducationForm />
+          {!isComparingSummary && <EducationForm />}
           <Separator className="md:hidden" />
-          <ExperienceForm />
+          {!isComparingSummary && <ExperienceForm />}
           <Separator className="md:hidden" />
-          <SkillForm />
+          {!isComparingSummary && <SkillForm />}
         </div>
+        <GeneratedSummary
+          className={cn('lg:sticky lg:top-20', {
+            hidden: !isComparingSummary || showPreview,
+          })}
+        />
         <CvPreviewTemplateOne
           className={cn('lg:sticky lg:top-20', {
-            hidden: !showPreview,
+            hidden: !showPreview || isComparingSummary,
           })}
         />
       </div>

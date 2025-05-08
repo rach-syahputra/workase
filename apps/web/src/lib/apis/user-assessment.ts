@@ -21,6 +21,7 @@ export const addUserAssessment = async (
   try {
     const response = await axiosPrivate(token || '').post('/user-assessments', {
       assessment: req.assessment,
+      subscriptionId: req.subscriptionId,
       score: req.score,
       status: req.status,
     });

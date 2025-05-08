@@ -19,6 +19,7 @@ class SearchCompanyReviewRepository {
       },
       select: {
         id: true,
+        slug: true,
         name: true,
         logoUrl: true,
         CompanyReview: {
@@ -43,6 +44,7 @@ class SearchCompanyReviewRepository {
     const sortedCompanies = companies
       .map((company) => ({
         id: company.id,
+        slug: company.slug,
         name: company.name,
         logoUrl: company.logoUrl,
         overallRating: calculateRating(

@@ -25,6 +25,9 @@ class AssessmentQuestionRepository {
     const limit = req.limit ? req.limit : 8;
     const page = req.page ? req.page : 1;
     const skipConfig = (page - 1) * limit;
+    const orderConfig = {
+      updatedAt: req.order ? req.order : 'desc',
+    };
 
     const [totalAssessmentQuestions, assessmentQuestions] =
       await this.prisma.$transaction([
@@ -56,9 +59,7 @@ class AssessmentQuestionRepository {
           },
           take: limit,
           skip: skipConfig,
-          orderBy: {
-            updatedAt: 'asc',
-          },
+          orderBy: orderConfig,
         }),
       ]);
 

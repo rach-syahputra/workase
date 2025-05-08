@@ -12,7 +12,10 @@ import { ColumnDef } from '@tanstack/react-table';
 
 import { getTransactionColumns } from '@/app/dev/(management)/transactions/_components/table/column';
 import { ITransactionColumn } from '@/app/dev/(management)/transactions/_components/table/interface';
-import { GetSubscriptionStatusType } from '@/lib/interfaces/api-request/subscription';
+import {
+  GetSubscriptionCategoryType,
+  GetSubscriptionStatusType,
+} from '@/lib/interfaces/api-request/subscription';
 import {
   getSubscriptions,
   updateSubscriptionPayment,
@@ -39,6 +42,7 @@ const DeveloperTransactionProvider = ({
   const [limit, setLimit] = useState<number>(10);
   const [createdAtOrder, setCreatedAtOrder] = useState<OrderType>('desc');
   const [status, setStatus] = useState<GetSubscriptionStatusType[]>(['ALL']);
+  const [category, setCategory] = useState<GetSubscriptionCategoryType>('ALL');
   const [columns, setColumns] = useState<ColumnDef<ITransactionColumn>[]>([]);
   const [tableData, setTableData] = useState<ITransactionColumn[]>([]);
   const fetchGetSubscriptions = useCallback(async () => {
@@ -49,6 +53,7 @@ const DeveloperTransactionProvider = ({
       order: createdAtOrder,
       limit,
       status,
+      category,
     });
     const subscriptions = response.data?.subscriptions;
     const pagination = response.data?.pagination;
@@ -74,7 +79,7 @@ const DeveloperTransactionProvider = ({
     }
 
     setIsLoading(false);
-  }, [page, status, limit, createdAtOrder]);
+  }, [page, category, status, limit, createdAtOrder]);
 
   const handlePayment = useCallback(
     async (req: IHandlePaymentRequest) => {
@@ -126,6 +131,8 @@ const DeveloperTransactionProvider = ({
         setCreatedAtOrder,
         status,
         setStatus,
+        category,
+        setCategory,
         columns,
         setColumns,
         tableData,

@@ -34,11 +34,14 @@ export interface ICompanyReview {
   companyId: string;
   companyName: string;
   companyLogoUrl: string;
+  companySlug: string;
   salaryEstimate: number;
   content: string;
   isDeleted: boolean;
   rating: ICompanyReviewRating;
   createdAt: string;
+  savedCount: number;
+  saved: boolean;
 }
 
 interface ICompanyReviewRating {
@@ -53,8 +56,20 @@ interface ICompanyReviewRating {
 
 export interface ISearchCompanyReview {
   id: string;
+  slug: string;
   name: string;
   logoUrl: string;
   overallRating: number;
   totalReviews: number;
+}
+
+export interface IAddSavedReview {
+  companyReviewId: string;
+  userId: string;
+  createdAt: string;
+}
+
+export interface ISavedReview {
+  userId: string;
+  companyReview: ICompanyReview;
 }

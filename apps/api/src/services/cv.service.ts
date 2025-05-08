@@ -5,7 +5,9 @@ import {
   GetCvBySlugRequest,
   UpdateCvRequest,
 } from '../interfaces/cv.interface';
+import { addCvSchema } from '../validations/cv.validation';
 import { ResponseError } from '../helpers/error';
+import { validate } from '../helpers/validation';
 
 class CvService {
   private cvRepository: CvRepository;
@@ -26,6 +28,7 @@ class CvService {
   };
 
   addCv = async (req: AddCvRequest) => {
+    validate(addCvSchema, req);
     return await this.cvRepository.addCv(req);
   };
 

@@ -24,3 +24,7 @@ export interface GetUserStatsRequest {
 export interface GetUserDetailRequest {
   userSlug: string;
 }
+
+export interface GetCurrentCompanyRequest {
+  userId: string;
+}

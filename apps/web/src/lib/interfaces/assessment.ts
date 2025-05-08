@@ -12,7 +12,7 @@ export interface IAssessment {
   isDeleted: boolean;
   hasPassed: boolean;
   totalQuestions?: number;
-  totalAttemptsByUser?: number;
+  totalEnrollmentCount?: number;
 }
 
 export interface IAssessmentQuestion {

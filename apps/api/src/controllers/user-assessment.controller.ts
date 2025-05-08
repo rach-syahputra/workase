@@ -27,6 +27,7 @@ class UserAssessmentController {
           id: req.body.assessment.id,
           slug: req.body.assessment.slug,
         },
+        subscriptionId: req.body.subscriptionId,
         score: req.body.score,
         status: req.body.status,
       });

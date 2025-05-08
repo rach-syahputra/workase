@@ -104,6 +104,7 @@ const AssessmentHistory = () => {
           {totalPages > 1 && (
             <AppPagination
               page={page}
+              disabled={isLoading}
               onPageChange={setPage}
               totalPages={totalPages}
             />

@@ -2,6 +2,8 @@
 
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import { signOut, useSession } from 'next-auth/react';
+import { LogOut, User } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { DEVELOPER_SIDEBAR_ITEMS } from '@/lib/constants/developer';
@@ -14,20 +16,26 @@ import {
   SidebarMenuLink,
 } from '../ui/sidebar';
 import { Separator } from '../shadcn-ui/separator';
+import { useEffect } from 'react';
 
 interface DeveloperSidebarProps {
   className?: string;
 }
 
 const DeveloperSidebar = ({ className }: DeveloperSidebarProps) => {
+  const session = useSession();
   const pathname = usePathname();
+
+  useEffect(() => {
+    console.log('session on developer sidebar: ', session);
+  }, [session]);
 
   return (
     <Sidebar className={cn('fixed left-0 top-0', className)}>
-      <SidebarGroup>
+      <SidebarGroup className="gap-2">
         <SidebarGroupLabel>
           <Image
-            src="/workase-white-blue.png"
+            src="/workase-white-for-developer.png"
             alt="Workase"
             width={921}
             height={189}
@@ -42,6 +50,7 @@ const DeveloperSidebar = ({ className }: DeveloperSidebarProps) => {
           />
         </SidebarGroupLabel>
         <Separator className="bg-primary-gray" />
+        <SidebarGroupLabel>Management</SidebarGroupLabel>
         <SidebarMenu>
           {DEVELOPER_SIDEBAR_ITEMS.map((item, index) => {
             const isActive = pathname === item.url;
@@ -62,6 +71,21 @@ const DeveloperSidebar = ({ className }: DeveloperSidebarProps) => {
               </SidebarMenuItem>
             );
           })}
+        </SidebarMenu>
+      </SidebarGroup>
+      <SidebarGroup className="mt-8 gap-2">
+        <SidebarGroupLabel>Account</SidebarGroupLabel>
+        <SidebarMenu>
+          <SidebarMenuItem className="hover:bg-primary-dark-background cursor-default">
+            <User size={16} />
+            <p className="line-clamp-1">{session.data?.user?.name}</p>
+          </SidebarMenuItem>
+          <SidebarMenuItem asChild className="hover:bg-red-500">
+            <button onClick={() => signOut()}>
+              <LogOut size={16} />
+              Logout
+            </button>
+          </SidebarMenuItem>
         </SidebarMenu>
       </SidebarGroup>
     </Sidebar>

@@ -19,7 +19,7 @@ const AppLoading = ({ size = 'sm', label }: AppLoadingProps) => {
       <HashLoader
         color="#0066ff"
         loading={true}
-        size={size === 'sm' ? 24 : size === 'md' ? 40 : 58}
+        size={size === 'sm' ? 24 : size === 'md' ? 32 : 40}
       />
 
       {label && (

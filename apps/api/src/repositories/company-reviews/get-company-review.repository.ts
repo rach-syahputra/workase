@@ -23,7 +23,13 @@ class GetCompanyReviewRepository {
       await this.prisma.$transaction([
         this.prisma.companyReview.count({
           where: {
-            companyId: req.companyId,
+            company: {
+              slug: req.slug,
+            },
+            content: {
+              contains: req.q,
+              mode: 'insensitive',
+            },
           },
         }),
         this.prisma.companyReview.findMany({
@@ -36,9 +42,27 @@ class GetCompanyReviewRepository {
                 logoUrl: true,
               },
             },
+            _count: {
+              select: {
+                SavedReview: true,
+              },
+            },
+            ...(req.userId && {
+              SavedReview: {
+                where: {
+                  userId: req.userId,
+                },
+              },
+            }),
           },
           where: {
-            companyId: req.companyId,
+            company: {
+              slug: req.slug,
+            },
+            content: {
+              contains: req.q,
+              mode: 'insensitive',
+            },
           },
           orderBy: orderConfig,
           cursor: cursorConfig,
@@ -60,6 +84,8 @@ class GetCompanyReviewRepository {
         createdAt: review.createdAt,
         isDeleted: review.isDeleted,
         rating: review.CompanyReviewRatings,
+        savedCount: review._count.SavedReview,
+        saved: !!(review.SavedReview && review.SavedReview.length > 0),
       })),
       pagination: {
         totalData: totalCompanyReviews,
@@ -83,46 +109,34 @@ class GetCompanyReviewRepository {
       await this.prisma.$transaction([
         this.prisma.companyReview.count({
           where: {
-            OR: [
-              {
-                jobTitle: {
-                  contains: req.q,
-                  mode: 'insensitive',
-                },
-              },
-              {
-                company: {
-                  name: {
-                    contains: req.q,
-                    mode: 'insensitive',
-                  },
-                },
-              },
-            ],
+            content: {
+              contains: req.q,
+              mode: 'insensitive',
+            },
           },
         }),
         this.prisma.companyReview.findMany({
           include: {
             CompanyReviewRatings: true,
             company: true,
+            _count: {
+              select: {
+                SavedReview: true,
+              },
+            },
+            ...(req.userId && {
+              SavedReview: {
+                where: {
+                  userId: req.userId,
+                },
+              },
+            }),
           },
           where: {
-            OR: [
-              {
-                jobTitle: {
-                  contains: req.q,
-                  mode: 'insensitive',
-                },
-              },
-              {
-                company: {
-                  name: {
-                    contains: req.q,
-                    mode: 'insensitive',
-                  },
-                },
-              },
-            ],
+            content: {
+              contains: req.q,
+              mode: 'insensitive',
+            },
           },
           orderBy: orderConfig,
           cursor: cursorConfig,
@@ -139,11 +153,14 @@ class GetCompanyReviewRepository {
         companyId: review.company.id,
         companyName: review.company.name,
         companyLogoUrl: review.company.logoUrl,
+        companySlug: review.company.slug,
         salaryEstimate: review.salaryEstimate,
         content: review.content,
         createdAt: review.createdAt,
         isDeleted: review.isDeleted,
         rating: review.CompanyReviewRatings,
+        savedCount: review._count.SavedReview,
+        saved: !!(review.SavedReview && review.SavedReview.length > 0),
       })),
       pagination: {
         totalData: totalCompaniesReviews,

@@ -49,6 +49,7 @@ export interface UpdateSubscriptionPaymentRepositoryRequest
 export interface GetSubscriptionsRequest extends IFilter {
   userId: string;
   paymentStatuses: PaymentStatus[];
+  category: SubscriptionCategory;
 }
 
 export interface VerifySubscriptionOwnerRequest {

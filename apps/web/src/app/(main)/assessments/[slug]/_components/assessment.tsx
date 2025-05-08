@@ -34,7 +34,7 @@ const Assessment = ({ assessment }: AssessmentProps) => {
         <div className="flex items-center justify-center gap-2">
           <Users size={20} />
           <span className="text-sm">
-            Enrolled by {assessment.totalAttemptsByUser} users
+            Enrolled {assessment.totalEnrollmentCount} times
           </span>
         </div>
         <div className="flex items-center justify-center gap-2">

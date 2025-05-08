@@ -51,6 +51,29 @@ class UserStatsController {
       next(err);
     }
   };
+
+  getCurrentCompany = async (
+    req: UserRequest,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      if (!req.user) throw new ResponseError(401, 'Unauthenticated');
+
+      const data = await this.userStatsService.getCurrentCompany({
+        userId: req.user.id,
+      });
+
+      ApiResponse({
+        res,
+        statusCode: 200,
+        message: 'Current company retrieved successfully.',
+        data,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
 }
 
 export default new UserStatsController();

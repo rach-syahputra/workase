@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 
 import { IAssessmentQuestion } from '@/lib/interfaces/assessment';
+import { OrderType } from '@/lib/interfaces/api-request/filter';
 
 export interface IFetchAssessmentQuestionsRequest {
   page?: number;
@@ -15,6 +16,8 @@ export interface IBrowseAssessmentQuestionContext {
   setTotalQuestions: Dispatch<SetStateAction<number>>;
   page: number;
   setPage: Dispatch<SetStateAction<number>>;
+  order: OrderType;
+  setOrder: Dispatch<SetStateAction<OrderType>>;
   searchQuestion: string;
   setSearchQuestion: Dispatch<SetStateAction<string>>;
   debouncedSearchQuestion: string;

@@ -9,7 +9,11 @@ export interface ICvEditFormContext {
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   showPreview: boolean;
   setShowPreview: Dispatch<SetStateAction<boolean>>;
+  isComparingSummary: boolean;
+  setIsComparingSummary: Dispatch<SetStateAction<boolean>>;
   cvData: ICv | undefined;
   setCvData: Dispatch<SetStateAction<ICv | undefined>>;
+  generatedSummary: string;
+  setGeneratedSummary: Dispatch<SetStateAction<string>>;
   formik: ReturnType<typeof useFormik<AddCvFormValues>>;
 }

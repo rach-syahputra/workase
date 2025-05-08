@@ -1,7 +1,5 @@
-import Footer from '@/components/layout/footer';
 import NavigationBar from '@/components/layout/navigation-bar/navigation-bar';
-import { SidebarProvider } from '@/components/shadcn-ui/sidebar';
-import { SampleProvider } from '@/context/sample-context';
+import Footer from '@/components/layout/footer';
 
 export default async function MainLayout({
   children,
@@ -16,4 +14,3 @@ export default async function MainLayout({
     </div>
   );
 }
-//

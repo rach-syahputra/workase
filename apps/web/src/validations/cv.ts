@@ -51,3 +51,16 @@ export const addCvSchema = yup.object().shape({
     }),
   }),
 });
+
+export const autoGenerateSummarySchema = yup.object().shape({
+  softSkills: yup.string().typeError('Soft skills must be a text').optional(),
+  yearsOfExperience: yup
+    .string()
+    .typeError('Years of experience must be a number')
+    .optional(),
+  achievement: yup.string().typeError('Achievement must be a text').optional(),
+  careerObjective: yup
+    .string()
+    .typeError('Career objective must be a text')
+    .optional(),
+});

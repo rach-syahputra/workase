@@ -1,16 +1,37 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
+import { ArrowDown, ArrowUp } from 'lucide-react';
 
 import { IAssessment } from '@/lib/interfaces/assessment';
 import { getAssessmentDiscovery } from '@/lib/apis/assessments';
 import { OrderType } from '@/lib/interfaces/api-request/filter';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/shadcn-ui/select';
 import { Card } from '@/components/shadcn-ui/card';
 import { Input } from '@/components/shadcn-ui/input';
 import AppPagination from '@/components/ui/pagination';
 import UserDashboardHeader from '@/components/user-dashboard/user-dashboard-header';
 import AssessmentCardSkeleton from './assessment-card-skeleton';
 import AssessmentCard from './assessment-card';
+
+interface OrderSelectProps {
+  order: OrderType;
+  onOrderChange: Dispatch<SetStateAction<OrderType>>;
+}
 
 const AssessmentDiscovery = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -63,13 +84,16 @@ const AssessmentDiscovery = () => {
         description="Explore a variety of skill-based assessments and boost your chances of getting hired."
       />
       <div className="flex w-full flex-col gap-4">
-        <Input
-          type="text"
-          placeholder="Search assessments..."
-          onChange={(e) => setSearchSkill(e.target.value)}
-          value={searchSkill}
-          className="w-full md:w-1/2"
-        />
+        <div className="flex flex-col items-center gap-2 sm:flex-row">
+          <Input
+            type="text"
+            placeholder="Search assessments..."
+            onChange={(e) => setSearchSkill(e.target.value)}
+            value={searchSkill}
+            className="w-full md:w-1/2"
+          />
+          <OrderSelect order={order} onOrderChange={setOrder} />
+        </div>
 
         <div className="grid w-full gap-4 md:grid-cols-2 lg:grid-cols-3">
           {isLoading ? (
@@ -86,6 +110,7 @@ const AssessmentDiscovery = () => {
               {totalPages > 1 && (
                 <AppPagination
                   page={page}
+                  disabled={isLoading}
                   onPageChange={setPage}
                   totalPages={totalPages}
                   className="mt-2"
@@ -100,6 +125,55 @@ const AssessmentDiscovery = () => {
         </div>
       </div>
     </Card>
+  );
+};
+
+const OrderSelect = ({ order, onOrderChange }: OrderSelectProps) => {
+  return (
+    <Select
+      onValueChange={(value) => {
+        onOrderChange(value as OrderType);
+      }}
+    >
+      <SelectTrigger className="w-full md:w-[200px]">
+        <SelectValue
+          placeholder={
+            order === 'desc' ? (
+              <div className="flex flex-row items-center justify-center gap-2">
+                <span>Total Enrollment</span>
+                <ArrowDown size={16} />
+              </div>
+            ) : order === 'asc' ? (
+              <div className="flex flex-row items-center justify-center gap-2">
+                <span>Total Enrollment</span>
+                <ArrowUp size={16} />
+              </div>
+            ) : (
+              '-- Total Enrollment --'
+            )
+          }
+          defaultValue="desc"
+          className="w-full"
+        />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          <SelectLabel>Total Enrollment</SelectLabel>
+          <SelectItem value="asc">
+            <div className="flex flex-row items-center justify-center gap-2">
+              <span>Total Enrollment</span>
+              <ArrowUp size={16} />
+            </div>
+          </SelectItem>
+          <SelectItem value="desc">
+            <div className="flex flex-row items-center justify-center gap-2">
+              <span>Total Enrollment</span>
+              <ArrowDown size={16} />
+            </div>
+          </SelectItem>
+        </SelectGroup>
+      </SelectContent>
+    </Select>
   );
 };
 

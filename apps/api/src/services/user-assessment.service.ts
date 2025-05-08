@@ -6,7 +6,10 @@ import {
   GetUserAssessmentRequest,
 } from '../interfaces/user-assessment.interface';
 import UserAssessmentRepository from '../repositories/user-assessments/user-assessment.repository';
-import { CalculateAssessmentResultSchema } from '../validations/user-assessment.validation';
+import {
+  addUserAssessmentSchema,
+  CalculateAssessmentResultSchema,
+} from '../validations/user-assessment.validation';
 import { UserAssessmentStatus } from '@prisma/client';
 
 class UserAssessmentService {
@@ -17,6 +20,8 @@ class UserAssessmentService {
   }
 
   addUserAssessment = async (req: AddUserAssessmentRequest) => {
+    validate(addUserAssessmentSchema, req);
+
     const { userAssessment } =
       await this.userAssessmentRepository.addUserAssessment(req);
 
