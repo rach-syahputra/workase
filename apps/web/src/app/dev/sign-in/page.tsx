@@ -1,7 +1,14 @@
 import Image from 'next/image';
+import { Metadata } from 'next';
 
 import { Card } from '@/components/shadcn-ui/card';
 import DevLoginForm from './_components/dev-login-form';
+
+export const metadata: Metadata = {
+  title: 'Sign In — Developer',
+  description:
+    'Manage assessments, skills and transactions with powerful developer tools in Workase.',
+};
 
 const DevLoginPage = () => {
   return (

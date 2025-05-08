@@ -2,13 +2,11 @@ import { UserAssessmentActiveTab } from '@/lib/interfaces/user-assessment';
 import UserDashboardContainer from '@/components/user-dashboard/user-dashboard-container';
 import AssessmentTab from './_components/assessment-tab';
 
-interface UserAssessmentPageProps {
+interface AssessmentsPageProps {
   searchParams: { tab: UserAssessmentActiveTab };
 }
 
-const UserAssessmentPage = async ({
-  searchParams,
-}: UserAssessmentPageProps) => {
+const AssessmentsPage = async ({ searchParams }: AssessmentsPageProps) => {
   const activeTab = searchParams.tab || 'discovery';
 
   return (
@@ -18,4 +16,4 @@ const UserAssessmentPage = async ({
   );
 };
 
-export default UserAssessmentPage;
+export default AssessmentsPage;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Metadata } from 'next';
 
 import { UserDetailProvider } from '@/context/user-detail-context';
 import Container from '@/components/layout/container';
@@ -8,6 +9,18 @@ interface ProfilePageProps {
   params: Promise<{ slug: string }>;
   children: React.ReactNode;
 }
+
+export const generateMetadata = async ({
+  params,
+}: ProfilePageProps): Promise<Metadata> => {
+  const slug = (await params).slug;
+
+  return {
+    title: `${slug} — Workase`,
+    description:
+      'Find your dream job with Workase—a powerful job board connecting top talent with leading companies. Browse job listings, apply with ease, and take the next step in your career.',
+  };
+};
 
 const ProfileLayout = async ({ params, children }: ProfilePageProps) => {
   const slug = (await params).slug;

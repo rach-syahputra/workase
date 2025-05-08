@@ -7,8 +7,10 @@ import {
   GetUserStatsResponse,
 } from '../interfaces/api-response/user-stats';
 import { handleApiError } from './error';
-import { GetUserDetailRequest } from '../interfaces/api-request/user-stats';
-import { auth } from '@/auth';
+import {
+  GetCurrentCompaniesRequest,
+  GetUserDetailRequest,
+} from '../interfaces/api-request/user-stats';
 
 export const getUserStats = async (): Promise<GetUserStatsResponse> => {
   try {
@@ -35,18 +37,16 @@ export const getUserDetail = async (
   }
 };
 
-export const getCurrentCompanies =
-  async (): Promise<GetCurrentCompaniesResponse> => {
-    try {
-      const session = await auth();
-      const token = session?.user?.accessToken;
+export const getCurrentCompanies = async (
+  req: GetCurrentCompaniesRequest,
+): Promise<GetCurrentCompaniesResponse> => {
+  try {
+    const response = await axiosPrivate(req.token || '').get(
+      `/users/current-companies`,
+    );
 
-      const response = await axiosPrivate(token || '').get(
-        `/users/current-companies`,
-      );
-
-      return response.data;
-    } catch (error) {
-      return handleApiError(error);
-    }
-  };
+    return response.data;
+  } catch (error) {
+    return handleApiError(error);
+  }
+};

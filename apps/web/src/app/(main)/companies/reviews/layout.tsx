@@ -1,4 +1,6 @@
 import React from 'react';
+import { Metadata } from 'next';
+import { auth } from '@/auth';
 
 import { getCurrentCompanies } from '@/lib/apis/user-stats';
 import { CompaniesReviewsProvider } from '@/context/companies-reviews-context';
@@ -11,10 +13,18 @@ interface CompaniesReviewsLayoutProps {
   children: React.ReactNode;
 }
 
+export const metadata: Metadata = {
+  title: 'Company Reviews — Workase',
+  description:
+    'Explore honest reviews and ratings from real employees about companies on Workase. Gain insights into workplace culture, work-life balance, facility and career growth before you apply.',
+};
+
 const CompaniesReviewsLayout = async ({
   children,
 }: CompaniesReviewsLayoutProps) => {
-  const response = await getCurrentCompanies();
+  const session = await auth();
+  const token = session?.user?.accessToken;
+  const response = await getCurrentCompanies({ token: token || '' });
   const userCurrentCompanies = response?.data?.currentCompanies;
 
   return (

@@ -1,8 +1,15 @@
 import { redirect } from 'next/navigation';
+import { Metadata } from 'next';
 
 import { auth } from '@/auth';
 import NavigationBar from '@/components/layout/navigation-bar/navigation-bar';
 import UserSidebar from '@/components/user-dashboard/user-sidebar';
+
+export const metadata: Metadata = {
+  title: 'Dashboard — Workase',
+  description:
+    'Find your dream job with Workase—a powerful job board connecting top talent with leading companies. Browse job listings, apply with ease, and take the next step in your career.',
+};
 
 export default async function UserDashboardLayout({
   children,

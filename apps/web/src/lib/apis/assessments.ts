@@ -73,13 +73,13 @@ export const getAssessmentBySlug = async (
   req: GetAssessmentBySlugRequest,
 ): Promise<GetAssessmentBySlugResponse> => {
   try {
-    let session;
+    let token;
     if (req.isOnClient) {
-      session = await getSession();
+      const session = await getSession();
+      token = session?.user?.accessToken;
     } else {
-      session = await auth();
+      token = req.token;
     }
-    const token = session?.user?.accessToken;
 
     const response = await axiosPrivate(token || '').get(
       `/assessments/${req.slug}`,

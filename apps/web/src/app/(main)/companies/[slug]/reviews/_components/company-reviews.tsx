@@ -54,7 +54,7 @@ const CompanyReviews = () => {
 
           {!isLoading && (!reviews || reviews.length === 0) && (
             <div className="flex w-full items-center justify-center px-4 py-4">
-              <p className="text-primary-gray text-center">
+              <p className="text-primary-gray text-center text-sm">
                 There are currently no reviews for this company.
               </p>
             </div>
