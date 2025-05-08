@@ -4,10 +4,12 @@ import ImageRepository from '../repositories/cloudinary/image.repository';
 import {
   AddCertificateServiceRequest,
   GenerateCertificateTokenRequest,
-  GetCertificateBySlugRequest,
   GetCertificateDetailRequest,
 } from '../interfaces/certificate.interface';
-import { AddCertificateSchema } from '../validations/certificate.validation';
+import {
+  AddCertificateSchema,
+  generateCertificateTokenSchema,
+} from '../validations/certificate.validation';
 import { validate } from '../helpers/validation';
 import { generateCertificateSlug } from '../helpers/utils';
 import { generateCertificateCrCodeToken } from '../helpers/jwt';
@@ -29,6 +31,8 @@ class CertificateService {
   };
 
   generateCertificateToken = async (req: GenerateCertificateTokenRequest) => {
+    validate(generateCertificateTokenSchema, req);
+
     let slug;
 
     do {

@@ -39,7 +39,7 @@ const StartAssessmentModal = ({
   hasPassed,
 }: StartAssessmentModalProps) => {
   const router = useRouter();
-  const { fetchGetUserStats } = useUserStatsContext();
+  const { fetchGetUserStats, userStats } = useUserStatsContext();
   const { setPage, setProgress } = useAssessmentSessionContext();
   const [open, setOpen] = useState<boolean>(false);
 
@@ -49,6 +49,7 @@ const StartAssessmentModal = ({
         id: assessmentId,
         slug,
       },
+      subscriptionId: userStats?.subscription.id || '',
       score: 0,
       status: 'ON_GOING',
     });

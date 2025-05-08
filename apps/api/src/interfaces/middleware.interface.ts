@@ -31,12 +31,15 @@ export interface UserToken {
   address: string;
   jobId: string;
   role: RoleType;
+  name: string;
 }
 
 export interface DeveloperToken {
   id: string;
   email: string;
   role: RoleType;
+  name: string;
+  slug: string;
 }
 export interface UserRequest extends Request {
   user?: UserToken;

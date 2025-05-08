@@ -1,9 +1,16 @@
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
+import { Metadata } from 'next';
 
 import { DeveloperAssessmentProvider } from '@/context/developer-assessment-context';
 import DeveloperSidebar from '@/components/developer/developer-sidebar';
 import DeveloperNavbar from '@/components/developer/developer-navbar';
+
+export const metadata: Metadata = {
+  title: 'Developer — Workase',
+  description:
+    'Manage assessments, skills and transactions with powerful developer tools in Workase.',
+};
 
 export default async function DeveloperManagementLayout({
   children,

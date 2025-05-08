@@ -1,14 +1,14 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 const tabs = [
-  { label: 'Home', value: '' },
-  { label: 'Jobs', value: 'all-jobs' },
-  { label: 'Companies', value: 'companies' },
+  { label: 'Home', value: '/' },
+  { label: 'Jobs', value: '/all-jobs' },
+  { label: 'Companies', value: '/companies' },
+  { label: 'Reviews', value: '/companies/reviews' },
 ];
 export default function Menu() {
-  const searchParams = useSearchParams();
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const [activeTab, setActiveTab] = useState('Home');
   const pathname = usePathname();
@@ -16,17 +16,15 @@ export default function Menu() {
 
   // Sync active tab saat URL berubah
   useEffect(() => {
-    const current = pathname.split('/')[1];
-    const matchedTab = tabs.find((tab) => tab.value === current);
+    const matchedTab = tabs.find((tab) => pathname === tab.value);
+
     if (matchedTab) {
       setActiveTab(matchedTab.label);
     }
   }, [pathname]);
 
   const handleTabClick = (tab: (typeof tabs)[number]) => {
-    const queryString = searchParams.toString();
-    const path = `/${tab.value}${queryString ? '?' + queryString : ''}`;
-    router.push(path);
+    router.push(tab.value);
 
     setActiveTab(tab.label);
   };

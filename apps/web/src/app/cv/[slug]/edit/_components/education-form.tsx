@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { getIn } from 'formik';
 import { Plus } from 'lucide-react';
 
 import { useCvEditFormContext } from '@/context/cv-edit-form-context';
@@ -54,6 +55,10 @@ const EducationForm = () => {
                 label="Major"
                 onChange={formik.handleChange}
                 value={content.major as string}
+                errorMessage={getIn(
+                  formik.errors,
+                  `data.education.contents[${index}].major`,
+                )}
               />
               <FormInput
                 type="text"
@@ -62,6 +67,10 @@ const EducationForm = () => {
                 label="Institution"
                 onChange={formik.handleChange}
                 value={content.institution as string}
+                errorMessage={getIn(
+                  formik.errors,
+                  `data.education.contents[${index}].institution`,
+                )}
               />
               <FormInput
                 type="text"
@@ -70,6 +79,10 @@ const EducationForm = () => {
                 label="Start Year"
                 onChange={formik.handleChange}
                 value={content.startDate as string}
+                errorMessage={getIn(
+                  formik.errors,
+                  `data.education.contents[${index}].startDate`,
+                )}
               />
               <FormInput
                 type="text"
@@ -78,6 +91,10 @@ const EducationForm = () => {
                 label="End Year"
                 onChange={formik.handleChange}
                 value={content.endDate as string}
+                errorMessage={getIn(
+                  formik.errors,
+                  `data.education.contents[${index}].endDate`,
+                )}
               />
             </div>
           </Card>

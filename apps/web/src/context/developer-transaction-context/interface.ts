@@ -5,7 +5,10 @@ import {
   IFetchGetSubscriptionsRequest,
   SubscriptionPaymentStatusType,
 } from '@/lib/interfaces/subscription';
-import { GetSubscriptionStatusType } from '@/lib/interfaces/api-request/subscription';
+import {
+  GetSubscriptionCategoryType,
+  GetSubscriptionStatusType,
+} from '@/lib/interfaces/api-request/subscription';
 import { OrderType } from '@/lib/interfaces/api-request/filter';
 import { ITransactionColumn } from '@/app/dev/(management)/transactions/_components/table/interface';
 
@@ -28,6 +31,8 @@ export interface IDeveloperTransactionContext {
   setCreatedAtOrder: Dispatch<SetStateAction<OrderType>>;
   status: GetSubscriptionStatusType[];
   setStatus: Dispatch<SetStateAction<GetSubscriptionStatusType[]>>;
+  category: GetSubscriptionCategoryType;
+  setCategory: Dispatch<SetStateAction<GetSubscriptionCategoryType>>;
   columns: ColumnDef<ITransactionColumn>[];
   setColumns: Dispatch<SetStateAction<ColumnDef<ITransactionColumn>[]>>;
   tableData: ITransactionColumn[];

@@ -3,6 +3,8 @@ import {
   AddSkillRequest,
   GetSkillsRequest,
 } from '../interfaces/skill.interface';
+import { addSkillSchema } from '../validations/skill.validation';
+import { validate } from '../helpers/validation';
 
 class SkillService {
   private skillRepository: SkillRepository;
@@ -16,6 +18,7 @@ class SkillService {
   };
 
   addSkill = async (req: AddSkillRequest) => {
+    validate(addSkillSchema, req);
     return await this.skillRepository.addSkill(req);
   };
 }

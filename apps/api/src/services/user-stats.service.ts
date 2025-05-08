@@ -1,5 +1,6 @@
 import UserStatsRepository from '../repositories/users/user-stats.repository';
 import {
+  GetCurrentCompanyRequest,
   GetUserDetailRequest,
   GetUserStatsRequest,
 } from '../interfaces/user.interface';
@@ -17,6 +18,10 @@ class UserStatsService {
 
   getUserDetail = async (req: GetUserDetailRequest) => {
     return await this.userStatsRepository.getUserDetail(req);
+  };
+
+  getCurrentCompany = async (req: GetCurrentCompanyRequest) => {
+    return await this.userStatsRepository.getCurrentCompany(req);
   };
 }
 

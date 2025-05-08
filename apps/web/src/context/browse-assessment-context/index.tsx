@@ -16,6 +16,7 @@ import {
   IFetchAssessmentQuestionsRequest,
 } from './interface';
 import { useAssessmentQuestionContext } from '../assessment-question-context';
+import { OrderType } from '@/lib/interfaces/api-request/filter';
 
 const BrowseAssessmentQuestionContext = createContext<
   IBrowseAssessmentQuestionContext | undefined
@@ -32,6 +33,7 @@ const BrowseAssessmentProvider = ({
   const [totalPages, setTotalPages] = useState<number>(1);
   const [totalQuestions, setTotalQuestions] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
+  const [order, setOrder] = useState<OrderType>('desc');
   const [searchQuestion, setSearchQuestion] = useState<string>('');
   const [debouncedSearchQuestion, setDebouncedSearchQuestion] =
     useState<string>('');
@@ -46,6 +48,7 @@ const BrowseAssessmentProvider = ({
         limit,
         page: req?.page || page,
         slug,
+        order,
         question: debouncedSearchQuestion,
       });
 
@@ -64,7 +67,7 @@ const BrowseAssessmentProvider = ({
 
       setIsLoading(false);
     },
-    [debouncedSearchQuestion, page, slug],
+    [debouncedSearchQuestion, order, page, slug],
   );
 
   useEffect(() => {
@@ -84,6 +87,8 @@ const BrowseAssessmentProvider = ({
         setTotalQuestions,
         page,
         setPage,
+        order,
+        setOrder,
         searchQuestion,
         setSearchQuestion,
         debouncedSearchQuestion,

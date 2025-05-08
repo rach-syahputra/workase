@@ -36,7 +36,7 @@ const Profile = ({ className }: ProfileProps) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem asChild className="cursor-pointer">
-          <Link href={`/profile/${session?.user?.slug}`}>
+          <Link href={`/w/${session?.user?.slug}`}>
             <User size={16} />
             My Profile
           </Link>

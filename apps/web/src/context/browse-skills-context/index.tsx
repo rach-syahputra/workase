@@ -23,7 +23,7 @@ const BrowseSkillsProvider = ({ children }: { children: React.ReactNode }) => {
   const [searchSkill, setSearchSkill] = useState<string>('');
   const [debouncedSearchSkill, setDebouncedSearchSkill] = useState<string>('');
   const [skills, setSkills] = useState<ISkill[]>([]);
-  const limit = 8;
+  const limit = 12;
 
   const fetchSkills = useCallback(async () => {
     setIsLoading(true);

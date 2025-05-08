@@ -1,10 +1,12 @@
 import {
+  IAddSavedReview,
   ICompanyHeader,
   ICompanyRating,
   ICompanyReview,
+  ISavedReview,
   ISearchCompanyReview,
 } from '../company-review';
-import { APIResponse, ICursorPagination } from './response';
+import { APIResponse, ICursorPagination, IPagination } from './response';
 
 export interface AddCompanyReviewData {
   id: string;
@@ -64,4 +66,19 @@ export interface GetCompaniesReviewsResponse extends APIResponse {
 
 export interface SearchCompanyReviewsResponse extends APIResponse {
   data?: SearchCompanyReviewsData;
+}
+
+export interface AddSavedReviewResponse extends APIResponse {
+  data?: {
+    savedReview: IAddSavedReview;
+  };
+}
+
+export interface RemoveSavedReviewResponse extends APIResponse {}
+
+export interface GetSavedReviewsResponse extends APIResponse {
+  data?: {
+    savedReviews: ISavedReview[];
+    pagination: IPagination;
+  };
 }

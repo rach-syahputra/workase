@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import jwt from 'jsonwebtoken';
 
@@ -27,6 +27,7 @@ const PageContent = () => {
     setCurrentQuestion,
     getAssessmentSessionFromLocalStorage,
   } = useAssessmentSessionContext();
+  const firstRenderRef = useRef(false);
 
   const fetchGetAssessmentQuestions = useCallback(async () => {
     setIsLoading(true);
@@ -100,6 +101,9 @@ const PageContent = () => {
   ]);
 
   useEffect(() => {
+    if (firstRenderRef.current === true) return;
+    firstRenderRef.current = true;
+
     fetchGetAssessmentQuestions();
   }, [fetchGetAssessmentQuestions]);
 

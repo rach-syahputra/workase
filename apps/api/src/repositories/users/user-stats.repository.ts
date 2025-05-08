@@ -1,5 +1,6 @@
 import { prisma } from '../../helpers/prisma';
 import {
+  GetCurrentCompanyRequest,
   GetUserDetailRequest,
   GetUserStatsRequest,
 } from '../../interfaces/user.interface';
@@ -12,12 +13,6 @@ class UserStatsRepository {
   }
 
   getUserStats = async (req: GetUserStatsRequest) => {
-    const userAssessment = await this.prisma.userAssessment.findMany({
-      where: {
-        userId: req.userId,
-      },
-    });
-
     // Find active plan
     const subscription = await this.prisma.subscription.findFirst({
       where: {
@@ -42,10 +37,9 @@ class UserStatsRepository {
 
     return {
       stats: {
-        assessment: {
-          enrollmentCount: userAssessment.length,
-        },
         subscription: {
+          id: subscription?.id,
+          assessmentEnrollmentCount: subscription?.assessmentEnrollmentCount,
           plan: subscription?.category || null,
           hasPendingTransaction: !!pendingTransaction,
           expiresAt: subscription?.expiresAt,
@@ -82,6 +76,11 @@ class UserStatsRepository {
                 },
               },
             },
+            Certificate: {
+              select: {
+                slug: true,
+              },
+            },
           },
         },
       },
@@ -98,8 +97,33 @@ class UserStatsRepository {
           slug: userAssessment.assessment.slug,
           title: userAssessment.assessment.skill.title,
           score: userAssessment.score,
+          certificateSlug: userAssessment.Certificate?.slug,
         })),
       },
+    };
+  };
+
+  getCurrentCompany = async (req: GetCurrentCompanyRequest) => {
+    const appliedJobs = await this.prisma.appliedJob.findMany({
+      where: {
+        userId: req.userId,
+      },
+      select: {
+        job: {
+          include: {
+            company: true,
+          },
+        },
+      },
+    });
+
+    return {
+      currentCompanies: appliedJobs.map((appliedJob) => ({
+        id: appliedJob.job.company.id,
+        name: appliedJob.job.company.name,
+        jobTitle: appliedJob.job.title,
+        slug: appliedJob.job.company.slug,
+      })),
     };
   };
 }

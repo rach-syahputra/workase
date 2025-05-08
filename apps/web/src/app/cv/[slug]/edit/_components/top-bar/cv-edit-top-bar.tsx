@@ -37,14 +37,6 @@ const CvEditTopBar = () => {
           <Button
             type="button"
             variant="outline"
-            className="border-border flex items-center justify-center gap-2 max-lg:hidden"
-          >
-            <Palette size={16} />
-            Template
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
             onClick={() => setShowPreview(!showPreview)}
             className={cn(
               'border-border flex items-center justify-center gap-2 hover:bg-white max-lg:hidden',

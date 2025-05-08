@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { calculateAssessmentResult } from '@/lib/apis/user-assessment';
+import { ASSESSMENT_SESSION_KEY } from '@/lib/constants/assessment';
+import { removeFromLocalStorage } from '@/hooks/use-local-storage';
 import { useAssessmentSessionContext } from '@/context/assessment-session-context';
 import { Button } from '@/components/shadcn-ui/button';
 
@@ -32,6 +34,7 @@ const AssessmentSessionSubmitButton = () => {
     });
 
     if (response.success) {
+      removeFromLocalStorage(ASSESSMENT_SESSION_KEY);
       router.push('/dashboard/assessments?tab=history');
     }
 

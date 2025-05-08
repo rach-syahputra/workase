@@ -1,58 +1,25 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { useClickAway } from 'react-use';
+import { useRef } from 'react';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
-import { ISearchCompanyReview } from '@/lib/interfaces/company-review';
-import { searchCompanyReviews } from '@/lib/apis/company-reviews';
+import { useCompaniesReviewsContext } from '@/context/companies-reviews-context';
 import { Input } from '@/components/shadcn-ui/input';
 import Icon from '@/components/ui/icon';
-import SearchCompanyReviewsDropdown from './search-company-reviews-dropdown';
+import ReviewsOrderSelect from './reviews-order-select';
 
 const SearchCompanyReviewsBar = () => {
-  const [openDropdown, setOpenDropdown] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [query, setQuery] = useState<string>('');
-  const [debouncedQuery, setDebouncedQuery] = useState<string>('');
-  const [companies, setCompanies] = useState<ISearchCompanyReview[]>([]);
-
+  const { setQuery } = useCompaniesReviewsContext();
   const searchBarRef = useRef<HTMLDivElement | null>(null);
 
-  const fetchSearchCompanyReviews = useCallback(async () => {
-    setIsLoading(true);
-
-    const response = await searchCompanyReviews({
-      q: debouncedQuery,
-    });
-
-    if (response.success) {
-      setCompanies(response.data?.companies || []);
-    }
-
-    setIsLoading(false);
-  }, [debouncedQuery]);
-
-  useEffect(() => {
-    const handleDebouncedQuery = setTimeout(() => {
-      setDebouncedQuery(query);
-    }, 300);
-
-    return () => clearTimeout(handleDebouncedQuery);
-  }, [query]);
-
-  useEffect(() => {
-    fetchSearchCompanyReviews();
-  }, [fetchSearchCompanyReviews]);
-
-  useClickAway(searchBarRef, () => setOpenDropdown(false));
-
   return (
-    <div ref={searchBarRef} className="relative w-full">
+    <div
+      ref={searchBarRef}
+      className="relative flex w-full flex-col items-center justify-center gap-2 sm:flex-row"
+    >
       <div className="relative w-full">
         <Input
-          placeholder="Find company or job title"
-          onFocus={() => setOpenDropdown(true)}
+          placeholder="Search reviews..."
           onChange={(e) => setQuery(e.target.value)}
         />
         <Icon
@@ -60,11 +27,7 @@ const SearchCompanyReviewsBar = () => {
           className="text-primary-gray absolute right-3 top-3 w-3"
         />
       </div>
-      <SearchCompanyReviewsDropdown
-        companies={companies}
-        open={openDropdown}
-        isLoading={isLoading}
-      />
+      <ReviewsOrderSelect />
     </div>
   );
 };

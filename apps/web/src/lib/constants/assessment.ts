@@ -21,4 +21,8 @@ export const ASSESSMENT_INSTRUCTIONS = [
     no: 5,
     text: 'To earn a certificate, you must score at least 75 points.',
   },
+  {
+    no: 6,
+    text: 'You’re allowed to re-enroll if you fail, but not after passing.',
+  },
 ];

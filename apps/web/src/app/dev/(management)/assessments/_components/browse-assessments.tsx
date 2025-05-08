@@ -47,6 +47,7 @@ const BrowseAssessments = () => {
               page={page}
               onPageChange={setPage}
               totalPages={totalPages}
+              disabled={isLoading}
             />
           )}
         </>

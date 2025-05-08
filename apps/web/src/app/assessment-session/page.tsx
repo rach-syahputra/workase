@@ -1,6 +1,13 @@
+import { Metadata } from 'next';
 import PageContent from './_components/page-content';
 
-const TakeAssessmentPage = async () => {
+export const metadata: Metadata = {
+  title: 'Assessment Session — Workase',
+  description:
+    'You are now taking a Workase assessment. Answer all questions carefully to complete the session and earn your certificate.',
+};
+
+const AssessmentSessionPage = async () => {
   return (
     <div className="bg-primary-gray-background min-h-screen w-full pb-8">
       <PageContent />
@@ -8,4 +15,4 @@ const TakeAssessmentPage = async () => {
   );
 };
 
-export default TakeAssessmentPage;
+export default AssessmentSessionPage;

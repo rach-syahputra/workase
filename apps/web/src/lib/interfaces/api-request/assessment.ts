@@ -13,6 +13,7 @@ export interface GetAssessmentDiscoveryRequest extends IFilter {
 export interface GetAssessmentBySlugRequest {
   isOnClient: boolean;
   slug: string;
+  token?: string;
 }
 
 export interface GetAvailableSkillsRequest extends IFilter {

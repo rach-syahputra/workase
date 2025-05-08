@@ -21,19 +21,35 @@ interface PaymentStatusSelectProps {
 const PaymentStatusSelect = ({ setStatus }: PaymentStatusSelectProps) => {
   const STATUS_ITEMS = [
     {
-      label: 'All',
+      label: (
+        <>
+          Status: <strong>All</strong>
+        </>
+      ),
       value: 'ALL',
     },
     {
-      label: 'Confirmed',
+      label: (
+        <>
+          Status: <strong>Confirmed</strong>
+        </>
+      ),
       value: 'CONFIRMED',
     },
     {
-      label: 'Pending',
+      label: (
+        <>
+          Status: <strong>Pending</strong>
+        </>
+      ),
       value: 'PENDING',
     },
     {
-      label: 'Rejected',
+      label: (
+        <>
+          Status: <strong>Rejected</strong>
+        </>
+      ),
       value: 'REJECTED',
     },
   ];
@@ -44,7 +60,7 @@ const PaymentStatusSelect = ({ setStatus }: PaymentStatusSelectProps) => {
         setStatus([value] as GetSubscriptionStatusType[]);
       }}
     >
-      <SelectTrigger className="w-[280px]">
+      <SelectTrigger className="w-full md:w-[240px]">
         <SelectValue
           placeholder="Select Status"
           defaultValue="ALL"

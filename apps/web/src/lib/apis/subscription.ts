@@ -32,6 +32,8 @@ export const getSubscriptions = async (
     if (req?.page) queryParams.append('page', req?.page.toString());
     if (req?.status && !req?.status?.includes('ALL') && req.status.length > 0)
       queryParams.append('status', req.status.join(','));
+    if (req?.category && req.category !== 'ALL')
+      queryParams.append('category', req?.category.toString());
 
     const query = queryParams.toString();
     const response = await axiosPrivate(token || '').get(

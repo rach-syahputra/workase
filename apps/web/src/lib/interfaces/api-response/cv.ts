@@ -18,3 +18,9 @@ export interface UpdateCvResponse extends APIResponse {
     cv: ICv;
   };
 }
+
+export interface GenerateCvSummaryResponse extends APIResponse {
+  data?: {
+    summary: string;
+  };
+}

@@ -64,7 +64,7 @@ const DeleteQuestionModal = ({
           <DialogTitle className="text-red-500">Confirm Deletion</DialogTitle>
         </DialogHeader>
         <div className="flex w-full flex-col items-center justify-center gap-4">
-          <p>Are you sure you want to delete the question?</p>
+          <p>Are you sure you want to delete this question?</p>
           <div className="grid w-full grid-cols-2 gap-4">
             <Button
               onClick={() => setOpen(false)}

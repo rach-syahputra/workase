@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
+import { faBookmark } from '@fortawesome/free-regular-svg-icons';
+import { faBookmark as faBookmarkCheck } from '@fortawesome/free-solid-svg-icons';
 
 import { cn, formatCurrency, formatRelativeTime } from '@/lib/utils';
 import { ICompanyReview } from '@/lib/interfaces/company-review';
@@ -13,24 +14,31 @@ import CompanyReviewRating from './company-review-rating';
 
 interface CompanyReviewCardProps {
   review: ICompanyReview;
+  onBookmark: () => void;
+  disabled?: boolean;
   className?: string;
 }
 
-const CompanyReviewCard = ({ review, className }: CompanyReviewCardProps) => {
+const CompanyReviewCard = ({
+  review,
+  onBookmark,
+  disabled,
+  className,
+}: CompanyReviewCardProps) => {
   const [isExpandedContent, setIsExpandedContent] = useState<boolean>(false);
   const maxContentLength = 400;
 
   return (
     <Card
       className={cn(
-        'flex w-full flex-col gap-2 p-4 max-md:border-none max-md:shadow-none',
+        'flex w-full flex-col max-md:border-none max-md:shadow-none',
         className,
       )}
     >
       <div className="flex flex-row items-start justify-between">
         <Link
           href={`/companies/${review.companyId}`}
-          className="flex items-center justify-center gap-2"
+          className="flex items-center justify-center gap-2 p-4"
         >
           <Image
             src={review.companyLogoUrl}
@@ -46,14 +54,25 @@ const CompanyReviewCard = ({ review, className }: CompanyReviewCardProps) => {
             </span>
           </div>
         </Link>
-        {/* TO DO: do something on ellipsis icon */}
-        <Icon
-          icon={faEllipsis}
-          className="text-primary-dark w-3.5 cursor-pointer"
-        />
+        <div className="flex items-center">
+          <span className="text-primary-gray text-xs font-medium">
+            {review.savedCount}
+          </span>
+          <button
+            type="button"
+            disabled={disabled}
+            onClick={onBookmark}
+            className="flex cursor-pointer items-center justify-center p-4"
+          >
+            <Icon
+              icon={review.saved ? faBookmarkCheck : faBookmark}
+              className="text-primary-dark w-2.5"
+            />
+          </button>
+        </div>
       </div>
 
-      <div className="flex flex-col">
+      <div className="flex flex-col px-4">
         <span className="text-primary-gray text-sm">{review.jobTitle}</span>
         <h4 className="text-primary-dark font-semibold">{review.title}</h4>
         <CompanyReviewRating
@@ -69,7 +88,8 @@ const CompanyReviewCard = ({ review, className }: CompanyReviewCardProps) => {
           {formatCurrency(review.salaryEstimate)}
         </p>
       </div>
-      <div className="flex flex-col gap-1">
+
+      <div className="flex flex-col gap-1 p-4">
         <p>
           {isExpandedContent
             ? review.content

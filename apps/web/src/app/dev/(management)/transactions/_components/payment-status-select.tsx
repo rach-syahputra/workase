@@ -1,8 +1,5 @@
 'use client';
 
-import { ChevronDown } from 'lucide-react';
-
-import { SubscriptionPaymentStatusType } from '@/lib/interfaces/subscription';
 import { GetSubscriptionStatusType } from '@/lib/interfaces/api-request/subscription';
 import { useDeveloperTransactionContext } from '@/context/developer-transaction-context';
 import {
@@ -20,19 +17,35 @@ const PaymentStatusSelect = () => {
 
   const STATUS_ITEMS = [
     {
-      label: 'All',
+      label: (
+        <>
+          Status: <strong>All</strong>
+        </>
+      ),
       value: 'ALL',
     },
     {
-      label: 'Confirmed',
+      label: (
+        <>
+          Status: <strong>Confirmed</strong>
+        </>
+      ),
       value: 'CONFIRMED',
     },
     {
-      label: 'Pending',
+      label: (
+        <>
+          Status: <strong>Pending</strong>
+        </>
+      ),
       value: 'PENDING',
     },
     {
-      label: 'Rejected',
+      label: (
+        <>
+          Status: <strong>Rejected</strong>
+        </>
+      ),
       value: 'REJECTED',
     },
   ];
@@ -43,7 +56,7 @@ const PaymentStatusSelect = () => {
         setStatus([value] as GetSubscriptionStatusType[]);
       }}
     >
-      <SelectTrigger className="w-[280px]">
+      <SelectTrigger className="w-full md:w-[240px]">
         <SelectValue
           placeholder="Select Status"
           defaultValue="ALL"

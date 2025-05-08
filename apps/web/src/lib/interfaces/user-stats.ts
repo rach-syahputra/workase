@@ -3,10 +3,9 @@ import { ICv } from './cv';
 export type SubscriptionPlanType = 'PROFESSIONAL' | 'STANDARD';
 
 export interface IUserStats {
-  assessment: {
-    enrollmentCount: number;
-  };
   subscription: {
+    id: string;
+    assessmentEnrollmentCount: number;
     plan: SubscriptionPlanType | 'FREE';
     hasPendingTransaction: boolean;
     expiresAt: string;
@@ -34,9 +33,17 @@ export interface IBadge {
   slug: string;
   title: string;
   score: number;
+  certificateSlug: string;
 }
 
 export interface IUserDetail extends IUser {
   cv: ICv;
   badges: IBadge[];
+}
+
+export interface ICurrentCompany {
+  id: string;
+  name: string;
+  jobTitle: string;
+  slug: string;
 }

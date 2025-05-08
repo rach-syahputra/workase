@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { cn } from '@/lib/utils';
-import { ISkill } from '@/lib/interfaces/skill';
 import { useCreateAssessmentContext } from '@/context/create-assessment-context';
 import { Card } from '@/components/shadcn-ui/card';
 import { Separator } from '@/components/shadcn-ui/separator';
@@ -10,13 +9,12 @@ import AvailableSkillCardSkeleton from './available-skill-card-skeleton';
 import AvailableSkillCard from './available-skill-card';
 
 interface SkillsProps {
-  skills: ISkill[];
-  isLoading?: boolean;
   className?: string;
 }
 
-const AvailableSkills = ({ skills, isLoading, className }: SkillsProps) => {
-  const { page, setPage, totalPages } = useCreateAssessmentContext();
+const AvailableSkills = ({ className }: SkillsProps) => {
+  const { isLoading, page, skills, setPage, totalPages } =
+    useCreateAssessmentContext();
 
   return (
     <Card
@@ -43,19 +41,20 @@ const AvailableSkills = ({ skills, isLoading, className }: SkillsProps) => {
                 </React.Fragment>
               ))}
             </div>
-            {totalPages > 1 && (
-              <AppPagination
-                page={page}
-                onPageChange={setPage}
-                totalPages={totalPages}
-                className="mt-2"
-              />
-            )}
           </>
         ) : (
           <div className="text-primary-gray flex h-full w-full items-center justify-center">
             No available skills.
           </div>
+        )}
+        {totalPages > 1 && (
+          <AppPagination
+            page={page}
+            onPageChange={setPage}
+            totalPages={totalPages}
+            disabled={isLoading}
+            className="mt-2"
+          />
         )}
       </div>
     </Card>

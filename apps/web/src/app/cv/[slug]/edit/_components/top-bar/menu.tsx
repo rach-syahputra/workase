@@ -67,7 +67,7 @@ const Menu = () => {
               </Button>
               <Button variant="ghost" asChild className="h-14">
                 <Link
-                  href={`/profile/${session?.user?.slug}`}
+                  href={`/w/${session?.user?.slug}`}
                   aria-label="Profile page"
                 >
                   <User size={16} />

@@ -6,6 +6,7 @@ import {
   DeveloperRequest,
   UserAndDeveloperRequest,
 } from '../interfaces/middleware.interface';
+import { OrderType } from '../interfaces/filter.interface';
 import { ApiResponse } from '../helpers/api-response';
 import { ResponseError } from '../helpers/error';
 
@@ -29,6 +30,7 @@ class AssessmentQuestionController {
         slug: req.params.slug,
         limit: Number(req.query.limit),
         page: Number(req.query.page),
+        order: req.query.order as OrderType,
         question: req.query.question as string,
       });
 

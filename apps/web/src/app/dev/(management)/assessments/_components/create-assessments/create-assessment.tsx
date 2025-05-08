@@ -1,24 +1,12 @@
 'use client';
 
-import { useEffect } from 'react';
-
 import { useCreateAssessmentContext } from '@/context/create-assessment-context';
 import { Card } from '@/components/shadcn-ui/card';
 import { Input } from '@/components/shadcn-ui/input';
 import AvailableSkills from './available-skills';
 
 const CreateAssessment = () => {
-  const {
-    skills,
-    isLoading,
-    fetchAvailableSkills,
-    searchSkill,
-    setSearchSkill,
-  } = useCreateAssessmentContext();
-
-  useEffect(() => {
-    fetchAvailableSkills();
-  }, [fetchAvailableSkills]);
+  const { searchSkill, setSearchSkill } = useCreateAssessmentContext();
 
   return (
     <Card className="flex w-full flex-col items-start justify-center gap-2 max-md:border-none max-md:shadow-none md:p-5">
@@ -31,7 +19,7 @@ const CreateAssessment = () => {
         className="w-full"
       />
 
-      <AvailableSkills skills={skills} isLoading={isLoading} className="mt-3" />
+      <AvailableSkills className="mt-3" />
     </Card>
   );
 };
