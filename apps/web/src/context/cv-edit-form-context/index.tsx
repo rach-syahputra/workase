@@ -24,7 +24,9 @@ const CvEditFormProvider = ({
   const { appToast } = useAppToast();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [showPreview, setShowPreview] = useState<boolean>(false);
+  const [isComparingSummary, setIsComparingSummary] = useState<boolean>(false);
   const [cvData, setCvData] = useState<ICv>();
+  const [generatedSummary, setGeneratedSummary] = useState<string>('');
 
   const fetchGetCvBySlug = async () => {
     setIsLoading(true);
@@ -102,8 +104,12 @@ const CvEditFormProvider = ({
         setIsLoading,
         showPreview,
         setShowPreview,
+        isComparingSummary,
+        setIsComparingSummary,
         cvData,
         setCvData,
+        generatedSummary,
+        setGeneratedSummary,
         formik,
       }}
     >

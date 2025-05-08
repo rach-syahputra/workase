@@ -1,3 +1,4 @@
+import { IUserInformation } from '@/lib/cv-summary-generation';
 import { ICvData } from '../cv';
 
 export interface GetCvBySlugRequest {
@@ -11,4 +12,9 @@ export interface AddCvRequest {
 export interface UpdateCvRequest {
   cvId: string;
   data: ICvData;
+}
+
+export interface GenerateCvSummaryRequest {
+  userInformation: IUserInformation;
+  apiKey: string;
 }
