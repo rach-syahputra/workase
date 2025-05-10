@@ -27,7 +27,7 @@ import {
 import { Skeleton } from '@/components/shadcn-ui/skeleton';
 import AppLogo from '@/components/ui/app-logo';
 import { Separator } from '@/components/shadcn-ui/separator';
-import CvPreviewPdf from '@/components/cv-preview/cv-preview-pdf';
+import CvPreviewPdf from '@/components/cv-preview/cv-preview-template-one/pdf';
 
 const PDFDownloadLink = dynamic(
   () => import('@react-pdf/renderer').then((mod) => mod.PDFDownloadLink),

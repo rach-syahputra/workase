@@ -1,9 +1,9 @@
 import { Metadata } from 'next';
 
 import { getCvBySlug } from '@/lib/apis/cv';
+import { CLIENT_BASE_URL } from '@/lib/constants/constants';
 import { CvEditFormProvider } from '@/context/cv-edit-form-context';
 import PageContent from './_components/page-content';
-import { CLIENT_BASE_URL } from '@/lib/constants/constants';
 
 interface CvEditPageProps {
   params: Promise<{ slug: string }>;
@@ -37,10 +37,12 @@ const AssessmentDetailPage = async ({ params }: CvEditPageProps) => {
   const slug = (await params).slug;
   const response = await getCvBySlug({ slug });
 
-  return (
-    <CvEditFormProvider cv={response.data?.cv!}>
+  return response?.data?.cv ? (
+    <CvEditFormProvider cv={response?.data?.cv}>
       <PageContent />
     </CvEditFormProvider>
+  ) : (
+    <center className="text-primary-gray py-10">No CV data.</center>
   );
 };
 

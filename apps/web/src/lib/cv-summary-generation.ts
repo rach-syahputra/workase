@@ -40,7 +40,7 @@ export const getCvSummaryGenerationPrompt = (user: IUserInformation) => {
   return `
 You are a professional CV and career summary writer.
 
-Based on the candidate’s available information below, generate a concise and professional CV summary. Use an achievement-oriented tone and adapt the content to match the candidate’s target industry and role.
+Based on my available information below, generate a concise and professional CV summary. Use an achievement-oriented tone and adapt the content to match my target industry and role.
 
 Include relevant strengths, skills, background, and career objectives when provided. If experience is limited, emphasize education, core skills, and potential. If experience or achievements are included, highlight them appropriately.
 
@@ -54,7 +54,7 @@ Use only letters, numbers, commas, periods, and spaces.
 
 Output only the final summary in plain text. No headers, labels, or line breaks. Limit to 3 well-structured sentences.
 
-Candidate Info (may include optional fields):
+My Info (may include optional fields):
 ${userInfo.trim()}
 `.trim();
 };

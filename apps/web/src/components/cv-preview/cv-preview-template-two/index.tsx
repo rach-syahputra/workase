@@ -6,16 +6,17 @@ import { cn } from '@/lib/utils';
 import { useCvEditFormContext } from '@/context/cv-edit-form-context';
 import { Card } from '@/components/shadcn-ui/card';
 
-interface CvPreviewTemplateOneProps {
+interface CvPreviewTemplateTwoProps {
   className?: string;
 }
 
 interface SectionProps {
   title: string;
+  className?: string;
   children: React.ReactNode;
 }
 
-const CvPreviewTemplateOne = ({ className }: CvPreviewTemplateOneProps) => {
+const CvPreviewTemplateTwo = ({ className }: CvPreviewTemplateTwoProps) => {
   const { cvData } = useCvEditFormContext();
   const header = cvData?.data.header;
   const summary = cvData?.data.summary;
@@ -25,15 +26,23 @@ const CvPreviewTemplateOne = ({ className }: CvPreviewTemplateOneProps) => {
 
   return (
     <div className={cn('w-full px-4', className)}>
-      <Card className="flex aspect-[877/620] w-full max-w-screen-md flex-col gap-5 border p-5 font-[family-name:var(--font-times-new-roman)] lg:h-[calc(100svh-96px)] lg:overflow-y-auto">
+      <Card className="flex aspect-[877/620] w-full max-w-screen-md flex-col gap-6 border pb-5 text-xs md:text-sm lg:h-[calc(100svh-96px)] lg:overflow-y-auto">
         {header?.content && (
-          <div className="flex w-full flex-col items-center justify-center">
-            <h1 className="font-bold">{header?.content.name}</h1>
-            <p>{header?.content.role}</p>
-            <div className="flex items-center justify-center gap-2">
-              <span>{header?.content.email}</span>
-              <span>•</span>
-              <span>{header?.content.phoneNumber}</span>
+          <div className="bg-primary-dark-background flex w-full flex-col gap-4 rounded-t-md px-7 py-5 text-white">
+            <div className="flex flex-col gap-1">
+              <h1 className="text-lg font-bold md:text-2xl">
+                {header?.content.name}
+              </h1>
+              <p className="font-bold">{header?.content.role}</p>
+            </div>
+            <div className="flex flex-col gap-2">
+              <h2 className="text-primary-dark w-fit bg-white px-2 py-1 text-sm font-medium">
+                CONTACTS
+              </h2>
+              <div className="flex flex-col gap-1">
+                <span>{header?.content.email}</span>
+                <span>{header?.content.phoneNumber}</span>
+              </div>
             </div>
           </div>
         )}
@@ -114,14 +123,15 @@ const CvPreviewTemplateOne = ({ className }: CvPreviewTemplateOneProps) => {
   );
 };
 
-const CvSection = ({ title, children }: SectionProps) => {
+const CvSection = ({ title, className, children }: SectionProps) => {
   return (
-    <div className="flex w-full flex-col px-2">
-      <h2 className="font-bold uppercase">{title.toUpperCase()}</h2>
-      <div className="mb-1 h-0.5 w-full bg-black" />
+    <div className={cn('flex w-full flex-col gap-2 px-7', className)}>
+      <h2 className="bg-primary-dark-background w-fit px-2 py-1 text-sm font-medium uppercase text-white">
+        {title.toUpperCase()}
+      </h2>
       {children}
     </div>
   );
 };
 
-export default CvPreviewTemplateOne;
+export default CvPreviewTemplateTwo;

@@ -2,6 +2,7 @@ import { ICvData } from '../cv';
 
 export interface AddCvFormValues {
   data: ICvData;
+  template: number;
 }
 
 export interface AutoGenerateSummaryFormValues {

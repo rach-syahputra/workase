@@ -64,10 +64,12 @@ export interface GetCvBySlugRequest {
 export interface AddCvRequest {
   userId: string;
   data: any;
+  template: number;
 }
 
 export interface UpdateCvRequest {
   cvId: string;
   userId: string;
   data: any;
+  template?: number;
 }

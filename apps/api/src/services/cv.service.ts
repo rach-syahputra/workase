@@ -5,7 +5,7 @@ import {
   GetCvBySlugRequest,
   UpdateCvRequest,
 } from '../interfaces/cv.interface';
-import { addCvSchema } from '../validations/cv.validation';
+import { addCvSchema, updateCvSchema } from '../validations/cv.validation';
 import { ResponseError } from '../helpers/error';
 import { validate } from '../helpers/validation';
 
@@ -33,6 +33,7 @@ class CvService {
   };
 
   updateCv = async (req: UpdateCvRequest) => {
+    validate(updateCvSchema, req);
     await this.checkCvOwnership({ cvId: req.cvId, userId: req.userId });
     return await this.cvRepository.updateCv(req);
   };

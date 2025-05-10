@@ -7,11 +7,13 @@ export interface GetCvBySlugRequest {
 
 export interface AddCvRequest {
   data: ICvData;
+  template: number;
 }
 
 export interface UpdateCvRequest {
   cvId: string;
   data: ICvData;
+  template: number;
 }
 
 export interface GenerateCvSummaryRequest {

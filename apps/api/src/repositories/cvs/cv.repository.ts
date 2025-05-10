@@ -43,6 +43,7 @@ class CvRepository {
       data: {
         slug,
         data: req.data as unknown as Prisma.JsonArray,
+        template: req.template,
         createdAt: new Date(),
         updatedAt: new Date(),
         userId: req.userId,
@@ -62,6 +63,7 @@ class CvRepository {
       data: {
         data: req.data as unknown as Prisma.JsonArray,
         updatedAt: new Date(),
+        template: req.template,
       },
     });
 

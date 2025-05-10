@@ -18,6 +18,11 @@ export const addCvSchema = yup
         }),
       }),
     }),
+    template: yup
+      .number()
+      .typeError('Template must be a number')
+      .required('Tempalte is number')
+      .optional(),
   })
   .strict(true);
 
@@ -60,6 +65,11 @@ export const updateCvSchema = yup
           .typeError('Summary content must be a string')
           .required('Summary content is required'),
       }),
+      template: yup
+        .number()
+        .typeError('Template must be a number')
+        .required('Template is required')
+        .optional(),
     }),
   })
   .strict(true);
