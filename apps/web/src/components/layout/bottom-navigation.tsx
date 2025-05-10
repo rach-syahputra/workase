@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -24,7 +23,7 @@ interface NavigationItemProps {
 
 const BottomNavigation = ({ items }: BottomNavigationProps) => {
   return (
-    <nav className="border-border fixed bottom-0 left-0 z-[100] flex h-[52px] w-full items-center justify-between border-t bg-white shadow lg:hidden">
+    <nav className="border-border h-bottom-bar fixed bottom-0 left-0 z-[100] flex w-full items-center justify-between border-t bg-white shadow lg:hidden">
       {items &&
         items.length > 0 &&
         items.map((item, index) => <NavigationItem key={index} item={item} />)}
@@ -41,7 +40,7 @@ const NavigationItem = ({ item, className }: NavigationItemProps) => {
       href={item.href}
       aria-label={`${item.label} page`}
       className={cn(
-        'text-primary-gray hover:bg-primary-gray-background flex h-full w-full cursor-pointer flex-col items-center justify-center transition-all duration-300 ease-in-out',
+        'text-primary-gray hover:bg-primary-gray-background flex h-full w-full cursor-pointer flex-col items-center justify-center bg-white transition-all duration-300 ease-in-out active:bg-white',
         {
           'text-primary-blue border-primary-blue border-t': isActive,
         },

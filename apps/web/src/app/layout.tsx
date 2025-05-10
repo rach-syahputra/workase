@@ -7,6 +7,7 @@ import { CLIENT_BASE_URL } from '@/lib/constants/constants';
 import { SearchJobProvider } from '@/context/search-job-context';
 import { UserStatsProvider } from '@/context/user-stats-context';
 import { AssessmentSessionProvider } from '@/context/assessment-session-context';
+import { BottomNavigationProdiver } from '@/context/bottom-navigation-context';
 import { Toaster } from '@/components/shadcn-ui/toaster';
 
 export const metadata: Metadata = {
@@ -97,7 +98,9 @@ export default function RootLayout({
         <SessionProvider>
           <UserStatsProvider>
             <SearchJobProvider>
-              <AssessmentSessionProvider>{children}</AssessmentSessionProvider>
+              <AssessmentSessionProvider>
+                <BottomNavigationProdiver>{children}</BottomNavigationProdiver>
+              </AssessmentSessionProvider>
             </SearchJobProvider>
           </UserStatsProvider>
         </SessionProvider>

@@ -8,3 +8,8 @@ export const OPEN_ROUTER_API_KEYS = [
   process.env.NEXT_PUBLIC_OPEN_ROUTER_API_KEY_5,
 ];
 export const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET;
+export const BOTTOM_NAVIGATION_HREFS = [
+  '/companies/reviews',
+  '/companies/reviews/saved',
+  '/companies/reviews/new',
+];

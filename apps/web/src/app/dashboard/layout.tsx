@@ -5,6 +5,7 @@ import { auth } from '@/auth';
 import { CLIENT_BASE_URL } from '@/lib/constants/constants';
 import NavigationBar from '@/components/layout/navigation-bar/navigation-bar';
 import UserSidebar from '@/components/user-dashboard/user-sidebar';
+import UserDashboardBottomBar from '@/components/user-dashboard/user-dashboard-bottom-bar';
 
 export const metadata: Metadata = {
   title: 'Dashboard — Workase',
@@ -49,6 +50,7 @@ export default async function UserDashboardLayout({
           <main className="w-full flex-1 rounded-md">{children}</main>
         </div>
       </div>
+      <UserDashboardBottomBar />
     </div>
   );
 }

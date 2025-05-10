@@ -7,6 +7,7 @@ module.exports = {
     extend: {
       width: {
         sidebar: 'var(--sidebar-width)',
+        'bottom-bar': 'var(--bottom-bar-height)',
         'assessment-session-header-height':
           'var(--assessment-session-header-height)',
         'assessment-session-navbar-height':
@@ -14,6 +15,7 @@ module.exports = {
       },
       spacing: {
         sidebar: 'var(--sidebar-width)',
+        'bottom-bar': 'var(--bottom-bar-height)',
         'assessment-session-header-height':
           'var(--assessment-session-header-height)',
         'assessment-session-navbar-height':
@@ -21,6 +23,7 @@ module.exports = {
       },
       margin: {
         sidebar: 'var(--sidebar-width)',
+        'bottom-bar': 'var(--bottom-bar-height)',
         'assessment-session-header-height':
           'var(--assessment-session-header-height)',
         'assessment-session-navbar-height':

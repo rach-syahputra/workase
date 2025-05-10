@@ -8,6 +8,7 @@ import { SavedReviewsProvider } from '@/context/saved-reviews-context';
 import { Card } from '@/components/shadcn-ui/card';
 import SavedReviewsSection from './_components/saved-reviews-section';
 import AddReviewSection from './_components/add-review-section';
+import CompaniesReviewsBottomBar from './_components/companies-reviews-bottom-bar';
 
 interface CompaniesReviewsLayoutProps {
   children: React.ReactNode;
@@ -37,6 +38,7 @@ const CompaniesReviewsLayout = async ({
           </Card>
           <AddReviewSection className="h-fit w-full max-lg:hidden lg:sticky lg:top-[84px] lg:col-span-2" />
         </div>
+        <CompaniesReviewsBottomBar />
       </SavedReviewsProvider>
     </CompaniesReviewsProvider>
   );
