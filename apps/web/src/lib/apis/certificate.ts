@@ -5,11 +5,13 @@ import {
   AddCertificateRequest,
   GenerateCertificateTokenRequest,
   GetCertificateDetailRequest,
+  GetCertificateMetadataRequest,
 } from '../interfaces/api-request/certificate';
 import {
   AddCertificateResponse,
   GenerateCertificateTokenResponse,
   GetCertificateDetailResponse,
+  GetCertificateMetadataResponse,
 } from '../interfaces/api-response/certificate';
 import { handleApiError } from './error';
 
@@ -61,6 +63,20 @@ export const getCertificateDetail = async (
 ): Promise<GetCertificateDetailResponse> => {
   try {
     const response = await axiosPublic.get(`/certificates/${req?.slug}`);
+
+    return response.data;
+  } catch (error) {
+    return handleApiError(error);
+  }
+};
+
+export const getCertificateMetadata = async (
+  req?: GetCertificateMetadataRequest,
+): Promise<GetCertificateMetadataResponse> => {
+  try {
+    const response = await axiosPublic.get(
+      `/certificates/${req?.slug}/metadata`,
+    );
 
     return response.data;
   } catch (error) {

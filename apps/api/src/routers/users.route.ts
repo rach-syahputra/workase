@@ -1,11 +1,8 @@
-import {
-  verifyCompany,
-  verifyRefreshToken,
-  verifyUser,
-} from '../middlewares/auth.middleware';
+import { Router } from 'express';
+
+import { verifyRefreshToken, verifyUser } from '../middlewares/auth.middleware';
 import userController from '../controllers/user.controller';
 
-import { Router } from 'express';
 import usersController from '../controllers/user.controller';
 import {
   validateNewUserPassword,
@@ -17,6 +14,7 @@ import {
 } from '../middlewares/user.middleware';
 import { uploadUserImage } from '../helpers/multer';
 import userStatsController from '../controllers/user-stats.controller';
+
 export const usersRouter = () => {
   const router = Router();
   router.post('/token', verifyRefreshToken, usersController.refreshToken);
@@ -64,5 +62,6 @@ export const usersRouter = () => {
     userStatsController.getCurrentCompany,
   );
   router.get('/:slug/detail', userStatsController.getUserDetail);
+  router.get('/:slug/metadata', userStatsController.getUserMetadata);
   return router;
 };

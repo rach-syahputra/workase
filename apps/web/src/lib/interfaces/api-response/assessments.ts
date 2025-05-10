@@ -1,6 +1,7 @@
 import {
   IAssessment,
   IAssessmentDetail,
+  IAssessmentMetadata,
   IAssessmentQuestion,
   ITopAssessment,
 } from '../assessment';
@@ -60,3 +61,9 @@ export interface GetTopAssessmentsResponse extends APIResponse {
 }
 
 export interface DeleteAssessmentQuestionResponse extends APIResponse {}
+
+export interface GetAssessmentMetadataResponse extends APIResponse {
+  data?: {
+    assessment: IAssessmentMetadata;
+  };
+}

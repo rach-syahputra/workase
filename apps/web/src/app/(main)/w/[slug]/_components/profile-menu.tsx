@@ -1,15 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import { File, User } from 'lucide-react';
+import { User } from 'lucide-react';
+import Image from 'next/image';
 
 import { cn } from '@/lib/utils';
+import { useUserDetailContext } from '@/context/user-detail-context';
 import { Card } from '@/components/shadcn-ui/card';
 import { Separator } from '@/components/shadcn-ui/separator';
 import { Button } from '@/components/shadcn-ui/button';
-import { useUserDetailContext } from '@/context/user-detail-context';
-import Image from 'next/image';
-import AppLoading from '@/components/ui/app-loading';
 import { Skeleton } from '@/components/shadcn-ui/skeleton';
 
 interface ProfileMenuProps {
@@ -56,7 +55,7 @@ const ProfileMenu = ({ className }: ProfileMenuProps) => {
             <Skeleton className="h-5 w-full" />
           </div>
         ) : (
-          <p>asputra.as18@gmail.com</p>
+          <p>{user?.email}</p>
         )}
       </div>
       <Separator />

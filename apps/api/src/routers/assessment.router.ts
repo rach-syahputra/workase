@@ -42,6 +42,10 @@ class AssessmentRouter {
       this.assessmentController.getAssessmentBySlug,
     );
     this.router.get(
+      '/:slug/metadata',
+      this.assessmentController.getAssessmentMetadata,
+    );
+    this.router.get(
       '/skills/available',
       verifyDeveloper,
       this.assessmentController.getAvailableSkills,

@@ -15,6 +15,7 @@ import {
   DeleteAssessmentQuestionRequest,
   GetAssessmentBySlugRequest,
   GetAssessmentDiscoveryRequest,
+  GetAssessmentMetadataRequest,
   GetAssessmentQuestionsRequest,
   GetAssessmentsRequest,
   GetAvailableSkillsRequest,
@@ -136,6 +137,10 @@ class AssessmentService {
 
   getTopAssessments = async () => {
     return await this.getAssessmentRepository.getTopAssessments();
+  };
+
+  getAssessmentMetadata = async (req: GetAssessmentMetadataRequest) => {
+    return await this.getAssessmentDetailRepository.getAssessmentMetadata(req);
   };
 }
 

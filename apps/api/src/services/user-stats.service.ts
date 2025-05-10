@@ -2,6 +2,7 @@ import UserStatsRepository from '../repositories/users/user-stats.repository';
 import {
   GetCurrentCompanyRequest,
   GetUserDetailRequest,
+  GetUserMetadataRequest,
   GetUserStatsRequest,
 } from '../interfaces/user.interface';
 
@@ -22,6 +23,10 @@ class UserStatsService {
 
   getCurrentCompany = async (req: GetCurrentCompanyRequest) => {
     return await this.userStatsRepository.getCurrentCompany(req);
+  };
+
+  getUserMetadata = async (req: GetUserMetadataRequest) => {
+    return await this.userStatsRepository.getUserMetadata(req);
   };
 }
 

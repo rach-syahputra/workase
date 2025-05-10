@@ -3,6 +3,7 @@ import {
   AddCertificateRepositoryRequest,
   GetCertificateBySlugRequest,
   GetCertificateDetailRequest,
+  GetCertificateMetadataRequest,
 } from '../../interfaces/certificate.interface';
 import { GetUserAssessmentByIdRequest } from '../../interfaces/user-assessment.interface';
 import { generateCertificateSlug } from '../../helpers/utils';
@@ -136,6 +137,41 @@ class CertificateRepository {
       certificate,
       owner,
       assessment,
+    };
+  };
+
+  getCertificateMetadata = async (req: GetCertificateMetadataRequest) => {
+    const certificate = await this.prisma.certificate.findUnique({
+      where: {
+        slug: req.slug,
+      },
+      select: {
+        userAssessment: {
+          select: {
+            user: {
+              select: {
+                slug: true,
+              },
+            },
+            assessment: {
+              select: {
+                skill: {
+                  select: {
+                    title: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return {
+      certificate: {
+        userSlug: certificate?.userAssessment.user.slug || null,
+        skillTitle: certificate?.userAssessment.assessment.skill.title || null,
+      },
     };
   };
 }

@@ -3,6 +3,7 @@ import localFont from 'next/font/local';
 import { SessionProvider } from 'next-auth/react';
 import './globals.css';
 
+import { CLIENT_BASE_URL } from '@/lib/constants/constants';
 import { SearchJobProvider } from '@/context/search-job-context';
 import { UserStatsProvider } from '@/context/user-stats-context';
 import { AssessmentSessionProvider } from '@/context/assessment-session-context';
@@ -11,7 +12,25 @@ import { Toaster } from '@/components/shadcn-ui/toaster';
 export const metadata: Metadata = {
   title: 'Workase — Exclusive Job Listing',
   description:
-    'Find your dream job with Workase—a powerful job board connecting top talent with leading companies. Browse job listings, apply with ease, and take the next step in your career.',
+    'Find your dream job with Workase—a powerful job board that connects top talent with leading companies. Build professional CVs, earn certifications, browse job listings, and apply with ease to take the next step in your career.',
+  openGraph: {
+    title: 'Workase — Exclusive Job Listing',
+    description:
+      'Find your dream job with Workase—a powerful job board that connects top talent with leading companies. Build professional CVs, earn certifications, browse job listings, and apply with ease to take the next step in your career.',
+    url: CLIENT_BASE_URL,
+    type: 'website',
+    siteName: 'Workase Job Board',
+    images: [
+      {
+        url: '/workase-sm-bg-black.png',
+        secureUrl: '/workase-sm-bg-black.png',
+        width: 1200,
+        height: 630,
+        alt: 'Workase Job Board',
+      },
+    ],
+  },
+  metadataBase: new URL(CLIENT_BASE_URL),
 };
 
 const geist = localFont({

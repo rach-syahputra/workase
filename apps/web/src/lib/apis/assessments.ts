@@ -7,6 +7,7 @@ import {
   AddAssessmentRequest,
   GetAssessmentBySlugRequest,
   GetAssessmentDiscoveryRequest,
+  GetAssessmentMetadataRequest,
   GetAssessmentsRequest,
 } from '../interfaces/api-request/assessment';
 import {
@@ -14,6 +15,7 @@ import {
   AddAssessmentResponse,
   GetAssessmentBySlugResponse,
   GetAssessmentDiscoveryResponse,
+  GetAssessmentMetadataResponse,
   GetAssessmentsResponse,
   GetTopAssessmentsResponse,
 } from '../interfaces/api-response/assessments';
@@ -157,3 +159,15 @@ export const getTopAssessments =
       return handleApiError(error);
     }
   };
+
+export const getAssessmentMetadata = async (
+  req: GetAssessmentMetadataRequest,
+): Promise<GetAssessmentMetadataResponse> => {
+  try {
+    const response = await axiosPublic.get(`/assessments/${req.slug}/metadata`);
+
+    return response.data;
+  } catch (error) {
+    return handleApiError(error);
+  }
+};

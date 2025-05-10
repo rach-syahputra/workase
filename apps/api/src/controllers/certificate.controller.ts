@@ -81,6 +81,27 @@ class CertificateController {
       next(err);
     }
   };
+
+  getCertificateMetadata = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const data = await this.certificateService.getCertificateMetadata({
+        slug: req.params.slug,
+      });
+
+      ApiResponse({
+        res,
+        statusCode: 200,
+        message: 'Certificate metadata retrieved successfully',
+        data,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
 }
 
 export default CertificateController;

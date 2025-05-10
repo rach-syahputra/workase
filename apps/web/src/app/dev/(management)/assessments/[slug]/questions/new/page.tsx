@@ -1,4 +1,5 @@
 import { getAssessmentBySlug } from '@/lib/apis/assessments';
+import { auth } from '@/auth';
 import PageContent from './_components/page-content';
 
 interface CreateQuestionPageProps {
@@ -6,8 +7,13 @@ interface CreateQuestionPageProps {
 }
 
 const CreateQuestionPage = async ({ params }: CreateQuestionPageProps) => {
+  const session = await auth();
   const slug = (await params).slug;
-  const response = await getAssessmentBySlug({ isOnClient: false, slug });
+  const response = await getAssessmentBySlug({
+    isOnClient: false,
+    slug,
+    token: session?.user?.accessToken,
+  });
   const assessment = response.data?.assessment;
 
   return assessment ? (

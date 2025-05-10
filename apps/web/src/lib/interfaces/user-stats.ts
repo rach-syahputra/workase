@@ -47,3 +47,8 @@ export interface ICurrentCompany {
   jobTitle: string;
   slug: string;
 }
+
+export interface IUserMetadata {
+  profilePhoto: string | null;
+  summary: string | null;
+}

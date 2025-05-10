@@ -1,7 +1,8 @@
-import { auth } from '@/auth';
 import { Metadata } from 'next';
+
+import { getAssessmentMetadata } from '@/lib/apis/assessments';
+import { CLIENT_BASE_URL } from '@/lib/constants/constants';
 import PageContent from './_components/page-content';
-import { getAssessmentBySlug } from '@/lib/apis/assessments';
 
 interface AssessmentDetailPageProps {
   params: Promise<{ slug: string }>;
@@ -10,20 +11,36 @@ interface AssessmentDetailPageProps {
 export const generateMetadata = async ({
   params,
 }: AssessmentDetailPageProps): Promise<Metadata> => {
-  const session = await auth();
   const slug = (await params).slug;
-  const response = await getAssessmentBySlug({
-    isOnClient: false,
+  const response = await getAssessmentMetadata({
     slug,
-    token: session?.user?.accessToken || '',
   });
-  const assessment = response.data?.assessment;
-  const skillTitle = assessment?.skill.title;
+  const assessment = response?.data?.assessment;
+  const description = assessment?.shortDescription;
+  const skillTitle = assessment?.skillTitle;
 
   return {
-    title: `${skillTitle ? skillTitle : 'Assessment'} — Workase`,
+    title: `${skillTitle ? `${skillTitle} Assessment` : 'Assessment'} — Workase`,
     description:
-      'Learn more about this professional assessment on Workase. Test your skills, validate your expertise, and earn a certificate to boost your career opportunities.',
+      `Learn more about ${skillTitle ? skillTitle : 'this professional'} assessment on Workase. ${description}`.trim(),
+    openGraph: {
+      title: `${skillTitle ? `${skillTitle} Assessment` : 'Assessment'} — Workase`,
+      description:
+        `Learn more about ${skillTitle ? skillTitle : 'this professional'} assessment on Workase. ${description}`.trim(),
+      url: CLIENT_BASE_URL,
+      type: 'website',
+      siteName: 'Workase Job Board',
+      images: [
+        {
+          url: '/workase-sm-bg-black.png',
+          secureUrl: '/workase-sm-bg-black.png',
+          width: 1200,
+          height: 630,
+          alt: 'Workase Job Board',
+        },
+      ],
+    },
+    metadataBase: new URL(CLIENT_BASE_URL),
   };
 };
 
