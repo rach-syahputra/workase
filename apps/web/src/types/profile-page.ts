@@ -1,1 +1,7 @@
-export type PageType = 'profile' | 'password' | 'email' | 'verification';
+export type PageType =
+  | 'profile'
+  | 'password'
+  | 'email'
+  | 'verification'
+  | 'applications'
+  | 'saved-jobs';

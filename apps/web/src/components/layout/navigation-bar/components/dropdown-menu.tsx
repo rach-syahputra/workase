@@ -35,6 +35,7 @@ export default function DropdownMenuDemo() {
         <DropdownMenuSeparator />
         <DropdownMenuItem className="flex items-center gap-3">
           <IoPerson />
+<<<<<<< HEAD
           <Link href={`/w/${session?.user?.slug}`}>Profile</Link>
         </DropdownMenuItem>
         <DropdownMenuItem className="flex items-center gap-3">
@@ -42,6 +43,9 @@ export default function DropdownMenuDemo() {
           <Link href="/dashboard/subscription" className="text-left">
             Dashboard
           </Link>
+=======
+          <Link href={`/profile-management`}>Profile Management</Link>
+>>>>>>> 178cd18 (feat: complete all core features for initial release)
         </DropdownMenuItem>
         <DropdownMenuItem className="flex items-center gap-3">
           <IoPerson />

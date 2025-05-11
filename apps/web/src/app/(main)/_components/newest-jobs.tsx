@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 
 import { axiosPublic } from '@/lib/axios';
-import { Job } from '@/context/search-job-context';
+import { Job, JobsResponse } from '@/context/search-job-context';
 import JobCard from '../example/_components/card';
 
 import {
@@ -23,10 +23,10 @@ export function NewestJobs() {
     const fetchJobs = async () => {
       try {
         const fiveNewestJobs = await axiosPublic.get(
-          '/jobs?sort=createdAt&order=desc&limit=5',
+          '/jobs?sort=desc&order=desc&limit=5&page=1',
         );
-        const data = fiveNewestJobs.data as { data: Job[] };
-        setJobs(data.data);
+        const data = fiveNewestJobs.data as { data: JobsResponse };
+        setJobs(data.data.jobs);
       } catch (error) {
         console.error('Error fetching jobs:', error);
       }
@@ -40,7 +40,7 @@ export function NewestJobs() {
       {jobs.length > 0 && (
         <>
           <div className="font-geist mb-[9px] flex items-center justify-center gap-1 text-[16.0px] text-sm font-medium md:my-5">
-            <Sparkles className="scale-75 text-blue-500" />5 Newest Jobs
+            <Sparkles className="text-blue-500 scale-75" />5 Newest Jobs
             Available For You, <u> Swipe !</u>
           </div>
           <Carousel
@@ -49,7 +49,7 @@ export function NewestJobs() {
             onMouseEnter={plugin.current.stop}
             onMouseLeave={plugin.current.reset}
           >
-            <CarouselContent className="-ml-1 flex w-full gap-6 p-1">
+            <CarouselContent className="flex w-full gap-6 p-1 -ml-1">
               {Array.from({ length: 5 }).map((_, index: number) => {
                 const job = jobs[index];
                 return job ? (
@@ -59,6 +59,8 @@ export function NewestJobs() {
                   >
                     <div className="">
                       <JobCard
+                        id={job.id}
+                        slug={job.slug}
                         description={job.description}
                         title={job.title}
                         location={job.company.location}

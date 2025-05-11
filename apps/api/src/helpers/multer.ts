@@ -11,7 +11,7 @@ const MAX_ASSESSMENT_IMAGE_SIZE = 512000; // 500kb
 const MAX_ASSESSMENT_QUESTION_IMAGE_SIZE = 1024000; // 1mb
 const MAX_CERTIFICATE_PDF_SIZE = 2048000; // 2mb
 const MAX_PAYMENT_PROOF_SIZE = 1024000; // 1mb
-
+const MAX_CV_PDF_SIZE = 2048000; // 2mb
 export const uploadDeveloperImage = multer({
   storage,
   fileFilter: (req, file, cb) => {
@@ -131,5 +131,19 @@ export const uploadPaymentProof = multer({
   },
   limits: {
     fileSize: MAX_PAYMENT_PROOF_SIZE,
+  },
+});
+
+export const uploadCVPdf = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype === 'application/pdf') {
+      cb(null, true);
+    } else {
+      cb(null, false);
+    }
+  },
+  limits: {
+    fileSize: MAX_CV_PDF_SIZE,
   },
 });

@@ -10,6 +10,7 @@ import {
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import {
+  Bookmark,
   BriefcaseBusiness,
   DollarSign,
   LucideProps,
@@ -70,6 +71,11 @@ const UserSidebar = ({ className }: UserSidebarProps) => {
           title: 'Assessment',
           url: '/dashboard/assessments',
           icon: NotepadText,
+        },
+        {
+          title: 'Saved Jobs',
+          url: '/dashboard/saved-jobs',
+          icon: Bookmark,
         },
       ];
     }

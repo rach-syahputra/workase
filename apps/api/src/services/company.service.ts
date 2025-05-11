@@ -6,9 +6,18 @@ import resetCompanyPasswordRepository from '../repositories/companies/reset-pass
 import getCompanyProfileRepository, {
   updateCompanyProfileRepository,
   updateCompanyLogoRepository,
+<<<<<<< HEAD
 } from '../repositories/companies/company-profile.repository';
 import { ResponseError } from '../helpers/error';
 import { putCompanyAccessToken } from '../helpers/jwt';
+=======
+} from '@/repositories/companies/company-profile.repository';
+import { ResponseError } from '@/helpers/error';
+import { putCompanyAccessToken } from '@/helpers/jwt';
+import { Request } from 'express';
+import getCompanyJobsRepository from '@/repositories/companies/company-jobs.repository';
+import getCompaniesRepository from '@/repositories/companies/get-companies.repository';
+>>>>>>> 178cd18 (feat: complete all core features for initial release)
 class CompaniesService {
   async register(data: {
     name: string;
@@ -42,6 +51,18 @@ class CompaniesService {
     if (!req.user?.email) throw new ResponseError(401, 'Invalid Token');
     const result = await putCompanyAccessToken(undefined, req.user?.email);
     return result;
+  }
+
+  async getCompanyJobs(req: Request) {
+    return await getCompanyJobsRepository.getCompanyJobs(req);
+  }
+
+  async getCompanies(req: Request) {
+    return await getCompaniesRepository.getCompanies(req);
+  }
+
+  async getCompanyBySlug(req: Request) {
+    return await getCompaniesRepository.getCompanyBySlug(req);
   }
 }
 export default new CompaniesService();

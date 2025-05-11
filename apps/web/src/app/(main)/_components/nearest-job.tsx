@@ -12,7 +12,7 @@ export function NearestJobs() {
       {jobs.length > 0 && (
         <>
           <div className="font-geist flex items-center justify-center gap-1 text-[16.0px] text-sm font-medium md:my-5">
-            <FaLocationDot className="scale-110 text-red-500" />
+            <FaLocationDot className="text-red-500 scale-110" />
             Opportunities Around Your Location
           </div>
 
@@ -21,6 +21,8 @@ export function NearestJobs() {
               <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {jobs.map((job) => (
                   <JobCard
+                    id={job.id}
+                    slug={job.slug}
                     description={job.description}
                     title={job.title}
                     location={job.company.location}

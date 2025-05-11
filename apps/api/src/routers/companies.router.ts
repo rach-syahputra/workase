@@ -8,6 +8,8 @@ import companyController from '../controllers/company.controller';
 import {
   markPasswordResetAsIncomplete,
   markPasswordResetTokenAsUsed,
+  validateCompaniesFilter,
+  validateCompanyJobsFilter,
   validateCompanyProfileUpdate,
   validateEmailCompany,
   validateNewCompanyPassword,
@@ -40,7 +42,7 @@ export const companiesRouter = () => {
     companyController.resetPassword,
   );
   //company profile management
-  router.get('/', verifyCompany, companiesController.getCompanyProfile);
+  // router.get('/', verifyCompany, companiesController.getCompanyProfile);
   router.patch(
     '/',
     verifyCompany,
@@ -53,5 +55,14 @@ export const companiesRouter = () => {
     uploadCompanyImage.single('image'),
     companiesController.addImageCloudinary,
   );
+  // get company jobs
+  router.get(
+    '/:id/jobs',
+    validateCompanyJobsFilter,
+    companiesController.getCompanyJobs,
+  );
+  //get companies
+  router.get('/', validateCompaniesFilter, companiesController.getCompanies);
+  router.get('/:slug', companiesController.getCompanyBySlug);
   return router;
 };

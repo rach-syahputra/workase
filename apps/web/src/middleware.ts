@@ -2,9 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
 // route yang butuh login dulu
-const loginRequiredRoutes = ['/apply-job', '/profile-management'];
+const loginRequiredRoutes = [
+  '/dashboard',
+  '/profile-management',
+  '/subscription',
+];
 // route yang hanya bisa diakses user terverifikasi
-const verifiedUserRoutes = ['/apply-job'];
+const verifiedUserRoutes = ['/subscription'];
 // route halam login dan register
 const publicAuthPage = [
   '/users/login',
@@ -36,18 +40,29 @@ export async function middleware(req: NextRequest) {
 
     let loginUrl: URL;
 
-    if (pathname.startsWith('/companies')) {
-      loginUrl = new URL('/companies/login', req.url);
-    } else {
-      loginUrl = new URL('/users/login', req.url);
-    }
+    // if (pathname.startsWith('/companies')) {
+    //   loginUrl = new URL('/companies/login', req.url);
+    // } else {
+    //   loginUrl = new URL('/users/login', req.url);
+    // }
 
-    loginUrl.searchParams.set(
+    // loginUrl.searchParams.set(
+    //   'message',
+    //   'Please login first before accessing this page',
+    // );
+
+    // return NextResponse.redirect(loginUrl);
+    const response = NextResponse.redirect(new URL('/', req.url));
+    response.cookies.set(
       'message',
       'Please login first before accessing this page',
+      {
+        maxAge: 60,
+        path: '/',
+        sameSite: 'lax',
+      },
     );
-
-    return NextResponse.redirect(loginUrl);
+    return response;
   }
 
   //   jika akses fitur yang butuh verifikasi tapi belum verifikasi
@@ -71,8 +86,8 @@ export async function middleware(req: NextRequest) {
 export const config = {
   matcher: [
     '/profile-management/:path*',
-    '/apply-job/:path*',
+    '/subscription/:path*',
+    '/dashboard/:path*',
     ...publicAuthPage,
-    ...verifiedUserRoutes,
   ],
 };

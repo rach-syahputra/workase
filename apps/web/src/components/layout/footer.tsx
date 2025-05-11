@@ -56,7 +56,10 @@ export default function Footer() {
             >
               Jobs
             </button>
-            <button className="mr-auto font-medium hover:underline">
+            <button
+              className="mr-auto font-medium hover:underline"
+              onClick={() => router.push('/all-companies')}
+            >
               Companies
             </button>
           </div>

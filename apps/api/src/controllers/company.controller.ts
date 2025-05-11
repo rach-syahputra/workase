@@ -186,6 +186,48 @@ class CompaniesController {
       next(error);
     }
   }
+
+  async getCompanyJobs(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await companiesService.getCompanyJobs(req);
+      ApiResponse({
+        res,
+        statusCode: 200,
+        message: 'get company jobs success',
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getCompanies(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await companiesService.getCompanies(req);
+      ApiResponse({
+        res,
+        statusCode: 200,
+        message: 'get companies success',
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getCompanyBySlug(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await companiesService.getCompanyBySlug(req);
+      ApiResponse({
+        res,
+        statusCode: 200,
+        message: 'get company by slug success',
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export default new CompaniesController();

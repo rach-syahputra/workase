@@ -39,7 +39,7 @@ export default function Login() {
               href={
                 tab === 'Sign in'
                   ? `/users/login?redirect=${encodeURIComponent(currentPath)}`
-                  : `companies/login?redirect=${encodeURIComponent(currentPath)}`
+                  : `/companies/login?redirect=${encodeURIComponent(currentPath)}`
               }
               className={`relative flex h-[68px] w-full items-center px-5 text-[15px] font-medium transition-all ${tab === 'Sign in' ? 'text-primary-dark-blue font-semibold' : 'text-gray-600'} `}
             >
