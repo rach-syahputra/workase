@@ -28,7 +28,7 @@ import {
 } from '../validations/assessment.validation';
 import { validate } from '../helpers/validation';
 import { ResponseError } from '../helpers/error';
-import { getPublicId } from 'src/helpers/cloudinary';
+import { getPublicId } from '../helpers/cloudinary';
 
 class AssessmentService {
   private imageRepository: ImageRepository;
