@@ -49,7 +49,7 @@ export const deleteAssessmentQuestion = async (
     const session = await getSession();
     const token = session?.user?.accessToken;
 
-    const response = await axiosPrivate(token || '').delete(
+    const response = await axiosPrivate(token || '').patch(
       `/assessments/${req?.assessmentId}/questions/${req.assessmentQuestionId}`,
     );
 

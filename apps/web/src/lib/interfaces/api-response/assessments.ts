@@ -67,3 +67,5 @@ export interface GetAssessmentMetadataResponse extends APIResponse {
     assessment: IAssessmentMetadata;
   };
 }
+
+export interface DeleteAssessmentResponse extends APIResponse {}

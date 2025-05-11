@@ -22,7 +22,9 @@ class GetSkillRepository {
             mode: 'insensitive',
           },
           Assessment: {
-            none: {},
+            none: {
+              isDeleted: false,
+            },
           },
         },
       }),
@@ -34,7 +36,9 @@ class GetSkillRepository {
             mode: 'insensitive',
           },
           Assessment: {
-            none: {},
+            none: {
+              isDeleted: false,
+            },
           },
         },
         take: limit,

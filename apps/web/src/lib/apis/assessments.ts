@@ -5,6 +5,7 @@ import { auth } from '@/auth';
 import {
   AddAssessmentQuestionRequest,
   AddAssessmentRequest,
+  DeleteAssessmentRequest,
   GetAssessmentBySlugRequest,
   GetAssessmentDiscoveryRequest,
   GetAssessmentMetadataRequest,
@@ -13,6 +14,7 @@ import {
 import {
   AddAssessmentQuestionResponse,
   AddAssessmentResponse,
+  DeleteAssessmentResponse,
   GetAssessmentBySlugResponse,
   GetAssessmentDiscoveryResponse,
   GetAssessmentMetadataResponse,
@@ -165,6 +167,23 @@ export const getAssessmentMetadata = async (
 ): Promise<GetAssessmentMetadataResponse> => {
   try {
     const response = await axiosPublic.get(`/assessments/${req.slug}/metadata`);
+
+    return response.data;
+  } catch (error) {
+    return handleApiError(error);
+  }
+};
+
+export const deleteAssessment = async (
+  req: DeleteAssessmentRequest,
+): Promise<DeleteAssessmentResponse> => {
+  try {
+    const session = await getSession();
+    const token = session?.user?.accessToken;
+
+    const response = await axiosPrivate(token || '').patch(
+      `/assessments/${req.assessmentId}`,
+    );
 
     return response.data;
   } catch (error) {

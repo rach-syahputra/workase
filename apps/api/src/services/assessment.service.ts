@@ -7,12 +7,14 @@ import GetAssessmentRepository from '../repositories/assessments/get-assessment.
 import GetAssessmentDetailRepository from '../repositories/assessments/get-assessment-detail.repository';
 import AddAssessmentRepository from '../repositories/assessments/add-assessment.repository';
 import AssessmentQuestionRepository from '../repositories/assessments/assessment-question.repository';
+import DeleteAssessmentRepository from '../repositories/assessments/delete-assessment.repository';
 import GetSkillRepository from '../repositories/assessments/get-skills.repository';
 import UserStatsService from './user-stats.service';
 import {
   AddAssessmentQuestionServiceRequest,
   AddAssessmentServiceRequest,
   DeleteAssessmentQuestionRequest,
+  DeleteAssessmentRequest,
   GetAssessmentBySlugRequest,
   GetAssessmentDiscoveryRequest,
   GetAssessmentMetadataRequest,
@@ -26,6 +28,7 @@ import {
 } from '../validations/assessment.validation';
 import { validate } from '../helpers/validation';
 import { ResponseError } from '../helpers/error';
+import { getPublicId } from 'src/helpers/cloudinary';
 
 class AssessmentService {
   private imageRepository: ImageRepository;
@@ -33,6 +36,7 @@ class AssessmentService {
   private getAssessmentDetailRepository: GetAssessmentDetailRepository;
   private addAssessmentRepository: AddAssessmentRepository;
   private assessmentQuestionRepository: AssessmentQuestionRepository;
+  private deleteAssessmentRepository: DeleteAssessmentRepository;
   private getSkillRepository: GetSkillRepository;
   private userStatsService: UserStatsService;
 
@@ -42,6 +46,7 @@ class AssessmentService {
     this.getAssessmentDetailRepository = new GetAssessmentDetailRepository();
     this.addAssessmentRepository = new AddAssessmentRepository();
     this.assessmentQuestionRepository = new AssessmentQuestionRepository();
+    this.deleteAssessmentRepository = new DeleteAssessmentRepository();
     this.getSkillRepository = new GetSkillRepository();
     this.userStatsService = new UserStatsService();
   }
@@ -130,6 +135,14 @@ class AssessmentService {
   };
 
   deleteAssessmentQuestion = async (req: DeleteAssessmentQuestionRequest) => {
+    const { question } =
+      await this.assessmentQuestionRepository.getAssessmentQuestionById(req);
+
+    if (question?.image) {
+      const publicId = getPublicId(question.image);
+      await this.imageRepository.delete(publicId);
+    }
+
     return await this.assessmentQuestionRepository.deleteAssessmentQuestion(
       req,
     );
@@ -141,6 +154,18 @@ class AssessmentService {
 
   getAssessmentMetadata = async (req: GetAssessmentMetadataRequest) => {
     return await this.getAssessmentDetailRepository.getAssessmentMetadata(req);
+  };
+
+  deleteAssessment = async (req: DeleteAssessmentRequest) => {
+    const assessment =
+      await this.getAssessmentDetailRepository.getAssessmentById(req);
+
+    if (assessment?.image) {
+      const publicId = getPublicId(assessment.image);
+      await this.imageRepository.delete(publicId);
+    }
+
+    return await this.deleteAssessmentRepository.deleteAssessment(req);
   };
 }
 

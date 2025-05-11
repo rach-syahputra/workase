@@ -7,9 +7,11 @@ import { formatTableDate } from '@/lib/utils';
 import { GetAssessmentColumnsRequest, IAssessmentColumn } from './interface';
 import { Button } from '@/components/shadcn-ui/button';
 import TableHeaderOrderButton from '@/components/ui/table/table-header-order-button';
+import DeleteAssessmentModal from '../delete-assessment-modal';
 
 export const getAssessmentColumns = ({
   onLastUpdatedHeaderClick,
+  onDeleteAssessment,
 }: GetAssessmentColumnsRequest): ColumnDef<IAssessmentColumn>[] => [
   {
     accessorKey: 'skill',
@@ -44,9 +46,14 @@ export const getAssessmentColumns = ({
     header: 'Action',
     cell: ({ row }) => {
       return (
-        <Button asChild>
-          <Link href={`/dev/assessments/${row.original.slug}`}>Manage</Link>
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button asChild>
+            <Link href={`/dev/assessments/${row.original.slug}`}>Manage</Link>
+          </Button>
+          <DeleteAssessmentModal
+            onDeleteAssessment={() => onDeleteAssessment(row.original.id)}
+          />
+        </div>
       );
     },
   },

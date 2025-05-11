@@ -3,6 +3,7 @@ import { prisma } from '../../helpers/prisma';
 import {
   AddAssessmentQuestionRepositoryRequest,
   DeleteAssessmentQuestionRequest,
+  GetAssessmentQuestionByIdRequest,
   GetAssessmentQuestionsRequest,
 } from '../../interfaces/assessment.interface';
 
@@ -12,6 +13,18 @@ class AssessmentQuestionRepository {
   constructor() {
     this.prisma = prisma;
   }
+
+  getAssessmentQuestionById = async (req: GetAssessmentQuestionByIdRequest) => {
+    const question = await this.prisma.assessmentQuestion.findUnique({
+      where: {
+        id: req.assessmentQuestionId,
+      },
+    });
+
+    return {
+      question,
+    };
+  };
 
   getTotalAssessmentQuestions = async (assessmentId: string) => {
     return await this.prisma.assessmentQuestion.count({
@@ -129,9 +142,12 @@ class AssessmentQuestionRepository {
   };
 
   deleteAssessmentQuestion = async (req: DeleteAssessmentQuestionRequest) => {
-    return await this.prisma.assessmentQuestion.delete({
+    return await this.prisma.assessmentQuestion.update({
       where: {
         id: req.assessmentQuestionId,
+      },
+      data: {
+        isDeleted: true,
       },
     });
   };
