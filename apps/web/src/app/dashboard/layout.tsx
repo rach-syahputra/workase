@@ -2,13 +2,33 @@ import { redirect } from 'next/navigation';
 import { Metadata } from 'next';
 
 import { auth } from '@/auth';
+import { CLIENT_BASE_URL } from '@/lib/constants/constants';
 import NavigationBar from '@/components/layout/navigation-bar/navigation-bar';
 import UserSidebar from '@/components/user-dashboard/user-sidebar';
+import UserDashboardBottomBar from '@/components/user-dashboard/user-dashboard-bottom-bar';
 
 export const metadata: Metadata = {
   title: 'Dashboard — Workase',
   description:
-    'Find your dream job with Workase—a powerful job board connecting top talent with leading companies. Browse job listings, apply with ease, and take the next step in your career.',
+    'Access your personalized dashboard on Workase to view applied jobs, explore assessments, and manage your subscription.',
+  openGraph: {
+    title: 'Dashboard — Workase',
+    description:
+      'Access your personalized dashboard on Workase to view applied jobs, explore assessments, and manage your subscription.',
+    url: CLIENT_BASE_URL,
+    type: 'website',
+    siteName: 'Workase Job Board',
+    images: [
+      {
+        url: '/workase-sm-bg-black.png',
+        secureUrl: '/workase-sm-bg-black.png',
+        width: 1200,
+        height: 630,
+        alt: 'Workase Job Board',
+      },
+    ],
+  },
+  metadataBase: new URL(CLIENT_BASE_URL),
 };
 
 export default async function UserDashboardLayout({
@@ -30,6 +50,7 @@ export default async function UserDashboardLayout({
           <main className="w-full flex-1 rounded-md">{children}</main>
         </div>
       </div>
+      <UserDashboardBottomBar />
     </div>
   );
 }

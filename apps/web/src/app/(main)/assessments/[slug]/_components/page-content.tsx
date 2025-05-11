@@ -1,6 +1,8 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 
 import { IAssessment } from '@/lib/interfaces/assessment';
 import { getAssessmentBySlug } from '@/lib/apis/assessments';
@@ -13,6 +15,7 @@ interface PageContentProps {
 }
 
 const PageContent = ({ slug }: PageContentProps) => {
+  const { data: session } = useSession();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [assessment, setAssessment] = useState<IAssessment>();
 
@@ -44,6 +47,18 @@ const PageContent = ({ slug }: PageContentProps) => {
           <Assessment assessment={assessment} />
           <Certificate />
         </>
+      ) : !session?.user ? (
+        <div className="flex flex-1 items-center justify-center gap-1">
+          Please{' '}
+          <Link
+            href="/users/login"
+            aria-label="Login page"
+            className="hover:text-primary-blue underline"
+          >
+            sign in
+          </Link>{' '}
+          to access this assessment.
+        </div>
       ) : (
         <div className="flex flex-1 items-center justify-center">
           Something went wrong with the assessment.

@@ -28,3 +28,7 @@ export interface GetUserDetailRequest {
 export interface GetCurrentCompanyRequest {
   userId: string;
 }
+
+export interface GetUserMetadataRequest {
+  slug: string;
+}

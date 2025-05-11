@@ -5,6 +5,7 @@ import {
   AddCertificateServiceRequest,
   GenerateCertificateTokenRequest,
   GetCertificateDetailRequest,
+  GetCertificateMetadataRequest,
 } from '../interfaces/certificate.interface';
 import {
   AddCertificateSchema,
@@ -92,6 +93,10 @@ class CertificateService {
 
   getCertificateDetail = async (req: GetCertificateDetailRequest) => {
     return await this.certificateRepository.getCertificateDetail(req);
+  };
+
+  getCertificateMetadata = async (req: GetCertificateMetadataRequest) => {
+    return await this.certificateRepository.getCertificateMetadata(req);
   };
 }
 

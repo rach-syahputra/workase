@@ -3,9 +3,10 @@
 import { useBrowseSkillsContext } from '@/context/browse-skills-context';
 import { Card } from '@/components/shadcn-ui/card';
 import { Input } from '@/components/shadcn-ui/input';
+import AppPagination from '@/components/ui/pagination';
 import Skills from './skills';
 import CreateSkillModal from './create-skill-modal';
-import AppPagination from '@/components/ui/pagination';
+import RemoveSkillButton from './remove-skill-button';
 
 const BrowseSkills = () => {
   const { isLoading, totalPages, page, setPage, searchSkill, setSearchSkill } =
@@ -32,7 +33,10 @@ const BrowseSkills = () => {
               disabled={isLoading}
             />
           )}
-          <CreateSkillModal />
+          <div className="flex items-center justify-center gap-2">
+            <CreateSkillModal />
+            <RemoveSkillButton />
+          </div>
         </div>
       </Card>
     </Card>

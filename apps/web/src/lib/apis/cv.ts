@@ -35,6 +35,7 @@ export const addCv = async (req: AddCvRequest): Promise<AddCvResponse> => {
   try {
     const response = await axiosPrivate(token || '').post('/cvs', {
       data: req.data,
+      template: req.template,
     });
 
     return response.data;
@@ -52,6 +53,7 @@ export const updateCv = async (
   try {
     const response = await axiosPrivate(token || '').patch(`/cvs/${req.cvId}`, {
       data: req.data,
+      template: req.template,
     });
 
     return response.data;

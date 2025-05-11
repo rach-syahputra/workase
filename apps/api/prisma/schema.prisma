@@ -299,6 +299,7 @@ model Cv {
   slug      String   @unique
   userId    String   @map("user_id")
   data      Json
+  template  Int      @default(1)
   createdAt DateTime @map("created_at")
   updatedAt DateTime @map("updated_at")
   isDeleted Boolean  @default(false) @map("is_deleted")

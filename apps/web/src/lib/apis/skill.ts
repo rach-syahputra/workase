@@ -3,10 +3,12 @@ import { axiosPrivate } from '../axios';
 import {
   AddSkillRequest,
   GetSkillRequest,
+  RemoveSkillRequest,
 } from '../interfaces/api-request/skill';
 import {
   AddSkillResponse,
   GetSkillsResponse,
+  RemoveSkillResponse,
 } from '../interfaces/api-response/skill';
 import { handleApiError } from './error';
 import { GetAvailableSkillsRequest } from '../interfaces/api-request/assessment';
@@ -68,6 +70,23 @@ export const getAvailableSkills = async (
     const query = queryParams.toString();
     const response = await axiosPrivate(token || '').get(
       `/assessments/skills/available${query ? `?${query}` : ''}`,
+    );
+
+    return response.data;
+  } catch (error) {
+    return handleApiError(error);
+  }
+};
+
+export const removeSkill = async (
+  req?: RemoveSkillRequest,
+): Promise<RemoveSkillResponse> => {
+  try {
+    const session = await getSession();
+    const token = session?.user?.accessToken;
+
+    const response = await axiosPrivate(token || '').delete(
+      `/skills/${req?.skillId}`,
     );
 
     return response.data;

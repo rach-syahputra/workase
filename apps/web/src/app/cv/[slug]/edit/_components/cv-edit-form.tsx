@@ -2,7 +2,6 @@
 
 import { cn } from '@/lib/utils';
 import { useCvEditFormContext } from '@/context/cv-edit-form-context';
-import CvPreviewTemplateOne from '@/components/cv-preview/cv-preview-template-one';
 import { Separator } from '@/components/shadcn-ui/separator';
 import CvEditTopBar from './top-bar/cv-edit-top-bar';
 import HeaderForm from './header-form';
@@ -12,6 +11,7 @@ import EducationForm from './education-form';
 import SkillForm from './skill-form';
 import SaveChangesButton from './save-changes-button';
 import GeneratedSummary from './generated-summary';
+import CvPreviewSection from './cv-preview-section';
 
 const CvEditForm = () => {
   const { formik, showPreview, isComparingSummary } = useCvEditFormContext();
@@ -49,7 +49,7 @@ const CvEditForm = () => {
             hidden: !isComparingSummary || showPreview,
           })}
         />
-        <CvPreviewTemplateOne
+        <CvPreviewSection
           className={cn('lg:sticky lg:top-20', {
             hidden: !showPreview || isComparingSummary,
           })}

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -39,9 +40,16 @@ const StartAssessmentModal = ({
   hasPassed,
 }: StartAssessmentModalProps) => {
   const router = useRouter();
+  const { data: session } = useSession();
   const { fetchGetUserStats, userStats } = useUserStatsContext();
   const { setPage, setProgress } = useAssessmentSessionContext();
   const [open, setOpen] = useState<boolean>(false);
+
+  const isAssessmentDisabled =
+    (userStats?.subscription.plan === 'STANDARD' &&
+      userStats.subscription.assessmentEnrollmentCount >= 2) ||
+    userStats?.subscription.plan === 'FREE' ||
+    !userStats?.subscription.plan;
 
   const handleStartAssessment = async () => {
     const response = await addUserAssessment({
@@ -77,7 +85,7 @@ const StartAssessmentModal = ({
       <DialogTrigger asChild>
         <Button
           type="button"
-          disabled={hasPassed}
+          disabled={hasPassed || isAssessmentDisabled || !session?.user}
           className="group h-10 text-base tracking-wide transition-all duration-300 ease-in-out sm:w-fit"
         >
           <div className="relative flex h-full w-fit items-center justify-center pr-6">
@@ -119,7 +127,7 @@ const StartAssessmentModal = ({
           </Button>
           <Button
             type="button"
-            disabled={hasPassed}
+            disabled={hasPassed || isAssessmentDisabled || !session?.user}
             onClick={handleStartAssessment}
             className="w-full"
           >

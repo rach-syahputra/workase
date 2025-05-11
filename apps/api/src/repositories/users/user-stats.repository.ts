@@ -2,8 +2,10 @@ import { prisma } from '../../helpers/prisma';
 import {
   GetCurrentCompanyRequest,
   GetUserDetailRequest,
+  GetUserMetadataRequest,
   GetUserStatsRequest,
 } from '../../interfaces/user.interface';
+import { ICvData } from '../../interfaces/cv.interface';
 
 class UserStatsRepository {
   private prisma: typeof prisma;
@@ -124,6 +126,31 @@ class UserStatsRepository {
         jobTitle: appliedJob.job.title,
         slug: appliedJob.job.company.slug,
       })),
+    };
+  };
+
+  getUserMetadata = async (req: GetUserMetadataRequest) => {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        slug: req.slug,
+      },
+      include: {
+        Cv: {
+          select: {
+            data: true,
+          },
+          take: 1,
+        },
+      },
+    });
+
+    const cv = user?.Cv[0].data as ICvData;
+
+    return {
+      user: {
+        profilePhoto: user?.profilePhoto || null,
+        summary: cv.summary?.content || null,
+      },
     };
   };
 }

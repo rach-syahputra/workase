@@ -50,12 +50,13 @@ export const addCvSchema = yup.object().shape({
         .min(1, 'At least one education item is required'),
     }),
   }),
+  template: yup.string().typeError('Template must be a number').optional(),
 });
 
 export const autoGenerateSummarySchema = yup.object().shape({
   softSkills: yup.string().typeError('Soft skills must be a text').optional(),
   yearsOfExperience: yup
-    .string()
+    .number()
     .typeError('Years of experience must be a number')
     .optional(),
   achievement: yup.string().typeError('Achievement must be a text').optional(),

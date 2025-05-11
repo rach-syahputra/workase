@@ -1,9 +1,10 @@
 'use client';
 
+import { cn } from '@/lib/utils';
 import { useBrowseSkillsContext } from '@/context/browse-skills-context';
 import { Card } from '@/components/shadcn-ui/card';
-import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/shadcn-ui/skeleton';
+import RemoveSkillDialog from './remove-skill-dialog';
 
 interface SkillsProps {
   className?: string;
@@ -28,8 +29,12 @@ const Skills = ({ className }: SkillsProps) => {
         </>
       ) : (
         skills?.map((skill, index) => (
-          <Card key={index} className="rounded-full px-4 py-2">
-            {skill.title}
+          <Card
+            key={index}
+            className="flex items-center justify-center gap-2 rounded-full px-4 py-2"
+          >
+            <span>{skill.title}</span>
+            <RemoveSkillDialog skillId={skill.id} />
           </Card>
         ))
       )}

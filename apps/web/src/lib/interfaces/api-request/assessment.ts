@@ -46,3 +46,7 @@ export interface DeleteAssessmentQuestionRequest {
   assessmentId: string;
   assessmentQuestionId: string;
 }
+
+export interface GetAssessmentMetadataRequest {
+  slug: string;
+}

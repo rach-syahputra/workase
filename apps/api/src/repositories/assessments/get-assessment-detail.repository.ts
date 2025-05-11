@@ -1,6 +1,7 @@
 import { prisma } from '../../helpers/prisma';
 import {
   GetAssessmentBySlugRequest,
+  GetAssessmentMetadataRequest,
   IsAssessmentTakenRequest,
 } from '../../interfaces/assessment.interface';
 
@@ -78,6 +79,29 @@ class GetAssessmentDetailRepository {
         },
       };
     }
+  };
+
+  getAssessmentMetadata = async (req: GetAssessmentMetadataRequest) => {
+    const assessment = await this.prisma.assessment.findUnique({
+      where: {
+        slug: req.slug,
+      },
+      select: {
+        shortDescription: true,
+        skill: {
+          select: {
+            title: true,
+          },
+        },
+      },
+    });
+
+    return {
+      assessment: {
+        shortDescription: assessment?.shortDescription,
+        skillTitle: assessment?.skill.title,
+      },
+    };
   };
 }
 

@@ -167,6 +167,27 @@ class AssessmentController {
       next(err);
     }
   };
+
+  getAssessmentMetadata = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const data = await this.assessmentService.getAssessmentMetadata({
+        slug: req.params.slug,
+      });
+
+      ApiResponse({
+        res,
+        statusCode: 200,
+        message: 'Assessment metadata retrieved successfully.',
+        data,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
 }
 
 export default AssessmentController;

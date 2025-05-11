@@ -1,6 +1,7 @@
 import { IAssessment } from '../assessment';
 import {
   ICertificate,
+  ICertificateMetadata,
   ICertificateOwner,
   ICertificateToken,
 } from '../certificate';
@@ -23,5 +24,11 @@ export interface GetCertificateDetailResponse extends APIResponse {
     certificate: ICertificate;
     owner: ICertificateOwner;
     assessment: IAssessment;
+  };
+}
+
+export interface GetCertificateMetadataResponse extends APIResponse {
+  data?: {
+    certificate: ICertificateMetadata;
   };
 }
