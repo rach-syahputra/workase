@@ -85,10 +85,23 @@ class UserStatsRepository {
             },
           },
         },
+        AppliedJob: {
+          where: {
+            status: 'ACCEPTED',
+          },
+          select: {
+            job: {
+              select: {
+                company: true,
+              },
+            },
+          },
+          take: 1,
+        },
       },
     });
 
-    const { Cv, UserAssessment, ...rest } = user!;
+    const { Cv, UserAssessment, AppliedJob, ...rest } = user!;
 
     return {
       user: {
@@ -101,6 +114,19 @@ class UserStatsRepository {
           score: userAssessment.score,
           certificateSlug: userAssessment.Certificate?.slug,
         })),
+        company: AppliedJob[0]?.job
+          ? {
+              id: AppliedJob[0]?.job?.company.id,
+              name: AppliedJob[0]?.job?.company.name,
+              email: AppliedJob[0]?.job?.company.email,
+              phoneNumber: AppliedJob[0]?.job?.company.phoneNumber,
+              logoUrl: AppliedJob[0]?.job?.company.logoUrl,
+              description: AppliedJob[0]?.job?.company.description,
+              category: AppliedJob[0]?.job?.company.category,
+              location: AppliedJob[0]?.job?.company.location,
+              slug: AppliedJob[0]?.job?.company.slug,
+            }
+          : null,
       },
     };
   };

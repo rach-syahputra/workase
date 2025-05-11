@@ -50,3 +50,7 @@ export interface DeleteAssessmentQuestionRequest {
 export interface GetAssessmentMetadataRequest {
   slug: string;
 }
+
+export interface DeleteAssessmentRequest {
+  assessmentId: string;
+}

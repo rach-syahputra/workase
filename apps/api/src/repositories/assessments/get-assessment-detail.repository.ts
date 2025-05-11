@@ -1,5 +1,6 @@
 import { prisma } from '../../helpers/prisma';
 import {
+  GetAssessmentByIdRequest,
   GetAssessmentBySlugRequest,
   GetAssessmentMetadataRequest,
   IsAssessmentTakenRequest,
@@ -79,6 +80,16 @@ class GetAssessmentDetailRepository {
         },
       };
     }
+  };
+
+  getAssessmentById = async (req: GetAssessmentByIdRequest) => {
+    const assessment = await this.prisma.assessment.findUnique({
+      where: {
+        id: req.assessmentId,
+      },
+    });
+
+    return assessment;
   };
 
   getAssessmentMetadata = async (req: GetAssessmentMetadataRequest) => {

@@ -5,6 +5,7 @@ import {
   uploadAssessmentQuestionImage,
 } from '../helpers/multer';
 import AssessmentController from '../controllers/assessment.controller';
+import DeleteAssessmentController from '../controllers/delete-assessment.controller';
 import AssessmentQuestionController from '../controllers/assessment-question.controller';
 import {
   verifyDeveloper,
@@ -15,11 +16,13 @@ import {
 class AssessmentRouter {
   private router: Router;
   private assessmentController: AssessmentController;
+  private deleteAssessmentController: DeleteAssessmentController;
   private assessmentQuestionController: AssessmentQuestionController;
 
   constructor() {
     this.router = Router();
     this.assessmentController = new AssessmentController();
+    this.deleteAssessmentController = new DeleteAssessmentController();
     this.assessmentQuestionController = new AssessmentQuestionController();
     this.initializeRoutes();
   }
@@ -56,7 +59,11 @@ class AssessmentRouter {
       uploadAssessmentImage.single('image'),
       this.assessmentController.addAssessment,
     );
-
+    this.router.patch(
+      '/:assessmentId',
+      verifyDeveloper,
+      this.deleteAssessmentController.deleteAssessment,
+    );
     this.router.get(
       '/:slug/questions',
       verifyUserAndDeveloper,
@@ -68,7 +75,7 @@ class AssessmentRouter {
       uploadAssessmentQuestionImage.single('image'),
       this.assessmentQuestionController.addAssessmentQuestion,
     );
-    this.router.delete(
+    this.router.patch(
       '/:assessmentId/questions/:assessmentQuestionId',
       verifyDeveloper,
       this.assessmentQuestionController.deleteAssessmentQuestion,

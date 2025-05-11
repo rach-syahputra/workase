@@ -2,15 +2,42 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 import { capitalizeString, formatSubscriptionTimeLeft } from '@/lib/utils';
+import { useToast } from '@/hooks/use-toast';
 import { useUserStatsContext } from '@/context/user-stats-context';
 import { Button } from '@/components/shadcn-ui/button';
 import { Skeleton } from '@/components/shadcn-ui/skeleton';
 
 const CurrentPlan = () => {
+  const router = useRouter();
+  const { toast } = useToast();
+  const { data: session } = useSession();
   const { userStats } = useUserStatsContext();
   const [isLoading, setIsLoading] = useState<boolean>(!!userStats);
+
+  const handleUpgradePlan = () => {
+    if (!session?.user?.isVerified) {
+      toast({
+        title: 'Email is Unverified',
+        description: 'Verify your email before upgrading plan',
+        variant: 'destructive',
+        duration: 5000,
+        action: (
+          <Link
+            href="/profile-management/verification"
+            className="rounded-md border border-white px-3 py-2 text-sm"
+          >
+            Verify Email
+          </Link>
+        ),
+      });
+    } else {
+      router.push('/subscription');
+    }
+  };
 
   useEffect(() => {
     if (userStats?.subscription) setIsLoading(false);
@@ -53,14 +80,11 @@ const CurrentPlan = () => {
           </span>
           {!isLoading && userStats ? (
             <Button asChild variant="dark" className="w-fit">
-              {userStats?.subscription.plan !== 'FREE' ? (
-                <Link href="/subscription" aria-label="Subscription page">
-                  Extend Plan
-                </Link>
+              {userStats?.subscription.plan !== 'FREE' ||
+              !userStats.subscription.plan ? (
+                <Button onClick={handleUpgradePlan}>Extend Plan</Button>
               ) : (
-                <Link href="/subscription" aria-label="Subscription page">
-                  Upgrade Plan
-                </Link>
+                <Button onClick={handleUpgradePlan}>Upgrade Plan</Button>
               )}
             </Button>
           ) : (
