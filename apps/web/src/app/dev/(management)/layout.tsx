@@ -1,7 +1,8 @@
-import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
 import { Metadata } from 'next';
 
+import { CLIENT_BASE_URL } from '@/lib/constants/constants';
+import { auth } from '@/auth';
 import { DeveloperAssessmentProvider } from '@/context/developer-assessment-context';
 import DeveloperSidebar from '@/components/developer/developer-sidebar';
 import DeveloperNavbar from '@/components/developer/developer-navbar';
@@ -10,6 +11,24 @@ export const metadata: Metadata = {
   title: 'Developer — Workase',
   description:
     'Manage assessments, skills and transactions with powerful developer tools in Workase.',
+  openGraph: {
+    title: 'Developer — Workase',
+    description:
+      'Manage assessments, skills and transactions with powerful developer tools in Workase.',
+    url: CLIENT_BASE_URL,
+    type: 'website',
+    siteName: 'Workase Job Board',
+    images: [
+      {
+        url: '/workase-sm-bg-black.png',
+        secureUrl: '/workase-sm-bg-black.png',
+        width: 1200,
+        height: 630,
+        alt: 'Workase Job Board',
+      },
+    ],
+  },
+  metadataBase: new URL(CLIENT_BASE_URL),
 };
 
 export default async function DeveloperManagementLayout({

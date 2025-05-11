@@ -11,12 +11,13 @@ import { formatTableDate } from '@/lib/utils';
 import { addCv } from '@/lib/apis/cv';
 import { useAppToast } from '@/hooks/use-app-toast';
 import { useUserDetailContext } from '@/context/user-detail-context';
-import CvPreviewPdf from '@/components/cv-preview/cv-preview-pdf';
+import CvPreviewPdf from '@/components/cv-preview/cv-preview-template-one/pdf';
 import { Button } from '@/components/shadcn-ui/button';
 import { Card } from '@/components/shadcn-ui/card';
 import { Skeleton } from '@/components/shadcn-ui/skeleton';
 import LoadingOverlay from '@/components/ui/loading-overlay';
 import CvPreviewModal from './cv-preview-modal';
+import CvDownloadButton from './cv-download-button';
 
 const PDFDownloadLink = dynamic(
   () => import('@react-pdf/renderer').then((mod) => mod.PDFDownloadLink),
@@ -48,6 +49,7 @@ const Cv = () => {
           },
         },
       },
+      template: 1,
     });
 
     if (response.success) {
@@ -99,22 +101,7 @@ const Cv = () => {
             )}
 
             <CvPreviewModal />
-            <PDFDownloadLink
-              document={
-                <CvPreviewPdf
-                  cv={{ slug: user.cv.slug || '', data: user.cv.data! }}
-                />
-              }
-              fileName={`CV-${user.cv?.data.header?.content.name}-${user.cv?.data.header?.content.role}.pdf`}
-              className="max-lg:hidden"
-            >
-              {() => (
-                <Button type="button" variant="secondary">
-                  <ArrowDownToLine size={16} />
-                  Download
-                </Button>
-              )}
-            </PDFDownloadLink>
+            <CvDownloadButton cv={user.cv} />
           </div>
         </Card>
       ) : isOwner ? (

@@ -1,4 +1,5 @@
 export interface IAssessmentColumn {
+  id: string;
   slug: string;
   skill: string;
   totalQuestions: number;
@@ -7,4 +8,5 @@ export interface IAssessmentColumn {
 
 export interface GetAssessmentColumnsRequest {
   onLastUpdatedHeaderClick: () => void;
+  onDeleteAssessment: (assessmentId: string) => void;
 }

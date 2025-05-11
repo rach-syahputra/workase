@@ -26,6 +26,7 @@ export const getAssessmentQuestions = async (
 
     if (req?.limit) queryParams.append('limit', req?.limit.toString());
     if (req?.page) queryParams.append('page', req?.page.toString());
+    if (req?.order) queryParams.append('order', req?.order);
     if (req?.question) queryParams.append('question', req?.question.toString());
     if (req?.randomize)
       queryParams.append('randomize', req?.randomize.toString());
@@ -48,7 +49,7 @@ export const deleteAssessmentQuestion = async (
     const session = await getSession();
     const token = session?.user?.accessToken;
 
-    const response = await axiosPrivate(token || '').delete(
+    const response = await axiosPrivate(token || '').patch(
       `/assessments/${req?.assessmentId}/questions/${req.assessmentQuestionId}`,
     );
 

@@ -23,6 +23,10 @@ export interface GetAssessmentBySlugRequest {
   slug: string;
 }
 
+export interface GetAssessmentByIdRequest {
+  assessmentId: string;
+}
+
 export interface GetAvailableSkillsRequest extends IFilter {
   title: string;
 }
@@ -37,6 +41,10 @@ export interface AddAssessmentRepositoryRequest {
   skillId: string;
   image?: string;
   shortDescription: string;
+}
+
+export interface GetAssessmentQuestionByIdRequest {
+  assessmentQuestionId: string;
 }
 
 export interface GetAssessmentQuestionsRequest extends IFilter {
@@ -75,4 +83,12 @@ export interface IsAssessmentTakenRequest {
 export interface DeleteAssessmentQuestionRequest {
   assessmentId: string;
   assessmentQuestionId: string;
+}
+
+export interface GetAssessmentMetadataRequest {
+  slug: string;
+}
+
+export interface DeleteAssessmentRequest {
+  assessmentId: string;
 }

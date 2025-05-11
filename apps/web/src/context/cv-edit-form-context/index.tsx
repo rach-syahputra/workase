@@ -43,6 +43,7 @@ const CvEditFormProvider = ({
   const formik = useFormik<AddCvFormValues>({
     initialValues: {
       data: cvData?.data || cv?.data,
+      template: cvData?.template || cv?.template,
     },
     validationSchema: addCvSchema,
     validateOnChange: false,
@@ -50,7 +51,11 @@ const CvEditFormProvider = ({
     onSubmit: async (values: AddCvFormValues, { resetForm }) => {
       formik.setStatus('');
 
-      const response = await updateCv({ cvId: cv.id, data: values.data });
+      const response = await updateCv({
+        cvId: cv.id,
+        data: values.data,
+        template: values.template,
+      });
 
       if (response.success) {
         await fetchGetCvBySlug();
@@ -63,7 +68,6 @@ const CvEditFormProvider = ({
         });
       } else {
         if (response.code === 'ERR_NETWORK') {
-          // TO DO: add toast action to redirect to the login page
           appToast('ERROR_NETWORK');
         } else if (response.code === 'ERR_UNAUTHENTICATED') {
           appToast('ERROR_UNAUTHENTICATED');

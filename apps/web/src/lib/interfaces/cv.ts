@@ -46,6 +46,7 @@ export interface ICv {
   id: string;
   slug: string;
   userId: string;
+  template: number;
   createdAt: string;
   updatedAt: string;
   data: ICvData;

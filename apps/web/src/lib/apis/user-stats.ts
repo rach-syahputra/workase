@@ -4,13 +4,15 @@ import { axiosPrivate, axiosPublic } from '../axios';
 import {
   GetCurrentCompaniesResponse,
   GetUserDetailResponse,
+  GetUserMetadataResponse,
   GetUserStatsResponse,
 } from '../interfaces/api-response/user-stats';
-import { handleApiError } from './error';
 import {
   GetCurrentCompaniesRequest,
   GetUserDetailRequest,
+  GetUserMetadataRequest,
 } from '../interfaces/api-request/user-stats';
+import { handleApiError } from './error';
 
 export const getUserStats = async (): Promise<GetUserStatsResponse> => {
   try {
@@ -44,6 +46,18 @@ export const getCurrentCompanies = async (
     const response = await axiosPrivate(req.token || '').get(
       `/users/current-companies`,
     );
+
+    return response.data;
+  } catch (error) {
+    return handleApiError(error);
+  }
+};
+
+export const getUserMetadata = async (
+  req: GetUserMetadataRequest,
+): Promise<GetUserMetadataResponse> => {
+  try {
+    const response = await axiosPublic.get(`/users/${req.slug}/metadata`);
 
     return response.data;
   } catch (error) {

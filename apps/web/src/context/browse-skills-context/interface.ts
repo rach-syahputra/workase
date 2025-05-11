@@ -12,6 +12,8 @@ export interface IBrowseSkillsContext {
   setSearchSkill: Dispatch<SetStateAction<string>>;
   debouncedSearchSkill: string;
   setDebouncedSearchSkill: Dispatch<SetStateAction<string>>;
+  onRemoveMode: boolean;
+  setOnRemoveMode: Dispatch<SetStateAction<boolean>>;
   skills: ISkill[];
   setSkills: Dispatch<SetStateAction<ISkill[]>>;
   limit: number;

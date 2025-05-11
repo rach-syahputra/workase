@@ -27,6 +27,10 @@ class CertificateRouter {
       this.certificateController.addCertificate,
     );
     this.router.get('/:slug', this.certificateController.getCertificateDetail);
+    this.router.get(
+      '/:slug/metadata',
+      this.certificateController.getCertificateMetadata,
+    );
   }
 
   getRouter(): Router {

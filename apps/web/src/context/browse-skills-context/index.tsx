@@ -22,6 +22,7 @@ const BrowseSkillsProvider = ({ children }: { children: React.ReactNode }) => {
   const [page, setPage] = useState<number>(1);
   const [searchSkill, setSearchSkill] = useState<string>('');
   const [debouncedSearchSkill, setDebouncedSearchSkill] = useState<string>('');
+  const [onRemoveMode, setOnRemoveMode] = useState<boolean>(false);
   const [skills, setSkills] = useState<ISkill[]>([]);
   const limit = 12;
 
@@ -68,6 +69,8 @@ const BrowseSkillsProvider = ({ children }: { children: React.ReactNode }) => {
         setSearchSkill,
         debouncedSearchSkill,
         setDebouncedSearchSkill,
+        onRemoveMode,
+        setOnRemoveMode,
         skills,
         setSkills,
         limit,

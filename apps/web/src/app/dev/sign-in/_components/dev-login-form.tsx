@@ -8,7 +8,6 @@ import { DeveloperLoginFormValues } from '@/lib/interfaces/form/developer';
 import { developerLoginSchema } from '@/validations/developer';
 import FormInput from '@/components/ui/form-input';
 import { Button } from '@/components/shadcn-ui/button';
-import Image from 'next/image';
 
 const DevLoginForm = () => {
   const router = useRouter();
@@ -45,7 +44,7 @@ const DevLoginForm = () => {
     >
       <div className="flex flex-col items-center justify-center">
         <h1 className="heading-2">Welcome Back</h1>
-        <p className="text-primary-gray text-sm">
+        <p className="text-primary-gray text-center text-sm">
           Sign in as a developer and manage your app.
         </p>
       </div>

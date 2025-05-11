@@ -54,3 +54,8 @@ export interface ITopAssessment {
   isDeleted: boolean;
   totalEnrollmentCount: number;
 }
+
+export interface IAssessmentMetadata {
+  shortDescription: string;
+  skillTitle: string;
+}

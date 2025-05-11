@@ -12,3 +12,7 @@ export interface AddCertificateRequest {
 export interface GetCertificateDetailRequest {
   slug: string;
 }
+
+export interface GetCertificateMetadataRequest {
+  slug: string;
+}

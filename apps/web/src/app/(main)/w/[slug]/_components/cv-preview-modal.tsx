@@ -4,6 +4,7 @@ import { PDFViewer } from '@react-pdf/renderer';
 import { Eye } from 'lucide-react';
 
 import { useUserDetailContext } from '@/context/user-detail-context';
+import CvPreviewTemplateOnePdf from '@/components/cv-preview/cv-preview-template-one/pdf';
 import {
   Dialog,
   DialogContent,
@@ -12,8 +13,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/shadcn-ui/dialog';
-import CvPreviewPdf from '@/components/cv-preview/cv-preview-pdf';
 import { Button } from '@/components/shadcn-ui/button';
+import CvPreviewTemplateTwoPdf from '@/components/cv-preview/cv-preview-template-two/pdf';
 
 const CvPreviewModal = () => {
   const { user } = useUserDetailContext();
@@ -33,7 +34,13 @@ const CvPreviewModal = () => {
         </DialogHeader>
         {user?.cv ? (
           <PDFViewer className="h-full w-full">
-            <CvPreviewPdf cv={user?.cv} />
+            {user.cv.template === 2 ? (
+              <CvPreviewTemplateTwoPdf cv={user?.cv} />
+            ) : user.cv.template === 1 ? (
+              <CvPreviewTemplateOnePdf cv={user?.cv} />
+            ) : (
+              <CvPreviewTemplateOnePdf cv={user?.cv} />
+            )}
           </PDFViewer>
         ) : (
           <div className="p-10">No CV.</div>

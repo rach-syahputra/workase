@@ -11,10 +11,8 @@ import { ColumnDef } from '@tanstack/react-table';
 
 import { IAssessmentColumn } from '@/app/dev/(management)/assessments/_components/table/interface';
 import { getAssessments } from '@/lib/apis/assessments';
-import { IAssessment } from '@/lib/interfaces/assessment';
 import { OrderType } from '@/lib/interfaces/api-request/filter';
 import { IAssessmentContext } from './interface';
-import { getAssessmentColumns } from '@/app/dev/(management)/assessments/_components/table/column';
 
 const AssessmentContext = createContext<IAssessmentContext | undefined>(
   undefined,
@@ -42,15 +40,9 @@ const AssessmentProvider = ({ children }: { children: React.ReactNode }) => {
     });
 
     if (response.success) {
-      setColumns(
-        getAssessmentColumns({
-          onLastUpdatedHeaderClick: () =>
-            setOrder(order === 'desc' ? 'asc' : 'desc'),
-        }),
-      );
-
       setTableData(
         response.data?.assessments?.map((assesment) => ({
+          id: assesment.id,
           slug: assesment.slug,
           updatedAt: assesment.updatedAt,
           skill: assesment.skill.title,
@@ -72,10 +64,6 @@ const AssessmentProvider = ({ children }: { children: React.ReactNode }) => {
 
     return () => clearTimeout(handleDebouncedSearchSkill);
   }, [searchSkill]);
-
-  useEffect(() => {
-    fetchGetAssessments();
-  }, [fetchGetAssessments]);
 
   return (
     <AssessmentContext.Provider

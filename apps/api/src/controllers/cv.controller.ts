@@ -36,6 +36,7 @@ class CvController {
       const data = await this.cvService.addCv({
         userId: req.user.id,
         data: req.body.data,
+        template: Number(req.body.template),
       });
 
       ApiResponse({
@@ -57,6 +58,7 @@ class CvController {
         userId: req.user.id,
         cvId: req.params.cvId,
         data: req.body.data,
+        template: Number(req.body.template) || undefined,
       });
 
       ApiResponse({

@@ -61,6 +61,29 @@ class SkillController {
       next(err);
     }
   };
+
+  removeSkill = async (
+    req: DeveloperRequest,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      if (!req.developer) throw new ResponseError(401, 'Unauthenticated.');
+
+      const data = await this.skillService.removeSkill({
+        id: req.params.skillId,
+      });
+
+      ApiResponse({
+        res,
+        statusCode: 200,
+        message: 'Skill deleted successfully.',
+        data,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
 }
 
 export default SkillController;

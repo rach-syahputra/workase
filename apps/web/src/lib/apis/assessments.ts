@@ -5,15 +5,19 @@ import { auth } from '@/auth';
 import {
   AddAssessmentQuestionRequest,
   AddAssessmentRequest,
+  DeleteAssessmentRequest,
   GetAssessmentBySlugRequest,
   GetAssessmentDiscoveryRequest,
+  GetAssessmentMetadataRequest,
   GetAssessmentsRequest,
 } from '../interfaces/api-request/assessment';
 import {
   AddAssessmentQuestionResponse,
   AddAssessmentResponse,
+  DeleteAssessmentResponse,
   GetAssessmentBySlugResponse,
   GetAssessmentDiscoveryResponse,
+  GetAssessmentMetadataResponse,
   GetAssessmentsResponse,
   GetTopAssessmentsResponse,
 } from '../interfaces/api-response/assessments';
@@ -157,3 +161,32 @@ export const getTopAssessments =
       return handleApiError(error);
     }
   };
+
+export const getAssessmentMetadata = async (
+  req: GetAssessmentMetadataRequest,
+): Promise<GetAssessmentMetadataResponse> => {
+  try {
+    const response = await axiosPublic.get(`/assessments/${req.slug}/metadata`);
+
+    return response.data;
+  } catch (error) {
+    return handleApiError(error);
+  }
+};
+
+export const deleteAssessment = async (
+  req: DeleteAssessmentRequest,
+): Promise<DeleteAssessmentResponse> => {
+  try {
+    const session = await getSession();
+    const token = session?.user?.accessToken;
+
+    const response = await axiosPrivate(token || '').patch(
+      `/assessments/${req.assessmentId}`,
+    );
+
+    return response.data;
+  } catch (error) {
+    return handleApiError(error);
+  }
+};

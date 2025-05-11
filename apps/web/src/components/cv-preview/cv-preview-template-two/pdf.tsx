@@ -1,7 +1,7 @@
 import { Page, Text, View, Document } from '@react-pdf/renderer';
 
 import { ICvData } from '@/lib/interfaces/cv';
-import { cvPreviewStyles as styles } from './cv-preview-pdf-styles';
+import { styles } from './styles';
 
 interface CvPreviewPdfProps {
   cv: {
@@ -10,7 +10,7 @@ interface CvPreviewPdfProps {
   };
 }
 
-const CvPreviewPdf = ({ cv }: CvPreviewPdfProps) => {
+const CvPreviewTemplateTwoPdf = ({ cv }: CvPreviewPdfProps) => {
   const { header, summary, experience, education, skill } = cv.data;
 
   return (
@@ -23,11 +23,15 @@ const CvPreviewPdf = ({ cv }: CvPreviewPdfProps) => {
       <Page size="A4" style={styles.main}>
         {header?.content && (
           <View style={styles.header}>
-            <Text style={styles.headerName}>{header?.content.name}</Text>
-            <Text>{header?.content.role}</Text>
+            <View style={styles.headerHeader}>
+              <Text style={styles.headerName}>{header?.content.name}</Text>
+              <Text style={styles.headerRole}>{header?.content.role}</Text>
+            </View>
             <View style={styles.headerContact}>
+              <View style={styles.headerContactTitle}>
+                <Text>CONTACTS</Text>
+              </View>
               <Text>{header?.content.email}</Text>
-              <Text>•</Text>
               <Text>{header?.content.phoneNumber}</Text>
             </View>
           </View>
@@ -36,7 +40,6 @@ const CvPreviewPdf = ({ cv }: CvPreviewPdfProps) => {
         {summary?.content && (
           <View style={styles.sectionWrapper}>
             <Text style={styles.sectionTitle}>SUMMARY</Text>
-            <View style={styles.sectionHeaderSeparator}></View>
             <Text>{summary.content}</Text>
           </View>
         )}
@@ -44,7 +47,6 @@ const CvPreviewPdf = ({ cv }: CvPreviewPdfProps) => {
         {education && education?.contents.length > 0 && (
           <View style={styles.sectionWrapper}>
             <Text style={styles.sectionTitle}>EDUCATION</Text>
-            <View style={styles.sectionHeaderSeparator}></View>
             {education.contents.map((content, index) => (
               <View key={index} style={styles.educationWrapper}>
                 <View style={styles.educationInstitutionWrapper}>
@@ -64,7 +66,6 @@ const CvPreviewPdf = ({ cv }: CvPreviewPdfProps) => {
         {experience && experience.contents.length > 0 && (
           <View style={styles.sectionWrapper}>
             <Text style={styles.sectionTitle}>EXPERIENCE</Text>
-            <View style={styles.sectionHeaderSeparator}></View>
             <View style={styles.experienceList}>
               {experience.contents.map((content, index) => (
                 <View key={index} style={styles.experienceItem}>
@@ -100,7 +101,6 @@ const CvPreviewPdf = ({ cv }: CvPreviewPdfProps) => {
         {skill && skill.contents.length > 0 && (
           <View style={styles.sectionWrapper}>
             <Text style={styles.sectionTitle}>SKILL</Text>
-            <View style={styles.sectionHeaderSeparator}></View>
             <View style={styles.skillList}>
               {skill.contents.map((content, index) => (
                 <View key={index} style={styles.skillItem}>
@@ -116,4 +116,4 @@ const CvPreviewPdf = ({ cv }: CvPreviewPdfProps) => {
   );
 };
 
-export default CvPreviewPdf;
+export default CvPreviewTemplateTwoPdf;

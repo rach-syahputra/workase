@@ -33,3 +33,8 @@ export interface ICertificateOwner {
   slug: string;
   profilePhoto: string;
 }
+
+export interface ICertificateMetadata {
+  userSlug: string;
+  skillTitle: string;
+}

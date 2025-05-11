@@ -74,6 +74,23 @@ class UserStatsController {
       next(err);
     }
   };
+
+  getUserMetadata = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const data = await this.userStatsService.getUserMetadata({
+        slug: req.params.slug,
+      });
+
+      ApiResponse({
+        res,
+        statusCode: 200,
+        message: 'User metadata retrieved successfully.',
+        data,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
 }
 
 export default new UserStatsController();

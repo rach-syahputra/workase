@@ -1,15 +1,15 @@
 'use client';
 
 import Link from 'next/link';
-import { File, User } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
+import { Building, User } from 'lucide-react';
+import Image from 'next/image';
 
 import { cn } from '@/lib/utils';
+import { useUserDetailContext } from '@/context/user-detail-context';
 import { Card } from '@/components/shadcn-ui/card';
 import { Separator } from '@/components/shadcn-ui/separator';
 import { Button } from '@/components/shadcn-ui/button';
-import { useUserDetailContext } from '@/context/user-detail-context';
-import Image from 'next/image';
-import AppLoading from '@/components/ui/app-loading';
 import { Skeleton } from '@/components/shadcn-ui/skeleton';
 
 interface ProfileMenuProps {
@@ -17,6 +17,7 @@ interface ProfileMenuProps {
 }
 
 const ProfileMenu = ({ className }: ProfileMenuProps) => {
+  const searchParams = useSearchParams();
   const {
     isLoading,
     activeProfileMenuItemId,
@@ -28,8 +29,16 @@ const ProfileMenu = ({ className }: ProfileMenuProps) => {
     {
       id: 1,
       label: 'Profile',
+      tab: 'profile',
       icon: <User size={16} />,
       href: `/w/${user?.slug}`,
+    },
+    {
+      id: 2,
+      label: 'Company',
+      tab: 'company',
+      icon: <Building size={16} />,
+      href: `/w/${user?.slug}?tab=company`,
     },
   ];
 
@@ -56,27 +65,36 @@ const ProfileMenu = ({ className }: ProfileMenuProps) => {
             <Skeleton className="h-5 w-full" />
           </div>
         ) : (
-          <p>asputra.as18@gmail.com</p>
+          <p>{user?.email}</p>
         )}
       </div>
       <Separator />
       <div className="flex w-full flex-col items-start">
-        {PROFILE_MENU_ITEMS.map((item, index) => (
-          <Button
-            key={index}
-            asChild
-            variant="ghost"
-            onClick={() => setActiveProfileMenuItemId(item.id)}
-            className={cn('flex h-11 w-full items-center justify-start', {
-              'text-primary-blue': activeProfileMenuItemId === item.id,
-            })}
-          >
-            <Link href={item.href}>
-              {item.icon}
-              {item.label}
-            </Link>
-          </Button>
-        ))}
+        {PROFILE_MENU_ITEMS.map((item, index) => {
+          const tab = searchParams.get('tab');
+
+          if (tab === 'company') {
+            setActiveProfileMenuItemId(2);
+          } else {
+            setActiveProfileMenuItemId(1);
+          }
+
+          return (
+            <Button
+              key={index}
+              asChild
+              variant="ghost"
+              className={cn('flex h-11 w-full items-center justify-start', {
+                'text-primary-blue': item.id == activeProfileMenuItemId,
+              })}
+            >
+              <Link href={item.href}>
+                {item.icon}
+                {item.label}
+              </Link>
+            </Button>
+          );
+        })}
       </div>
     </Card>
   );

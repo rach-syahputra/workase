@@ -5,3 +5,7 @@ export interface GetUserDetailRequest {
 export interface GetCurrentCompaniesRequest {
   token: string;
 }
+
+export interface GetUserMetadataRequest {
+  slug: string;
+}

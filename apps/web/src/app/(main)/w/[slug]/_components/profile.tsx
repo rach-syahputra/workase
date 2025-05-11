@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { format } from 'date-fns';
-import { Minus, Pencil } from 'lucide-react';
+import { CircleAlert, Minus, Pencil } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 
 import { useUserDetailContext } from '@/context/user-detail-context';
@@ -13,6 +13,13 @@ import { Button } from '@/components/shadcn-ui/button';
 interface ProfileItemProps {
   title: string;
   value: string;
+}
+
+interface ProfileEmailProps {
+  title: string;
+  value: string;
+  isVerified: boolean;
+  isOwner: boolean;
 }
 
 const Profile = () => {
@@ -56,8 +63,13 @@ const Profile = () => {
         ) : (
           <div className="aspect-square w-28 rounded-full bg-gray-200"></div>
         )}
-        <div className="flex w-full flex-col justify-start gap-4 md:grid md:grid-cols-2">
-          <ProfileItem title="Email" value={user?.email || ''} />
+        <div className="flex w-full flex-col justify-start gap-x-4 gap-y-6 md:grid md:grid-cols-2">
+          <ProfileEmail
+            title="Email"
+            value={user?.email || ''}
+            isVerified={session?.user?.isVerified || false}
+            isOwner={isOwner}
+          />
           <ProfileItem title="Gender" value={user?.gender || ''} />
           <ProfileItem
             title="Place of Birth"
@@ -81,6 +93,39 @@ const ProfileItem = ({ title, value }: ProfileItemProps) => {
     <div className="flex flex-col">
       <span className="text-primary-gray text-sm">{title}</span>
       <p>{value ? value : <Minus size={16} />}</p>
+    </div>
+  );
+};
+
+const ProfileEmail = ({
+  title,
+  value,
+  isVerified,
+  isOwner,
+}: ProfileEmailProps) => {
+  return (
+    <div className="flex flex-col">
+      <span className="text-primary-gray text-sm">{title}</span>
+      <div className="flex items-center gap-1">
+        {!isVerified && isOwner && (
+          <CircleAlert size={12} strokeWidth={3} className="text-red-500" />
+        )}
+        <p>{value ? value : <Minus size={16} />}</p>
+      </div>
+      {!isVerified && isOwner && (
+        <>
+          <p className="text-primary-gray text-sm">
+            Your email is not verified.
+          </p>
+          <Link
+            href="/profile-management/verification"
+            aria-label="Email verification page"
+            className="text-primary-blue mt-1 text-sm hover:underline"
+          >
+            Verify Email
+          </Link>
+        </>
+      )}
     </div>
   );
 };
