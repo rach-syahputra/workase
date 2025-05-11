@@ -14,12 +14,9 @@ import UserAssessmentRouter from './user-assessment.router';
 import CertificateRouter from './certificate.router';
 import SubscriptionRouter from './subscription.router';
 import SubscriptionPaymentRouter from './subscription-payment.router';
-<<<<<<< HEAD
 import CvRouter from './cv.router';
-=======
 import { jobApllicationsRouter } from './job-applications.router';
 import { savedJobsRouter } from './saved-jobs.router';
->>>>>>> 178cd18 (feat: complete all core features for initial release)
 
 const apiRouter = Router();
 const sampleRouter = new SampleRouter();
@@ -50,11 +47,10 @@ apiRouter.use('/user-assessments', userAssessmentRouter.getRouter());
 apiRouter.use('/certificates', certificateRouter.getRouter());
 apiRouter.use('/subscriptions', subscriptionRouter.getRouter());
 apiRouter.use('/subscription-payments', subscriptionPaymentRouter.getRouter());
-<<<<<<< HEAD
+
 apiRouter.use('/cvs', cvRouter.getRouter());
-=======
+
 apiRouter.use('/job-applications', jobApllicationsRouter());
 apiRouter.use('/saved-jobs', savedJobsRouter());
->>>>>>> 178cd18 (feat: complete all core features for initial release)
 
 export default apiRouter;

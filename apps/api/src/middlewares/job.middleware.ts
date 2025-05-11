@@ -1,22 +1,9 @@
-<<<<<<< HEAD
 import { OPENCAGE_API_KEY } from '../config';
-import jobFilterSchema from '../validations/job.validation';
+import jobsFilterSchema from '../validations/job.validation';
 import { NextFunction, Request, Response } from 'express';
 import axios from 'axios';
 import { ResponseError } from '../helpers/error';
-const validateJobFilter = async (
-=======
-import { OPENCAGE_API_KEY } from '@/config';
-import jobsFilterSchema from '@/validations/job.validation';
-import { NextFunction, Request, Response } from 'express';
-import axios from 'axios';
-import { ResponseError } from '@/helpers/error';
-import applyJobSchema from '@/validations/apply-job.validation';
-import cloudinary from '@/helpers/cloudinary';
-import { UserRequest } from '@/interfaces/middleware.interface';
-import applicationsFilterSchema from '@/validations/applications.validation';
 const validateJobsFilter = async (
->>>>>>> 178cd18 (feat: complete all core features for initial release)
   req: Request,
   res: Response,
   next: NextFunction,

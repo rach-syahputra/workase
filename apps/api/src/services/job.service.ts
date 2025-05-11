@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-import GetJobsRepository from '../repositories/jobs/get-jobs.repository';
-=======
-import getJobsRepository from '@/repositories/jobs/get-jobs.repository';
->>>>>>> 178cd18 (feat: complete all core features for initial release)
+import getJobsRepository from '../repositories/jobs/get-jobs.repository';
+
 import { Request } from 'express';
 
 class JobsService {

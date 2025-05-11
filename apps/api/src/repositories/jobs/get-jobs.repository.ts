@@ -1,11 +1,7 @@
 import { Request } from 'express';
-<<<<<<< HEAD
+
 import prisma from '../../prisma';
-class GetJobsRepository {
-=======
-import prisma from '@/prisma';
 class getJobsRepository {
->>>>>>> 178cd18 (feat: complete all core features for initial release)
   static async getJobs(req: Request) {
     const limit = req.query.limit || 10;
     const sort = req.query.sort == 'asc' ? 'asc' : 'desc';

@@ -1,11 +1,7 @@
-<<<<<<< HEAD
 import { ApiResponse } from '../helpers/api-response';
+
 import jobsService from '../services/job.service';
-=======
-import { ApiResponse } from '@/helpers/api-response';
-import { UserRequest } from '@/interfaces/middleware.interface';
-import jobsService from '@/services/job.service';
->>>>>>> 178cd18 (feat: complete all core features for initial release)
+
 import { NextFunction, Request, Response } from 'express';
 
 class JobsController {
@@ -36,8 +32,6 @@ class JobsController {
       next(error);
     }
   }
-
-
 }
 
 export default new JobsController();
