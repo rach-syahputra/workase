@@ -16,7 +16,7 @@ const Company = () => {
   const { user } = useUserDetailContext();
   const company = user?.company;
 
-  return (
+  return company ? (
     <div className="flex flex-col gap-6 p-5">
       <div className="flex flex-col">
         <h1 className="heading-3">Company</h1>
@@ -57,6 +57,10 @@ const Company = () => {
         </Link>
       </Button>
     </div>
+  ) : (
+    <p className="text-primary-gray p-10 text-sm">
+      This user has not worked at any companies yet.
+    </p>
   );
 };
 

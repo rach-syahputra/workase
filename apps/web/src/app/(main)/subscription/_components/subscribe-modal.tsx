@@ -1,12 +1,15 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 import { cn } from '@/lib/utils';
 import { addSubscription } from '@/lib/apis/subscription';
 import { useAppToast } from '@/hooks/use-app-toast';
+import { useToast } from '@/hooks/use-toast';
 import { useSubscriptionPlanContext } from '@/context/subscription-plan-context';
 import { useUserStatsContext } from '@/context/user-stats-context';
 import { Button } from '@/components/shadcn-ui/button';
@@ -30,11 +33,34 @@ interface SubscribeModalProps {
 const SubscribeModal = ({ className }: SubscribeModalProps) => {
   const router = useRouter();
   const { appToast } = useAppToast();
+  const { toast } = useToast();
+  const { data: session } = useSession();
   const { userStats } = useUserStatsContext();
   const { activeSubscriptionPlan } = useSubscriptionPlanContext();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
+
+  const handleOpenModal = () => {
+    if (!session?.user?.isVerified) {
+      toast({
+        title: 'Email is Unverified',
+        description: 'Verify your email before upgrading plan',
+        variant: 'destructive',
+        duration: 5000,
+        action: (
+          <Link
+            href="/profile-management/verification"
+            className="rounded-md border border-white px-3 py-2 text-sm"
+          >
+            Verify Email
+          </Link>
+        ),
+      });
+    } else {
+      setOpen(true);
+    }
+  };
 
   const handleProceedToPayment = async () => {
     setIsSubmitting(true);
@@ -64,25 +90,24 @@ const SubscribeModal = ({ className }: SubscribeModalProps) => {
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
-          <Button
-            className={cn(
-              'hover:bg-primary-blue-hover group flex h-10 w-full text-base tracking-wide transition-all duration-300 ease-in-out',
-              className,
-            )}
-          >
-            {userStats?.subscription.plan === 'STANDARD' ||
-            userStats?.subscription.plan === 'PROFESSIONAL'
-              ? 'Extend Your Plan'
-              : 'Upgrade Your Plan'}
-            <div className="relative flex h-full items-center justify-center pr-6">
-              <Icon
-                icon={faArrowRight}
-                className="absolute right-0 transition-all duration-300 ease-in-out group-hover:-right-0.5"
-              />
-            </div>
-          </Button>
-        </DialogTrigger>
+        <Button
+          onClick={handleOpenModal}
+          className={cn(
+            'hover:bg-primary-blue-hover group flex h-10 w-full text-base tracking-wide transition-all duration-300 ease-in-out',
+            className,
+          )}
+        >
+          {userStats?.subscription.plan === 'STANDARD' ||
+          userStats?.subscription.plan === 'PROFESSIONAL'
+            ? 'Extend Your Plan'
+            : 'Upgrade Your Plan'}
+          <div className="relative flex h-full items-center justify-center pr-6">
+            <Icon
+              icon={faArrowRight}
+              className="absolute right-0 transition-all duration-300 ease-in-out group-hover:-right-0.5"
+            />
+          </div>
+        </Button>
 
         <DialogContent className="max-w-[500px]">
           <DialogHeader>
