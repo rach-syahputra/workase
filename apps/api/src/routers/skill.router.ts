@@ -16,6 +16,11 @@ class SkillRouter {
   private initializeRoutes(): void {
     this.router.get('/', verifyDeveloper, this.skillController.getSkills);
     this.router.post('/', verifyDeveloper, this.skillController.addSkill);
+    this.router.delete(
+      '/:skillId',
+      verifyDeveloper,
+      this.skillController.removeSkill,
+    );
   }
 
   getRouter(): Router {

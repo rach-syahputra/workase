@@ -13,3 +13,9 @@ export interface AddSkillResponse extends APIResponse {
     skill: ISkill;
   };
 }
+
+export interface RemoveSkillResponse extends APIResponse {
+  data?: {
+    removedSkill: ISkill;
+  };
+}

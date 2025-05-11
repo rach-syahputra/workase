@@ -41,7 +41,7 @@ const DevLoginPage = () => {
           className="aspect-auto w-[100px] object-cover"
         />
       </nav>
-      <Card className="p-8">
+      <Card className="p-4 max-md:border-none max-md:shadow-none md:p-8">
         <DevLoginForm />
       </Card>
     </div>

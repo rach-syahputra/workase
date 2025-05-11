@@ -7,3 +7,7 @@ export interface GetSkillRequest extends IFilter {
 export interface AddSkillRequest {
   title: string;
 }
+
+export interface RemoveSkillRequest {
+  skillId: string;
+}

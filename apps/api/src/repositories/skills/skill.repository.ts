@@ -2,6 +2,7 @@ import { prisma } from '../../helpers/prisma';
 import {
   AddSkillRequest,
   GetSkillsRequest,
+  RemoveSkillRequest,
 } from '../../interfaces/skill.interface';
 
 class SkillRepository {
@@ -71,6 +72,28 @@ class SkillRepository {
     return {
       skill,
     };
+  };
+
+  removeSkill = async (req: RemoveSkillRequest) => {
+    return await this.prisma.$transaction(async (trx) => {
+      // Delete assessments related to skillId
+      await trx.assessment.deleteMany({
+        where: {
+          skillId: req.id,
+        },
+      });
+
+      // Delete the skill
+      const removedSkill = await trx.skill.delete({
+        where: {
+          id: req.id,
+        },
+      });
+
+      return {
+        removedSkill,
+      };
+    });
   };
 }
 

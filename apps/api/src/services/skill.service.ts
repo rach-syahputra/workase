@@ -2,6 +2,7 @@ import SkillRepository from '../repositories/skills/skill.repository';
 import {
   AddSkillRequest,
   GetSkillsRequest,
+  RemoveSkillRequest,
 } from '../interfaces/skill.interface';
 import { addSkillSchema } from '../validations/skill.validation';
 import { validate } from '../helpers/validation';
@@ -20,6 +21,10 @@ class SkillService {
   addSkill = async (req: AddSkillRequest) => {
     validate(addSkillSchema, req);
     return await this.skillRepository.addSkill(req);
+  };
+
+  removeSkill = async (req: RemoveSkillRequest) => {
+    return await this.skillRepository.removeSkill(req);
   };
 }
 
