@@ -36,9 +36,22 @@ export interface IBadge {
   certificateSlug: string;
 }
 
+export interface ICompany {
+  id: string;
+  name: string;
+  email: string;
+  phoneNumber: string;
+  logoUrl: string;
+  description: string;
+  category: string;
+  location: string;
+  slug: string;
+}
+
 export interface IUserDetail extends IUser {
   cv: ICv;
   badges: IBadge[];
+  company: ICompany;
 }
 
 export interface ICurrentCompany {
