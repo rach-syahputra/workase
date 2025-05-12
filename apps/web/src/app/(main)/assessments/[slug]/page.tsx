@@ -34,7 +34,7 @@ export const generateMetadata = async ({
         {
           url: '/workase-sm-bg-black.png',
           secureUrl: '/workase-sm-bg-black.png',
-          width: 1200,
+          width: 630,
           height: 630,
           alt: 'Workase Job Board',
         },

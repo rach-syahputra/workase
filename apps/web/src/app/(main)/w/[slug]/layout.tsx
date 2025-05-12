@@ -38,7 +38,7 @@ export const generateMetadata = async ({
         {
           url: profilePhoto ? profilePhoto : '/workase-sm-bg-black.png',
           secureUrl: profilePhoto ? profilePhoto : '/workase-sm-bg-black.png',
-          width: 1200,
+          width: 630,
           height: 630,
           alt: `Image for ${slug} — Workase Profile`,
         },
