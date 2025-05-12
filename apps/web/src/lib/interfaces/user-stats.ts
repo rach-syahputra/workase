@@ -46,6 +46,7 @@ export interface ICompany {
   category: string;
   location: string;
   slug: string;
+  role: string;
 }
 
 export interface IUserDetail extends IUser {

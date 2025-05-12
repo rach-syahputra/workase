@@ -22,7 +22,7 @@ const CvPreviewModal = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="secondary">
+        <Button variant="secondary" className="max-md:w-full">
           <Eye size={14} />
           View
         </Button>

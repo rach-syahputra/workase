@@ -86,9 +86,9 @@ const Cv = () => {
             <Clock size={14} />
             <span>Created: {formatTableDate(new Date(user.cv.createdAt))}</span>
           </div>
-          <div className="mt-2 flex items-center gap-2">
+          <div className="mt-2 flex flex-col items-center gap-2 md:flex-row">
             {isOwner && (
-              <Button asChild>
+              <Button asChild className="max-md:w-full">
                 <Link
                   href={`/cv/${user.cv.slug}/edit`}
                   aria-label="Edit CV Page"

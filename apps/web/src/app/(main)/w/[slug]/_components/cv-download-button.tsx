@@ -40,10 +40,10 @@ const CvDownloadButton = ({ cv }: CvDownloadButtonProps) => {
         )
       }
       fileName={`CV-${cv?.data.header?.content.name}-${cv?.data.header?.content.role}.pdf`}
-      className="max-lg:hidden"
+      className="max-md:w-full"
     >
       {() => (
-        <Button type="button" variant="secondary">
+        <Button type="button" variant="secondary" className="max-md:w-full">
           <ArrowDownToLine size={16} />
           Download
         </Button>
