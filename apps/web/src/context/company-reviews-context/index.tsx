@@ -42,14 +42,16 @@ const CompanyReviewsProvider = ({
   const { appToast } = useAppToast();
   const firstRenderRef = useRef(false);
   const renderWithQ = useRef(false);
+  const orderParam = searchParams.get('order') as OrderType;
+
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isSaving, setIsSaving] = useState<boolean>(false);
+  const [order, setOrder] = useState<OrderType>(orderParam);
   const [cursor, setCursor] = useState<string>('');
   const [query, setQuery] = useState<string>('');
   const [debouncedQuery, setDebouncedQuery] = useState<string>('');
   const [hasMore, setHasMore] = useState<boolean>(false);
   const [reviews, setReviews] = useState<ICompanyReview[]>([]);
-  const order = searchParams.get('order') as OrderType;
 
   const fetchGetCompanyReviews = useCallback(
     async (option?: IOption) => {
@@ -133,6 +135,10 @@ const CompanyReviewsProvider = ({
   };
 
   useEffect(() => {
+    setOrder(orderParam);
+  }, [orderParam]);
+
+  useEffect(() => {
     const handleDebouncedQuery = setTimeout(() => {
       firstRenderRef.current = false;
       renderWithQ.current = true;
@@ -173,6 +179,7 @@ const CompanyReviewsProvider = ({
         isSaving,
         setIsSaving,
         order,
+        setOrder,
         reviews,
         setReviews,
         query,

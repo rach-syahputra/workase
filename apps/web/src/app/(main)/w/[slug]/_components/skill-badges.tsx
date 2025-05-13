@@ -34,9 +34,9 @@ const SkillBadges = () => {
           user.badges.map((badge, index) => (
             <div
               key={index}
-              className="flex flex-col items-center justify-center gap-1 overflow-hidden rounded-md border"
+              className="flex flex-col items-center justify-center gap-1 overflow-hidden rounded-md border max-sm:w-full"
             >
-              <div className="border-border flex items-center justify-center border-b">
+              <div className="border-border flex w-full items-center justify-center border-b">
                 <TooltipProvider delayDuration={0.5}>
                   <Tooltip>
                     <TooltipTrigger
@@ -51,11 +51,11 @@ const SkillBadges = () => {
                   </Tooltip>
                 </TooltipProvider>
 
-                <p className="px-3 py-2">{badge.title}</p>
+                <p className="w-full px-3 py-2">{badge.title}</p>
               </div>
               <Link
                 href={`/certificates/${badge.certificateSlug}`}
-                className="text-primary-blue px-3 py-2 text-sm underline"
+                className="text-primary-blue mx-auto px-3 py-2 text-center text-sm underline"
               >
                 View Certificate
               </Link>

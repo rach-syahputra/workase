@@ -7,6 +7,7 @@ export type SubscriptionPaymentStatusType =
   | 'PENDING'
   | 'CONFIRMED'
   | 'REJECTED';
+export type SubscriptionStatusType = 'expired' | 'active' | 'upcoming';
 
 export interface ISubscriptionCard {
   id: SubscriptionIdType;
@@ -30,6 +31,7 @@ export interface ISubscription {
   user?: {
     email: string;
   };
+  subscriptionStatus: SubscriptionStatusType;
 }
 
 export interface ISubscriptionPayment {

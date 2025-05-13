@@ -20,6 +20,7 @@ export interface ICompanyReviewsContext {
   isSaving: boolean;
   setIsSaving: Dispatch<SetStateAction<boolean>>;
   order: OrderType;
+  setOrder: Dispatch<SetStateAction<OrderType>>;
   reviews: ICompanyReview[];
   query: string;
   setQuery: Dispatch<SetStateAction<string>>;

@@ -19,6 +19,7 @@ const UserStatsContext = createContext<IUserStatsContext | undefined>(
 
 const UserStatsProvider = ({ children }: { children: React.ReactNode }) => {
   const session = useSession();
+  const [update, setUpdate] = useState<boolean>(true);
   const [userStats, setUserStats] = useState<IUserStats | undefined>(undefined);
 
   const fetchGetUserStats = useCallback(async () => {
@@ -38,14 +39,17 @@ const UserStatsProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     // Initiate user stats for the first time
-    if (session.data?.user?.role === 'USER' && !userStats) {
+    if (update) {
+      setUpdate(false);
       fetchGetUserStats();
     }
-  }, [session, fetchGetUserStats, userStats]);
+  }, [session, update, fetchGetUserStats, userStats]);
 
   return (
     <UserStatsContext.Provider
       value={{
+        update,
+        setUpdate,
         userStats,
         setUserStats,
         fetchGetUserStats,

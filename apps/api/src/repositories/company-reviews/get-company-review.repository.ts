@@ -40,6 +40,7 @@ class GetCompanyReviewRepository {
                 id: true,
                 name: true,
                 logoUrl: true,
+                slug: true,
               },
             },
             _count: {
@@ -79,6 +80,7 @@ class GetCompanyReviewRepository {
         companyId: review.company.id,
         companyName: review.company.name,
         companyLogoUrl: review.company.logoUrl,
+        companySlug: review.company.slug,
         salaryEstimate: review.salaryEstimate,
         content: review.content,
         createdAt: review.createdAt,

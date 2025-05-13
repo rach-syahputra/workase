@@ -92,6 +92,7 @@ class UserStatsRepository {
           select: {
             job: {
               select: {
+                title: true,
                 company: true,
               },
             },
@@ -125,6 +126,7 @@ class UserStatsRepository {
               category: AppliedJob[0]?.job?.company.category,
               location: AppliedJob[0]?.job?.company.location,
               slug: AppliedJob[0]?.job?.company.slug,
+              role: AppliedJob[0]?.job?.title,
             }
           : null,
       },

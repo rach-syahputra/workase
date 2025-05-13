@@ -78,6 +78,7 @@ const CompaniesReviewsProvider = ({
   useEffect(() => {
     const handleDebouncedQuery = setTimeout(() => {
       firstRenderRef.current = false;
+      renderWithQ.current = true;
 
       setDebouncedQuery(query);
     }, 300);

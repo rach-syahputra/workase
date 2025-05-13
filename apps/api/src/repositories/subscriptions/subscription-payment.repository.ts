@@ -28,39 +28,53 @@ class SubscriptionPaymentRepository {
         },
       });
 
-      // Set the subscription expiration date if the payment status is CONFIRMED
+      // Set the subscription expiration date if the payment status is updated to CONFIRMED
       if (req.paymentStatus === 'CONFIRMED') {
         const THIRTY_DAYS_LATER = 30 * 24 * 60 * 60 * 1000;
 
-        const latestSubscription = await trx.subscription.findFirst({
+        // Find subscription's owner (userId)
+        const subscriptionOwner = await trx.subscription.findFirst({
           where: {
-            expiresAt: {
-              gt: new Date(),
-            },
+            id: req.subscriptionId,
           },
-          orderBy: {
-            expiresAt: 'desc',
+          select: {
+            userId: true,
           },
         });
 
-        // If the user has an active or extended subscription, extend 30 days from the latest subscription expiration date.
-        // Otherwise, set the expiration 30 days from now (new subscription).
-        await trx.subscription.update({
-          where: {
-            id: subscriptionPayment.subscriptionId,
-          },
-          data: {
-            ...(latestSubscription?.expiresAt && {
-              startedAt: latestSubscription.expiresAt,
-            }),
-            expiresAt: latestSubscription?.expiresAt
-              ? new Date(
-                  new Date(latestSubscription.expiresAt).getTime() +
-                    THIRTY_DAYS_LATER,
-                )
-              : new Date(Date.now() + THIRTY_DAYS_LATER),
-          },
-        });
+        if (subscriptionOwner?.userId) {
+          // Find the latest subscription of the subscription owner or user
+          const latestSubscription = await trx.subscription.findFirst({
+            where: {
+              expiresAt: {
+                gt: new Date(),
+              },
+              userId: subscriptionOwner?.userId,
+            },
+            orderBy: {
+              expiresAt: 'desc',
+            },
+          });
+
+          // If the user has an active or extended subscription, extend 30 days from the latest subscription expiration date.
+          // Otherwise, set the expiration 30 days from now (new subscription).
+          await trx.subscription.update({
+            where: {
+              id: subscriptionPayment.subscriptionId,
+            },
+            data: {
+              ...(latestSubscription?.expiresAt && {
+                startedAt: latestSubscription.expiresAt,
+              }),
+              expiresAt: latestSubscription?.expiresAt
+                ? new Date(
+                    new Date(latestSubscription.expiresAt).getTime() +
+                      THIRTY_DAYS_LATER,
+                  )
+                : new Date(Date.now() + THIRTY_DAYS_LATER),
+            },
+          });
+        }
       }
 
       return {

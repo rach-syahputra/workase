@@ -43,6 +43,7 @@ export interface UpdateSubscriptionPaymentServiceRequest
 
 export interface UpdateSubscriptionPaymentRepositoryRequest
   extends UpdateSubscriptionPaymentRequest {
+  subscriptionId: string;
   paymentProof?: string;
 }
 
