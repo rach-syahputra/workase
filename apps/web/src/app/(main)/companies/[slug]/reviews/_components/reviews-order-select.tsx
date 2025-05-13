@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 
 import { OrderType } from '@/lib/interfaces/api-request/filter';
-import { useCompaniesReviewsContext } from '@/context/companies-reviews-context';
+import { useCompanyReviewsContext } from '@/context/company-reviews-context';
 import {
   Select,
   SelectContent,
@@ -16,32 +16,14 @@ import {
 
 const ReviewsOrderSelect = () => {
   const router = useRouter();
-  const { firstRenderRef, renderWithQ, order } = useCompaniesReviewsContext();
+  const { firstRenderRef, renderWithQ, order, slug } =
+    useCompanyReviewsContext();
 
   const handleOrderChange = (value: OrderType) => {
     firstRenderRef.current = false;
     renderWithQ.current = true;
-    router.push(`/company-reviews?order=${value}`);
+    router.push(`/companies/${slug}/reviews?order=${value}`);
   };
-
-  const ORDER_ITEMS = [
-    {
-      label: (
-        <>
-          Date: <strong>Newest</strong>
-        </>
-      ),
-      value: 'desc',
-    },
-    {
-      label: (
-        <>
-          Date: <strong>Oldest</strong>
-        </>
-      ),
-      value: 'asc',
-    },
-  ];
 
   return (
     <Select
@@ -51,17 +33,7 @@ const ReviewsOrderSelect = () => {
     >
       <SelectTrigger className="w-full md:w-[280px]">
         <SelectValue
-          placeholder={
-            order === 'asc' ? (
-              <>
-                Date: <strong>Oldest</strong>
-              </>
-            ) : (
-              <>
-                Date: <strong>Newest</strong>
-              </>
-            )
-          }
+          placeholder={order === 'desc' ? 'Newest' : 'Oldest'}
           defaultValue="desc"
           className="w-full"
         />
@@ -69,11 +41,8 @@ const ReviewsOrderSelect = () => {
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Reviews Date</SelectLabel>
-          {ORDER_ITEMS.map((item, index) => (
-            <SelectItem key={index} value={item.value}>
-              {item.label}
-            </SelectItem>
-          ))}
+          <SelectItem value="desc">Newest</SelectItem>
+          <SelectItem value="asc">Oldest</SelectItem>
         </SelectGroup>
       </SelectContent>
     </Select>

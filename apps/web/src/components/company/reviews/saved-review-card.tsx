@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import Image from 'next/image';
 
 import { ISavedReview } from '@/lib/interfaces/company-review';
@@ -11,7 +12,11 @@ interface SavedReviewCardProps {
 const SavedReviewCard = ({ savedReview, className }: SavedReviewCardProps) => {
   return (
     <div className={cn('flex flex-col gap-2 p-4', className)}>
-      <div className="flex items-center gap-2">
+      <Link
+        href={`/companies/${savedReview.companyReview.companySlug}`}
+        aria-label="Company profile page"
+        className="flex w-fit cursor-pointer items-center gap-2"
+      >
         {savedReview.companyReview.companyLogoUrl ? (
           <Image
             src={savedReview.companyReview.companyLogoUrl}
@@ -26,7 +31,7 @@ const SavedReviewCard = ({ savedReview, className }: SavedReviewCardProps) => {
         <span className="text-sm font-medium">
           {savedReview.companyReview.companyName}
         </span>
-      </div>
+      </Link>
       <div>
         <p className="line-clamp-4 text-sm">
           {savedReview.companyReview.content}
