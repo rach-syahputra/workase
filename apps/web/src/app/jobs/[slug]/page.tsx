@@ -82,7 +82,7 @@ export default function JobPage() {
       setLoading(false);
     };
     fetchData();
-  }, []);
+  }, [title]);
   useEffect(() => {
     const fetchJobs = async () => {
       const response = await axiosPublic.get(
