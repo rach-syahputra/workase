@@ -3,11 +3,11 @@ import { NextResponse } from 'next/server';
 
 export default middleware((req) => {
   if (!req.auth) {
-    const loginUrl = new URL('/users/login', req.nextUrl.origin);
+    const homepageUrl = new URL('/', req.nextUrl.origin);
     const callbackUrl = req.nextUrl.pathname + req.nextUrl.search;
-    loginUrl.searchParams.set('redirect', callbackUrl);
+    homepageUrl.searchParams.set('redirect', callbackUrl);
 
-    return NextResponse.redirect(loginUrl);
+    return NextResponse.redirect(homepageUrl);
   }
 
   return NextResponse.next();
