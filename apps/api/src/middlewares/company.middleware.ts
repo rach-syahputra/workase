@@ -8,6 +8,9 @@ import companyProfileUpdateSchema from '../validations/company-profile-update.va
 import prisma from '../prisma';
 import { Prisma } from '@prisma/client';
 import { CompanyRequest } from '../interfaces/middleware.interface';
+import companiesFilterSchema from '../validations/company.validation';
+import companyJobsFilterSchema from '../validations/company-jobs.validation';
+
 const validateCompanyRegistration = async (
   req: Request,
   res: Response,
@@ -143,6 +146,34 @@ const verifyPasswordResetStatus = async (
   }
 };
 
+const validateCompaniesFilter = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const schema = await companiesFilterSchema();
+    await schema.validate(req.query, { abortEarly: false });
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+const validateCompanyJobsFilter = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const schema = await companyJobsFilterSchema();
+    await schema.validate(req.query, { abortEarly: false });
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
 export {
   validateCompanyRegistration,
   validateCompanyLogin,
@@ -152,4 +183,6 @@ export {
   markPasswordResetAsIncomplete,
   markPasswordResetTokenAsUsed,
   verifyPasswordResetStatus,
+  validateCompaniesFilter,
+  validateCompanyJobsFilter,
 };

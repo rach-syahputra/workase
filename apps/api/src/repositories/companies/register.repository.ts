@@ -6,7 +6,6 @@ import { putCompanyAccessToken, putUserAccessToken } from '../../helpers/jwt';
 import { generateHashedPassword } from '../../helpers/utils';
 import prisma from '../../prisma';
 import { AuthProvider } from '@prisma/client';
-import { Request } from 'express';
 class registerCompanyRepository {
   async register(data: {
     name: string;

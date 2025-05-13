@@ -1,18 +1,16 @@
-/* eslint-disable @next/next/no-img-element */
 'use client';
 import { Button } from '@/components/shadcn-ui/button';
-import Logo from '@/components/ui/logo-for-auth';
 import { useFormik } from 'formik';
-import { UserRound } from 'lucide-react';
 import { signIn } from 'next-auth/react';
 import * as React from 'react';
-import { FaGoogle } from 'react-icons/fa6';
 import * as Yup from 'yup';
 import { IoPerson } from 'react-icons/io5';
 import Link from 'next/link';
 import { axiosPublic } from '@/lib/axios';
 import { useRouter } from 'next/navigation';
-
+import AppLoading from '@/components/ui/app-loading';
+import { useState } from 'react';
+import Image from 'next/image';
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email().required(), // email is required
   password: Yup.string()
@@ -27,6 +25,7 @@ interface ILoginForm {
 
 const signInItem = ['User', 'Company'];
 export default function Register() {
+  const [loading, setLoading] = useState(true);
   const initialValues: ILoginForm = {
     email: '',
     password: '',
@@ -60,7 +59,14 @@ export default function Register() {
     },
   });
 
-  return (
+  const timer = setTimeout(() => {
+    setLoading(false);
+  }, 1000);
+  return loading ? (
+    <div className="bg-background fixed left-0 top-0 flex min-h-screen w-screen flex-1 items-center justify-center">
+      <AppLoading size="md" label="Loading data, please stand by..." />
+    </div>
+  ) : (
     <div className="font-geist mt-[-10px] md:w-[650px]">
       {' '}
       <div className="flex flex-col items-center justify-center pb-2">
@@ -129,7 +135,9 @@ export default function Register() {
         onClick={() => signIn('google-user')}
       >
         <div className="relative flex w-full items-center justify-center">
-          <img
+          <Image
+            width={50}
+            height={10}
             src="/Google.svg"
             alt="Google Logo"
             className="absolute left-6 h-5 sm:static sm:px-3"

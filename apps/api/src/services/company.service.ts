@@ -3,12 +3,16 @@ import loginCompaniesRepository from '../repositories/companies/login.repository
 import registerCompaniesRepository from '../repositories/companies/register.repository';
 import verifiedCompanyEmailRepository from '../repositories/companies/verified-email.repository';
 import resetCompanyPasswordRepository from '../repositories/companies/reset-password.repository';
-import getCompanyProfileRepository, {
+import {
   updateCompanyProfileRepository,
   updateCompanyLogoRepository,
 } from '../repositories/companies/company-profile.repository';
 import { ResponseError } from '../helpers/error';
 import { putCompanyAccessToken } from '../helpers/jwt';
+import { Request } from 'express';
+import getCompanyJobsRepository from '../repositories/companies/company-jobs.repository';
+import getCompaniesRepository from '../repositories/companies/get-companies.repository';
+
 class CompaniesService {
   async register(data: {
     name: string;
@@ -28,9 +32,7 @@ class CompaniesService {
   async resetPassword(req: CompanyRequest) {
     return await resetCompanyPasswordRepository.resetPassword(req);
   }
-  async getCompanyProfile(req: CompanyRequest) {
-    return await getCompanyProfileRepository.getCompanyProfile(req);
-  }
+
   async updateCompanyProfile(req: CompanyRequest) {
     return await updateCompanyProfileRepository.updateCompanyProfile(req);
   }
@@ -42,6 +44,18 @@ class CompaniesService {
     if (!req.user?.email) throw new ResponseError(401, 'Invalid Token');
     const result = await putCompanyAccessToken(undefined, req.user?.email);
     return result;
+  }
+
+  async getCompanyJobs(req: Request) {
+    return await getCompanyJobsRepository.getCompanyJobs(req);
+  }
+
+  async getCompanies(req: Request) {
+    return await getCompaniesRepository.getCompanies(req);
+  }
+
+  async getCompanyBySlug(req: Request) {
+    return await getCompaniesRepository.getCompanyBySlug(req);
   }
 }
 export default new CompaniesService();

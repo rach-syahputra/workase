@@ -1,16 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 import { Button } from '@/components/shadcn-ui/button';
-import { axiosPublic } from '@/lib/axios';
 import { useEffect } from 'react';
 import { useFormik } from 'formik';
-import { UserRound } from 'lucide-react';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import * as React from 'react';
 import { IoPerson } from 'react-icons/io5';
 import { useRouter, useSearchParams } from 'next/navigation';
 import * as Yup from 'yup';
+import AppLoading from '@/components/ui/app-loading';
+import { useState } from 'react';
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email().required(), // email is required
   password: Yup.string()
@@ -30,6 +30,7 @@ export default function Login(props: ILoginProps) {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('redirect');
   const message = searchParams.get('message');
+  const [loading, setLoading] = useState(true);
   const initialValues: ILoginForm = {
     email: '',
     password: '',
@@ -62,7 +63,14 @@ export default function Login(props: ILoginProps) {
       alert(message);
     }
   }, [message]);
-  return (
+  const timer = setTimeout(() => {
+    setLoading(false);
+  }, 1000);
+  return loading ? (
+    <div className="bg-background fixed left-0 top-0 flex min-h-screen w-screen flex-1 items-center justify-center">
+      <AppLoading size="md" label="Loading data, please stand by..." />
+    </div>
+  ) : (
     <div className="font-geist mt-[-10px] md:w-[650px]">
       <div className="flex flex-col items-center justify-center pb-2">
         <div className="flex items-center gap-3 pb-2 text-[32px] font-semibold md:text-[36px]">

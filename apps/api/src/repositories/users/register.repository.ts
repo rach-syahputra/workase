@@ -1,7 +1,6 @@
 import { sendEmailVerification } from '../../helpers/email-verification';
 import prisma from '../../prisma';
 import { AuthProvider } from '@prisma/client';
-import { Request } from 'express';
 import { putUserAccessToken } from '../../helpers/jwt';
 import { ResponseError } from '../../helpers/error';
 

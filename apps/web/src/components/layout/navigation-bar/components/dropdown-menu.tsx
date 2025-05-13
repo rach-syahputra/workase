@@ -27,7 +27,7 @@ export default function DropdownMenuDemo() {
           alt="avatar"
           width={40}
           height={40}
-          className="aspect-square rounded-full border object-cover"
+          className="object-cover border rounded-full aspect-square"
         />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="mr-5">
@@ -35,7 +35,16 @@ export default function DropdownMenuDemo() {
         <DropdownMenuSeparator />
         <DropdownMenuItem className="flex items-center gap-3">
           <IoPerson />
-          <Link href={`/w/${session?.user?.slug}`}>Profile</Link>
+
+          <Link
+            href={
+              session?.user?.role === 'USER'
+                ? `/w/${session?.user?.slug}`
+                : `/profile-management`
+            }
+          >
+            Profile
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuItem className="flex items-center gap-3">
           <MdDashboard />

@@ -1,16 +1,16 @@
-/* eslint-disable @next/next/no-img-element */
 'use client';
 import { Button } from '@/components/shadcn-ui/button';
-import Logo from '@/components/ui/logo-for-auth';
 import { axiosPublic } from '@/lib/axios';
 import { useFormik } from 'formik';
 import { Building2 } from 'lucide-react';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import * as React from 'react';
-import { FaGoogle } from 'react-icons/fa6';
 import * as Yup from 'yup';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import AppLoading from '@/components/ui/app-loading';
+import Image from 'next/image';
 const RegisterSchema = Yup.object().shape({
   name: Yup.string().required(),
   email: Yup.string().email().required(),
@@ -23,24 +23,22 @@ const RegisterSchema = Yup.object().shape({
     .max(15, 'phone number must be at most 15 characters')
     .matches(/^[0-9\s]+$/, 'Invalid phone number format'),
 });
-
 interface IRegisterForm {
   name: string;
   email: string;
   password: string;
   phoneNumber: string;
 }
-
 const signInItem = ['User', 'Company'];
 export default function Register() {
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
   const initialValues: IRegisterForm = {
     name: '',
     email: '',
     password: '',
     phoneNumber: '',
   };
-
   const submitRegister = async (values: IRegisterForm) => {
     try {
       const response = await axiosPublic.post('/auth/register/company', {
@@ -60,7 +58,6 @@ export default function Register() {
       alert(`something went wrong, maybe your email is already registered`);
     }
   };
-
   const formik = useFormik({
     initialValues,
     validationSchema: RegisterSchema,
@@ -68,8 +65,14 @@ export default function Register() {
       submitRegister(values);
     },
   });
-
-  return (
+  const timer = setTimeout(() => {
+    setLoading(false);
+  }, 1000);
+  return loading ? (
+    <div className="bg-background fixed left-0 top-0 flex min-h-screen w-screen flex-1 items-center justify-center">
+      <AppLoading size="md" label="Loading data, please stand by..." />
+    </div>
+  ) : (
     <div className="font-geist mt-[-10px] md:w-[650px]">
       {' '}
       <div className="flex flex-col items-center justify-center pb-2">
@@ -165,7 +168,9 @@ export default function Register() {
         onClick={() => signIn('google-company', { type: 'google-company' })}
       >
         <div className="relative flex w-full items-center justify-center">
-          <img
+          <Image
+            width={50}
+            height={10}
             src="/Google.svg"
             alt="Google Logo"
             className="absolute left-6 h-5 sm:static sm:px-3"

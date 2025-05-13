@@ -36,15 +36,31 @@ const validLocation = async (): Promise<string[]> => {
       },
     },
   });
-  return locations
+
+  const filteredLocations = locations
     .map((item) => item.company.location)
     .filter((location): location is string => location !== null);
+  console.log('filteredLocations', filteredLocations);
+  return filteredLocations;
 };
 
-const jobFilterSchema = async () => {
+const validEndDate = async (): Promise<string[]> => {
+  const endDates = await prisma.job.findMany({
+    orderBy: {
+      createdAt: 'asc',
+    },
+    select: {
+      createdAt: true,
+    },
+  });
+  return endDates.map((item) => item.createdAt.toISOString());
+};
+
+const jobsFilterSchema = async () => {
   const categories = await validCategory();
   const locations = await validLocation();
   const titles = await validTitle();
+  const endDate = await validEndDate();
   return Yup.object().shape({
     title: Yup.string()
       .trim()
@@ -82,7 +98,29 @@ const jobFilterSchema = async () => {
           locations.some((l) => l.toLowerCase().includes(value.toLowerCase())),
       )
       .optional(),
+    startDate: Yup.date()
+      .optional()
+      .typeError('Invalid date')
+      .test(
+        'is-valid-start-date',
+        'Jobs with this start date not found',
+        (value) =>
+          !value ||
+          value < new Date(new Date().setDate(new Date().getDate() + 1)),
+      ),
+    endDate: Yup.date()
+      .optional()
+      .typeError('Invalid date')
+      .test(
+        'is-valid-end-date',
+        'Jobs with this end date not found',
+        (value) => !value || value >= new Date(endDate[0]),
+      ),
+    sort: Yup.string()
+      .oneOf(['asc', 'desc'])
+      .required('Sort order is required'),
+    page: Yup.number().optional().integer().min(1),
   });
 };
 
-export default jobFilterSchema;
+export default jobsFilterSchema;

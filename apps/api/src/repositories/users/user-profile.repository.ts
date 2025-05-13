@@ -82,12 +82,12 @@ class updateUserPhotoProfileRepository {
   static async updateUserPhotoProfile(req: UserRequest) {
     const id = req.user?.id;
     const user = await prisma.user.findUnique({ where: { id } });
-    // hapus gambar lama dari cloudinary
+//remove image from cloudinary
     if (user?.profilePhoto) {
       const publicId = getPublicId(user.profilePhoto);
       await cloudinary.uploader.destroy(publicId);
     }
-    // upload gambar baru
+    // upload new image
     const filePath = req.file?.path;
     if (!filePath || typeof filePath !== 'string') {
       throw new ResponseError(400, 'Invalid file provided for upload');
@@ -100,7 +100,7 @@ class updateUserPhotoProfileRepository {
     } catch (error) {
       throw new ResponseError(500, 'failed to upload image to Cloudinary');
     }
-    // simpan url logo ke database
+    // save logo to database
     await prisma.user.update({
       where: { id },
       data: {

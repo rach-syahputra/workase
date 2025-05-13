@@ -42,13 +42,13 @@ export const usersRouter = () => {
     userController.resetPassword,
   );
   //user profile management
-  router.get('/', verifyUser, userController.getUserProfile); //yang ini perlu dikaji ulang, soalnya data profile user udah di up lewat access token
+
   router.patch(
     '/',
     verifyUser,
     validateUserProfileUpdate,
     userController.updateUserProfile,
-  ); // yang ini juga ngga` perlu ngembalikan data profile user, soalnya sudah di up lewat access token
+  );
   router.post(
     '/image',
     verifyUser,

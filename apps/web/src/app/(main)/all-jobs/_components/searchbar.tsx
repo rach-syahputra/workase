@@ -3,17 +3,13 @@ import { Search } from 'lucide-react';
 import { Building2 } from 'lucide-react';
 import { FaLocationDot } from 'react-icons/fa6';
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/shadcn-ui/button';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 
 import { useSearchJob } from '@/context/search-job-context';
-import { useRouter } from 'next/navigation';
-interface SearchBarProps {
-  onSearchChange: (searchValues: { [key: string]: string }) => void;
-}
-
+import { useRouter, useSearchParams } from 'next/navigation';
 const FilterSchema = Yup.object().shape({
   title: Yup.string()
     .trim()
@@ -24,16 +20,23 @@ const FilterSchema = Yup.object().shape({
     .optional(),
   category: Yup.string().optional(),
   location: Yup.string().optional(),
+  page: Yup.number().optional(),
 });
 
 interface IFilterForm {
   title: string;
   category: string;
   location: string;
+  page: number;
 }
 export function SearchBar() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<string>('Job Title');
+  const [title, setTitle] = useState<string>('');
+  const [category, setCategory] = useState<string>('');
+  const [location, setLocation] = useState<string>('');
+  const [page, setPage] = useState<number>(1);
   const { fetchJobs } = useSearchJob();
   const search = [
     'Job Title',
@@ -46,19 +49,73 @@ export function SearchBar() {
     title: '',
     category: '',
     location: '',
+    page: 1,
   };
 
-  const [searchValues, setSearchValues] = useState<IFilterForm>(initialValues);
+  // got url paramater
+  useEffect(() => {
+    const titleParam = searchParams.get('title') || '';
+    const categoryParam = searchParams.get('category') || '';
+    const locationParam = searchParams.get('location') || '';
+    const dateFilterParam = searchParams.get('dateFilter');
+    const sortOrderParam =
+      (searchParams.get('sortOrder') as 'asc' | 'desc') || 'desc';
+    const dateFromParams = searchParams.get('startDate');
+    const dateToParams = searchParams.get('endDate');
+    const pageParams = searchParams.get('page');
+    if (titleParam) setTitle(titleParam);
+    if (categoryParam) setCategory(categoryParam);
+    if (locationParam) setLocation(locationParam);
+    if (pageParams) setPage(parseInt(pageParams));
 
+    // fetch if there is parameter
+    if (
+      title ||
+      category ||
+      location ||
+      dateFilterParam ||
+      sortOrderParam !== 'desc' ||
+      page
+    ) {
+      fetchJobs({
+        title,
+        category,
+        location,
+        page,
+        dateFilter: dateFilterParam as any,
+        startDate: dateFromParams ? new Date(dateFromParams) : null,
+        endDate: dateToParams ? new Date(dateToParams) : null,
+        sortOrder: sortOrderParam,
+      });
+    }
+  }, [category, fetchJobs, location, page, searchParams, title]);
+
+  const sortOrderParam =
+    (searchParams.get('sortOrder') as 'asc' | 'desc') || 'desc';
+  const dateFilterParam = searchParams.get('dateFilter');
+  const dateFromParams = searchParams.get('startDate');
+  const dateToParams = searchParams.get('endDate');
+  const pageParams = searchParams.get('page');
   const formik = useFormik({
     initialValues,
     validationSchema: FilterSchema,
-    onSubmit: (values) => {
-      fetchJobs(values);
+    onSubmit: async (values) => {
+      await fetchJobs({
+        ...values,
+        dateFilter: dateFilterParam as any,
+        startDate: dateFromParams ? new Date(dateFromParams) : null,
+        endDate: dateToParams ? new Date(dateToParams) : null,
+        sortOrder: sortOrderParam,
+      });
       const query = new URLSearchParams({
+        page: '1',
         title: values.title,
         category: values.category,
         location: values.location,
+        sortOrder: sortOrderParam,
+        dateFilter: dateFilterParam || '',
+        startDate: dateFromParams || '',
+        endDate: dateToParams || '',
       }).toString();
       router.push(`/all-jobs?${query}`);
     },

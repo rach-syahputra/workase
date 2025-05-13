@@ -1,15 +1,15 @@
 import { OPENCAGE_API_KEY } from '../config';
-import jobFilterSchema from '../validations/job.validation';
+import jobsFilterSchema from '../validations/job.validation';
 import { NextFunction, Request, Response } from 'express';
 import axios from 'axios';
 import { ResponseError } from '../helpers/error';
-const validateJobFilter = async (
+const validateJobsFilter = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
   try {
-    const schema = await jobFilterSchema();
+    const schema = await jobsFilterSchema();
     await schema.validate(req.query, { abortEarly: false });
     next();
   } catch (error) {
@@ -43,7 +43,6 @@ const changeLocation = async (
 
         if (!city) return next(new ResponseError(404, 'Location not found'));
         req.query.location = city;
-
         next();
       } catch (innerError) {
         next(innerError);
@@ -58,4 +57,4 @@ const changeLocation = async (
 
 export { changeLocation };
 
-export default validateJobFilter;
+export default validateJobsFilter;

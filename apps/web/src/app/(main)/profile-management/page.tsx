@@ -1,14 +1,4 @@
-/* eslint-disable @next/next/no-img-element */
-
 'use client';
-import { Button } from '@/components/shadcn-ui/button';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/shadcn-ui/select';
 import { axiosPublic } from '@/lib/axios';
 import { useFormik } from 'formik';
 import { signOut, useSession } from 'next-auth/react';
@@ -20,53 +10,17 @@ import { UserInfo } from './_components/users-or-companies-info';
 import { BirthInfo } from './_components/users-profile/birth-info';
 import { GenderEducation } from './_components/users-profile/gender-and-education-info';
 import { Address } from './_components/users-profile/adress-info';
-import e from 'express';
 import NameAndPhoneNumber from './_components/companies-profile/name-and-phone-number-info';
-import { Phone } from 'lucide-react';
 import CategoryAndLocation from './_components/companies-profile/category-and-location-info';
 import { Description } from './_components/companies-profile/description';
 import { useRouter } from 'next/navigation';
 import { SaveButton } from './_components/companies-profile/save-button';
-const UpdateSchema = Yup.object().shape({
-  name: Yup.string().optional(),
-  phoneNumber: Yup.string()
-    .optional()
-    .min(8, 'Telp must be at least 8 characters')
-    .max(15, 'Telp must be at most 15 characters')
-    .matches(/^\d+$/, 'Nomor telepon hanya boleh berisi angka'),
-  category: Yup.string().optional(),
-  location: Yup.string().optional(),
-  email: Yup.string()
-    .email('Invalid email format')
-    .required('Email is required'),
-  placeOfBirth: Yup.string().optional(),
-  dateOfBirth: Yup.date().optional(),
-  gender: Yup.string()
-    .oneOf(['MALE', 'FEMALE'], 'Gender must be either "MALE" or "feMALE"')
-    .optional(),
-  lastEducation: Yup.string().optional(),
-  address: Yup.string().optional(),
-});
-interface IUpdateForm {
-  name: string;
-  phoneNumber: string;
-  category: string;
-  location: string;
-  description: string;
-  email: string;
-  placeOfBirth: string;
-  dateOfBirth: Date;
-  gender: 'MALE' | 'FEMALE';
-  lastEducation: string;
-  address: string;
-}
-const roleUrl = {
-  ADMIN: 'companies',
-  USER: 'users',
-};
+import { IUpdateForm, roleUrl, UpdateSchema } from '@/types/profile-management';
+import AppLoading from '@/components/ui/app-loading';
 export default function ProfileSettingPage() {
   const { data: session, status, update } = useSession();
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
   const [initialValues, setInitialValues] = useState<IUpdateForm>({
     name: (session?.user?.name as string) || (undefined as unknown as string),
     phoneNumber:
@@ -131,7 +85,6 @@ export default function ProfileSettingPage() {
       });
     }
   }, [session, status]);
-
   const submitUpdate = async (values: IUpdateForm) => {
     try {
       if (values.email === session?.user?.email) {
@@ -173,7 +126,6 @@ export default function ProfileSettingPage() {
       alert('Update Failed: Please try again.');
     }
   };
-
   const formik = useFormik({
     initialValues,
     enableReinitialize: true,
@@ -182,12 +134,18 @@ export default function ProfileSettingPage() {
       submitUpdate(values);
     },
   });
-  return (
+  const timer = setTimeout(() => {
+    setLoading(false);
+  }, 1000);
+  return loading ? (
+    <div className="bg-background fixed left-0 top-0 flex min-h-screen w-screen flex-1 items-center justify-center">
+      <AppLoading size="md" label="Loading data, please stand by..." />
+    </div>
+  ) : (
     <div className="w-full py-5 md:px-4 md:py-8">
       <div className="flex justify-center text-[24px] font-medium md:justify-normal">
         Personal Information
       </div>
-
       <div className="my-4 w-full rounded-md border bg-white px-4 pb-[30px] md:py-4 md:pb-[30px]">
         <div className="flex max-w-[1065px] flex-col px-0 pt-[18px] md:flex-row md:gap-10 md:px-[30px] md:pb-[18px] md:pt-[30px]">
           <ProfilePhoto photoProfile={session?.user?.profilePhoto as string} />

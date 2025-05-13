@@ -5,30 +5,6 @@ import { CompanyRequest } from '../../interfaces/middleware.interface';
 import prisma from '../../prisma';
 import { Prisma } from '@prisma/client';
 
-class getCompanyProfileRepository {
-  async getCompanyProfile(req: CompanyRequest) {
-    const id = req.user?.id;
-    return await prisma.company.findUnique({
-      where: {
-        id: id,
-      },
-      select: {
-        id: true,
-        slug: true,
-        name: true,
-        email: true,
-        authProvider: true,
-        phoneNumber: true,
-        isVerified: true,
-        logoUrl: true,
-        description: true,
-        location: true,
-        category: true,
-      },
-    });
-  }
-}
-
 class updateCompanyProfileRepository {
   static async updateCompanyProfile(req: CompanyRequest) {
     const {
@@ -82,12 +58,12 @@ class updateCompanyLogoRepository {
   static async updateCompanyLogo(req: CompanyRequest) {
     const id = req.user?.id;
     const company = await prisma.company.findUnique({ where: { id } });
-    // hapus gambar lama dari cloudinary
+    // remave old image from repository
     if (company?.logoUrl) {
       const publicId = getPublicId(company.logoUrl);
       await cloudinary.uploader.destroy(publicId);
     }
-    // upload gambar baru
+    // upload image to cloudinary
     const filePath = req.file?.path;
     if (!filePath || typeof filePath !== 'string') {
       throw new ResponseError(400, 'Invalid file provided for upload');
@@ -100,7 +76,7 @@ class updateCompanyLogoRepository {
     } catch (error) {
       throw new ResponseError(500, 'failed to upload image to Cloudinary');
     }
-    // simpan url logo ke database
+    // save image to the database
     await prisma.company.update({
       where: { id },
       data: {
@@ -115,5 +91,5 @@ class updateCompanyLogoRepository {
     });
   }
 }
-export default new getCompanyProfileRepository();
+
 export { updateCompanyProfileRepository, updateCompanyLogoRepository };

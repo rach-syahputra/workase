@@ -1,4 +1,3 @@
-import { responseHandler } from '../helpers/response.handler';
 import { NextFunction, Response } from 'express';
 import { Request } from 'express';
 import companiesService from '../services/company.service';
@@ -9,7 +8,7 @@ import companyService from '../services/company.service';
 import { hbs } from '../helpers/handlebars';
 import { putCompanyAccessToken } from '../helpers/jwt';
 import { transporter } from '../helpers/nodemailer';
-class CompaniesController {
+export default new (class CompaniesController {
   async register(req: Request, res: Response, next: NextFunction) {
     try {
       const result = await companiesService.register(req.body);
@@ -23,7 +22,6 @@ class CompaniesController {
       next(error);
     }
   }
-
   async login(req: Request, res: Response, next: NextFunction) {
     try {
       const result = await companiesService.login(req.body);
@@ -37,7 +35,6 @@ class CompaniesController {
       next(error);
     }
   }
-
   async sendEmailVerification(
     req: CompanyRequest,
     res: Response,
@@ -53,15 +50,13 @@ class CompaniesController {
       ApiResponse({
         res,
         statusCode: 200,
-        message:
-          'Link email verification has been send successfully to your email',
+        message: 'Link has been send successfully to your email',
         data: undefined,
       });
     } catch (error) {
       next(error);
     }
   }
-
   async verifiedEmail(req: CompanyRequest, res: Response, next: NextFunction) {
     try {
       const result = await companiesService.verifiedEmail(req);
@@ -75,7 +70,6 @@ class CompaniesController {
       next(error);
     }
   }
-
   async resetPassword(req: CompanyRequest, res: Response, next: NextFunction) {
     try {
       const result = await companyService.resetPassword(req);
@@ -89,7 +83,6 @@ class CompaniesController {
       next(error);
     }
   }
-
   async passwordResetRequest(req: Request, res: Response, next: NextFunction) {
     try {
       const compilePasswordResetRequest = await hbs('reset-password-template');
@@ -110,33 +103,13 @@ class CompaniesController {
       ApiResponse({
         res,
         statusCode: 200,
-        message:
-          'Link reset passsword has been send successfully to your email',
+        message: 'Link has been send successfully to your email',
         data: undefined,
       });
     } catch (error) {
       next(error);
     }
   }
-
-  async getCompanyProfile(
-    req: CompanyRequest,
-    res: Response,
-    next: NextFunction,
-  ) {
-    try {
-      const result = await companiesService.getCompanyProfile(req);
-      ApiResponse({
-        res,
-        statusCode: 200,
-        message: 'get company profile success',
-        data: result,
-      });
-    } catch (error) {
-      next(error);
-    }
-  }
-
   async updateCompanyProfile(
     req: CompanyRequest,
     res: Response,
@@ -154,7 +127,7 @@ class CompaniesController {
       next(error);
     }
   }
-
+  // Pass any errors to the next middleware
   async addImageCloudinary(
     req: CompanyRequest,
     res: Response,
@@ -172,7 +145,6 @@ class CompaniesController {
       next(error);
     }
   }
-
   async refreshToken(req: CompanyRequest, res: Response, next: NextFunction) {
     try {
       const data = await companiesService.refreshToken(req);
@@ -186,6 +158,43 @@ class CompaniesController {
       next(error);
     }
   }
-}
-
-export default new CompaniesController();
+  async getCompanyJobs(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await companiesService.getCompanyJobs(req as any);
+      ApiResponse({
+        res,
+        statusCode: 200,
+        message: 'get company jobs success',
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+  async getCompanies(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await companiesService.getCompanies(req);
+      ApiResponse({
+        res,
+        statusCode: 200,
+        message: 'get companies success',
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+  async getCompanyBySlug(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await companiesService.getCompanyBySlug(req);
+      ApiResponse({
+        res,
+        statusCode: 200,
+        message: 'get company by slug success',
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+})();

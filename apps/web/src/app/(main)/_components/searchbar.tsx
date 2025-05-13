@@ -8,10 +8,7 @@ import { Button } from '@/components/shadcn-ui/button';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { useSearchJob } from '@/context/search-job-context';
-import { useRouter } from 'next/navigation';
-interface SearchBarProps {
-  onSearchChange: (searchValues: { [key: string]: string }) => void;
-}
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const FilterSchema = Yup.object().shape({
   title: Yup.string()
@@ -32,6 +29,7 @@ interface IFilterForm {
 }
 export function SearchBar() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<string>('Job Title');
   const { fetchJobs } = useSearchJob();
   const search = [
@@ -50,24 +48,44 @@ export function SearchBar() {
   const [searchValues, setSearchValues] = useState<IFilterForm>(initialValues);
 
   useEffect(() => {
+    const dateFilterParam = searchParams.get('dateFilter');
+    const sortOrderParam =
+      (searchParams.get('sortOrder') as 'asc' | 'desc') || 'desc';
+    const dateFromParams = searchParams.get('startDate');
+    const dateToParams = searchParams.get('endDate');
     navigator.geolocation.getCurrentPosition(async (position) => {
       try {
         fetchJobs({
           title: '',
           category: '',
           location: position.coords.latitude + ',' + position.coords.longitude,
+          dateFilter: dateFilterParam as any,
+          startDate: dateFromParams ? new Date(dateFromParams) : null,
+          endDate: dateToParams ? new Date(dateToParams) : null,
+          sortOrder: sortOrderParam,
         });
       } catch (error) {
         console.error('there is no location', error);
       }
     });
-  }, [fetchJobs]);
+  }, [fetchJobs, searchParams]);
 
+  const sortOrderParam =
+    (searchParams.get('sortOrder') as 'asc' | 'desc') || 'desc';
+  const dateFilterParam = searchParams.get('dateFilter');
+  const dateFromParams = searchParams.get('startDate');
+  const dateToParams = searchParams.get('endDate');
   const formik = useFormik({
     initialValues,
     validationSchema: FilterSchema,
     onSubmit: (values) => {
-      fetchJobs(values);
+      fetchJobs({
+        ...values,
+        dateFilter: dateFilterParam as any,
+        startDate: dateFromParams ? new Date(dateFromParams) : null,
+        endDate: dateToParams ? new Date(dateToParams) : null,
+        sortOrder: sortOrderParam,
+      });
       const query = new URLSearchParams({
         title: values.title,
         category: values.category,
