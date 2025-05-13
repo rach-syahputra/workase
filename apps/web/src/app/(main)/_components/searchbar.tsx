@@ -9,9 +9,6 @@ import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { useSearchJob } from '@/context/search-job-context';
 import { useRouter, useSearchParams } from 'next/navigation';
-interface SearchBarProps {
-  onSearchChange: (searchValues: { [key: string]: string }) => void;
-}
 
 const FilterSchema = Yup.object().shape({
   title: Yup.string()

@@ -11,7 +11,7 @@ import {
 } from '@/components/shadcn-ui/dialog';
 import { useToast } from '@/hooks/use-toast';
 import { useSession } from 'next-auth/react';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useFormik } from 'formik';
 import { axiosPrivate } from '@/lib/axios';
 import {
@@ -97,17 +97,13 @@ export function DialogApplyJob({
 
       try {
         setIsSubmitting(true);
-        console.log('upload file', values.cv.name);
-
         const formData = new FormData();
         formData.append('salaryEstimate', values.expectedSalary);
         formData.append('cv', values.cv);
-
         const axiosInstance = axiosPrivate(
           session?.user?.accessToken ?? '',
           'multipart/form-data',
         );
-
         const response = await axiosInstance.post(
           `/job-applications/${jobId}/apply`,
           formData,
@@ -144,7 +140,6 @@ export function DialogApplyJob({
       }
     },
   });
-
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger className={`default-style w-full ${className}`} asChild>

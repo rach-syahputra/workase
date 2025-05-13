@@ -27,7 +27,7 @@ export default function FilterBaseOnTime({
 }: React.HTMLAttributes<HTMLDivElement>) {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { fetchJobs, } = useSearchJob();
+  const { fetchJobs } = useSearchJob();
   const [date, setDate] = useState<DateRange | undefined>({
     from: new Date(2025, 0, 20),
     to: addDays(new Date(2026, 0, 20), 20),
@@ -51,7 +51,7 @@ export default function FilterBaseOnTime({
     }
     if (dateFilterParam) setDateFilter(dateFilterParam);
     if (sortOrderParam) setSortOrder(sortOrderParam);
-    // fetch jika ada parameter
+    // fetch if there is parameter
     if (
       title ||
       category ||

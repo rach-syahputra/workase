@@ -1,7 +1,5 @@
 import { UserRequest } from '../../interfaces/middleware.interface';
 import prisma from '../../prisma';
-import { skip } from '@prisma/client/runtime/library';
-
 class savedJobsRepository {
   async saveJob(req: UserRequest) {
     const { jobId } = req.body;

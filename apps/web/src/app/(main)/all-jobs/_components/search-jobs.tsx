@@ -2,20 +2,17 @@
 
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
-import { Job, useSearchJob } from '@/context/search-job-context';
+import { useSearchJob } from '@/context/search-job-context';
 import JobCard from '../../example/_components/card';
 import { useSearchParams, useRouter } from 'next/navigation';
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from '@/components/shadcn-ui/pagination';
-import AppLoading from '@/components/ui/app-loading';
-import { set } from 'cypress/types/lodash';
 
 type SortOrder = 'asc' | 'desc';
 
@@ -30,7 +27,7 @@ export function SearchJobs() {
     page: 1,
   });
 
-  // Mencegah efek dipanggil berulang
+  // preventif for re-fetch
   const lastQueryRef = useRef(query);
 
   useEffect(() => {
@@ -62,14 +59,12 @@ export function SearchJobs() {
     }
   }, [fetchJobs, searchParams]);
 
-  // Fungsi untuk mengubah halaman
   const handlePageChange = (page: number) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set('page', page.toString());
     router.push(`?${params.toString()}`);
   };
 
-  // Fungsi untuk membuat array untuk pagination
   const generatePaginationItems = () => {
     if (!pagination) return [1];
     const currentPage = pagination.currentPage || 1;

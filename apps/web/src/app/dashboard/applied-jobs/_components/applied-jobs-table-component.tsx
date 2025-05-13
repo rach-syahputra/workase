@@ -14,8 +14,6 @@ import { useRouter } from 'next/navigation';
 import { MdArrowDownward, MdArrowUpward, MdDelete } from 'react-icons/md';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/shadcn-ui/button';
-import { Outline } from 'pdfjs-dist/types/src/display/editor/drawers/outline';
-import { DialogApplyJob } from '@/app/(main)/example/_components/dialog-apply-job';
 import { applicationDetail } from '../page';
 export interface IAppliedJobsTableComponentProps {
   data: applicationDetail[];
@@ -67,9 +65,9 @@ export default function AppliedJobsTableComponent({
             <TableHead onClick={() => toggleSort('title')}>
               Title
               {sortField === 'title' && sortOrder === 'asc' ? (
-                <MdArrowUpward className="inline ml-1" />
+                <MdArrowUpward className="ml-1 inline" />
               ) : (
-                <MdArrowDownward className="inline ml-1" />
+                <MdArrowDownward className="ml-1 inline" />
               )}
             </TableHead>
 
@@ -124,7 +122,7 @@ export default function AppliedJobsTableComponent({
           <TableRow>
             <TableCell colSpan={7}>
               <div className="flex items-center justify-between">
-                <div className="text-sm text-muted-foreground">
+                <div className="text-muted-foreground text-sm">
                   Page {currentPage} of {totalPages || 1}
                 </div>
                 <div className="flex gap-2">

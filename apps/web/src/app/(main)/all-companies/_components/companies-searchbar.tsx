@@ -43,7 +43,7 @@ export function CompaniesSearchBar({ formik }: CompaniesSearchBarProps) {
               />
             ) : null}
 
-            {/* Filter dan Button */}
+            {/* Filter and Button */}
             {item === 'Company Name' || item === 'Company Location' ? (
               (() => {
                 const fieldKey = item.split(' ')[1]?.toLowerCase() || ''; // Pastikan tidak undefined
@@ -72,7 +72,7 @@ export function CompaniesSearchBar({ formik }: CompaniesSearchBarProps) {
             )}
           </div>
 
-          {/* Border Vertikal (Hanya untuk item pertama kedua) */}
+          {/* vertical border */}
           {item === 'Company Name' && (
             <center
               className={`mx-[1px] bg-gray-300 md:h-[25px] md:w-[1.5px] md:border-none ${item === 'Company Name' ? 'md:mt-[-2px]' : ''}`}

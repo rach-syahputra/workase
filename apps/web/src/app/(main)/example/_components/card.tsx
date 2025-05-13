@@ -1,7 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { faBookmark } from '@fortawesome/free-regular-svg-icons';
 import { faBookmark as solidBookmark } from '@fortawesome/free-solid-svg-icons';
 import { faBookmark as regularBookmark } from '@fortawesome/free-regular-svg-icons';
 import { WiTime2 } from 'react-icons/wi';
@@ -17,8 +16,6 @@ import {
 } from '@/components/shadcn-ui/card';
 import { Separator } from '@/components/shadcn-ui/separator';
 import Icon from '@/components/ui/icon';
-// Ensure the correct path to the toast module
-// Ensure the correct path to the toast module
 import { useToast } from '@/hooks/use-toast';
 import { DialogApplyJob } from './dialog-apply-job';
 import { useSession } from 'next-auth/react';

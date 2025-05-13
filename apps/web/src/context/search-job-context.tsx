@@ -3,7 +3,6 @@ import { axiosPublic } from '@/lib/axios';
 import * as React from 'react';
 import { createContext, useContext, useState } from 'react';
 
-// Interface untuk item Job individual
 export interface Job {
   id: string;
   title: string;
@@ -18,7 +17,6 @@ export interface Job {
   };
 }
 
-// Interface untuk pagination
 export interface Pagination {
   currentPage: number;
   totalPage: number;
@@ -27,7 +25,6 @@ export interface Pagination {
   totalItem: number;
 }
 
-// Interface untuk respons API
 export interface JobsResponse {
   jobs: Job[];
   pagination: Pagination;
@@ -46,8 +43,8 @@ interface JobFilters {
   page?: number;
 }
 interface ISearchJobContextType {
-  jobs: Job[]; // Array Job yang akan digunakan di komponen
-  pagination: Pagination | null; // Data pagination
+  jobs: Job[]; // Array Job that will use in component
+  pagination: Pagination | null; // pagination data
   loading: boolean;
   setLoading: (loading: boolean) => void;
   fetchJobs: (filters: JobFilters, forceRequest?: boolean) => Promise<void>;
@@ -112,11 +109,11 @@ export function SearchJobProvider({ children }: { children: React.ReactNode }) {
           params,
         });
 
-        // Ekstrak data dari respons API
+        // Ekstract data from API response
         const responseData = response.data as { data: JobsResponse };
         console.log('ini data', responseData.data);
 
-        // Update state dengan data jobs dan pagination
+        // Update state with jobs data and pagination
         if (responseData.data) {
           if (responseData.data.jobs) {
             setJobs(responseData.data.jobs);

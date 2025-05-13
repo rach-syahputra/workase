@@ -1,10 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 import { Button } from '@/components/shadcn-ui/button';
-import { axiosPublic } from '@/lib/axios';
 import { useEffect } from 'react';
 import { useFormik } from 'formik';
-import { UserRound } from 'lucide-react';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import * as React from 'react';

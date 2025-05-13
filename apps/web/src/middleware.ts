@@ -1,15 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
-// route yang butuh login dulu
+// route that needed for login
 const loginRequiredRoutes = [
   '/dashboard',
   '/profile-management',
   '/subscription',
 ];
-// route yang hanya bisa diakses user terverifikasi
+// route that can access with verified user
 const verifiedUserRoutes = ['/subscription'];
-// route halam login dan register
+// route login and register page
 const publicAuthPage = [
   '/users/login',
   '/users/register',
@@ -17,21 +17,19 @@ const publicAuthPage = [
   '/companies/register',
 ];
 export async function middleware(req: NextRequest) {
-  // ambil token dari cookie
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-  // ambil path URL yang sedang aktif
   const { pathname } = req.nextUrl;
-  // cek apakah user sudah login
+  // cek did user login
   if (publicAuthPage.some((route) => pathname.startsWith(route)) && token) {
-    // jika ada parameter redirect, kembali ke halaman tersebut
-    const redirectTo = req.nextUrl.searchParams.get('redirect'); // ambil parameter redirect
+    // if there is redirect parameter, back to that page
+    const redirectTo = req.nextUrl.searchParams.get('redirect'); // take redirect parameter
     if (redirectTo) {
       return NextResponse.redirect(new URL(redirectTo, req.url));
     }
-    // jika tidak ada redirect ke homepage
+    // if there is no redirect parameter, redirect to homepage
     return NextResponse.redirect(new URL('/', req.nextUrl));
   }
-  //   jika akses fitur yang butuh login tapi belum login
+  //   if user access feture that need login but they didn`t login yet
   if (
     loginRequiredRoutes.some((route) => pathname.startsWith(route)) &&
     !token
@@ -40,18 +38,6 @@ export async function middleware(req: NextRequest) {
 
     let loginUrl: URL;
 
-    // if (pathname.startsWith('/companies')) {
-    //   loginUrl = new URL('/companies/login', req.url);
-    // } else {
-    //   loginUrl = new URL('/users/login', req.url);
-    // }
-
-    // loginUrl.searchParams.set(
-    //   'message',
-    //   'Please login first before accessing this page',
-    // );
-
-    // return NextResponse.redirect(loginUrl);
     const response = NextResponse.redirect(new URL('/', req.url));
     response.cookies.set(
       'message',
@@ -65,7 +51,7 @@ export async function middleware(req: NextRequest) {
     return response;
   }
 
-  //   jika akses fitur yang butuh verifikasi tapi belum verifikasi
+  //   if access feature that need verified user, but they are not verified
   if (
     verifiedUserRoutes.some((route) => pathname.startsWith(route)) &&
     token &&

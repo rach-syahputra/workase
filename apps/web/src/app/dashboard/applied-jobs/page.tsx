@@ -1,21 +1,9 @@
 'use client';
 import * as React from 'react';
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/shadcn-ui/table';
 import { useEffect, useState } from 'react';
 import { axiosPrivate } from '@/lib/axios';
 import { useSession } from 'next-auth/react';
-import { cn } from '@/lib/utils';
 import UserDashboardContainer from '@/components/user-dashboard/user-dashboard-container';
-import { Link } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/shadcn-ui/input';
 import { Button } from '@/components/shadcn-ui/button';
@@ -46,7 +34,7 @@ export default function ApplyListAndDetail(props: IApplyListAndDetailProps) {
   const [sortOrder, setSortOrder] = useState('desc');
   const [titleFilter, setTitleFilter] = useState('');
   const [activeFilter, setActiveFilter] = useState('');
-  const fetchData = async () => {
+  const fetchData = React.useCallback(async () => {
     try {
       if (!session?.user?.accessToken) {
         return;
@@ -75,13 +63,20 @@ export default function ApplyListAndDetail(props: IApplyListAndDetailProps) {
     } catch (err) {
       console.log(err);
     }
-  };
+  }, [
+    session?.user?.accessToken,
+    limit,
+    skip,
+    sortField,
+    sortOrder,
+    activeFilter,
+  ]);
 
   useEffect(() => {
     if (session?.user?.accessToken) {
       fetchData();
     }
-  }, [session, skip, limit, sortField, sortOrder, activeFilter]);
+  }, [session, fetchData]);
 
   const handleSearch = () => {
     setActiveFilter(titleFilter);

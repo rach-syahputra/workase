@@ -3,7 +3,7 @@ import loginCompaniesRepository from '../repositories/companies/login.repository
 import registerCompaniesRepository from '../repositories/companies/register.repository';
 import verifiedCompanyEmailRepository from '../repositories/companies/verified-email.repository';
 import resetCompanyPasswordRepository from '../repositories/companies/reset-password.repository';
-import getCompanyProfileRepository, {
+import {
   updateCompanyProfileRepository,
   updateCompanyLogoRepository,
 } from '../repositories/companies/company-profile.repository';
@@ -32,9 +32,7 @@ class CompaniesService {
   async resetPassword(req: CompanyRequest) {
     return await resetCompanyPasswordRepository.resetPassword(req);
   }
-  async getCompanyProfile(req: CompanyRequest) {
-    return await getCompanyProfileRepository.getCompanyProfile(req);
-  }
+
   async updateCompanyProfile(req: CompanyRequest) {
     return await updateCompanyProfileRepository.updateCompanyProfile(req);
   }

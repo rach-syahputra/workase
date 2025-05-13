@@ -32,7 +32,7 @@ export default function Footer() {
                 className="w-[110px]"
               />
             </div>
-            <div className="font-medium underline md:text-[15.5px]">
+            <div className="font-medium md:text-[15.5px]">
               <>Where Top Talent Meets Top Companies</>
             </div>
             <div className="mt-[20px]">
@@ -43,7 +43,7 @@ export default function Footer() {
         </div>
         <div className="hidden w-[25%] md:flex">
           <div className="flex flex-col justify-start gap-1 text-left">
-            <div className="mb-2 font-semibold underline">Navigation</div>
+            <div className="mb-2 font-semibold">Navigation</div>
             <button
               className="mr-auto font-medium hover:underline"
               onClick={() => router.push('/')}
@@ -67,9 +67,7 @@ export default function Footer() {
         <div className="mb-[-10px] flex justify-center pt-3 md:mb-0 md:w-[15%] md:pt-0 lg:w-[9%]">
           <div className="flex w-[90%] justify-around gap-2 md:flex-col md:items-stretch md:justify-stretch md:gap-0">
             <div className="flex items-center gap-[18px] md:block md:flex-col md:items-stretch">
-              <div className="font-semibold underline md:mb-[8px] md:mt-0">
-                Follow Us
-              </div>
+              <div className="font-semibold md:mb-[8px] md:mt-0">Follow Us</div>
               <div className="md:hidden">:</div>
               <div className="flex gap-4 md:ml-[-4px] md:flex">
                 <button>

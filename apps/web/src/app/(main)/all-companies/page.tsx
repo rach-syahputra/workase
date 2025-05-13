@@ -60,22 +60,6 @@ export default function AllCompanies() {
     page: 1,
   };
 
-  useEffect(() => {
-    setLoading(true);
-    const nameParam = searchParams.get('name') || '';
-    const locationParam = searchParams.get('location') || '';
-    const sortParam = searchParams.get('sort') || 'asc';
-    const pageParam = searchParams.get('page') || '1';
-    const query = {
-      name: nameParam,
-      location: locationParam,
-      sort: sortParam as 'asc' | 'desc',
-      page: parseInt(pageParam, 10),
-    };
-    fetchCompanies(query);
-    formik.setValues(query);
-  }, [searchParams]);
-
   const fetchCompanies = async (values: IGetCompany) => {
     try {
       const response = await axiosPublic.get('/companies', {
@@ -130,7 +114,24 @@ export default function AllCompanies() {
       applyFilters(searchValues);
     },
   });
-
+  useEffect(() => {
+    try {
+      setLoading(true);
+      const nameParam = searchParams.get('name') || '';
+      const locationParam = searchParams.get('location') || '';
+      const sortParam = searchParams.get('sort') || 'asc';
+      const pageParam = searchParams.get('page') || '1';
+      const query = {
+        name: nameParam,
+        location: locationParam,
+        sort: sortParam as 'asc' | 'desc',
+        page: parseInt(pageParam, 10),
+      };
+      fetchCompanies(query);
+    } catch (error) {
+      console.error('Error fetching companies:', error);
+    }
+  }, [searchParams]);
   return loading ? (
     <div className="bg-background fixed left-0 top-0 flex min-h-screen w-screen flex-1 items-center justify-center">
       <AppLoading size="md" label="Loading data, please stand by..." />

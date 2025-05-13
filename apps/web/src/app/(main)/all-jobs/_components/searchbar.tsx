@@ -52,7 +52,7 @@ export function SearchBar() {
     page: 1,
   };
 
-  // mendapatkan parameter pencarian dari URL/params saat komponent dimuat
+  // got url paramater
   useEffect(() => {
     const titleParam = searchParams.get('title') || '';
     const categoryParam = searchParams.get('category') || '';
@@ -68,7 +68,7 @@ export function SearchBar() {
     if (locationParam) setLocation(locationParam);
     if (pageParams) setPage(parseInt(pageParams));
 
-    // fetch jika ada parameter
+    // fetch if there is parameter
     if (
       title ||
       category ||
@@ -88,7 +88,7 @@ export function SearchBar() {
         sortOrder: sortOrderParam,
       });
     }
-  }, []);
+  }, [category, fetchJobs, location, page, searchParams, title]);
 
   const sortOrderParam =
     (searchParams.get('sortOrder') as 'asc' | 'desc') || 'desc';

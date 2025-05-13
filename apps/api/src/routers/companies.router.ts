@@ -42,7 +42,6 @@ export const companiesRouter = () => {
     companyController.resetPassword,
   );
   //company profile management
-  // router.get('/', verifyCompany, companiesController.getCompanyProfile);
   router.patch(
     '/',
     verifyCompany,

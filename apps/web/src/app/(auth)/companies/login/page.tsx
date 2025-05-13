@@ -1,17 +1,15 @@
-/* eslint-disable @next/next/no-img-element */
 'use client';
 import { Button } from '@/components/shadcn-ui/button';
-import Logo from '@/components/ui/logo-for-auth';
 import { useFormik } from 'formik';
 import { Building2 } from 'lucide-react';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import * as React from 'react';
-import { FaGoogle } from 'react-icons/fa6';
 import * as Yup from 'yup';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import AppLoading from '@/components/ui/app-loading';
+import Image from 'next/image';
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email().required(), // email is required
   password: Yup.string()
@@ -45,7 +43,6 @@ export default function Login(props: ILoginProps) {
     if (response?.error) {
       alert('Login failed: Email or password was wrong');
     } else {
-      // Berhasil login
       router.replace(redirectUrl);
     }
   };
@@ -131,7 +128,9 @@ export default function Login(props: ILoginProps) {
         onClick={() => signIn('google-company', { type: 'google-company' })}
       >
         <div className="relative flex w-full items-center justify-center">
-          <img
+          <Image
+            width={50}
+            height={10}
             src="/Google.svg"
             alt="Google Logo"
             className="absolute left-6 h-5 sm:static sm:px-3"

@@ -62,10 +62,10 @@ export function CompanyJobsPagination({
 
   return (
     <div>
-      <div className="flex justify-center mt-8">
+      <div className="mt-8 flex justify-center">
         <Pagination>
           <PaginationContent>
-            {/* Tombol Previous */}
+            {/*  Previous Button */}
             <PaginationItem>
               <PaginationPrevious
                 onClick={() =>
@@ -79,7 +79,7 @@ export function CompanyJobsPagination({
               />
             </PaginationItem>
 
-            {/* Nomor halaman */}
+            {/* Page number */}
             {generatePaginationItems().map((item, index) => {
               if (item === 'ellipsis-left' || item === 'ellipsis-right') {
                 return (
@@ -100,7 +100,7 @@ export function CompanyJobsPagination({
                 </PaginationItem>
               );
             })}
-            {/* Tombol Next */}
+            {/* Next Button */}
             <PaginationItem>
               <PaginationNext
                 onClick={() => hasNextPage && handlePageChange(currentPage + 1)}

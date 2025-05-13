@@ -25,7 +25,6 @@ export default function CompaniesPagination({
     router.push(`/all-companies?${params.toString()}`);
   };
 
-  // Fungsi untuk membuat array untuk pagination
   const generatePaginationItems = () => {
     if (!totalPage || totalPage <= 1) return [1];
     const currentPageNum = currentPage || 1;
@@ -62,7 +61,7 @@ export default function CompaniesPagination({
 
   return (
     <div>
-      <div className="flex justify-center mt-8">
+      <div className="mt-8 flex justify-center">
         <Pagination>
           <PaginationContent>
             {/* Tombol Previous */}
