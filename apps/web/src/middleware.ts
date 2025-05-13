@@ -18,6 +18,7 @@ const publicAuthPage = [
 ];
 export async function middleware(req: NextRequest) {
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  console.log('token in middleware: ', token);
   const { pathname } = req.nextUrl;
   // cek did user login
   if (publicAuthPage.some((route) => pathname.startsWith(route)) && token) {
