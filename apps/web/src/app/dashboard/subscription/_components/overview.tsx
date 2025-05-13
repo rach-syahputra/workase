@@ -57,6 +57,7 @@ const Overview = () => {
           expiresAt: subscription.expiresAt,
           startedAt: subscription.startedAt,
           category: subscription.category as SubscriptionCategoryType,
+          subscriptionStatus: subscription.subscriptionStatus,
         })),
       );
       setPage(pagination?.page || 1);

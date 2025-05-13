@@ -107,6 +107,12 @@ class SubscriptionRepository {
         isDeleted: payment.subscription.isDeleted,
         payment: payment,
         user: payment.subscription.user,
+        subscriptionStatus:
+          payment.subscription.expiresAt! < new Date()
+            ? 'expired'
+            : payment.subscription.startedAt! > new Date()
+              ? 'upcoming'
+              : 'active',
       })),
       pagination: {
         totalData: totalSubscriptions,

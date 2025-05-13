@@ -2,7 +2,7 @@
 
 import { ColumnDef } from '@tanstack/react-table';
 
-import { formatTableDate } from '@/lib/utils';
+import { cn, formatTableDate } from '@/lib/utils';
 import { GetOverviewColumnsRequest, IOverviewColumn } from './interface';
 import TableHeaderOrderButton from '@/components/ui/table/table-header-order-button';
 
@@ -37,5 +37,26 @@ export const getOverviewColumns = ({
         {formatTableDate(new Date(row.original.expiresAt!))}
       </div>
     ),
+  },
+  {
+    accessorKey: 'status',
+    header: 'Status',
+    cell: ({ row }) => {
+      const status = row.original.subscriptionStatus;
+
+      return (
+        <div className="w-[120px] font-medium">
+          <span
+            className={cn('rounded-md px-3 py-2 uppercase', {
+              'bg-green-400 text-green-700': status === 'active',
+              'bg-red-400 text-red-700': status === 'expired',
+              'bg-yellow-400 text-yellow-700': status === 'upcoming',
+            })}
+          >
+            {status}
+          </span>
+        </div>
+      );
+    },
   },
 ];
