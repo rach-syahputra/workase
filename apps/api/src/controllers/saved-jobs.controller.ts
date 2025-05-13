@@ -1,6 +1,6 @@
-import { ApiResponse } from '@/helpers/api-response';
-import { UserRequest } from '@/interfaces/middleware.interface';
-import savedJobsService from '@/services/saved-jobs.service';
+import { ApiResponse } from '../helpers/api-response';
+import { UserRequest } from '../interfaces/middleware.interface';
+import savedJobsService from '../services/saved-jobs.service';
 import { NextFunction, Response } from 'express';
 
 class savedJobsController {

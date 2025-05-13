@@ -5,7 +5,9 @@ import { SearchBar } from './_components/searchbar';
 import { NewestJobs } from './_components/newest-jobs';
 import { NearestJobs } from './_components/nearest-job';
 import { useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import AppLoading from '@/components/ui/app-loading';
+import LoadingOverlay from '@/components/ui/loading-overlay';
 
 function getCookie(name: string) {
   if (typeof document == 'undefined') return null;
@@ -24,6 +26,7 @@ function deleteCookie(name: string) {
   document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
 }
 export default function HomePage() {
+  const [loading, setLoading] = useState(true);
   const searchParams = useSearchParams();
   const urlMessage = searchParams.get('message');
   useEffect(() => {
@@ -36,13 +39,19 @@ export default function HomePage() {
       deleteCookie('message');
     }
   }, [urlMessage]);
-  return (
+  const timer = setTimeout(() => {
+    setLoading(false);
+  }, 2000);
+  return loading ? (
+    <div className="fixed top-0 left-0 flex items-center justify-center flex-1 w-screen min-h-screen bg-background">
+      <AppLoading size="md" label="Loading data, please stand by..." />
+    </div>
+  ) : (
     <Container className="">
       <div className="flex flex-col items-center justify-center w-full">
         <div className="font-geist mb-[5px] flex h-fit w-full flex-col items-center justify-center">
           <SearchBar />
         </div>
-        {/* <JobsCarousel /> */}
         <NewestJobs />
         <NearestJobs />
       </div>

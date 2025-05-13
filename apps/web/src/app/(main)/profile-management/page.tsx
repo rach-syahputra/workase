@@ -16,9 +16,11 @@ import { Description } from './_components/companies-profile/description';
 import { useRouter } from 'next/navigation';
 import { SaveButton } from './_components/companies-profile/save-button';
 import { IUpdateForm, roleUrl, UpdateSchema } from '@/types/profile-management';
+import AppLoading from '@/components/ui/app-loading';
 export default function ProfileSettingPage() {
   const { data: session, status, update } = useSession();
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
   const [initialValues, setInitialValues] = useState<IUpdateForm>({
     name: (session?.user?.name as string) || (undefined as unknown as string),
     phoneNumber:
@@ -132,7 +134,14 @@ export default function ProfileSettingPage() {
       submitUpdate(values);
     },
   });
-  return (
+  const timer = setTimeout(() => {
+    setLoading(false);
+  }, 1000);
+  return loading ? (
+    <div className="bg-background fixed left-0 top-0 flex min-h-screen w-screen flex-1 items-center justify-center">
+      <AppLoading size="md" label="Loading data, please stand by..." />
+    </div>
+  ) : (
     <div className="w-full py-5 md:px-4 md:py-8">
       <div className="flex justify-center text-[24px] font-medium md:justify-normal">
         Personal Information

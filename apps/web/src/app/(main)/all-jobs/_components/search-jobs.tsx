@@ -14,6 +14,8 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/shadcn-ui/pagination';
+import AppLoading from '@/components/ui/app-loading';
+import { set } from 'cypress/types/lodash';
 
 type SortOrder = 'asc' | 'desc';
 
@@ -21,7 +23,6 @@ export function SearchJobs() {
   const { jobs, pagination, fetchJobs } = useSearchJob();
   const searchParams = useSearchParams();
   const router = useRouter();
-
   const [query, setQuery] = useState({
     title: '',
     category: '',
@@ -59,10 +60,7 @@ export function SearchJobs() {
       lastQueryRef.current = nextQuery;
       fetchJobs(nextQuery);
     }
-<<<<<<< HEAD
   }, [fetchJobs, searchParams]);
-=======
-  }, [searchParams, fetchJobs]);
 
   // Fungsi untuk mengubah halaman
   const handlePageChange = (page: number) => {
@@ -82,10 +80,6 @@ export function SearchJobs() {
     }
     return items;
   };
-
-  console.log('ini jobs 2', jobs);
-  console.log('ini pagination', pagination);
->>>>>>> 178cd18 (feat: complete all core features for initial release)
 
   return (
     <div className="w-full max-w-[90%] pt-[12px] md:pt-0 lg:max-w-[90%]">
@@ -166,8 +160,8 @@ export function SearchJobs() {
             </div>
           </>
         ) : (
-          <div className="py-8 text-center">
-            <p>Tidak ada pekerjaan yang ditemukan</p>
+          <div className="py-40 text-center">
+            <p>No jobs found</p>
           </div>
         )}
       </div>

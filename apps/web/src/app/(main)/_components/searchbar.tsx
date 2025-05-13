@@ -71,17 +71,13 @@ export function SearchBar() {
         console.error('there is no location', error);
       }
     });
-<<<<<<< HEAD
-  }, [fetchJobs]);
+  }, [fetchJobs, searchParams]);
 
-=======
-  }, []);
   const sortOrderParam =
     (searchParams.get('sortOrder') as 'asc' | 'desc') || 'desc';
   const dateFilterParam = searchParams.get('dateFilter');
   const dateFromParams = searchParams.get('startDate');
   const dateToParams = searchParams.get('endDate');
->>>>>>> 178cd18 (feat: complete all core features for initial release)
   const formik = useFormik({
     initialValues,
     validationSchema: FilterSchema,

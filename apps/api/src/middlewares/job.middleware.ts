@@ -43,7 +43,6 @@ const changeLocation = async (
 
         if (!city) return next(new ResponseError(404, 'Location not found'));
         req.query.location = city;
-
         next();
       } catch (innerError) {
         next(innerError);

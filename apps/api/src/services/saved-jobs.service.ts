@@ -1,5 +1,5 @@
-import { UserRequest } from '@/interfaces/middleware.interface';
-import savedJobsRepository from '@/repositories/saved-jobs/saved-jobs.repository';
+import { UserRequest } from '../interfaces/middleware.interface';
+import savedJobsRepository from '../repositories/saved-jobs/saved-jobs.repository';
 
 class savedJobsService {
   async saveJob(req: UserRequest) {

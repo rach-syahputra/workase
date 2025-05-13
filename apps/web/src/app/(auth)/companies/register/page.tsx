@@ -11,6 +11,8 @@ import * as React from 'react';
 import { FaGoogle } from 'react-icons/fa6';
 import * as Yup from 'yup';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import AppLoading from '@/components/ui/app-loading';
 const RegisterSchema = Yup.object().shape({
   name: Yup.string().required(),
   email: Yup.string().email().required(),
@@ -34,6 +36,7 @@ interface IRegisterForm {
 const signInItem = ['User', 'Company'];
 export default function Register() {
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
   const initialValues: IRegisterForm = {
     name: '',
     email: '',
@@ -68,8 +71,14 @@ export default function Register() {
       submitRegister(values);
     },
   });
-
-  return (
+  const timer = setTimeout(() => {
+    setLoading(false);
+  }, 1000);
+  return loading ? (
+    <div className="bg-background fixed left-0 top-0 flex min-h-screen w-screen flex-1 items-center justify-center">
+      <AppLoading size="md" label="Loading data, please stand by..." />
+    </div>
+  ) : (
     <div className="font-geist mt-[-10px] md:w-[650px]">
       {' '}
       <div className="flex flex-col items-center justify-center pb-2">

@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import { verifyUser } from '@/middlewares/auth.middleware';
-import { uploadCVPdf } from '@/helpers/multer';
-import jobApplicationsController from '@/controllers/job-applications.controller';
+import { verifyUser } from '../middlewares/auth.middleware';
+import { uploadCVPdf } from '../helpers/multer';
+import jobApplicationsController from '../controllers/job-applications.controller';
 import {
   uploadToCloudinary,
   validateApplicationsFilter,
   validateApplyJobInput,
-} from '@/middlewares/applied-jobs.middleware';
+} from '../middlewares/applied-jobs.middleware';
 
 export const jobApllicationsRouter = () => {
   const router = Router();

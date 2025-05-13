@@ -1,4 +1,4 @@
-import prisma from '@/prisma';
+import prisma from '../../prisma';
 import { Request } from 'express';
 class getCompaniesRepository {
   async getCompanies(req: Request) {

@@ -45,13 +45,18 @@ export function DialogApplyJob({
       window.location.href = '/users/login';
       return;
     }
-    if (newOpen && session?.user?.isVerified === false) {
+    if (
+      (newOpen && session?.user?.isVerified === false) ||
+      session?.user?.role !== 'USER'
+    ) {
       setOpen(false);
       sessionStorage.setItem('redirectAfterLogin', window.location.pathname);
       toast({
         title: 'Verification Required',
         description:
-          'You need to verify your account before applying for this job',
+          session?.user?.role == 'USER'
+            ? 'You need to verify your account before applying for this job'
+            : 'You need login as user before applying for this job',
         variant: 'destructive',
       });
       return;

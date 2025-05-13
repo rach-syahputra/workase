@@ -5,7 +5,7 @@ import { useRouter, usePathname } from 'next/navigation';
 const tabs = [
   { label: 'Home', value: '/' },
   { label: 'Jobs', value: '/all-jobs' },
-  { label: 'Companies', value: '/companies' },
+  { label: 'Companies', value: '/all-companies' },
   { label: 'Reviews', value: '/companies/reviews' },
 ];
 export default function Menu() {

@@ -6,18 +6,13 @@ import resetCompanyPasswordRepository from '../repositories/companies/reset-pass
 import getCompanyProfileRepository, {
   updateCompanyProfileRepository,
   updateCompanyLogoRepository,
-<<<<<<< HEAD
 } from '../repositories/companies/company-profile.repository';
 import { ResponseError } from '../helpers/error';
 import { putCompanyAccessToken } from '../helpers/jwt';
-=======
-} from '@/repositories/companies/company-profile.repository';
-import { ResponseError } from '@/helpers/error';
-import { putCompanyAccessToken } from '@/helpers/jwt';
 import { Request } from 'express';
-import getCompanyJobsRepository from '@/repositories/companies/company-jobs.repository';
-import getCompaniesRepository from '@/repositories/companies/get-companies.repository';
->>>>>>> 178cd18 (feat: complete all core features for initial release)
+import getCompanyJobsRepository from '../repositories/companies/company-jobs.repository';
+import getCompaniesRepository from '../repositories/companies/get-companies.repository';
+
 class CompaniesService {
   async register(data: {
     name: string;

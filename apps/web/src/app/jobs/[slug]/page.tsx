@@ -20,9 +20,8 @@ import { useState, useEffect } from 'react';
 import JobShareComponent from './_components/job-share';
 import { useToast } from '@/hooks/use-toast';
 import { JobDetail } from '@/types/job-detail';
-
+import AppLoading from '@/components/ui/app-loading';
 export default function JobPage() {
-  //   const { data: session } = useSession();
   const [jobs, setJobs] = useState<Job[]>([]);
   const params = useParams<{ slug: string }>();
   const title = params.slug;
@@ -30,8 +29,9 @@ export default function JobPage() {
   const { data: session } = useSession();
   const [saved, setSaved] = useState(false);
   const { toast } = useToast();
+  const [loading, setLoading] = useState(true);
+
   const handleSave = async (e: React.MouseEvent) => {
-    // limit area from the event
     e.preventDefault();
     e.stopPropagation();
     if (session?.user?.accessToken === undefined) {
@@ -60,7 +60,6 @@ export default function JobPage() {
           session?.user?.accessToken as string,
           'application/json',
         );
-
         await axiosInstance.delete(`/saved-jobs/${jobId}`);
         toast({ description: 'Job removed from saved' });
       }
@@ -74,12 +73,13 @@ export default function JobPage() {
       });
     }
   };
-
   useEffect(() => {
+    setLoading(true);
     const fetchData = async () => {
       const response = await axiosPublic.get(`/jobs/${title}`);
       const data = response.data;
       setData(data.data);
+      setLoading(false);
     };
     fetchData();
   }, []);
@@ -98,22 +98,25 @@ export default function JobPage() {
       .split('_')
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(' ');
-
   const plugin = React.useRef(
     Autoplay({ delay: 5000, stopOnInteraction: true }),
   );
-  return (
+  return loading ? (
+    <div className="bg-background fixed left-0 top-0 flex min-h-screen w-screen flex-1 items-center justify-center">
+      <AppLoading size="md" label="Loading data, please stand by..." />
+    </div>
+  ) : (
     <Container className="">
-      <div className="flex flex-col items-start w-full justify-normal">
+      <div className="flex w-full flex-col items-start justify-normal">
         <div className="my-2 flex w-full flex-row items-center justify-normal gap-2.5">
           <Image
             src={`${data?.company.logoUrl || ''}`}
             alt="Company logo"
             width={200}
             height={200}
-            className="object-cover my-1 rounded-full aspect-square w-14"
+            className="my-1 aspect-square w-14 rounded-full object-cover"
           />
-          <div className="flex flex-col justify-center w-full md:items-start">
+          <div className="flex w-full flex-col justify-center md:items-start">
             <Link
               href="#"
               aria-label="Company detail"
@@ -130,7 +133,7 @@ export default function JobPage() {
             {formatCategory(data?.category || '')}
           </CardBadge>
         </div>
-        <div className="flex flex-row items-center w-full gap-2 pb-3">
+        <div className="flex w-full flex-row items-center gap-2 pb-3">
           <button className="bg-primary-blue flex h-[38px] w-full items-center justify-center rounded-md text-white hover:bg-blue-500 md:w-[195px]">
             {data?.id && <DialogApplyJob jobId={data.id as string} />}
           </button>
@@ -162,7 +165,7 @@ export default function JobPage() {
               onMouseEnter={plugin.current.stop}
               onMouseLeave={plugin.current.reset}
             >
-              <CarouselContent className="flex w-full gap-6 p-1 -ml-1">
+              <CarouselContent className="-ml-1 flex w-full gap-6 p-1">
                 {Array.from({ length: 5 }).map((_, index: number) => {
                   const job = jobs[index];
                   return job ? (

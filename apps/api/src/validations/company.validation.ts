@@ -1,4 +1,4 @@
-import prisma from '@/prisma';
+import prisma from '../prisma';
 import * as Yup from 'yup';
 
 const validCompanyNames = async (): Promise<string[]> => {

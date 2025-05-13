@@ -62,16 +62,14 @@ export function CompanyJobsPagination({
 
   return (
     <div>
-      <div className="mt-8 flex justify-center">
+      <div className="flex justify-center mt-8">
         <Pagination>
           <PaginationContent>
             {/* Tombol Previous */}
             <PaginationItem>
               <PaginationPrevious
                 onClick={() =>
-                  hasPreviousPage
-                    ? handlePageChange(currentPage - 1)
-                    : undefined
+                  hasPreviousPage && handlePageChange(currentPage - 1)
                 }
                 className={
                   !hasPreviousPage
@@ -105,9 +103,7 @@ export function CompanyJobsPagination({
             {/* Tombol Next */}
             <PaginationItem>
               <PaginationNext
-                onClick={() => {
-                  hasNextPage ? handlePageChange(currentPage + 1) : undefined;
-                }}
+                onClick={() => hasNextPage && handlePageChange(currentPage + 1)}
                 className={
                   !hasNextPage
                     ? 'pointer-events-none opacity-50'

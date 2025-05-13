@@ -1,5 +1,5 @@
-import { UserRequest } from '@/interfaces/middleware.interface';
-import prisma from '@/prisma';
+import { UserRequest } from '../../interfaces/middleware.interface';
+import prisma from '../../prisma';
 import { $Enums } from '@prisma/client';
 
 class applyJobRepository {
@@ -11,7 +11,7 @@ class applyJobRepository {
     }
     const cvUrl = req.body.cvUrl;
     const salaryEstimate = parseInt(req.body.salaryEstimate);
-    
+
     await prisma.appliedJob.create({
       data: {
         jobId: jobId,

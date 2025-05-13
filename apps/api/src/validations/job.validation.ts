@@ -36,9 +36,12 @@ const validLocation = async (): Promise<string[]> => {
       },
     },
   });
-  return locations
+
+  const filteredLocations = locations
     .map((item) => item.company.location)
     .filter((location): location is string => location !== null);
+  console.log('filteredLocations', filteredLocations);
+  return filteredLocations;
 };
 
 const validEndDate = async (): Promise<string[]> => {

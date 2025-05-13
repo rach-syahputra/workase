@@ -27,16 +27,13 @@ export default function FilterBaseOnTime({
 }: React.HTMLAttributes<HTMLDivElement>) {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { fetchJobs } = useSearchJob();
-  // state untuk kalender
+  const { fetchJobs, } = useSearchJob();
   const [date, setDate] = useState<DateRange | undefined>({
     from: new Date(2025, 0, 20),
     to: addDays(new Date(2026, 0, 20), 20),
   });
-  // state untuk date filter (date post) dan sort order
   const [dateFilter, setDateFilter] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>(`desc`);
-  // mendapatkan parameter pencarian dari URL/params saat komponent dimuat
   useEffect(() => {
     const title = searchParams.get('title') || '';
     const category = searchParams.get('category') || '';
@@ -74,8 +71,7 @@ export default function FilterBaseOnTime({
         sortOrder: sortOrderParam,
       });
     }
-  }, []);
-  // menangani perubahan date range dari calender
+  }, [fetchJobs, searchParams]);
   const handleDateChange = (newDate: DateRange) => {
     setDate(newDate);
     if (newDate?.from) {
@@ -83,7 +79,6 @@ export default function FilterBaseOnTime({
       applyFilters('custom', sortOrder, newDate);
     }
   };
-  //menangani perubahan date filter (1day, 7days, dll)
   const handleDateFilterChange = (value: string) => {
     setDateFilter(value);
     if (value !== 'custom') {
@@ -91,14 +86,12 @@ export default function FilterBaseOnTime({
     }
     applyFilters(value, sortOrder, value === 'custom' ? date : undefined);
   };
-  // Menangani perubahan sort order
   const hanlerSortChange = (value: string) => {
     const newSortOrder = value as 'desc' | 'asc';
     setSortOrder(newSortOrder);
     applyFilters(dateFilter || null, newSortOrder, date);
   };
-  // fungsi untuk menerapkan filter dan sort ke pencarian
-  const applyFilters = (
+  const applyFilters = async (
     newDateFilter: string | null,
     newSortOrder: 'desc' | 'asc',
     newDate?: DateRange | undefined,
@@ -116,9 +109,7 @@ export default function FilterBaseOnTime({
     if (newSortOrder !== 'desc') params.set('sortOrder', newSortOrder);
     if (date?.from) params.set('startDate', newDate?.from?.toString() || '');
     if (date?.to) params.set('endDate', newDate?.to?.toString() || '');
-    router.push(`/all-jobs?${params.toString()}`);
-    // memperbarui data
-    fetchJobs({
+    await fetchJobs({
       page: typeof page === 'string' ? parseInt(page, 10) : page,
       title,
       category,
@@ -128,6 +119,7 @@ export default function FilterBaseOnTime({
       endDate: newDate?.to || null,
       sortOrder: newSortOrder,
     });
+    router.push(`/all-jobs?${params.toString()}`);
   };
   return (
     <div className="w-full max-w-[835px] flex-col items-center justify-center gap-1 rounded-md px-[5px] md:flex md:flex-row md:items-center md:justify-around md:px-[0px]">

@@ -10,6 +10,8 @@ import * as React from 'react';
 import { FaGoogle } from 'react-icons/fa6';
 import * as Yup from 'yup';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useState } from 'react';
+import AppLoading from '@/components/ui/app-loading';
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email().required(), // email is required
   password: Yup.string()
@@ -27,6 +29,7 @@ const signUpItem = ['User', 'Company'];
 export default function Login(props: ILoginProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [loading, setLoading] = useState(true);
   const redirectUrl = searchParams.get('redirect') || '/'; // Get the redirect URL from search params
   const initialValues: ILoginForm = {
     email: '',
@@ -53,8 +56,14 @@ export default function Login(props: ILoginProps) {
       submitLogin(values);
     },
   });
-
-  return (
+  const timer = setTimeout(() => {
+    setLoading(false);
+  }, 1000);
+  return loading ? (
+    <div className="bg-background fixed left-0 top-0 flex min-h-screen w-screen flex-1 items-center justify-center">
+      <AppLoading size="md" label="Loading data, please stand by..." />
+    </div>
+  ) : (
     <div className="font-geist mt-[-10px] md:w-[650px]">
       {' '}
       <div className="flex flex-col items-center justify-center pb-2">

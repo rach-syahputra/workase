@@ -23,6 +23,8 @@ import {
   SelectValue,
 } from '@/components/shadcn-ui/select';
 import CompaniesPagination from './_components/companies-pagination';
+import AppLoading from '@/components/ui/app-loading';
+import { set } from 'cypress/types/lodash';
 const FilterSchema = Yup.object().shape({
   name: Yup.string()
     .trim()
@@ -43,6 +45,7 @@ export default function AllCompanies() {
   const searchParams = useSearchParams();
   const [companies, setCompanies] = useState<IAllCompaniesProps[]>([]);
   const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>();
+  const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState<Pagination>({
     currentPage: 1,
     totalPage: 1,
@@ -58,6 +61,7 @@ export default function AllCompanies() {
   };
 
   useEffect(() => {
+    setLoading(true);
     const nameParam = searchParams.get('name') || '';
     const locationParam = searchParams.get('location') || '';
     const sortParam = searchParams.get('sort') || 'asc';
@@ -86,8 +90,10 @@ export default function AllCompanies() {
       setCompanies(data.sortedCompanies);
       setPagination(data.pagination);
     } catch (error) {
+      setCompanies([]);
       console.error('Error fetching companies:', error);
     }
+    setLoading(false);
   };
 
   const hanlerSortChange = (value: string) => {
@@ -104,15 +110,12 @@ export default function AllCompanies() {
   };
 
   const applyFilters = (values: IGetCompany) => {
-    // memperbarui url dengan parameter baru
     const params = new URLSearchParams();
     if (values.name) params.set('name', values.name);
     if (values.page) params.set('page', values.page.toString());
     if (values.location) params.set('location', values.location);
     if (values.sort !== 'asc') params.set('sort', values.sort);
     router.push(`/all-companies?${params.toString()}`);
-
-    // memperbarui data
     fetchCompanies(values);
   };
 
@@ -127,13 +130,18 @@ export default function AllCompanies() {
       applyFilters(searchValues);
     },
   });
-  return (
+
+  return loading ? (
+    <div className="bg-background fixed left-0 top-0 flex min-h-screen w-screen flex-1 items-center justify-center">
+      <AppLoading size="md" label="Loading data, please stand by..." />
+    </div>
+  ) : (
     <Container className="">
-      <div className="flex flex-col items-center justify-center w-full">
+      <div className="flex w-full flex-col items-center justify-center">
         <div className="font-geist mb-[5px] flex h-fit w-full flex-col items-center justify-center">
           <form
             onSubmit={formik.handleSubmit}
-            className="flex items-center justify-center w-full"
+            className="flex w-full items-center justify-center"
           >
             <CompaniesSearchBar formik={formik} />
           </form>
@@ -176,10 +184,8 @@ export default function AllCompanies() {
                 {pagination && <CompaniesPagination {...pagination} />}
               </>
             ) : (
-              <div className="flex items-center justify-center w-full h-40">
-                <p className="text-lg font-medium text-gray-500">
-                  No companies found
-                </p>
+              <div className="py-40 text-center">
+                <p>No companies found</p>
               </div>
             )}
           </div>

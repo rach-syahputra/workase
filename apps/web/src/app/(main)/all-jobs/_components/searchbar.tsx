@@ -10,10 +10,6 @@ import { useFormik } from 'formik';
 
 import { useSearchJob } from '@/context/search-job-context';
 import { useRouter, useSearchParams } from 'next/navigation';
-interface SearchBarProps {
-  onSearchChange: (searchValues: { [key: string]: string }) => void;
-}
-
 const FilterSchema = Yup.object().shape({
   title: Yup.string()
     .trim()
@@ -103,8 +99,8 @@ export function SearchBar() {
   const formik = useFormik({
     initialValues,
     validationSchema: FilterSchema,
-    onSubmit: (values) => {
-      fetchJobs({
+    onSubmit: async (values) => {
+      await fetchJobs({
         ...values,
         dateFilter: dateFilterParam as any,
         startDate: dateFromParams ? new Date(dateFromParams) : null,

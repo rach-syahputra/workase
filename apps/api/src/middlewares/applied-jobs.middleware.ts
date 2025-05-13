@@ -1,8 +1,8 @@
-import cloudinary from '@/helpers/cloudinary';
-import { ResponseError } from '@/helpers/error';
-import { UserRequest } from '@/interfaces/middleware.interface';
-import applicationsFilterSchema from '@/validations/applications.validation';
-import applyJobSchema from '@/validations/apply-job.validation';
+import cloudinary from '../helpers/cloudinary';
+import { ResponseError } from '../helpers/error';
+import { UserRequest } from '../interfaces/middleware.interface';
+import applicationsFilterSchema from '../validations/applications.validation';
+import applyJobSchema from '../validations/apply-job.validation';
 import { NextFunction, Response } from 'express';
 
 const validateApplyJobInput = async (

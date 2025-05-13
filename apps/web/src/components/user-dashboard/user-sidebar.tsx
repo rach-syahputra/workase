@@ -59,6 +59,11 @@ const UserSidebar = ({ className }: UserSidebarProps) => {
         url: '/dashboard/applied-jobs',
         icon: BriefcaseBusiness,
       },
+      {
+        title: 'Saved Jobs',
+        url: '/dashboard/saved-jobs',
+        icon: Bookmark,
+      },
     ];
 
     if (
@@ -71,11 +76,6 @@ const UserSidebar = ({ className }: UserSidebarProps) => {
           title: 'Assessment',
           url: '/dashboard/assessments',
           icon: NotepadText,
-        },
-        {
-          title: 'Saved Jobs',
-          url: '/dashboard/saved-jobs',
-          icon: Bookmark,
         },
       ];
     }

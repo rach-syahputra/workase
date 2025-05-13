@@ -7,13 +7,10 @@ import userAndCompanyResetPasswordSchema from '../validations/user-and-company-r
 import companyProfileUpdateSchema from '../validations/company-profile-update.validation';
 import prisma from '../prisma';
 import { Prisma } from '@prisma/client';
-<<<<<<< HEAD
 import { CompanyRequest } from '../interfaces/middleware.interface';
-=======
-import { CompanyRequest } from '@/interfaces/middleware.interface';
-import companiesFilterSchema from '@/validations/company.validation';
-import companyJobsFilterSchema from '@/validations/company-jobs.validation';
->>>>>>> 178cd18 (feat: complete all core features for initial release)
+import companiesFilterSchema from '../validations/company.validation';
+import companyJobsFilterSchema from '../validations/company-jobs.validation';
+
 const validateCompanyRegistration = async (
   req: Request,
   res: Response,

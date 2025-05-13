@@ -47,7 +47,7 @@ export default function CompaniesCard({
   return (
     <div className="relative group">
       <Link
-        href={`/company/${slug}`}
+        href={`/companies/${slug}`}
         className="border-primary-background-gray block rounded-md border shadow-[0_8px_32px_rgba(0,0,0,0.04)] transition-all duration-300 ease-in-out hover:scale-[1.01] hover:border hover:border-blue-500/50 hover:shadow-[0_4px_20px_rgba(0,0,0,0.08)] md:border-0"
       >
         <Card className="relative group">

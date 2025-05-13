@@ -1,6 +1,6 @@
-import savedJobsController from '@/controllers/saved-jobs.controller';
-import { verifyUser } from '@/middlewares/auth.middleware';
-import validateSavedJobsFilter from '@/middlewares/saved-jobs.middleware';
+import savedJobsController from '../controllers/saved-jobs.controller';
+import { verifyUser } from '../middlewares/auth.middleware';
+import validateSavedJobsFilter from '../middlewares/saved-jobs.middleware';
 import { Router } from 'express';
 
 export const savedJobsRouter = () => {

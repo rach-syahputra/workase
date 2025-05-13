@@ -1,6 +1,6 @@
-import { UserRequest } from '@/interfaces/middleware.interface';
-import applyJobRepository from '@/repositories/job-applications/apply-job.repository';
-import jobApplicationsRepository from '@/repositories/job-applications/get-job-applications.repository';
+import { UserRequest } from '../interfaces/middleware.interface';
+import applyJobRepository from '../repositories/job-applications/apply-job.repository';
+import jobApplicationsRepository from '../repositories/job-applications/get-job-applications.repository';
 
 class jobAplicationsService {
   async applyJob(req: UserRequest) {

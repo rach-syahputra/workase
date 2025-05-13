@@ -189,7 +189,7 @@ class CompaniesController {
 
   async getCompanyJobs(req: Request, res: Response, next: NextFunction) {
     try {
-      const result = await companiesService.getCompanyJobs(req);
+      const result = await companiesService.getCompanyJobs(req as any);
       ApiResponse({
         res,
         statusCode: 200,

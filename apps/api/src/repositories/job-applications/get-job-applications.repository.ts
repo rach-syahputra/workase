@@ -1,5 +1,5 @@
-import { UserRequest } from '@/interfaces/middleware.interface';
-import prisma from '@/prisma';
+import { UserRequest } from '../../interfaces/middleware.interface';
+import prisma from '../../prisma';
 
 class jobApplicationsRepository {
   static async getJobApplications(req: UserRequest) {

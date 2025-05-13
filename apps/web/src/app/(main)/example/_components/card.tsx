@@ -54,10 +54,19 @@ const JobCard = ({
     // limit area from the event
     e.preventDefault();
     e.stopPropagation();
-    if (session?.user?.accessToken === undefined) {
+    if (
+      session?.user?.accessToken === undefined ||
+      session.user.role !== 'USER'
+    ) {
       toast({
-        title: 'Login Required',
-        description: 'You need to login before saving a job',
+        title:
+          session?.user?.role !== 'USER'
+            ? 'Login as User Required'
+            : 'Login Required',
+        description:
+          session?.user?.role !== 'USER'
+            ? 'You need to login as user before saving a job'
+            : 'You need to login before saving a job',
         variant: 'destructive',
       });
       return;
@@ -100,8 +109,8 @@ const JobCard = ({
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(' ');
   return (
-    <div className="group relative">
-      <div className="absolute right-4 top-2 z-10">
+    <div className="relative group">
+      <div className="absolute z-10 right-4 top-2">
         <DialogApplyJob
           jobId={id}
           className="hover:text-primary-blue font-geist text-primary-blue z-10 border-none p-[5px] text-sm font-semibold opacity-90 shadow-white transition hover:bg-white hover:shadow-white group-hover:opacity-100"
@@ -109,10 +118,10 @@ const JobCard = ({
         />
       </div>
       <Link
-        href={`/job/${slug}`}
+        href={`/jobs/${slug}`}
         className="border-primary-background-gray block rounded-md border shadow-[0_8px_32px_rgba(0,0,0,0.04)] transition-all duration-300 ease-in-out hover:scale-[1.01] hover:border hover:border-blue-500/50 hover:shadow-[0_4px_20px_rgba(0,0,0,0.08)] md:border-0"
       >
-        <Card className="group relative">
+        <Card className="relative group">
           <CardHeader className="w-[100%] min-w-[500px] gap-1.5">
             <div className="flex items-center justify-between">
               <CardTitle className="font-bold">{title}</CardTitle>
@@ -130,7 +139,7 @@ const JobCard = ({
                 alt="Company logo"
                 width={100}
                 height={100}
-                className="aspect-square w-8 rounded-full"
+                className="w-8 rounded-full aspect-square"
               />
               <div className="flex flex-col font-medium">
                 <Link
@@ -146,17 +155,17 @@ const JobCard = ({
           </CardContent>
           <CardFooter className="flex flex-col justify-center gap-3 pb-5">
             <Separator />
-            <div className="font-geist flex w-full items-center justify-between gap-4 font-medium">
+            <div className="flex items-center justify-between w-full gap-4 font-medium font-geist">
               <div className="flex items-center gap-1">
                 <WiTime2 className="text-primary-gray" />
                 <span className="text-[14px] font-thin">Posted at</span>
-                <span className="text-primary-gray text-sm">
+                <span className="text-sm text-primary-gray">
                   {formatRelativeTime(createdAt || '')}
                 </span>
               </div>
               <button
                 onClick={handleSave}
-                className="cursor-pointer border-none bg-transparent p-0"
+                className="p-0 bg-transparent border-none cursor-pointer"
               >
                 <Icon
                   icon={saved ? solidBookmark : regularBookmark}

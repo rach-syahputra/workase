@@ -1,5 +1,5 @@
-import { UserRequest } from '@/interfaces/middleware.interface';
-import { savedJobsFilterSchema } from '@/validations/saved-jobs.validation';
+import { UserRequest } from '../interfaces/middleware.interface';
+import { savedJobsFilterSchema } from '../validations/saved-jobs.validation';
 import { NextFunction, Response } from 'express';
 
 const validateSavedJobsFilter = async (
