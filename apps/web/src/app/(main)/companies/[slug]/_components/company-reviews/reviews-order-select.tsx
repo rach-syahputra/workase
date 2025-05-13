@@ -1,7 +1,7 @@
 'use client';
 
 import { OrderType } from '@/lib/interfaces/api-request/filter';
-import { useSavedReviewsContext } from '@/context/saved-reviews-context';
+import { useCompanyReviewsContext } from '@/context/company-reviews-context';
 import {
   Select,
   SelectContent,
@@ -13,11 +13,13 @@ import {
 } from '@/components/shadcn-ui/select';
 
 const ReviewsOrderSelect = () => {
-  const { order, setOrder, firstRenderRef } = useSavedReviewsContext();
+  const { firstRenderRef, renderWithQ, order, setOrder } =
+    useCompanyReviewsContext();
 
   const handleOrderChange = (value: OrderType) => {
     firstRenderRef.current = false;
-    setOrder(value as OrderType);
+    renderWithQ.current = true;
+    setOrder(value);
   };
 
   const ORDER_ITEMS = [

@@ -36,24 +36,28 @@ const CompanyReviewCard = ({
       )}
     >
       <div className="flex flex-row items-start justify-between">
-        <Link
-          href={`/companies/${review.companyId}`}
-          className="flex items-center justify-center gap-2 p-4"
-        >
-          <Image
-            src={review.companyLogoUrl}
-            alt={review.companyName}
-            width={200}
-            height={200}
-            className="w-9 rounded-sm"
-          />
-          <div className="flex flex-col">
-            <h3 className="text-sm font-medium">{review.companyName}</h3>
-            <span className="text-primary-gray text-xs">
-              {formatRelativeTime(review.createdAt)}
-            </span>
-          </div>
-        </Link>
+        {review.companyLogoUrl ? (
+          <Link
+            href={`/companies/${review.companySlug}`}
+            className="flex items-center justify-center gap-2 p-4"
+          >
+            <Image
+              src={review.companyLogoUrl}
+              alt={review.companyName}
+              width={200}
+              height={200}
+              className="w-9 rounded-sm"
+            />
+            <div className="flex flex-col">
+              <h3 className="text-sm font-medium">{review.companyName}</h3>
+              <span className="text-primary-gray text-xs">
+                {formatRelativeTime(review.createdAt)}
+              </span>
+            </div>
+          </Link>
+        ) : (
+          <div className="aspect-square w-5 rounded-md bg-gray-200"></div>
+        )}
         <div className="flex items-center">
           <span className="text-primary-gray text-xs font-medium">
             {review.savedCount}

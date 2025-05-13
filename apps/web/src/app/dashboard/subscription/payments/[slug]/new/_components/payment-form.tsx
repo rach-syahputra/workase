@@ -41,7 +41,7 @@ const PaymentForm = ({ payment }: PaymentFormProps) => {
       const response = await uploadSubcsriptionPaymentProof(values);
 
       if (response.success) {
-        router.push('/dashboard/subscription');
+        router.push('/dashboard/subscription?tab=billing');
 
         resetForm();
       } else {

@@ -107,14 +107,7 @@ const DeveloperTransactionProvider = ({
   useEffect(() => {
     fetchGetSubscriptions();
     initiateColumns();
-  }, [
-    page,
-    status,
-    createdAtOrder,
-    limit,
-    fetchGetSubscriptions,
-    initiateColumns,
-  ]);
+  }, [fetchGetSubscriptions, initiateColumns]);
 
   return (
     <DeveloperTransactionContext.Provider

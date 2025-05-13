@@ -19,7 +19,8 @@ const BottomNavigationProdiver = ({
   const [show, setShow] = useState<boolean>(false);
 
   useEffect(() => {
-    const match = BOTTOM_NAVIGATION_HREFS.includes(pathname);
+    const match =
+      BOTTOM_NAVIGATION_HREFS.includes(pathname) || pathname.startsWith('/w/');
     setShow(!!match);
   }, [pathname]);
 

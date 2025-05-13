@@ -7,7 +7,6 @@ import {
   CheckPaymentExpirationsRequest,
   GetSubscriptionPaymentBySlugRequest,
   GetSubscriptionsRequest,
-  GetSubscriptionTransactionStatusRequest,
   UpdateSubscriptionPaymentServiceRequest,
   VerifySubscriptionOwnerRequest,
 } from '../interfaces/subscription.interface';
@@ -55,6 +54,7 @@ class SubscriptionService {
     }
 
     return await this.subscriptionPaymentRepository.updateSubscriptionPayment({
+      subscriptionId: req.subscriptionId,
       subscriptionPaymentId: req.subscriptionPaymentId,
       paymentProof: paymentProof?.secure_url,
       approvedBy: req.approvedBy,

@@ -12,4 +12,5 @@ export const BOTTOM_NAVIGATION_HREFS = [
   '/companies/reviews',
   '/companies/reviews/saved',
   '/companies/reviews/new',
+  '/w',
 ];

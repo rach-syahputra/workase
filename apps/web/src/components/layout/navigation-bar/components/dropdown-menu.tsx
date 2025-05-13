@@ -9,8 +9,9 @@ import {
 import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { CiLogout } from 'react-icons/ci';
 import { IoPerson } from 'react-icons/io5';
-import { MdDashboard } from 'react-icons/md';
+import { MdDashboard, MdLogout } from 'react-icons/md';
 
 export default function DropdownMenuDemo() {
   const { data: session } = useSession();
@@ -27,7 +28,7 @@ export default function DropdownMenuDemo() {
           alt="avatar"
           width={40}
           height={40}
-          className="object-cover border rounded-full aspect-square"
+          className="aspect-square rounded-full border object-cover"
         />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="mr-5">
@@ -48,12 +49,12 @@ export default function DropdownMenuDemo() {
         </DropdownMenuItem>
         <DropdownMenuItem className="flex items-center gap-3">
           <MdDashboard />
-          <Link href="/dashboard/subscription" className="text-left">
+          <Link href="/dashboard/applied-jobs" className="text-left">
             Dashboard
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem className="flex items-center gap-3">
-          <IoPerson />
+          <MdLogout />
           <button onClick={() => signOut()} className="text-left">
             Log Out
           </button>

@@ -1,5 +1,5 @@
 'use client';
-import JobCard from '@/app/(main)/example/_components/card';
+
 import Container from '@/components/layout/container';
 import { Job } from '@/context/search-job-context';
 import { axiosPublic } from '@/lib/axios';
@@ -11,8 +11,10 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { FiPhone } from 'react-icons/fi';
 import { HiOutlineMail } from 'react-icons/hi';
-import { CompanyJobsPagination } from './_components/company-jobs-pagination';
 import AppLoading from '@/components/ui/app-loading';
+import CompanyTab from './_components/company-tab';
+import { CompanyReviewsProvider } from '@/context/company-reviews-context';
+
 interface CompanyDetail {
   id: string;
   slug: string;
@@ -131,68 +133,14 @@ export default function CompanyPage() {
             </div>
           </div>
 
-          <div className="mt-3 w-full border-b border-gray-300">
-            <nav className="flex">
-              <button
-                onClick={() => setActive('overview')}
-                className={`px-7 py-4 font-medium ${active === 'overview' ? 'border-b-2 border-blue-500 text-blue-600' : 'text-gray-500 hover:border-b-2 hover:border-gray-300 hover:text-gray-700'}`}
-              >
-                Overview
-              </button>
-              <button
-                onClick={() => setActive('job posted')}
-                className={`px-7 py-4 font-medium ${active === 'job posted' ? 'border-b-2 border-blue-500 text-blue-600' : 'text-gray-500 hover:border-b-2 hover:border-gray-300 hover:text-gray-700'}`}
-              >
-                Job Posted
-              </button>
-            </nav>
-          </div>
-
-          <div className="">
-            {active == 'overview' ? (
-              <div
-                className="py-4"
-                dangerouslySetInnerHTML={{
-                  __html: data?.description || '',
-                }}
-              />
-            ) : (
-              <div className="flex justify-center py-4">
-                <div className="w-full max-w-[90%] pt-[12px] md:pt-0 lg:max-w-[90%]">
-                  {jobs.length > 0 && (
-                    <>
-                      <div className="my-4">
-                        {jobs.length > 0 && (
-                          <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                            {jobs.map((job) => (
-                              <JobCard
-                                id={job.id}
-                                slug={job.slug}
-                                description={job.description}
-                                title={job.title}
-                                location={job.company.location}
-                                category={job.category}
-                                companyName={job.company.name}
-                                createdAt={job.createdAt}
-                                key={job.id}
-                                logoUrl={job.company.logoUrl}
-                              />
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                      {pagination.totalPage > 1 && (
-                        <CompanyJobsPagination
-                          {...pagination}
-                          onPageChange={handlePageChange}
-                        />
-                      )}
-                    </>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
+          <CompanyReviewsProvider slug={title}>
+            <CompanyTab
+              companyDescription={data?.description || ''}
+              companyJobs={jobs || []}
+              companyPagination={pagination}
+              handleJobPageChange={handlePageChange}
+            />
+          </CompanyReviewsProvider>
         </div>
       </div>
     </Container>

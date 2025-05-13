@@ -21,10 +21,6 @@ const BrowseTransactions = () => {
     fetchGetSubscriptions,
   } = useDeveloperTransactionContext();
 
-  useEffect(() => {
-    fetchGetSubscriptions();
-  }, [fetchGetSubscriptions]);
-
   return (
     <Card className="flex w-full flex-col items-start justify-center gap-2 max-md:border-none max-md:shadow-none md:p-5">
       <h2 className="heading-4 font-semibold">Browse Transaction</h2>
