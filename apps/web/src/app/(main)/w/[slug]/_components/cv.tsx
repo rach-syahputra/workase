@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Clock, Pencil, Plus } from 'lucide-react';
 import Link from 'next/link';
@@ -24,12 +24,16 @@ const Cv = () => {
   const { appToast } = useAppToast();
   const { toast } = useToast();
   const { user } = useUserDetailContext();
-  const { userStats } = useUserStatsContext();
+  const { userStats, setUpdate } = useUserStatsContext();
   const isOwner = session?.user?.slug === user?.slug;
   const isSubscriber =
     userStats?.subscription.plan === 'PROFESSIONAL' ||
     userStats?.subscription.plan === 'STANDARD';
   const [isAddingCv, setIsAddingCv] = useState<boolean>(false);
+
+  useEffect(() => {
+    setUpdate(true);
+  }, [setUpdate]);
 
   const handleCreateCv = async () => {
     setIsAddingCv(true);
