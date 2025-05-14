@@ -45,7 +45,7 @@ export default function ForgotPassword(props: IForgotPasswordProps) {
   return (
     <div className="font-geist md:w-[500px]">
       <div className="flex flex-col justify-center p-1 pb-2">
-        <div className="flex items-center justify-center gap-3 p-3 text-center text-[26px] font-medium">
+        <div className="flex items-center justify-center gap-3 p-3 text-center text-[23.1px] font-medium sm:text-[26px]">
           {' '}
           <IoPerson className="w-4 scale-150" />
           Forgot Password Form

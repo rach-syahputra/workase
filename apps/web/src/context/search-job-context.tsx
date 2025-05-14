@@ -101,10 +101,6 @@ export function SearchJobProvider({ children }: { children: React.ReactNode }) {
           sort: sortOrder,
           ...filter,
         };
-
-        console.log('ini params', params);
-        console.log('ini filter', filter);
-
         const response = await axiosPublic.get(`/jobs`, {
           params,
         });

@@ -3,12 +3,13 @@ import { Search } from 'lucide-react';
 import { Building2 } from 'lucide-react';
 import { FaLocationDot } from 'react-icons/fa6';
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { Button } from '@/components/shadcn-ui/button';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { useSearchJob } from '@/context/search-job-context';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { set } from 'cypress/types/lodash';
 
 const FilterSchema = Yup.object().shape({
   title: Yup.string()

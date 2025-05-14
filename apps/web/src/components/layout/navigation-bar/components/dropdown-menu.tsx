@@ -28,7 +28,7 @@ export default function DropdownMenuDemo() {
           alt="avatar"
           width={40}
           height={40}
-          className="aspect-square rounded-full border object-cover"
+          className="object-cover border rounded-full aspect-square"
         />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="mr-5">

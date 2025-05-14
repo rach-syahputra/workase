@@ -108,10 +108,12 @@ export default function Sidebar() {
               <Link
                 key={item}
                 href={
-                  item === 'Profile'
-                    ? `/profile-management`
+                  item === 'Profile Management'
+                    ? session?.user?.role === 'USER'
+                      ? `/w/${session?.user?.slug}`
+                      : `/profile-management`
                     : item === 'Dashboard'
-                      ? '/dashboard'
+                      ? '/dashboard/applied-jobs'
                       : '/'
                 }
                 onClick={item === 'Logout' ? () => signOut() : undefined}

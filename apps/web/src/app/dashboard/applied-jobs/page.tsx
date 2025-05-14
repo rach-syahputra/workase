@@ -115,11 +115,11 @@ export default function ApplyListAndDetail(props: IApplyListAndDetailProps) {
           Look your applied jobs list and detail
         </div>
       </div>
-      <div className="my-4 w-full rounded-md border bg-white px-4 pb-[30px] pt-2 md:py-4 md:pb-[30px]">
+      <div className="my-3 w-full rounded-md border bg-white px-4 pb-[30px] pt-2 md:py-4 md:pb-[30px]">
         <div className="text-[22px] font-bold">Applied Jobs List</div>
 
         {/* Filter Control */}
-        <div className="mb-3 flex flex-col gap-2 pt-2 md:flex-row">
+        <div className="flex flex-col gap-2 pt-2 mb-3 md:flex-row">
           <div className="w-full md:w-1/3">
             <Input
               placeholder="Search by title"
