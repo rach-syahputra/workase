@@ -8,12 +8,28 @@ import { ASSESSMENT_SESSION_KEY } from '@/lib/constants/assessment';
 import { removeFromLocalStorage } from '@/hooks/use-local-storage';
 import { useAssessmentSessionContext } from '@/context/assessment-session-context';
 import { Button } from '@/components/shadcn-ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/shadcn-ui/dialog';
 
 const AssessmentSessionSubmitButton = () => {
   const router = useRouter();
-  const { getAssessmentSessionFromLocalStorage, userAssessment } =
+  const { getAssessmentSessionFromLocalStorage, userAssessment, progress } =
     useAssessmentSessionContext();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
+
+  const handleSubmitModal = () => {
+    if (progress < 100) {
+      return setOpen(true);
+    }
+
+    submitAssessment();
+  };
 
   const submitAssessment = async () => {
     setIsLoading(true);
@@ -42,14 +58,45 @@ const AssessmentSessionSubmitButton = () => {
   };
 
   return (
-    <Button
-      onClick={submitAssessment}
-      variant="dark"
-      disabled={isLoading}
-      className="w-full"
-    >
-      Submit
-    </Button>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <Button
+        onClick={handleSubmitModal}
+        variant="dark"
+        disabled={isLoading}
+        className="w-full"
+      >
+        Submit
+      </Button>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle className="text-red-500">
+            Are you absolutely sure?
+          </DialogTitle>
+          <DialogDescription>
+            You haven&rsquo;t completed 100% of the assessment yet.
+            There&rsquo;s still time to review or answer more questions. Are you
+            sure you want to submit now?
+          </DialogDescription>
+        </DialogHeader>
+        <div className="mt-4 flex w-full items-center justify-center gap-2">
+          <Button
+            variant="outline"
+            disabled={isLoading}
+            onClick={() => setOpen(false)}
+            className="w-full"
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={submitAssessment}
+            disabled={isLoading}
+            className="w-full"
+          >
+            Submit
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 };
 

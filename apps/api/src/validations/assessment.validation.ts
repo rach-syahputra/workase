@@ -23,7 +23,7 @@ export const addAssessmentSchema = yup
       .string()
       .typeError('Short description must be a string')
       .required('Short description is required')
-      .max(150, 'Short description must be less than 50 characters'),
+      .max(150, 'Short description must be less than 150 characters'),
   })
   .strict(true);
 
