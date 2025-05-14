@@ -18,8 +18,8 @@ export const generateMetadata = async ({
 }: ProfilePageProps): Promise<Metadata> => {
   const slug = (await params).slug;
   const response = await getUserMetadata({ slug });
-  const profilePhoto = response.data?.user.profilePhoto;
-  const summary = response.data?.user.summary;
+  const profilePhoto = response?.data?.user.profilePhoto;
+  const summary = response?.data?.user.summary;
 
   return {
     title: `${slug} — Workase`,
