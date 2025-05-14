@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     title: 'Workase — Exclusive Job Listing',
     description:
       'Find your dream job with Workase—a powerful job board that connects top talent with leading companies. Build professional CVs, earn certifications, browse job listings, and apply with ease to take the next step in your career.',
-    url: CLIENT_BASE_URL,
+
     type: 'website',
     siteName: 'Workase Job Board',
     images: [

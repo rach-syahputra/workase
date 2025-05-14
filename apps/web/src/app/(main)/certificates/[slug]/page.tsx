@@ -1,18 +1,17 @@
 import { Metadata } from 'next';
 
-import { CLIENT_BASE_URL } from '@/lib/constants/constants';
 import { getCertificateMetadata } from '@/lib/apis/certificate';
 import { CertificateDetailProvider } from '@/context/certificate-detail-context';
 import PageContent from './_components/page-content';
 
 interface CertificateDetailPageProps {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }
 
 export const generateMetadata = async ({
   params,
 }: CertificateDetailPageProps): Promise<Metadata> => {
-  const slug = (await params).slug;
+  const slug = params.slug;
   const response = await getCertificateMetadata({ slug });
   const certificate = response.data?.certificate;
 
@@ -22,7 +21,7 @@ export const generateMetadata = async ({
     openGraph: {
       title: 'Certificate — Workase',
       description: `View a verified certificate earned by ${certificate?.userSlug || 'a user'} on Workase. This credential highlights their ${certificate?.skillTitle || 'professional'} skill and confirms successful completion of an official assessment.`,
-      url: CLIENT_BASE_URL,
+      url: `https://workase.vercel.app/certificates/${slug}`,
       type: 'website',
       siteName: 'Workase Job Board',
       images: [
@@ -35,7 +34,9 @@ export const generateMetadata = async ({
         },
       ],
     },
-    metadataBase: new URL(CLIENT_BASE_URL),
+    alternates: {
+      canonical: `https://workase.vercel.app/certificates/${slug}`,
+    },
   };
 };
 

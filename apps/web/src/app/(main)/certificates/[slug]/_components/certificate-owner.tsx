@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
-import { ChevronRight } from 'lucide-react';
 import { faLinkedin } from '@fortawesome/free-brands-svg-icons';
 
 import { cn, formatCertificateDate } from '@/lib/utils';
@@ -31,6 +30,9 @@ const CertificateOwner = ({ className }: CertificateOwnerProps) => {
   const session = useSession();
   const { certificate, owner } = useCertificateDetailContext();
   const isOwner = session.data?.user?.id === owner?.id;
+  const certificateUrl = encodeURIComponent(
+    `https://workase.vercel.app/certificates/${certificate?.slug}`,
+  );
 
   return (
     <div
@@ -85,8 +87,9 @@ const CertificateOwner = ({ className }: CertificateOwnerProps) => {
             className="flex w-full items-center justify-center gap-2"
           >
             <Link
-              href={`https://www.linkedin.com/feed/?linkOrigin=LI_BADGE&shareActive=true&shareUrl=https://workase.vercel.app/certificates/${certificate?.slug}`}
-              aria-label="Linkedin feed"
+              href={`https://www.linkedin.com/sharing/share-offsite/?url=${certificateUrl}`}
+              aria-label="Share certificate to Linkedin feed"
+              rel="noopener noreferrer"
               target="_blank"
             >
               <Icon
