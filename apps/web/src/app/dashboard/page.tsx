@@ -1,5 +1,5 @@
-import UserDashboardContainer from '@/components/user-dashboard/user-dashboard-container';
+import { redirect } from 'next/navigation';
 
 export default function DashboardPage() {
-  return <UserDashboardContainer>User Dashboard</UserDashboardContainer>;
+  redirect('/dashboard/applied-jobs');
 }

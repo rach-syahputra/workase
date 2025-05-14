@@ -31,8 +31,6 @@ class GetCompanyRatingRepository {
         },
       });
 
-      console.log('total reviews: ', totalReviews);
-
       const ratings = await trx.companyReviewRatings.findMany({
         where: {
           companyReview: {
@@ -40,8 +38,6 @@ class GetCompanyRatingRepository {
           },
         },
       });
-
-      console.log('ratings: ', ratings);
 
       return {
         rating: {
