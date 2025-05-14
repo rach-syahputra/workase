@@ -58,7 +58,7 @@ const Profile = () => {
             alt="Profile Photo"
             width={200}
             height={200}
-            className="aspect-square w-28 rounded-full bg-gray-200"
+            className="aspect-square w-28 rounded-full bg-gray-200 object-cover"
           />
         ) : (
           <div className="aspect-square w-28 rounded-full bg-gray-200"></div>

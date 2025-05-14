@@ -37,7 +37,7 @@ export default async function UserDashboardLayout({
   children: React.ReactNode;
 }) {
   const session = await auth();
-  if (!session?.user?.role) {
+  if (session?.user?.role !== 'USER') {
     redirect('/');
   }
 

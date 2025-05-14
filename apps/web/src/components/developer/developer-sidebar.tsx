@@ -16,7 +16,6 @@ import {
   SidebarMenuLink,
 } from '../ui/sidebar';
 import { Separator } from '../shadcn-ui/separator';
-import { useEffect } from 'react';
 
 interface DeveloperSidebarProps {
   className?: string;
@@ -25,10 +24,6 @@ interface DeveloperSidebarProps {
 const DeveloperSidebar = ({ className }: DeveloperSidebarProps) => {
   const session = useSession();
   const pathname = usePathname();
-
-  useEffect(() => {
-    console.log('session on developer sidebar: ', session);
-  }, [session]);
 
   return (
     <Sidebar className={cn('fixed left-0 top-0', className)}>

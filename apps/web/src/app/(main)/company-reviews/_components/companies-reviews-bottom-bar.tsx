@@ -19,7 +19,7 @@ const CompaniesReviewsBottomBar = () => {
           <MessageCircle size={16} />
         </>
       ),
-      href: '/companies/reviews',
+      href: '/company-reviews',
     },
   ];
 
@@ -33,7 +33,7 @@ const CompaniesReviewsBottomBar = () => {
           <Bookmark size={16} />
         </>
       ),
-      href: '/companies/reviews/saved',
+      href: '/company-reviews/saved',
     });
   }
 
@@ -51,7 +51,7 @@ const CompaniesReviewsBottomBar = () => {
           <MessageCirclePlus size={16} />
         </>
       ),
-      href: '/companies/reviews/new',
+      href: '/company-reviews/new',
     });
   }
 

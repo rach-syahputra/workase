@@ -55,7 +55,7 @@ const ProfileMenu = ({ className }: ProfileMenuProps) => {
             alt="Profile Photo"
             width={200}
             height={200}
-            className="aspect-square w-20 rounded-full bg-gray-200"
+            className="aspect-square w-20 rounded-full bg-gray-200 object-cover"
           />
         ) : (
           <div className="aspect-square w-20 rounded-full bg-gray-200"></div>
