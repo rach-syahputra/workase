@@ -11,7 +11,7 @@ import * as Yup from 'yup';
 import AppLoading from '@/components/ui/app-loading';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
-import { useUserStatsContext } from '@/context/user-stats-context';
+import Image from 'next/image';
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email().required(),
   password: Yup.string()
@@ -32,32 +32,36 @@ export default function Login(props: ILoginProps) {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('redirect');
   const message = searchParams.get('message');
-  const { setUpdate } = useUserStatsContext();
+  const [isLogin, setIsLogin] = useState(false);
   const [loading, setLoading] = useState(true);
   const initialValues: ILoginForm = {
     email: '',
     password: '',
   };
 
+  const handleGoogleSignIn = () => {
+    signIn('google-user', {
+      callbackUrl: callbackUrl || '/',
+    });
+  };
+
   const submitLogin = async (values: ILoginForm) => {
-    setLoading(true);
+    setIsLogin(true);
     const response = await signIn('user-login', {
       email: values.email,
       password: values.password,
       redirect: false,
       callbackUrl: callbackUrl || '/',
     });
-
     if (response?.error) {
-      setLoading(false);
       toast({
         title: 'Error',
         description: 'Login failed: Email or password was wrong',
         variant: 'destructive',
       });
+      setIsLogin(false);
     } else {
       router.push(callbackUrl || '/');
-      setUpdate(true);
     }
   };
 
@@ -124,6 +128,7 @@ export default function Login(props: ILoginProps) {
           <Button
             className="bg-primary-blue text-light my-auto h-[45px] w-full items-center justify-center rounded-lg text-[17px] font-medium text-white"
             type="submit"
+            disabled={isLogin}
           >
             Sign In
           </Button>
@@ -145,12 +150,14 @@ export default function Login(props: ILoginProps) {
       </div>
       <button
         className="flex h-[45px] w-full items-center rounded-lg border-[1px] border-gray-300 bg-white hover:bg-gray-50"
-        onClick={() => signIn('google-user')}
+        onClick={handleGoogleSignIn}
       >
         <div className="relative flex w-full items-center justify-center">
-          <img
+          <Image
+            width={50}
+            height={10}
             src="/Google.svg"
-            alt="google"
+            alt="Google Logo"
             className="absolute left-6 h-5 sm:static sm:px-3"
           />
           <center className="font-medium">Continue with Google</center>

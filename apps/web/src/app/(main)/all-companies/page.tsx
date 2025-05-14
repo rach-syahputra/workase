@@ -26,6 +26,7 @@ import CompaniesPagination from './_components/companies-pagination';
 import AppLoading from '@/components/ui/app-loading';
 import { AllCompaniesFilterSchema } from '@/validations/all-companies';
 import { useToast } from '@/hooks/use-toast';
+import { set } from 'cypress/types/lodash';
 
 export default function AllCompanies() {
   const router = useRouter();
@@ -34,6 +35,7 @@ export default function AllCompanies() {
   const [companies, setCompanies] = useState<IAllCompaniesProps[]>([]);
   const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>();
   const [loading, setLoading] = useState(true);
+  const [isFetch, setIsFetch] = useState(false);
   const [pagination, setPagination] = useState<Pagination>({
     currentPage: 1,
     totalPage: 1,
@@ -65,10 +67,11 @@ export default function AllCompanies() {
         setCompanies([]);
         toast({
           title: 'Error',
-          description: `Error fetching companies:${error}`,
+          description: `Error fetching companies, something went wrong`,
           variant: 'destructive',
         });
       }
+      setIsFetch(false);
       setLoading(false);
     },
     [toast],
@@ -98,16 +101,19 @@ export default function AllCompanies() {
     initialValues,
     validationSchema: AllCompaniesFilterSchema,
     onSubmit: (values) => {
+      setIsFetch(true);
       const searchValues = {
         ...values,
         page: 1,
       };
       applyFilters(searchValues);
+      setIsFetch(false);
     },
   });
   useEffect(() => {
     try {
-      setLoading(true);
+      setIsFetch(true);
+      // setLoading(true);
       const nameParam = searchParams.get('name') || '';
       const locationParam = searchParams.get('location') || '';
       const sortParam = searchParams.get('sort') || 'asc';
@@ -122,7 +128,7 @@ export default function AllCompanies() {
     } catch (error) {
       toast({
         title: 'Error',
-        description: `Error fetching companies:${error}`,
+        description: `Error fetching companies, something went wrong`,
         variant: 'destructive',
       });
     }
@@ -139,7 +145,7 @@ export default function AllCompanies() {
             onSubmit={formik.handleSubmit}
             className="flex w-full items-center justify-center"
           >
-            <CompaniesSearchBar formik={formik} />
+            <CompaniesSearchBar formik={formik} isFetch={isFetch} />
           </form>
         </div>
         <div className="font-geist mt-1 flex h-fit w-full max-w-[97%] flex-col items-center justify-center md:max-w-[90%] md:flex-row md:items-center md:justify-between">

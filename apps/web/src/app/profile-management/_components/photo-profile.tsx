@@ -6,6 +6,7 @@ import { Info } from 'lucide-react';
 import { Session } from 'next-auth';
 import { useSession } from 'next-auth/react';
 import { detectContentType } from 'next/dist/server/image-optimizer';
+import Image from 'next/image';
 import { title } from 'process';
 import { useRef, useState } from 'react';
 
@@ -106,7 +107,7 @@ export const ProfilePhoto = ({ photoProfile }: ProfilePhotoProps) => {
           if (error.response) {
             toast({
               title: 'Error',
-              description: `Upload failed: ${error.response.data.message || 'Please try again'}`,
+              description: `Upload failed. Something went wrong. Please try again`,
               variant: 'destructive',
             });
           } else if (error.request) {
@@ -119,7 +120,7 @@ export const ProfilePhoto = ({ photoProfile }: ProfilePhotoProps) => {
         } else {
           toast({
             title: 'Error',
-            description: `Error: ${(error as Error).message}`,
+            description: `Error, something went wrong`,
             variant: 'destructive',
           });
         }
@@ -135,7 +136,9 @@ export const ProfilePhoto = ({ photoProfile }: ProfilePhotoProps) => {
 
   return (
     <div className="flex flex-col items-center justify-center gap-2">
-      <img
+      <Image
+        width={120}
+        height={120}
         src={
           session?.user?.logoUrl ||
           session?.user?.profilePhoto ||

@@ -58,7 +58,7 @@ export default function SavedJobs() {
     } catch (err) {
       toast({
         title: 'Error',
-        description: `Error fetching saved jobs:${err}`,
+        description: `Error fetching saved jobs, something went wrong`,
         variant: 'destructive',
       });
     }
@@ -69,6 +69,7 @@ export default function SavedJobs() {
     sortField,
     sortOrder,
     activeFilter,
+    toast,
   ]);
 
   useEffect(() => {
@@ -107,7 +108,7 @@ export default function SavedJobs() {
     } catch (err) {
       toast({
         title: 'Error',
-        description: `Error delete saved jobs:${err}`,
+        description: `Error delete saved jobs, something went wrong`,
         variant: 'destructive',
       });
     }
@@ -140,7 +141,7 @@ export default function SavedJobs() {
         <div className="text-[22px] font-bold">Saved Jobs List</div>
 
         {/* Filter Control */}
-        <div className="flex flex-col gap-2 pt-2 mb-3 md:flex-row">
+        <div className="mb-3 flex flex-col gap-2 pt-2 md:flex-row">
           <div className="w-full md:w-1/3">
             <Input
               placeholder="Search by title"

@@ -14,9 +14,13 @@ import { IGetCompany } from '@/types/companies';
 
 interface CompaniesSearchBarProps {
   formik: ReturnType<typeof useFormik<IGetCompany>>;
+  isFetch: boolean;
 }
 
-export function CompaniesSearchBar({ formik }: CompaniesSearchBarProps) {
+export function CompaniesSearchBar({
+  formik,
+  isFetch,
+}: CompaniesSearchBarProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<string>('Company Name');
@@ -66,6 +70,7 @@ export function CompaniesSearchBar({ formik }: CompaniesSearchBarProps) {
                 ref={undefined}
                 type="submit"
                 className={`bg-primary-blue relative h-[44px] w-full px-5 text-[15px] font-medium md:h-[40px] md:w-[150px]`}
+                disabled={isFetch}
               >
                 {item}
               </Button>

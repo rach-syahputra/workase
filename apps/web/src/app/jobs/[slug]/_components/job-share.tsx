@@ -89,7 +89,7 @@ export function JobShareComponent({ job }: { job: JobDetail }) {
           } catch (e) {
             toast({
               title: 'Error',
-              description: `Error sharing:${e}`,
+              description: `Error sharing, something went wrong`,
               variant: 'destructive',
             });
           }
