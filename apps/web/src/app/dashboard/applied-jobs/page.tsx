@@ -65,7 +65,7 @@ export default function ApplyListAndDetail(props: IApplyListAndDetailProps) {
     } catch (err) {
       toast({
         title: 'Error',
-        description: `Error fetching jobs aplications:${err}`,
+        description: `Error fetching jobs aplications, something went wrong`,
         variant: 'destructive',
       });
     }
@@ -76,6 +76,7 @@ export default function ApplyListAndDetail(props: IApplyListAndDetailProps) {
     sortField,
     sortOrder,
     activeFilter,
+    toast,
   ]);
 
   useEffect(() => {
@@ -125,7 +126,7 @@ export default function ApplyListAndDetail(props: IApplyListAndDetailProps) {
         <div className="text-[22px] font-bold">Applied Jobs List</div>
 
         {/* Filter Control */}
-        <div className="flex flex-col gap-2 pt-2 mb-3 md:flex-row">
+        <div className="mb-3 flex flex-col gap-2 pt-2 md:flex-row">
           <div className="w-full md:w-1/3">
             <Input
               placeholder="Search by title"

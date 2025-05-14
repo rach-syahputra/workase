@@ -10,6 +10,7 @@ import { useFormik } from 'formik';
 
 import { useSearchJob } from '@/context/search-job-context';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { set } from 'cypress/types/lodash';
 const FilterSchema = Yup.object().shape({
   title: Yup.string()
     .trim()
@@ -38,6 +39,7 @@ export function SearchBar() {
   const [location, setLocation] = useState<string>('');
   const [page, setPage] = useState<number>(1);
   const { fetchJobs } = useSearchJob();
+  const [isFetch, setIsFetch] = useState(false);
   const search = [
     'Job Title',
     'Company Location',
@@ -100,6 +102,7 @@ export function SearchBar() {
     initialValues,
     validationSchema: FilterSchema,
     onSubmit: async (values) => {
+      setIsFetch(true);
       await fetchJobs({
         ...values,
         dateFilter: dateFilterParam as any,
@@ -117,7 +120,7 @@ export function SearchBar() {
         startDate: dateFromParams || '',
         endDate: dateToParams || '',
       }).toString();
-      router.push(`/all-jobs?${query}`);
+      setIsFetch(false);
     },
   });
 
@@ -175,6 +178,7 @@ export function SearchBar() {
                 ref={undefined}
                 type="submit"
                 className={`bg-primary-blue relative h-[44px] w-full px-5 text-[15px] font-medium md:h-[40px] md:w-[110px]`}
+                disabled={isFetch}
               >
                 {item}
               </Button>
