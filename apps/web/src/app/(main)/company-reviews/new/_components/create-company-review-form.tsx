@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
 
@@ -71,6 +71,10 @@ const CreateCompanyReviewForm = () => {
       }
     },
   });
+
+  useEffect(() => {
+    setJobTitle(userCurrentCompanies[0]?.jobTitle || '-');
+  }, [userCurrentCompanies]);
 
   return (
     <form onSubmit={formik.handleSubmit} className="flex flex-col gap-4 p-5">
