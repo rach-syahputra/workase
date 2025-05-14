@@ -11,11 +11,12 @@ import * as Yup from 'yup';
 import AppLoading from '@/components/ui/app-loading';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
+import { useUserStatsContext } from '@/context/user-stats-context';
 const LoginSchema = Yup.object().shape({
-  email: Yup.string().email().required(), 
+  email: Yup.string().email().required(),
   password: Yup.string()
     .required()
-    .min(8, 'Password must be at least 8 characters'), 
+    .min(8, 'Password must be at least 8 characters'),
 });
 
 interface ILoginForm {
@@ -27,10 +28,11 @@ export interface ILoginProps {}
 const signUpItem = ['User', 'Company'];
 export default function Login(props: ILoginProps) {
   const { toast } = useToast();
-  const router = useRouter(); 
+  const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('redirect');
   const message = searchParams.get('message');
+  const { setUpdate } = useUserStatsContext();
   const [loading, setLoading] = useState(true);
   const initialValues: ILoginForm = {
     email: '',
@@ -41,16 +43,21 @@ export default function Login(props: ILoginProps) {
     setLoading(true);
     const response = await signIn('user-login', {
       email: values.email,
-      password: values.password, 
+      password: values.password,
       redirect: false,
-      callbackUrl: callbackUrl || '/', 
+      callbackUrl: callbackUrl || '/',
     });
 
     if (response?.error) {
       setLoading(false);
-      toast({ title: 'Error', description: 'Login failed: Email or password was wrong',variant: 'destructive' });
+      toast({
+        title: 'Error',
+        description: 'Login failed: Email or password was wrong',
+        variant: 'destructive',
+      });
     } else {
-      router.push(callbackUrl || '/'); 
+      router.push(callbackUrl || '/');
+      setUpdate(true);
     }
   };
 
@@ -63,14 +70,14 @@ export default function Login(props: ILoginProps) {
   });
   useEffect(() => {
     if (message) {
-      toast({description: message});
+      toast({ description: message });
     }
   }, [message, toast]);
   const timer = setTimeout(() => {
     setLoading(false);
   }, 1000);
   return loading ? (
-    <div className="fixed top-0 left-0 flex items-center justify-center flex-1 w-screen min-h-screen bg-background">
+    <div className="bg-background fixed left-0 top-0 flex min-h-screen w-screen flex-1 items-center justify-center">
       <AppLoading size="md" label="Loading data, please stand by..." />
     </div>
   ) : (
@@ -140,23 +147,23 @@ export default function Login(props: ILoginProps) {
         className="flex h-[45px] w-full items-center rounded-lg border-[1px] border-gray-300 bg-white hover:bg-gray-50"
         onClick={() => signIn('google-user')}
       >
-        <div className="relative flex items-center justify-center w-full">
+        <div className="relative flex w-full items-center justify-center">
           <img
             src="/Google.svg"
             alt="google"
-            className="absolute h-5 left-6 sm:static sm:px-3"
+            className="absolute left-6 h-5 sm:static sm:px-3"
           />
           <center className="font-medium">Continue with Google</center>
         </div>
       </button>
-      <div className="flex gap-2 mt-4 md:mt-5">
+      <div className="mt-4 flex gap-2 md:mt-5">
         {signUpItem.map((item) => (
           <Link
             key={item}
             href={`/${item == 'User' ? 'users' : 'companies'}/register`}
             className="flex h-[45px] w-full items-center rounded-lg border-[1px] border-gray-300 bg-white hover:bg-gray-50"
           >
-            <button className="relative flex items-center justify-center w-full">
+            <button className="relative flex w-full items-center justify-center">
               <center
                 className={`${item == 'User' ? 'text-primary-blue' : 'text-[#9A6713]'} font-light`}
               >

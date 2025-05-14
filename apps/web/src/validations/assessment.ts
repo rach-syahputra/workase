@@ -1,28 +1,33 @@
 import { IGeneratedQuestion } from '@/lib/interfaces/assessment-question';
 import * as yup from 'yup';
 
-export const addAssessmentSchema = yup.object().shape({
-  skillId: yup
-    .string()
-    .typeError('Skill ID must be a text')
-    .required('Skill ID is required'),
-  image: yup
-    .mixed<File>()
-    .required('Image is required')
-    .test(
-      'fileFormat',
-      'Only image files are allowed (jpg, jpeg, png)',
-      (value) => {
-        return (
-          value && ['image/jpeg', 'image/jpg', 'image/png'].includes(value.type)
-        );
-      },
-    ),
-  shortDescription: yup
-    .string()
-    .typeError('Short description must be a text')
-    .required('Short description is required'),
-});
+export const addAssessmentSchema = yup
+  .object()
+  .shape({
+    skillId: yup
+      .string()
+      .typeError('Skill ID must be a text')
+      .required('Skill ID is required'),
+    image: yup
+      .mixed<File>()
+      .required('Image is required')
+      .test(
+        'fileFormat',
+        'Only image files are allowed (jpg, jpeg, png)',
+        (value) => {
+          return (
+            value &&
+            ['image/jpeg', 'image/jpg', 'image/png'].includes(value.type)
+          );
+        },
+      ),
+    shortDescription: yup
+      .string()
+      .typeError('Short description must be a string')
+      .required('Short description is required')
+      .max(150, 'Short description must be less than 150 characters'),
+  })
+  .strict();
 
 export const addAssessmentQuestionSchema = yup
   .object()
