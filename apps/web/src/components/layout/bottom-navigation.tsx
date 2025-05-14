@@ -50,7 +50,7 @@ const NavigationItem = ({ item, className }: NavigationItemProps) => {
       <div className="flex h-4 w-4 items-center justify-center">
         {item.icon}
       </div>
-      <span className="text-xs">{item.label}</span>
+      <span className="text-[10px]">{item.label}</span>
     </Link>
   );
 };
