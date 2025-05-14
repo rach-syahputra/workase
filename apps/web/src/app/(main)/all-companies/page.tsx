@@ -47,29 +47,32 @@ export default function AllCompanies() {
     location: '',
     page: 1,
   };
-  const fetchCompanies = async (values: IGetCompany) => {
-    try {
-      const response = await axiosPublic.get('/companies', {
-        params: {
-          page: values.page,
-          name: values.name,
-          location: values.location,
-          sort: values.sort,
-        },
-      });
-      const data = (await response.data.data) as CompaniesResponse;
-      setCompanies(data.sortedCompanies);
-      setPagination(data.pagination);
-    } catch (error) {
-      setCompanies([]);
-      toast({
-        title: 'Error',
-        description: `Error fetching companies:${error}`,
-        variant: 'destructive',
-      });
-    }
-    setLoading(false);
-  };
+  const fetchCompanies = React.useCallback(
+    async (values: IGetCompany) => {
+      try {
+        const response = await axiosPublic.get('/companies', {
+          params: {
+            page: values.page,
+            name: values.name,
+            location: values.location,
+            sort: values.sort,
+          },
+        });
+        const data = (await response.data.data) as CompaniesResponse;
+        setCompanies(data.sortedCompanies);
+        setPagination(data.pagination);
+      } catch (error) {
+        setCompanies([]);
+        toast({
+          title: 'Error',
+          description: `Error fetching companies:${error}`,
+          variant: 'destructive',
+        });
+      }
+      setLoading(false);
+    },
+    [toast],
+  );
   const hanlerSortChange = (value: string) => {
     const newSortOrder = value as 'desc' | 'asc';
     setSortOrder(newSortOrder);
@@ -123,7 +126,7 @@ export default function AllCompanies() {
         variant: 'destructive',
       });
     }
-  }, [searchParams]);
+  }, [fetchCompanies, searchParams, toast]);
   return loading ? (
     <div className="bg-background fixed left-0 top-0 flex min-h-screen w-screen flex-1 items-center justify-center">
       <AppLoading size="md" label="Loading data, please stand by..." />
