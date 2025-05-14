@@ -1,6 +1,6 @@
 import { Pagination } from '@/types/companies';
 import { Job } from '@/context/search-job-context';
-import JobCard from '@/app/(main)/example/_components/card';
+import JobCard from '@/app/(main)/_components/card';
 import { CompanyJobsPagination } from './company-jobs-pagination';
 
 interface CompanyJobPostedProps {

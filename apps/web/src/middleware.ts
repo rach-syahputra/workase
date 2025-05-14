@@ -5,7 +5,13 @@ export default middleware((req) => {
   if (!req.auth) {
     const homepageUrl = new URL('/', req.nextUrl.origin);
 
-    return NextResponse.redirect(homepageUrl);
+    const response = NextResponse.redirect(homepageUrl);
+    response.cookies.set(
+      'message',
+      'Please login first before accessing this page.',
+      { maxAge: 60, path: '/', sameSite: 'lax' },
+    );
+    return response;
   }
 
   return NextResponse.next();

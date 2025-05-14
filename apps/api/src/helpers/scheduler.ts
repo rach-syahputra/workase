@@ -46,10 +46,6 @@ export const subscriptionExpiryReminderEmail = () => {
           subscriptionPlan: subscription.category,
         })),
       );
-
-      console.log(
-        `  ➜  [Email]: Subscription expiry reminder emails successfully sent to ${subscriptions.length} users.`,
-      );
     },
     {
       timezone: 'Asia/Jakarta',

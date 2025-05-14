@@ -80,7 +80,6 @@ class getJobsRepository {
   }
 
   static async getJobBySlug(req: Request) {
-    console.log('ini slugnya', req.params.slug);
     const job = await prisma.job.findUnique({
       where: {
         slug: req.params.slug as string,

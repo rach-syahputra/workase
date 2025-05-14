@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { axiosPublic } from '@/lib/axios';
 import { Building2 } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 export interface IResetPasswordProps {
   params: any;
 }
@@ -24,6 +25,7 @@ interface IResetPasswordForm {
 }
 
 export default function ResetPassword(props: IResetPasswordProps) {
+  const { toast } = useToast();
   const initialValues: IResetPasswordForm = {
     password: '',
     confirmPassword: '',
@@ -43,12 +45,12 @@ export default function ResetPassword(props: IResetPasswordProps) {
         },
       );
       if (response.status == 200) {
-        alert('Your password has been updated successfully');
+        toast({ title: 'Success', description: 'Your password has been updated successfully', variant: 'default' });
       }
     } catch (err) {
-      alert(
+      toast({ title: 'Error', description:
         `something went wrong, maybe your password reset link has been reach its limit time or you have used one chance we have give to reset your password, please try request new password reset link again`,
-      );
+    variant: 'destructive' });
     }
   };
 

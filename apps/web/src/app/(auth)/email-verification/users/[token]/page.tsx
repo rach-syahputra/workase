@@ -3,6 +3,7 @@ import Container from '@/components/layout/container';
 import { Button } from '@/components/shadcn-ui/button';
 import Footer from '@/components/ui/footer-for-auth';
 import Logo from '@/components/ui/logo-for-auth';
+import { useToast } from '@/hooks/use-toast';
 import { axiosPrivate } from '@/lib/axios';
 import { useRouter } from 'next/navigation';
 
@@ -17,14 +18,15 @@ export default function EmailVerification(props: IEmailVerificationProps) {
   const decodedToken = decodeURIComponent(props.params.token);
   const cleanToken = decodedToken.replace(/^Bearer\s/, '');
   const router = useRouter();
+  const { toast } = useToast();
   const verifyEmail = async () => {
     try {
       const axiosInstance = axiosPrivate(cleanToken);
       const response = await axiosInstance.patch('/users/verify');
-      alert('Your email has been verified successfully');
+      toast({ title: 'Success', description: 'Your email has been verified successfully', variant: 'default' });
       router.push('/users/login');
     } catch (e) {
-      alert('Verification link has failed to send to your email');
+      toast({ title: 'Error', description: 'Verification link has failed to send to your email', variant: 'destructive' });
     }
   };
 

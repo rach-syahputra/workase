@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { useSearchJob } from '@/context/search-job-context';
-import JobCard from '../example/_components/card';
+import JobCard from './card';
 
 import { FaLocationDot } from 'react-icons/fa6';
 export function NearestJobs() {
@@ -11,8 +11,8 @@ export function NearestJobs() {
     <div className="w-full max-w-[90%] pt-[12px] md:pt-0 lg:max-w-[90%]">
       {jobs.length > 0 && (
         <>
-          <div className="font-geist flex items-center justify-center gap-1 text-[16.0px] text-sm font-medium md:my-5">
-            <FaLocationDot className="text-red-500 scale-110" />
+          <div className="font-geist flex items-center justify-center gap-1 text-[15.5px] text-sm font-medium sm:text-[16.0px] md:my-5">
+            <FaLocationDot className="scale-110 text-red-500" />
             Opportunities Around Your Location
           </div>
 

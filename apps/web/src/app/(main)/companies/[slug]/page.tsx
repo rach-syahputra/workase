@@ -14,6 +14,7 @@ import { HiOutlineMail } from 'react-icons/hi';
 import AppLoading from '@/components/ui/app-loading';
 import CompanyTab from './_components/company-tab';
 import { CompanyReviewsProvider } from '@/context/company-reviews-context';
+import { useToast } from '@/hooks/use-toast';
 
 interface CompanyDetail {
   id: string;
@@ -30,6 +31,7 @@ export default function CompanyPage() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const params = useParams<{ slug: string }>();
   const title = params.slug;
+  const { toast } = useToast();
   const [data, setData] = useState<CompanyDetail | null>();
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -51,12 +53,16 @@ export default function CompanyPage() {
           setData(data.data);
         })
         .catch((error) => {
-          console.error('Error fetching data:', error);
+          toast({
+            title: 'Error',
+            description: `Error fetching data:${error}`,
+            variant: 'destructive',
+          });
         });
     };
     fetchData();
     setLoading(false);
-  }, [title]);
+  }, [title, toast]);
   useEffect(() => {
     setLoading(true);
     const fetchJobs = async () => {
@@ -69,17 +75,20 @@ export default function CompanyPage() {
         })
         .then((response) => {
           const companyJobs = response.data;
-          console.log('masuk sini kah 2:', companyJobs.data.companyJobs);
           setJobs(companyJobs.data.companyJobs);
           setPagination(companyJobs.data.pagination);
         })
         .catch((error) => {
-          console.error('Error fetching jobs:', error);
+          toast({
+            title: 'Error',
+            description: `Error fetching jobs:${error}`,
+            variant: 'destructive',
+          });
         });
     };
     fetchJobs();
     setLoading(false);
-  }, [active, data?.id, currentPage]);
+  }, [active, data?.id, currentPage, toast]);
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
@@ -99,13 +108,19 @@ export default function CompanyPage() {
       <div className="flex w-full flex-col items-start justify-normal">
         <div className="flex w-full flex-col items-start justify-normal">
           <div className="my-2 flex w-full flex-row items-center justify-normal gap-2.5">
-            <Image
-              src={`${data?.logoUrl || ''}`}
-              alt="Company logo"
-              width={200}
-              height={200}
-              className="my-1 aspect-square w-28 rounded-full object-cover"
-            />
+            {data?.logoUrl ? (
+              <Image
+                src={`${data?.logoUrl || ''}`}
+                alt="Company logo"
+                width={200}
+                height={200}
+                className="my-1 aspect-square w-28 rounded-full object-cover"
+              />
+            ) : (
+              <div className="flex aspect-square w-28 items-center justify-center rounded-full border bg-gray-200">
+                <span className="text-gray-400"></span>
+              </div>
+            )}
             <div className="flex w-full flex-col justify-center md:items-start">
               <Link
                 href="#"

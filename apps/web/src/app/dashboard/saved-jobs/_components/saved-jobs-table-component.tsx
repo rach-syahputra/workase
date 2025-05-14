@@ -14,7 +14,7 @@ import { useRouter } from 'next/navigation';
 import { MdArrowDownward, MdArrowUpward, MdDelete } from 'react-icons/md';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/shadcn-ui/button';
-import { DialogApplyJob } from '@/app/(main)/example/_components/dialog-apply-job';
+import { DialogApplyJob } from '@/app/(main)/_components/dialog-apply-job';
 export interface ISavedJobsTableComponentProps {
   data: SavedJobs[];
   totalCount: number;
@@ -83,7 +83,7 @@ export default function SavedJobsTableComponent({
                 className={cn(
                   'hover:bg-muted/50 data-[state=selected]:bg-muted min-h-8 cursor-pointer',
                 )}
-                onClick={() => router.push(`/job/${data.job.slug}`)}
+                onClick={() => router.push(`/jobs/${data.job.slug}`)}
               >
                 <TableCell className="font-medium">
                   {data.job.company.location}

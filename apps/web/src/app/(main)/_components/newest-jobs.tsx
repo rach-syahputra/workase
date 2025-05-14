@@ -1,9 +1,6 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
-
-import { axiosPublic } from '@/lib/axios';
-import { Job, JobsResponse } from '@/context/search-job-context';
-import JobCard from '../example/_components/card';
+import { Job } from '@/context/search-job-context';
+import JobCard from './card';
 
 import {
   Carousel,
@@ -14,33 +11,20 @@ import {
 } from '@/components/shadcn-ui/carousel';
 import { Sparkles } from 'lucide-react';
 import Autoplay from 'embla-carousel-autoplay';
-export function NewestJobs() {
-  const [jobs, setJobs] = useState<Job[]>([]);
+interface NewestJobsProps {
+  jobs: Job[];
+}
+
+export function NewestJobs({ jobs }: NewestJobsProps) {
   const plugin = React.useRef(
     Autoplay({ delay: 5000, stopOnInteraction: true }),
   );
-  useEffect(() => {
-    const fetchJobs = async () => {
-      try {
-        const fiveNewestJobs = await axiosPublic.get(
-          '/jobs?sort=desc&order=desc&limit=5&page=1',
-        );
-        const data = fiveNewestJobs.data as { data: JobsResponse };
-        setJobs(data.data.jobs);
-      } catch (error) {
-        console.error('Error fetching jobs:', error);
-      }
-    };
-
-    fetchJobs();
-  }, []);
-
   return (
     <div className="w-full max-w-[90%] lg:max-w-[90%]">
       {jobs.length > 0 && (
         <>
-          <div className="font-geist mb-[9px] flex items-center justify-center gap-1 text-[16.0px] text-sm font-medium md:my-5">
-            <Sparkles className="text-blue-500 scale-75" />5 Newest Jobs
+          <div className="font-geist mb-[9px] flex items-center justify-center gap-1 text-[12.8px] text-sm font-medium sm:text-[16.0px] md:my-5">
+            <Sparkles className="scale-75 text-blue-500" />5 Newest Jobs
             Available For You, <u> Swipe !</u>
           </div>
           <Carousel
@@ -49,7 +33,7 @@ export function NewestJobs() {
             onMouseEnter={plugin.current.stop}
             onMouseLeave={plugin.current.reset}
           >
-            <CarouselContent className="flex w-full gap-6 p-1 -ml-1">
+            <CarouselContent className="-ml-1 flex w-full gap-6 p-1">
               {Array.from({ length: 5 }).map((_, index: number) => {
                 const job = jobs[index];
                 return job ? (

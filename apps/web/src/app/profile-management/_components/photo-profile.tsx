@@ -1,11 +1,12 @@
-/* eslint-disable @next/next/no-img-element */
 import { Button } from '@/components/shadcn-ui/button';
+import { useToast } from '@/hooks/use-toast';
 import { axiosPrivate, axiosPublic } from '@/lib/axios';
 import axios from 'axios';
 import { Info } from 'lucide-react';
 import { Session } from 'next-auth';
 import { useSession } from 'next-auth/react';
 import { detectContentType } from 'next/dist/server/image-optimizer';
+import { title } from 'process';
 import { useRef, useState } from 'react';
 
 interface ProfilePhotoProps {
@@ -19,7 +20,7 @@ export const ProfilePhoto = ({ photoProfile }: ProfilePhotoProps) => {
   const { data: session } = useSession();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
-
+  const { toast } = useToast();
   const [showTooltip, setShowTooltip] = useState(false);
   const { update } = useSession();
 
@@ -32,11 +33,20 @@ export const ProfilePhoto = ({ photoProfile }: ProfilePhotoProps) => {
     const file = e.target.files[0];
 
     if (!allowedTypes.includes(file.type)) {
-      alert('Format gambar tidak didukung. Gunakan JPG, PNG, atau JPEG.');
+      toast({
+        title: 'Format gambar tidak didukung',
+        description:
+          'Format gambar tidak didukung. Gunakan JPG, PNG, atau JPEG.',
+        variant: 'destructive',
+      });
       return;
     }
     if (file.size > maxSize) {
-      alert('Ukuran gambar terlalu besar. Maksimal 1MB.');
+      toast({
+        title: 'Ukuran gambar terlalu besar',
+        description: 'Ukuran gambar terlalu besar. Maksimal 1MB.',
+        variant: 'destructive',
+      });
       return;
     }
     // Show preview
@@ -49,7 +59,11 @@ export const ProfilePhoto = ({ photoProfile }: ProfilePhotoProps) => {
 
   const uploadPhoto = async (file: File) => {
     if (!session?.user?.accessToken) {
-      alert('You need to be logged in to upload a photo');
+      toast({
+        title: 'Login Required',
+        description: 'You need to be logged in to upload a photo',
+        variant: 'destructive',
+      });
       return;
     }
 
@@ -72,29 +86,42 @@ export const ProfilePhoto = ({ photoProfile }: ProfilePhotoProps) => {
       );
 
       if (response.status >= 200 && response.status < 300) {
-        alert('Photo uploaded successfully');
+        toast({
+          title: 'Success',
+          description: 'Photo uploaded successfully',
+          variant: 'default',
+        });
         // Update session to reflect new profile photo
         await update();
       } else {
-        console.error('Upload Failed:', response.statusText);
-        alert('Upload Failed: Please try again.');
+        toast({
+          title: 'Error',
+          description: 'Upload Failed: Please try again.',
+          variant: 'destructive',
+        });
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (axios.isAxiosError(error)) {
           if (error.response) {
-            console.error('Response data:', error.response.data);
-            console.error('Response status:', error.response.status);
-            alert(
-              `Upload failed: ${error.response.data.message || 'Please try again'}`,
-            );
+            toast({
+              title: 'Error',
+              description: `Upload failed: ${error.response.data.message || 'Please try again'}`,
+              variant: 'destructive',
+            });
           } else if (error.request) {
-            console.error('No response received:', error.request);
-            alert('Server did not respond. Please try again later.');
+            toast({
+              title: 'Error',
+              description: 'Server did not respond. Please try again later.',
+              variant: 'destructive',
+            });
           }
         } else {
-          console.error('Error message:', (error as Error).message);
-          alert(`Error: ${(error as Error).message}`);
+          toast({
+            title: 'Error',
+            description: `Error: ${(error as Error).message}`,
+            variant: 'destructive',
+          });
         }
       }
     } finally {
@@ -112,7 +139,7 @@ export const ProfilePhoto = ({ photoProfile }: ProfilePhotoProps) => {
         src={
           session?.user?.logoUrl ||
           session?.user?.profilePhoto ||
-          'https://teknogram.id/gallery/foto-profil-wa/keren/pp-wa-kosong-keren-5.jpg'
+          '/default-photo-profile.png'
         }
         alt="Profile"
         className="aspect-square w-[120px] rounded-full object-cover md:w-[120px]"

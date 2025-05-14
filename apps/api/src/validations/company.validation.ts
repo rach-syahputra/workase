@@ -16,7 +16,6 @@ const validLocation = async (): Promise<string[]> => {
       location: true,
     },
   });
-  console.log('ini locations', locations);
   return locations
     .map((item) => item.location)
     .filter((location): location is string => location !== null);

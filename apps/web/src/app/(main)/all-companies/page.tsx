@@ -24,25 +24,13 @@ import {
 } from '@/components/shadcn-ui/select';
 import CompaniesPagination from './_components/companies-pagination';
 import AppLoading from '@/components/ui/app-loading';
-import { set } from 'cypress/types/lodash';
-const FilterSchema = Yup.object().shape({
-  name: Yup.string()
-    .trim()
-    .matches(
-      /^[a-zA-Z0-9 &.,'’\-\s]+$/,
-      'Title hanya boleh mengandung huruf, angka, dan spasi',
-    )
-    .optional(),
-  location: Yup.string().optional(),
-  sort: Yup.string()
-    .oneOf(['asc', 'desc'], 'Sort must be either "asc" or "desc"')
-    .optional(),
-  page: Yup.number().optional().min(1),
-});
+import { AllCompaniesFilterSchema } from '@/validations/all-companies';
+import { useToast } from '@/hooks/use-toast';
 
 export default function AllCompanies() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { toast } = useToast();
   const [companies, setCompanies] = useState<IAllCompaniesProps[]>([]);
   const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>();
   const [loading, setLoading] = useState(true);
@@ -59,27 +47,32 @@ export default function AllCompanies() {
     location: '',
     page: 1,
   };
-
-  const fetchCompanies = async (values: IGetCompany) => {
-    try {
-      const response = await axiosPublic.get('/companies', {
-        params: {
-          page: values.page,
-          name: values.name,
-          location: values.location,
-          sort: values.sort,
-        },
-      });
-      const data = (await response.data.data) as CompaniesResponse;
-      setCompanies(data.sortedCompanies);
-      setPagination(data.pagination);
-    } catch (error) {
-      setCompanies([]);
-      console.error('Error fetching companies:', error);
-    }
-    setLoading(false);
-  };
-
+  const fetchCompanies = React.useCallback(
+    async (values: IGetCompany) => {
+      try {
+        const response = await axiosPublic.get('/companies', {
+          params: {
+            page: values.page,
+            name: values.name,
+            location: values.location,
+            sort: values.sort,
+          },
+        });
+        const data = (await response.data.data) as CompaniesResponse;
+        setCompanies(data.sortedCompanies);
+        setPagination(data.pagination);
+      } catch (error) {
+        setCompanies([]);
+        toast({
+          title: 'Error',
+          description: `Error fetching companies:${error}`,
+          variant: 'destructive',
+        });
+      }
+      setLoading(false);
+    },
+    [toast],
+  );
   const hanlerSortChange = (value: string) => {
     const newSortOrder = value as 'desc' | 'asc';
     setSortOrder(newSortOrder);
@@ -92,7 +85,6 @@ export default function AllCompanies() {
 
     applyFilters(updateValues);
   };
-
   const applyFilters = (values: IGetCompany) => {
     const params = new URLSearchParams();
     if (values.name) params.set('name', values.name);
@@ -102,10 +94,9 @@ export default function AllCompanies() {
     router.push(`/all-companies?${params.toString()}`);
     fetchCompanies(values);
   };
-
   const formik = useFormik({
     initialValues,
-    validationSchema: FilterSchema,
+    validationSchema: AllCompaniesFilterSchema,
     onSubmit: (values) => {
       const searchValues = {
         ...values,
@@ -129,9 +120,13 @@ export default function AllCompanies() {
       };
       fetchCompanies(query);
     } catch (error) {
-      console.error('Error fetching companies:', error);
+      toast({
+        title: 'Error',
+        description: `Error fetching companies:${error}`,
+        variant: 'destructive',
+      });
     }
-  }, [searchParams]);
+  }, [fetchCompanies, searchParams, toast]);
   return loading ? (
     <div className="bg-background fixed left-0 top-0 flex min-h-screen w-screen flex-1 items-center justify-center">
       <AppLoading size="md" label="Loading data, please stand by..." />

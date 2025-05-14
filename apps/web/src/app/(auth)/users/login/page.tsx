@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 'use client';
 import { Button } from '@/components/shadcn-ui/button';
 import { useEffect } from 'react';
@@ -11,11 +10,13 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import * as Yup from 'yup';
 import AppLoading from '@/components/ui/app-loading';
 import { useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
+import { useUserStatsContext } from '@/context/user-stats-context';
 const LoginSchema = Yup.object().shape({
-  email: Yup.string().email().required(), // email is required
+  email: Yup.string().email().required(),
   password: Yup.string()
     .required()
-    .min(8, 'Password must be at least 8 characters'), // password is required
+    .min(8, 'Password must be at least 8 characters'),
 });
 
 interface ILoginForm {
@@ -26,10 +27,12 @@ interface ILoginForm {
 export interface ILoginProps {}
 const signUpItem = ['User', 'Company'];
 export default function Login(props: ILoginProps) {
-  const router = useRouter(); // Initialize router
+  const { toast } = useToast();
+  const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('redirect');
   const message = searchParams.get('message');
+  const { setUpdate } = useUserStatsContext();
   const [loading, setLoading] = useState(true);
   const initialValues: ILoginForm = {
     email: '',
@@ -37,17 +40,24 @@ export default function Login(props: ILoginProps) {
   };
 
   const submitLogin = async (values: ILoginForm) => {
+    setLoading(true);
     const response = await signIn('user-login', {
       email: values.email,
-      password: values.password, // password is requiredvalues.password,
+      password: values.password,
       redirect: false,
-      callbackUrl: callbackUrl || '/', // Redirect to the specified URL after login
+      callbackUrl: callbackUrl || '/',
     });
 
     if (response?.error) {
-      alert('Login failed: Email or password was wrong');
+      setLoading(false);
+      toast({
+        title: 'Error',
+        description: 'Login failed: Email or password was wrong',
+        variant: 'destructive',
+      });
     } else {
-      router.push(callbackUrl || '/'); // ← Selalu pakai redirect param
+      router.push(callbackUrl || '/');
+      setUpdate(true);
     }
   };
 
@@ -60,9 +70,9 @@ export default function Login(props: ILoginProps) {
   });
   useEffect(() => {
     if (message) {
-      alert(message);
+      toast({ description: message });
     }
-  }, [message]);
+  }, [message, toast]);
   const timer = setTimeout(() => {
     setLoading(false);
   }, 1000);
@@ -73,11 +83,11 @@ export default function Login(props: ILoginProps) {
   ) : (
     <div className="font-geist mt-[-10px] md:w-[650px]">
       <div className="flex flex-col items-center justify-center pb-2">
-        <div className="flex items-center gap-3 pb-2 text-[32px] font-semibold md:text-[36px]">
+        <div className="flex items-center gap-3 pb-2 text-[30px] font-semibold sm:text-[32px] md:text-[36px]">
           <IoPerson className="w-5 scale-150" />
           Sign In to Workase
         </div>{' '}
-        <div className="text-[18px] font-light md:text-[21px]">
+        <div className="text-[17px] font-light sm:text-[18px] md:text-[21px]">
           Log In to Your Personal Account Today.
         </div>
       </div>
