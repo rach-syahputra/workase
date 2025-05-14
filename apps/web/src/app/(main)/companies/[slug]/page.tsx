@@ -108,13 +108,19 @@ export default function CompanyPage() {
       <div className="flex w-full flex-col items-start justify-normal">
         <div className="flex w-full flex-col items-start justify-normal">
           <div className="my-2 flex w-full flex-row items-center justify-normal gap-2.5">
-            <Image
-              src={`${data?.logoUrl || ''}`}
-              alt="Company logo"
-              width={200}
-              height={200}
-              className="my-1 aspect-square w-28 rounded-full object-cover"
-            />
+            {data?.logoUrl ? (
+              <Image
+                src={`${data?.logoUrl || ''}`}
+                alt="Company logo"
+                width={200}
+                height={200}
+                className="my-1 aspect-square w-28 rounded-full object-cover"
+              />
+            ) : (
+              <div className="flex aspect-square w-28 items-center justify-center rounded-full border bg-gray-200">
+                <span className="text-gray-400"></span>
+              </div>
+            )}
             <div className="flex w-full flex-col justify-center md:items-start">
               <Link
                 href="#"

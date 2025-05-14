@@ -125,16 +125,16 @@ export default function AllCompanies() {
     }
   }, [searchParams]);
   return loading ? (
-    <div className="fixed top-0 left-0 flex items-center justify-center flex-1 w-screen min-h-screen bg-background">
+    <div className="bg-background fixed left-0 top-0 flex min-h-screen w-screen flex-1 items-center justify-center">
       <AppLoading size="md" label="Loading data, please stand by..." />
     </div>
   ) : (
     <Container className="">
-      <div className="flex flex-col items-center justify-center w-full">
+      <div className="flex w-full flex-col items-center justify-center">
         <div className="font-geist mb-[5px] flex h-fit w-full flex-col items-center justify-center">
           <form
             onSubmit={formik.handleSubmit}
-            className="flex items-center justify-center w-full"
+            className="flex w-full items-center justify-center"
           >
             <CompaniesSearchBar formik={formik} />
           </form>
