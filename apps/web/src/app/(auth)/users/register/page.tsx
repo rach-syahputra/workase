@@ -13,10 +13,10 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
 const LoginSchema = Yup.object().shape({
-  email: Yup.string().email().required(), 
+  email: Yup.string().email().required(),
   password: Yup.string()
     .required()
-    .min(8, 'Password must be at least 8 characters'), 
+    .min(8, 'Password must be at least 8 characters'),
 });
 
 interface ILoginForm {
@@ -28,12 +28,14 @@ const signInItem = ['User', 'Company'];
 export default function Register() {
   const { toast } = useToast();
   const [loading, setLoading] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   const initialValues: ILoginForm = {
     email: '',
     password: '',
   };
 
   const submitLogin = async (values: ILoginForm) => {
+    setIsLogin(true);
     try {
       const response = await axiosPublic.post('/auth/register/user', {
         email: values.email,
@@ -55,6 +57,8 @@ export default function Register() {
         description: `something went wrong, maybe your email is already registered`,
         variant: 'destructive',
       });
+    } finally {
+      setIsLogin(false);
     }
   };
 
@@ -72,7 +76,7 @@ export default function Register() {
     setLoading(false);
   }, 1000);
   return loading ? (
-    <div className="fixed top-0 left-0 flex items-center justify-center flex-1 w-screen min-h-screen bg-background">
+    <div className="bg-background fixed left-0 top-0 flex min-h-screen w-screen flex-1 items-center justify-center">
       <AppLoading size="md" label="Loading data, please stand by..." />
     </div>
   ) : (
@@ -120,6 +124,7 @@ export default function Register() {
           <Button
             className="bg-primary-blue text-light my-auto h-[45px] w-full items-center justify-center rounded-lg text-[17px] font-medium text-white"
             type="submit"
+            disabled={isLogin}
           >
             Sign Up
           </Button>
@@ -143,25 +148,25 @@ export default function Register() {
         className="flex h-[45px] w-full items-center rounded-lg border-[1px] border-gray-300 bg-white hover:bg-gray-50"
         onClick={() => signIn('google-user')}
       >
-        <div className="relative flex items-center justify-center w-full">
+        <div className="relative flex w-full items-center justify-center">
           <Image
             width={50}
             height={10}
             src="/Google.svg"
             alt="Google Logo"
-            className="absolute h-5 left-6 sm:static sm:px-3"
+            className="absolute left-6 h-5 sm:static sm:px-3"
           />
           <center className="font-medium">Continue with Google</center>
         </div>
       </button>
-      <div className="flex gap-2 mt-4 md:mt-5">
+      <div className="mt-4 flex gap-2 md:mt-5">
         {signInItem.map((item) => (
           <Link
             key={item}
             href={`/${item == 'User' ? 'users' : 'companies'}/login`}
             className="flex h-[45px] w-full items-center rounded-lg border-[1px] border-gray-300 bg-white hover:bg-gray-50"
           >
-            <button className="relative flex items-center justify-center w-full">
+            <button className="relative flex w-full items-center justify-center">
               <center
                 className={`${item == 'User' ? 'text-primary-blue' : 'text-[#9A6713]'} font-light`}
               >

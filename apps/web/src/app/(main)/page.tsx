@@ -45,7 +45,7 @@ export default function HomePage() {
       } catch (error) {
         toast({
           title: 'Error',
-          description: `Error fetching jobs:${error}`,
+          description: `Error fetching jobs, something went wrong`,
           variant: 'destructive',
         });
       } finally {
@@ -80,12 +80,12 @@ export default function HomePage() {
   }, [urlMessage, toast]);
 
   return loading ? (
-    <div className="fixed top-0 left-0 flex items-center justify-center flex-1 w-screen min-h-screen bg-background">
+    <div className="bg-background fixed left-0 top-0 flex min-h-screen w-screen flex-1 items-center justify-center">
       <AppLoading size="md" label="Loading data, please stand by..." />
     </div>
   ) : (
     <Container className="">
-      <div className="flex flex-col items-center justify-center w-full">
+      <div className="flex w-full flex-col items-center justify-center">
         <div className="font-geist mb-[5px] flex h-fit w-full flex-col items-center justify-center">
           <SearchBar />
         </div>

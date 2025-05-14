@@ -30,6 +30,7 @@ export default function Login(props: ILoginProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(true);
+    const [isLogin, setIsLogin] = useState(false);
   const redirectUrl = searchParams.get('redirect') || '/'; // Get the redirect URL from search params
   const initialValues: ILoginForm = {
     email: '',
@@ -37,19 +38,20 @@ export default function Login(props: ILoginProps) {
   };
 
   const submitLogin = async (values: ILoginForm) => {
-    setLoading(true);
+setIsLogin(true);
     const response = await signIn('company-login', {
       email: values.email,
       password: values.password, // password is requiredvalues.password,
       redirect: false,
     });
     if (response?.error) {
-      setLoading(false);
+
       toast({
         title: 'Error',
         description: 'Login failed: Email or password was wrong',
         variant: 'destructive',
       });
+      setIsLogin(false);
     } else {
       router.replace(redirectUrl);
     }
@@ -112,6 +114,7 @@ export default function Login(props: ILoginProps) {
           <Button
             className="bg-primary-blue text-light my-auto h-[45px] w-full items-center justify-center rounded-lg text-[17px] font-medium text-white"
             type="submit"
+            disabled={isLogin}
           >
             Sign In
           </Button>
