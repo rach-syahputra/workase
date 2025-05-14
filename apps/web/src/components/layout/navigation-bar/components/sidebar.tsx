@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { useState, useEffect, useRef } from 'react';
-import { set } from 'cypress/types/lodash';
 
 const menuItems = [
   { label: 'Home', value: '' },
