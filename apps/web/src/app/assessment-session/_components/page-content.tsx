@@ -48,6 +48,7 @@ const PageContent = () => {
       const response = await getAssessmentQuestions({
         slug: userAssessmentSession.assessment.slug,
         limit: 25,
+        order: 'asc',
         randomize: 'true',
       });
 
