@@ -9,6 +9,8 @@ import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { useSearchJob } from '@/context/search-job-context';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { set } from 'cypress/types/lodash';
+import { useToast } from '@/hooks/use-toast';
 
 const FilterSchema = Yup.object().shape({
   title: Yup.string()
@@ -31,6 +33,8 @@ export function SearchBar() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<string>('Job Title');
+  const [isFetch, setIsFetch] = useState(false);
+  const { toast } = useToast();
   const { fetchJobs } = useSearchJob();
   const search = [
     'Job Title',
@@ -45,8 +49,6 @@ export function SearchBar() {
     location: '',
   };
 
-  const [searchValues, setSearchValues] = useState<IFilterForm>(initialValues);
-
   useEffect(() => {
     const dateFilterParam = searchParams.get('dateFilter');
     const sortOrderParam =
@@ -55,6 +57,7 @@ export function SearchBar() {
     const dateToParams = searchParams.get('endDate');
     navigator.geolocation.getCurrentPosition(async (position) => {
       try {
+        setIsFetch(true);
         fetchJobs({
           title: '',
           category: '',
@@ -64,9 +67,17 @@ export function SearchBar() {
           endDate: dateToParams ? new Date(dateToParams) : null,
           sortOrder: sortOrderParam,
         });
-      } catch (error) {}
+      } catch (error) {
+        toast({
+          title: 'Error',
+          description: 'Something went wrong',
+          variant: 'destructive',
+        });
+      } finally {
+        setIsFetch(false);
+      }
     });
-  }, [fetchJobs, searchParams]);
+  }, [fetchJobs, searchParams, toast]);
 
   const sortOrderParam =
     (searchParams.get('sortOrder') as 'asc' | 'desc') || 'desc';
@@ -147,6 +158,7 @@ export function SearchBar() {
                 ref={undefined}
                 type="submit"
                 className={`bg-primary-blue relative h-[44px] w-full px-5 text-[15px] font-medium md:h-[40px] md:w-[110px]`}
+                disabled={isFetch}
               >
                 {item}
               </Button>

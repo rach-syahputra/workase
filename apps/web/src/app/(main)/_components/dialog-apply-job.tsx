@@ -129,7 +129,7 @@ export function DialogApplyJob({
           title: 'Submission Failed',
           description:
             error instanceof Error
-              ? `${error.message}, Maybe you have already applied for this job`
+              ? `Something went wrong, Maybe you have already applied for this job`
               : 'Failed to submit application, Maybe you have already applied for this job',
 
           variant: 'destructive',

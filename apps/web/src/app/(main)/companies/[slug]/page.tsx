@@ -55,7 +55,7 @@ export default function CompanyPage() {
         .catch((error) => {
           toast({
             title: 'Error',
-            description: `Error fetching data:${error}`,
+            description: `Error fetching data, something went wrong`,
             variant: 'destructive',
           });
         });
@@ -81,7 +81,7 @@ export default function CompanyPage() {
         .catch((error) => {
           toast({
             title: 'Error',
-            description: `Error fetching jobs:${error}`,
+            description: `Error fetching jobs, something went wrong`,
             variant: 'destructive',
           });
         });
@@ -100,13 +100,13 @@ export default function CompanyPage() {
   };
 
   return loading ? (
-    <div className="bg-background fixed left-0 top-0 flex min-h-screen w-screen flex-1 items-center justify-center">
+    <div className="fixed top-0 left-0 flex items-center justify-center flex-1 w-screen min-h-screen bg-background">
       <AppLoading size="md" label="Loading data, please stand by..." />
     </div>
   ) : (
     <Container className="">
-      <div className="flex w-full flex-col items-start justify-normal">
-        <div className="flex w-full flex-col items-start justify-normal">
+      <div className="flex flex-col items-start w-full justify-normal">
+        <div className="flex flex-col items-start w-full justify-normal">
           <div className="my-2 flex w-full flex-row items-center justify-normal gap-2.5">
             {data?.logoUrl ? (
               <Image
@@ -114,14 +114,14 @@ export default function CompanyPage() {
                 alt="Company logo"
                 width={200}
                 height={200}
-                className="my-1 aspect-square w-28 rounded-full object-cover"
+                className="object-cover my-1 rounded-full aspect-square w-28"
               />
             ) : (
-              <div className="flex aspect-square w-28 items-center justify-center rounded-full border bg-gray-200">
+              <div className="flex items-center justify-center bg-gray-200 border rounded-full aspect-square w-28">
                 <span className="text-gray-400"></span>
               </div>
             )}
-            <div className="flex w-full flex-col justify-center md:items-start">
+            <div className="flex flex-col justify-center w-full md:items-start">
               <Link
                 href="#"
                 aria-label="Company detail"
@@ -141,7 +141,7 @@ export default function CompanyPage() {
               <FiPhone />
               <div className="">{data?.phoneNumber}</div>
             </div>
-            <div className="mx-2 hidden md:block">·</div>
+            <div className="hidden mx-2 md:block">·</div>
             <div className="flex items-center gap-1">
               <HiOutlineMail />
               <div className="">{data?.email}</div>
