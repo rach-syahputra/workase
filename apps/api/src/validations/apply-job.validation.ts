@@ -1,3 +1,4 @@
+import { ResponseError } from 'src/helpers/error';
 import prisma from '../prisma';
 import * as Yup from 'yup';
 
@@ -12,7 +13,7 @@ const validUserAppliedJob = async () => {
       });
       return !existingApplication;
     } catch (error) {
-      console.log('error checking job application', error);
+      new ResponseError(500, 'error checking job application');
       return false;
     }
   };

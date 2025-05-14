@@ -1,6 +1,6 @@
 'use client';
-import JobCard from '@/app/(main)/example/_components/card';
-import { DialogApplyJob } from '@/app/(main)/example/_components/dialog-apply-job';
+import JobCard from '@/app/(main)/_components/card';
+import { DialogApplyJob } from '@/app/(main)/_components/dialog-apply-job';
 import Container from '@/components/layout/container';
 import { CardBadge } from '@/components/shadcn-ui/card';
 import {
@@ -67,7 +67,6 @@ export default function JobPage() {
         description: newState ? 'Job saved!' : 'Job removed from saved',
       });
     } catch (error) {
-      console.error(error);
       toast({
         description: 'An error occurred while saving or removing the job.',
       });

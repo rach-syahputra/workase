@@ -23,7 +23,7 @@ export default function DropdownMenuDemo() {
           src={
             session?.user?.profilePhoto ||
             session?.user?.logoUrl ||
-            '/images/noProfil.jpg'
+            '/default-photo-profile.png'
           }
           alt="avatar"
           width={40}

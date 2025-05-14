@@ -3,13 +3,12 @@ import { Search } from 'lucide-react';
 import { Building2 } from 'lucide-react';
 import { FaLocationDot } from 'react-icons/fa6';
 import * as React from 'react';
-import { useState, useEffect, Dispatch, SetStateAction } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/shadcn-ui/button';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { useSearchJob } from '@/context/search-job-context';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { set } from 'cypress/types/lodash';
 
 const FilterSchema = Yup.object().shape({
   title: Yup.string()
@@ -65,9 +64,7 @@ export function SearchBar() {
           endDate: dateToParams ? new Date(dateToParams) : null,
           sortOrder: sortOrderParam,
         });
-      } catch (error) {
-        console.error('there is no location', error);
-      }
+      } catch (error) {}
     });
   }, [fetchJobs, searchParams]);
 
@@ -125,12 +122,12 @@ export function SearchBar() {
               />
             ) : null}
 
-            {/* Filter dan Button */}
+            {/* Filter and Button */}
             {item === 'Job Title' ||
             item === 'Company Category' ||
             item === 'Company Location' ? (
               (() => {
-                const fieldKey = item.split(' ')[1]?.toLowerCase() || ''; // Pastikan tidak undefined
+                const fieldKey = item.split(' ')[1]?.toLowerCase() || ''; // ensure there is no undefined
                 return (
                   <input
                     onClick={() => setActiveTab(item)}
@@ -156,7 +153,7 @@ export function SearchBar() {
             )}
           </div>
 
-          {/* Border Vertikal (Hanya untuk item pertama kedua) */}
+          {/* vertical border */}
           {(item === 'Job Title' || item === 'Company Location') && (
             <center
               className={`mx-[1px] bg-gray-300 md:h-[25px] md:w-[1.5px] md:border-none ${item === 'Job Title' ? 'md:mt-[-2px]' : ''}`}

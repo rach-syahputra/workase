@@ -6,6 +6,7 @@ import { useParams } from 'next/navigation';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { applicationDetail } from '../page';
+import { useToast } from '@/hooks/use-toast';
 export interface IDetaiilApplicationProps extends applicationDetail {
   cvUrl: string;
   salaryEstimate: number;
@@ -16,6 +17,7 @@ export default function DetaiilApplication() {
   const [data, setData] = useState<IDetaiilApplicationProps>();
   const params = useParams<{ id: string }>();
   const jobId = params.id;
+  const { toast } = useToast();
   useEffect(() => {
     async function fetchData() {
       try {
@@ -27,7 +29,11 @@ export default function DetaiilApplication() {
         const response = await axiosInstance.get(`/job-applications/${jobId}`);
         setData(response.data.data);
       } catch (err) {
-        console.log(err);
+        toast({
+          title: 'Error',
+          description: `Error fetching jobs aplications:${err}`,
+          variant: 'destructive',
+        });
       }
     }
     fetchData();

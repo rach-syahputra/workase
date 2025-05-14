@@ -11,11 +11,12 @@ import { useRouter } from 'next/navigation';
 import AppLoading from '@/components/ui/app-loading';
 import { useState } from 'react';
 import Image from 'next/image';
+import { useToast } from '@/hooks/use-toast';
 const LoginSchema = Yup.object().shape({
-  email: Yup.string().email().required(), // email is required
+  email: Yup.string().email().required(), 
   password: Yup.string()
     .required()
-    .min(8, 'Password must be at least 8 characters'), // password is required
+    .min(8, 'Password must be at least 8 characters'), 
 });
 
 interface ILoginForm {
@@ -25,6 +26,7 @@ interface ILoginForm {
 
 const signInItem = ['User', 'Company'];
 export default function Register() {
+  const { toast } = useToast();
   const [loading, setLoading] = useState(true);
   const initialValues: ILoginForm = {
     email: '',
@@ -39,13 +41,20 @@ export default function Register() {
         authProvider: 'EMAIL',
       });
       if (response.status == 201) {
-        alert(
-          'Register Success, We Send Verification Link to Your Email, You Can Verify It or Login',
-        );
+        toast({
+          title: 'Success',
+          description:
+            'Register Success, We Send Verification Link to Your Email, You Can Verify It or Login',
+          variant: 'default',
+        });
         router.push('/users/login');
       }
     } catch (err) {
-      alert(`something went wrong, maybe your email is already registered`);
+      toast({
+        title: 'Error',
+        description: `something went wrong, maybe your email is already registered`,
+        variant: 'destructive',
+      });
     }
   };
 

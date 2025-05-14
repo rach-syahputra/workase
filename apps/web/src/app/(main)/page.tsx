@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import AppLoading from '@/components/ui/app-loading';
 import { Job, JobsResponse } from '@/context/search-job-context';
 import { axiosPublic } from '@/lib/axios';
+import { useToast } from '@/hooks/use-toast';
 
 function getCookie(name: string) {
   if (typeof document == 'undefined') return null;
@@ -31,7 +32,7 @@ export default function HomePage() {
   const searchParams = useSearchParams();
   const urlMessage = searchParams.get('message');
   const [jobs, setJobs] = useState<Job[]>([]);
-
+  const { toast } = useToast();
   useEffect(() => {
     setLoading(true);
     const fetchJobs = async () => {
@@ -42,24 +43,41 @@ export default function HomePage() {
         const data = fiveNewestJobs.data as { data: JobsResponse };
         setJobs(data.data.jobs);
       } catch (error) {
-        console.error('Error fetching jobs:', error);
+        toast({
+          title: 'Error',
+          description: `Error fetching jobs:${error}`,
+          variant: 'destructive',
+        });
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchJobs();
-    setLoading(false);
   }, []);
 
   useEffect(() => {
-    if (urlMessage) {
-      alert(urlMessage);
-    }
-    const cookieMessage = getCookie('message');
-    if (cookieMessage) {
-      alert(cookieMessage);
-      deleteCookie('message');
-    }
-  }, [urlMessage]);
+    const timer = setTimeout(() => {
+      if (urlMessage) {
+        toast({
+          title: 'Notification',
+          description: urlMessage,
+          variant: 'destructive',
+        });
+      }
+      const cookieMessage = getCookie('message');
+      if (cookieMessage) {
+        toast({
+          title: 'Notification',
+          description: cookieMessage,
+          variant: 'destructive',
+        });
+        deleteCookie('message');
+      }
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [urlMessage, toast]);
 
   return loading ? (
     <div className="fixed top-0 left-0 flex items-center justify-center flex-1 w-screen min-h-screen bg-background">

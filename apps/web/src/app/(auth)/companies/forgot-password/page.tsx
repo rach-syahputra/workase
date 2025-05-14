@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { axiosPublic } from '@/lib/axios';
 import { Building2 } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 export interface IForgotPasswordProps {}
 const ForgotPasswordSchema = Yup.object().shape({
   email: Yup.string().email().required(), // email is required
@@ -15,6 +16,7 @@ interface IForgotPasswordForm {
 }
 
 export default function ForgotPassword(props: IForgotPasswordProps) {
+  const { toast } = useToast();
   const initialValues: IForgotPasswordForm = {
     email: '',
   };
@@ -28,12 +30,19 @@ export default function ForgotPassword(props: IForgotPasswordProps) {
         },
       );
       if (response.status == 200) {
-        alert('Link reset passsword has been send successfully to your email');
+        toast({
+          title: 'Success',
+          description:
+            'Link reset passsword has been send successfully to your email',
+          variant: 'default',
+        });
       }
     } catch (err) {
-      alert(
-        `something went wrong, maybe your email is already registered by third party or not registered`,
-      );
+      toast({
+        title: 'Error',
+        description: `something went wrong, maybe your email is already registered by third party or not registered`,
+        variant: 'destructive',
+      });
     }
   };
 

@@ -14,7 +14,7 @@ import { useRouter } from 'next/navigation';
 import { MdArrowDownward, MdArrowUpward, MdDelete } from 'react-icons/md';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/shadcn-ui/button';
-import { DialogApplyJob } from '@/app/(main)/example/_components/dialog-apply-job';
+import { DialogApplyJob } from '@/app/(main)/_components/dialog-apply-job';
 export interface ISavedJobsTableComponentProps {
   data: SavedJobs[];
   totalCount: number;
@@ -65,9 +65,9 @@ export default function SavedJobsTableComponent({
             <TableHead className="w-[26%]" onClick={() => toggleSort('title')}>
               Job Title
               {sortField === 'title' && sortOrder === 'asc' ? (
-                <MdArrowUpward className="inline ml-1" />
+                <MdArrowUpward className="ml-1 inline" />
               ) : (
-                <MdArrowDownward className="inline ml-1" />
+                <MdArrowDownward className="ml-1 inline" />
               )}
             </TableHead>
             <TableHead className="w-[26%]">Category</TableHead>
@@ -105,7 +105,7 @@ export default function SavedJobsTableComponent({
                     {data?.jobId && (
                       <button
                         onClick={(e) => e.stopPropagation()}
-                        className="w-full h-fit"
+                        className="h-fit w-full"
                       >
                         <DialogApplyJob jobId={data.jobId as string} />
                       </button>
@@ -114,7 +114,7 @@ export default function SavedJobsTableComponent({
                 </TableCell>
                 <TableCell className="">
                   <button
-                    className="flex justify-center w-full p-2"
+                    className="flex w-full justify-center p-2"
                     onClick={(e) => handleDelete(e, data.jobId)}
                   >
                     <MdDelete className="scale-150" />
@@ -127,7 +127,7 @@ export default function SavedJobsTableComponent({
           <TableRow>
             <TableCell colSpan={6}>
               <div className="flex items-center justify-between">
-                <div className="text-sm text-muted-foreground">
+                <div className="text-muted-foreground text-sm">
                   Page {currentPage} of {totalPages || 1}
                 </div>
                 <div className="flex gap-2">

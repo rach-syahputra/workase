@@ -10,6 +10,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import AppLoading from '@/components/ui/app-loading';
 import Image from 'next/image';
+import { useToast } from '@/hooks/use-toast';
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email().required(), // email is required
   password: Yup.string()
@@ -25,6 +26,7 @@ interface ILoginForm {
 export interface ILoginProps {}
 const signUpItem = ['User', 'Company'];
 export default function Login(props: ILoginProps) {
+  const { toast } = useToast();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(true);
@@ -43,7 +45,11 @@ export default function Login(props: ILoginProps) {
     });
     if (response?.error) {
       setLoading(false);
-      alert('Login failed: Email or password was wrong');
+      toast({
+        title: 'Error',
+        description: 'Login failed: Email or password was wrong',
+        variant: 'destructive',
+      });
     } else {
       router.replace(redirectUrl);
     }

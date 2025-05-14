@@ -40,7 +40,6 @@ const validLocation = async (): Promise<string[]> => {
   const filteredLocations = locations
     .map((item) => item.company.location)
     .filter((location): location is string => location !== null);
-  console.log('filteredLocations', filteredLocations);
   return filteredLocations;
 };
 

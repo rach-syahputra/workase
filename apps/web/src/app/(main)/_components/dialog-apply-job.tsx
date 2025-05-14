@@ -125,7 +125,6 @@ export function DialogApplyJob({
         setSelectedFileName('');
         setUploadError('');
       } catch (error) {
-        console.error('Error applying for job:', error);
         toast({
           title: 'Submission Failed',
           description:

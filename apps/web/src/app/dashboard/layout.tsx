@@ -6,6 +6,7 @@ import { CLIENT_BASE_URL } from '@/lib/constants/constants';
 import NavigationBar from '@/components/layout/navigation-bar/navigation-bar';
 import UserSidebar from '@/components/user-dashboard/user-sidebar';
 import UserDashboardBottomBar from '@/components/user-dashboard/user-dashboard-bottom-bar';
+import { Toaster } from '@/components/shadcn-ui/toaster';
 
 export const metadata: Metadata = {
   title: 'Dashboard — Workase',
@@ -42,12 +43,14 @@ export default async function UserDashboardLayout({
   }
 
   return (
-    <div className="flex min-h-screen w-screen flex-col">
+    <div className="flex flex-col w-screen min-h-screen">
       <NavigationBar />
-      <div className="min-w-screen relative flex w-full flex-col items-start justify-start bg-white lg:flex-row">
+      <div className="relative flex flex-col items-start justify-start w-full bg-white min-w-screen lg:flex-row">
         <UserSidebar />
-        <div className="lg:ml-sidebar flex w-full flex-1 flex-col bg-white lg:p-4 lg:pl-0">
-          <main className="w-full flex-1 rounded-md">{children}</main>
+        <div className="flex flex-col flex-1 w-full bg-white lg:ml-sidebar lg:p-4 lg:pl-0">
+          <main className="flex-1 w-full rounded-md">
+            {children} <Toaster />
+          </main>
         </div>
       </div>
       <UserDashboardBottomBar />

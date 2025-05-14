@@ -150,7 +150,7 @@ export function SearchBar() {
               />
             ) : null}
 
-            {/* Filter dan Button */}
+            {/* Filter and Button */}
             {item === 'Job Title' ||
             item === 'Company Category' ||
             item === 'Company Location' ? (
@@ -181,7 +181,7 @@ export function SearchBar() {
             )}
           </div>
 
-          {/* Border Vertikal (Hanya untuk item pertama kedua) */}
+          {/* vertical border */}
           {(item === 'Job Title' || item === 'Company Location') && (
             <center
               className={`mx-[1px] bg-gray-300 md:h-[25px] md:w-[1.5px] md:border-none ${item === 'Job Title' ? 'md:mt-[-2px]' : ''}`}

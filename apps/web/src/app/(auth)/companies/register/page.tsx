@@ -6,40 +6,26 @@ import { Building2 } from 'lucide-react';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import * as React from 'react';
-import * as Yup from 'yup';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import AppLoading from '@/components/ui/app-loading';
 import Image from 'next/image';
-const RegisterSchema = Yup.object().shape({
-  name: Yup.string().required(),
-  email: Yup.string().email().required(),
-  password: Yup.string()
-    .required()
-    .min(8, 'Password must be at least 8 characters'),
-  phoneNumber: Yup.string()
-    .required()
-    .min(8, 'phone number must be at least 8 characters')
-    .max(15, 'phone number must be at most 15 characters')
-    .matches(/^[0-9\s]+$/, 'Invalid phone number format'),
-});
-interface IRegisterForm {
-  name: string;
-  email: string;
-  password: string;
-  phoneNumber: string;
-}
+import { useToast } from '@/hooks/use-toast';
+import { CompanyRegisterSchema } from '@/validations/company-register';
+import { ICompanyRegisterForm } from '@/lib/interfaces/form/company-register';
+
 const signInItem = ['User', 'Company'];
 export default function Register() {
+  const { toast } = useToast();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const initialValues: IRegisterForm = {
+  const initialValues: ICompanyRegisterForm = {
     name: '',
     email: '',
     password: '',
     phoneNumber: '',
   };
-  const submitRegister = async (values: IRegisterForm) => {
+  const submitRegister = async (values: ICompanyRegisterForm) => {
     try {
       const response = await axiosPublic.post('/auth/register/company', {
         name: values.name,
@@ -49,18 +35,25 @@ export default function Register() {
         authProvider: 'EMAIL',
       });
       if (response.status == 201) {
-        alert(
-          'Register Success, We Send Verification Link to Your Email, You Can Verify It or Login',
-        );
+        toast({
+          title: 'Success',
+          description:
+            'Register Success, We Send Verification Link to Your Email, You Can Verify It or Login',
+          variant: 'default',
+        });
         router.push('/companies/login');
       }
     } catch (err) {
-      alert(`something went wrong, maybe your email is already registered`);
+      toast({
+        title: 'Error',
+        description: `something went wrong, maybe your email is already registered`,
+        variant: 'destructive',
+      });
     }
   };
   const formik = useFormik({
     initialValues,
-    validationSchema: RegisterSchema,
+    validationSchema: CompanyRegisterSchema,
     onSubmit: (values) => {
       submitRegister(values);
     },

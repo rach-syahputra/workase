@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 'use client';
 import { Button } from '@/components/shadcn-ui/button';
 import { useEffect } from 'react';
@@ -11,11 +10,12 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import * as Yup from 'yup';
 import AppLoading from '@/components/ui/app-loading';
 import { useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
 const LoginSchema = Yup.object().shape({
-  email: Yup.string().email().required(), // email is required
+  email: Yup.string().email().required(), 
   password: Yup.string()
     .required()
-    .min(8, 'Password must be at least 8 characters'), // password is required
+    .min(8, 'Password must be at least 8 characters'), 
 });
 
 interface ILoginForm {
@@ -26,7 +26,8 @@ interface ILoginForm {
 export interface ILoginProps {}
 const signUpItem = ['User', 'Company'];
 export default function Login(props: ILoginProps) {
-  const router = useRouter(); // Initialize router
+  const { toast } = useToast();
+  const router = useRouter(); 
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('redirect');
   const message = searchParams.get('message');
@@ -40,16 +41,16 @@ export default function Login(props: ILoginProps) {
     setLoading(true);
     const response = await signIn('user-login', {
       email: values.email,
-      password: values.password, // password is requiredvalues.password,
+      password: values.password, 
       redirect: false,
-      callbackUrl: callbackUrl || '/', // Redirect to the specified URL after login
+      callbackUrl: callbackUrl || '/', 
     });
 
     if (response?.error) {
       setLoading(false);
-      alert('Login failed: Email or password was wrong');
+      toast({ title: 'Error', description: 'Login failed: Email or password was wrong',variant: 'destructive' });
     } else {
-      router.push(callbackUrl || '/'); // ← Selalu pakai redirect param
+      router.push(callbackUrl || '/'); 
     }
   };
 
@@ -62,9 +63,9 @@ export default function Login(props: ILoginProps) {
   });
   useEffect(() => {
     if (message) {
-      alert(message);
+      toast({description: message});
     }
-  }, [message]);
+  }, [message, toast]);
   const timer = setTimeout(() => {
     setLoading(false);
   }, 1000);

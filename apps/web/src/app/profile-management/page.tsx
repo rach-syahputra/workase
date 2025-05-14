@@ -17,9 +17,12 @@ import { useRouter } from 'next/navigation';
 import { SaveButton } from './_components/companies-profile/save-button';
 import { IUpdateForm, roleUrl, UpdateSchema } from '@/types/profile-management';
 import AppLoading from '@/components/ui/app-loading';
+import { title } from 'process';
+import { useToast } from '@/hooks/use-toast';
 export default function ProfileSettingPage() {
   const { data: session, status, update } = useSession();
   const router = useRouter();
+  const { toast } = useToast();
   const [loading, setLoading] = useState(true);
   const [initialValues, setInitialValues] = useState<IUpdateForm>({
     name: (session?.user?.name as string) || (undefined as unknown as string),
@@ -112,9 +115,17 @@ export default function ProfileSettingPage() {
         },
       );
       if (response.status >= 200 && response.status < 300) {
-        alert('Update Success');
+        toast({
+          title: 'Success',
+          description: 'Update Success',
+          variant: 'default',
+        });
         if (values.email && values.email !== session?.user?.email) {
-          alert('Your email has been changed, please login again');
+          toast({
+            title: 'Success',
+            description: 'Your email has been changed, please login again',
+            variant: 'default',
+          });
           router.push(
             `/${roleUrl[session?.user?.role as keyof typeof roleUrl]}/login`,
           );
@@ -123,7 +134,11 @@ export default function ProfileSettingPage() {
         }
       }
     } catch (err) {
-      alert('Update Failed: Please try again.');
+      toast({
+        title: 'Failed',
+        description: 'Update Failed: Please try again.',
+        variant: 'destructive',
+      });
     }
   };
   const formik = useFormik({
@@ -138,7 +153,7 @@ export default function ProfileSettingPage() {
     setLoading(false);
   }, 1000);
   return loading ? (
-    <div className="bg-background fixed left-0 top-0 flex min-h-screen w-screen flex-1 items-center justify-center">
+    <div className="bg-background fixed left-0 top-0 flex min-h-screen w-screen flex-1 items-center justify-center lg:pl-[320px]">
       <AppLoading size="md" label="Loading data, please stand by..." />
     </div>
   ) : (

@@ -14,6 +14,7 @@ import { HiOutlineMail } from 'react-icons/hi';
 import AppLoading from '@/components/ui/app-loading';
 import CompanyTab from './_components/company-tab';
 import { CompanyReviewsProvider } from '@/context/company-reviews-context';
+import { useToast } from '@/hooks/use-toast';
 
 interface CompanyDetail {
   id: string;
@@ -30,6 +31,7 @@ export default function CompanyPage() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const params = useParams<{ slug: string }>();
   const title = params.slug;
+  const { toast } = useToast();
   const [data, setData] = useState<CompanyDetail | null>();
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -51,7 +53,11 @@ export default function CompanyPage() {
           setData(data.data);
         })
         .catch((error) => {
-          console.error('Error fetching data:', error);
+          toast({
+            title: 'Error',
+            description: `Error fetching data:${error}`,
+            variant: 'destructive',
+          });
         });
     };
     fetchData();
@@ -69,12 +75,15 @@ export default function CompanyPage() {
         })
         .then((response) => {
           const companyJobs = response.data;
-          console.log('masuk sini kah 2:', companyJobs.data.companyJobs);
           setJobs(companyJobs.data.companyJobs);
           setPagination(companyJobs.data.pagination);
         })
         .catch((error) => {
-          console.error('Error fetching jobs:', error);
+          toast({
+            title: 'Error',
+            description: `Error fetching jobs:${error}`,
+            variant: 'destructive',
+          });
         });
     };
     fetchJobs();

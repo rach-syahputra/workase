@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { Input } from '@/components/shadcn-ui/input';
 import { Button } from '@/components/shadcn-ui/button';
 import AppliedJobsTableComponent from './_components/applied-jobs-table-component';
+import { useToast } from '@/hooks/use-toast';
 
 export interface IApplyListAndDetailProps {}
 export interface applicationDetail {
@@ -30,6 +31,7 @@ export default function ApplyListAndDetail(props: IApplyListAndDetailProps) {
   const [totalCount, setTotalCount] = useState(0);
   const [limit, setLimit] = useState(10);
   const [skip, setSkip] = useState(0);
+  const { toast } = useToast();
   const [sortField, setSortField] = useState('title');
   const [sortOrder, setSortOrder] = useState('desc');
   const [titleFilter, setTitleFilter] = useState('');
@@ -61,7 +63,11 @@ export default function ApplyListAndDetail(props: IApplyListAndDetailProps) {
       setHasMore(response.data.data.hasMore);
       setTotalCount(response.data.data.totalCount);
     } catch (err) {
-      console.log(err);
+      toast({
+        title: 'Error',
+        description: `Error fetching jobs aplications:${err}`,
+        variant: 'destructive',
+      });
     }
   }, [
     session?.user?.accessToken,
