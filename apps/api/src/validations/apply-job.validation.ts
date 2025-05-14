@@ -1,4 +1,4 @@
-import { ResponseError } from 'src/helpers/error';
+import { ResponseError } from '../helpers/error';
 import prisma from '../prisma';
 import * as Yup from 'yup';
 
