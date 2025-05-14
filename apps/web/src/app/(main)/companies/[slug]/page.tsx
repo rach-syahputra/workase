@@ -62,7 +62,7 @@ export default function CompanyPage() {
     };
     fetchData();
     setLoading(false);
-  }, [title]);
+  }, [title, toast]);
   useEffect(() => {
     setLoading(true);
     const fetchJobs = async () => {
@@ -88,7 +88,7 @@ export default function CompanyPage() {
     };
     fetchJobs();
     setLoading(false);
-  }, [active, data?.id, currentPage]);
+  }, [active, data?.id, currentPage, toast]);
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
