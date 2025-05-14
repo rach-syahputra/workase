@@ -95,8 +95,6 @@ export default class App {
             },
           });
         } else {
-          console.log(err);
-
           res.status(500).json({
             success: false,
             error: {
