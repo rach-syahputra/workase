@@ -28,8 +28,8 @@ export const generateMetadata = async ({
         {
           url: '/certificate-template.png',
           secureUrl: '/certificate-template.png',
-          width: 1200,
-          height: 630,
+          width: 1056,
+          height: 816,
           alt: 'Workase Job Board',
         },
       ],
