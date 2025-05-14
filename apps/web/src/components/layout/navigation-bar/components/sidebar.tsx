@@ -12,9 +12,10 @@ const menuItems = [
   { label: 'Home', value: '' },
   { label: 'Jobs', value: 'all-jobs' },
   { label: 'Companies', value: 'all-companies' },
+  { label: 'Reviews', value: 'company-reviews' },
 ];
 const loginItems = ['Sign in', 'Register'];
-const userAreaItems = ['Profile', 'Dashboard', 'Reviews', 'Logout'];
+const userAreaItems = ['Profile', 'Dashboard', 'Logout'];
 export default function Sidebar() {
   const searchParams = useSearchParams();
   const { data: session } = useSession();
@@ -44,17 +45,17 @@ export default function Sidebar() {
       {/* Hamburger Button */}
       <SheetTrigger className="mt-[4px] h-[44px] w-[45px] md:hidden" asChild>
         <button className="h-[38px] w-[20px]" onClick={() => setIsOpen(true)}>
-          <Menu className="w-5 h-5" />
+          <Menu className="h-5 w-5" />
         </button>
       </SheetTrigger>
 
       {/* Sidebar Content */}
-      <SheetContent side="right" className="p-0 w-72">
+      <SheetContent side="right" className="w-72 p-0">
         {/* Close Button */}
         <div className="flex justify-end p-5">
           <SheetTrigger asChild>
             <button onClick={() => setIsOpen(false)}>
-              <X className="w-0 h-0" />
+              <X className="h-0 w-0" />
             </button>
           </SheetTrigger>
         </div>
@@ -116,9 +117,7 @@ export default function Sidebar() {
                       : `/profile-management`
                     : item === 'Dashboard'
                       ? '/dashboard/applied-jobs'
-                      : item === 'Reviews'
-                        ? '/company-reviews'
-                        : '/'
+                      : '/'
                 }
                 onClick={() => {
                   if (item === 'Logout') signOut();
