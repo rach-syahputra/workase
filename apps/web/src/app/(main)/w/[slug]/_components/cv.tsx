@@ -91,7 +91,7 @@ const Cv = () => {
   return (
     <div className="flex w-full flex-col items-start gap-4 p-5">
       <h1 className="heading-3">CV</h1>
-      {user?.cv && isSubscriber ? (
+      {user?.cv ? (
         <Card className="flex w-full flex-col gap-1 p-4">
           <h2 className="heading-5">{user.cv.data.header?.content.name}</h2>
           <span className="text-primary-gray text-sm">
