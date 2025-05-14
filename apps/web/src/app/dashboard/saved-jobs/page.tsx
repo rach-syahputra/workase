@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import SavedJobsTableComponent from './_components/saved-jobs-table-component';
+import { useToast } from '@/hooks/use-toast';
 export interface SavedJobs {
   jobId: string;
   job: {
@@ -26,6 +27,7 @@ export default function SavedJobs() {
   const [totalCount, setTotalCount] = useState(0);
   const [limit, setLimit] = useState(10);
   const [skip, setSkip] = useState(0);
+  const { toast } = useToast();
   const [sortField, setSortField] = useState('title');
   const [sortOrder, setSortOrder] = useState('desc');
   const [titleFilter, setTitleFilter] = useState('');
@@ -54,7 +56,11 @@ export default function SavedJobs() {
       setHasMore(response.data.data.hasMore);
       setTotalCount(response.data.data.totalCount);
     } catch (err) {
-      console.log(err);
+      toast({
+        title: 'Error',
+        description: `Error fetching saved jobs:${err}`,
+        variant: 'destructive',
+      });
     }
   }, [
     session?.user?.accessToken,
@@ -99,7 +105,11 @@ export default function SavedJobs() {
       await axiosInstance.delete(`/saved-jobs/${id}`);
       fetchData();
     } catch (err) {
-      console.log(err);
+      toast({
+        title: 'Error',
+        description: `Error delete saved jobs:${err}`,
+        variant: 'destructive',
+      });
     }
   };
 

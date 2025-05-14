@@ -5,6 +5,7 @@ import { IoPerson } from 'react-icons/io5';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { axiosPublic } from '@/lib/axios';
+import { useToast } from '@/hooks/use-toast';
 export interface IForgotPasswordProps {}
 const ForgotPasswordSchema = Yup.object().shape({
   email: Yup.string().email().required(), // email is required
@@ -15,6 +16,7 @@ interface IForgotPasswordForm {
 }
 
 export default function ForgotPassword(props: IForgotPasswordProps) {
+  const { toast } = useToast();
   const initialValues: IForgotPasswordForm = {
     email: '',
   };
@@ -25,12 +27,19 @@ export default function ForgotPassword(props: IForgotPasswordProps) {
         email: values.email,
       });
       if (response.status == 200) {
-        alert('Link reset passsword has been send successfully to your email');
+        toast({
+          title: 'Success',
+          description:
+            'Link reset passsword has been send successfully to your email',
+          variant: 'default',
+        });
       }
     } catch (err) {
-      alert(
-        `something went wrong, maybe your email is already registered by third party or not registered`,
-      );
+      toast({
+        title: 'Error',
+        description: `something went wrong, maybe your email is already registered by third party or not registered`,
+        variant: 'destructive',
+      });
     }
   };
 
@@ -45,7 +54,7 @@ export default function ForgotPassword(props: IForgotPasswordProps) {
   return (
     <div className="font-geist md:w-[500px]">
       <div className="flex flex-col justify-center p-1 pb-2">
-        <div className="flex items-center justify-center gap-3 p-3 text-center text-[26px] font-medium">
+        <div className="flex items-center justify-center gap-3 p-3 text-center text-[23.1px] font-medium sm:text-[26px]">
           {' '}
           <IoPerson className="w-4 scale-150" />
           Forgot Password Form

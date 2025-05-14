@@ -16,7 +16,6 @@ export default function Login() {
       {session?.user?.email ? (
         <div className="ml-[40px] flex w-[90px] items-center justify-between text-center md:w-[180px]">
           <div className="hidden text-center md:block">
-            {/* menjadikan text yang melebihi 27 catarter menjadi ditambahi "..." */}
             {session.user.email ? (
               <div className="flex items-center">
                 <div className="mr-1">{session.user.email.split('@')[0]}</div>
@@ -33,7 +32,6 @@ export default function Login() {
       ) : (
         tabs.map((tab) => (
           <div key={tab} className="relative flex items-center">
-            {/* Tombol Tab */}
 
             <Link
               href={
@@ -45,9 +43,6 @@ export default function Login() {
             >
               <button ref={undefined}>{tab}</button>
             </Link>
-
-            {/* Border Vertikal (Hanya untuk tab pertama) */}
-
             {tab === 'Sign in' && (
               <span className="h-7 w-[1px] bg-gray-300"></span>
             )}

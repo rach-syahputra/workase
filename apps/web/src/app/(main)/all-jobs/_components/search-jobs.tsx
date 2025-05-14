@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { useSearchJob } from '@/context/search-job-context';
-import JobCard from '../../example/_components/card';
+import JobCard from '../../_components/card';
 import { useSearchParams, useRouter } from 'next/navigation';
 import {
   Pagination,

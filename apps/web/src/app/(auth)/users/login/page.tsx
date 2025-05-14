@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 'use client';
 import { Button } from '@/components/shadcn-ui/button';
 import { useEffect } from 'react';
@@ -11,11 +10,12 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import * as Yup from 'yup';
 import AppLoading from '@/components/ui/app-loading';
 import { useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
 const LoginSchema = Yup.object().shape({
-  email: Yup.string().email().required(), // email is required
+  email: Yup.string().email().required(), 
   password: Yup.string()
     .required()
-    .min(8, 'Password must be at least 8 characters'), // password is required
+    .min(8, 'Password must be at least 8 characters'), 
 });
 
 interface ILoginForm {
@@ -26,7 +26,8 @@ interface ILoginForm {
 export interface ILoginProps {}
 const signUpItem = ['User', 'Company'];
 export default function Login(props: ILoginProps) {
-  const router = useRouter(); // Initialize router
+  const { toast } = useToast();
+  const router = useRouter(); 
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('redirect');
   const message = searchParams.get('message');
@@ -37,17 +38,19 @@ export default function Login(props: ILoginProps) {
   };
 
   const submitLogin = async (values: ILoginForm) => {
+    setLoading(true);
     const response = await signIn('user-login', {
       email: values.email,
-      password: values.password, // password is requiredvalues.password,
+      password: values.password, 
       redirect: false,
-      callbackUrl: callbackUrl || '/', // Redirect to the specified URL after login
+      callbackUrl: callbackUrl || '/', 
     });
 
     if (response?.error) {
-      alert('Login failed: Email or password was wrong');
+      setLoading(false);
+      toast({ title: 'Error', description: 'Login failed: Email or password was wrong',variant: 'destructive' });
     } else {
-      router.push(callbackUrl || '/'); // ← Selalu pakai redirect param
+      router.push(callbackUrl || '/'); 
     }
   };
 
@@ -60,24 +63,24 @@ export default function Login(props: ILoginProps) {
   });
   useEffect(() => {
     if (message) {
-      alert(message);
+      toast({description: message});
     }
-  }, [message]);
+  }, [message, toast]);
   const timer = setTimeout(() => {
     setLoading(false);
   }, 1000);
   return loading ? (
-    <div className="bg-background fixed left-0 top-0 flex min-h-screen w-screen flex-1 items-center justify-center">
+    <div className="fixed top-0 left-0 flex items-center justify-center flex-1 w-screen min-h-screen bg-background">
       <AppLoading size="md" label="Loading data, please stand by..." />
     </div>
   ) : (
     <div className="font-geist mt-[-10px] md:w-[650px]">
       <div className="flex flex-col items-center justify-center pb-2">
-        <div className="flex items-center gap-3 pb-2 text-[32px] font-semibold md:text-[36px]">
+        <div className="flex items-center gap-3 pb-2 text-[30px] font-semibold sm:text-[32px] md:text-[36px]">
           <IoPerson className="w-5 scale-150" />
           Sign In to Workase
         </div>{' '}
-        <div className="text-[18px] font-light md:text-[21px]">
+        <div className="text-[17px] font-light sm:text-[18px] md:text-[21px]">
           Log In to Your Personal Account Today.
         </div>
       </div>
@@ -137,23 +140,23 @@ export default function Login(props: ILoginProps) {
         className="flex h-[45px] w-full items-center rounded-lg border-[1px] border-gray-300 bg-white hover:bg-gray-50"
         onClick={() => signIn('google-user')}
       >
-        <div className="relative flex w-full items-center justify-center">
+        <div className="relative flex items-center justify-center w-full">
           <img
             src="/Google.svg"
             alt="google"
-            className="absolute left-6 h-5 sm:static sm:px-3"
+            className="absolute h-5 left-6 sm:static sm:px-3"
           />
           <center className="font-medium">Continue with Google</center>
         </div>
       </button>
-      <div className="mt-4 flex gap-2 md:mt-5">
+      <div className="flex gap-2 mt-4 md:mt-5">
         {signUpItem.map((item) => (
           <Link
             key={item}
             href={`/${item == 'User' ? 'users' : 'companies'}/register`}
             className="flex h-[45px] w-full items-center rounded-lg border-[1px] border-gray-300 bg-white hover:bg-gray-50"
           >
-            <button className="relative flex w-full items-center justify-center">
+            <button className="relative flex items-center justify-center w-full">
               <center
                 className={`${item == 'User' ? 'text-primary-blue' : 'text-[#9A6713]'} font-light`}
               >

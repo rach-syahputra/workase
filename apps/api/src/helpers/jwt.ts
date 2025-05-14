@@ -24,14 +24,14 @@ export const putUserAccessToken = async (user?: UserLogin, email?: string) => {
   if (!dataBundleUser) throw new ResponseError(401, 'unauthorize email');
 
   const accessToken = sign(dataBundleUser, JWT_ACCESS_SECRET, {
-    expiresIn: '1h',
+    expiresIn: '3h',
   });
 
   const refreshToken = sign(
     { email: dataBundleUser.email },
     JWT_REFRESH_SECRET,
     {
-      expiresIn: '3h',
+      expiresIn: '6h',
     },
   );
 
@@ -54,13 +54,13 @@ export const putCompanyAccessToken = async (
 
   if (!dataBundleCompany) throw new ResponseError(401, 'unauthorize email');
   const accessToken = sign(dataBundleCompany, JWT_ACCESS_SECRET, {
-    expiresIn: '1h',
+    expiresIn: '3h',
   });
   const refreshToken = sign(
     { email: dataBundleCompany.email },
     JWT_REFRESH_SECRET,
     {
-      expiresIn: '3h',
+      expiresIn: '6h',
     },
   );
   return {

@@ -9,6 +9,7 @@ import * as Yup from 'yup';
 
 import { useState } from 'react';
 import { Info } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 const ResetPasswordSchema = Yup.object().shape({
   password: Yup.string()
     .required('password is required')
@@ -27,6 +28,7 @@ const roleUrl = {
   USER: 'users',
 };
 export default function PasswordSettingsPage() {
+  const { toast } = useToast();
   const [showTooltip, setShowTooltip] = useState(false);
   const { data: session } = useSession();
   const initialValues: IResetPasswordForm = {
@@ -37,9 +39,12 @@ export default function PasswordSettingsPage() {
   const submitResetPassword = async (values: IResetPasswordForm) => {
     try {
       if (session?.user?.authProvider === 'GOOGLE') {
-        alert(
-          'user or company that use thirt-party service cannot reset password',
-        );
+        toast({
+          title: 'Error',
+          description:
+            'user or company that use thirt-party service cannot reset password',
+          variant: 'destructive',
+        });
         return;
       }
       const response = await axiosPublic.patch(
@@ -55,13 +60,25 @@ export default function PasswordSettingsPage() {
         },
       );
       if (response.status >= 200 && response.status < 300) {
-        alert('Update Success');
+        toast({
+          title: 'Success',
+          description: 'Update Success',
+          variant: 'default',
+        });
       }
       if (response.status >= 300) {
-        alert('Update Failed: Please try again.');
+        toast({
+          title: 'Error',
+          description: 'Update Failed: Please try again.',
+          variant: 'destructive',
+        });
       }
     } catch (err) {
-      alert('Reset password failed, please try again');
+      toast({
+        title: 'Error',
+        description: 'Reset password failed, please try again',
+        variant: 'destructive',
+      });
     }
   };
 
@@ -92,20 +109,20 @@ export default function PasswordSettingsPage() {
                   <span
                     onMouseEnter={() => setShowTooltip(true)}
                     onMouseLeave={() => setShowTooltip(false)}
-                    className="inline-flex cursor-help text-gray-500"
+                    className="inline-flex text-gray-500 cursor-help"
                   >
                     <Info size={14} />
                   </span>
                   {showTooltip && (
-                    <div className="absolute bottom-full left-1/2 z-10 mb-2 w-64 -translate-x-1/2 transform rounded bg-gray-800 p-3 text-xs text-white shadow-lg">
+                    <div className="absolute z-10 w-64 p-3 mb-2 text-xs text-white transform -translate-x-1/2 bg-gray-800 rounded shadow-lg bottom-full left-1/2">
                       <div className="mb-1 font-semibold">Attention:</div>
-                      <ul className="list-disc space-y-1 pl-4">
+                      <ul className="pl-4 space-y-1 list-disc">
                         <li>
                           user or company that use thirt-party service cannot
                           reset password
                         </li>
                       </ul>
-                      <div className="absolute bottom-0 left-1/2 h-2 w-2 -translate-x-1/2 translate-y-1/2 rotate-45 transform bg-gray-800"></div>
+                      <div className="absolute bottom-0 w-2 h-2 transform rotate-45 -translate-x-1/2 translate-y-1/2 bg-gray-800 left-1/2"></div>
                     </div>
                   )}
                 </div>

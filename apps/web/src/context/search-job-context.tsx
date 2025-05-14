@@ -1,4 +1,5 @@
 'use client';
+import { handleApiError } from '@/lib/apis/error';
 import { axiosPublic } from '@/lib/axios';
 import * as React from 'react';
 import { createContext, useContext, useState } from 'react';
@@ -101,17 +102,11 @@ export function SearchJobProvider({ children }: { children: React.ReactNode }) {
           sort: sortOrder,
           ...filter,
         };
-
-        console.log('ini params', params);
-        console.log('ini filter', filter);
-
         const response = await axiosPublic.get(`/jobs`, {
           params,
         });
 
-        // Ekstract data from API response
         const responseData = response.data as { data: JobsResponse };
-        console.log('ini data', responseData.data);
 
         // Update state with jobs data and pagination
         if (responseData.data) {
@@ -131,7 +126,7 @@ export function SearchJobProvider({ children }: { children: React.ReactNode }) {
           setPagination(null);
         }
       } catch (error) {
-        console.error('Error fetching jobs:', error);
+        handleApiError(error);
         setJobs([]);
         setPagination(null);
       } finally {

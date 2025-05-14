@@ -21,6 +21,7 @@ import { Button } from '@/components/shadcn-ui/button';
 
 import { CiShare1 } from 'react-icons/ci';
 import { JobDetail } from '@/types/job-detail';
+import { useToast } from '@/hooks/use-toast';
 
 export function JobShareComponent({ job }: { job: JobDetail }) {
   const [isCustomMessageOpen, setIsCustomMessageOpen] = useState(false);
@@ -29,6 +30,7 @@ export function JobShareComponent({ job }: { job: JobDetail }) {
     null | 'linkedin' | 'facebook' | 'twitter' | 'whatsapp'
   >(null);
   const [jobUrl, setJobUrl] = useState<string>('');
+  const { toast } = useToast();
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setJobUrl(window.location.href);
@@ -85,7 +87,11 @@ export function JobShareComponent({ job }: { job: JobDetail }) {
           try {
             await navigator.share(shareData);
           } catch (e) {
-            console.log('Error sharing', e);
+            toast({
+              title: 'Error',
+              description: `Error sharing:${e}`,
+              variant: 'destructive',
+            });
           }
         }
     }
