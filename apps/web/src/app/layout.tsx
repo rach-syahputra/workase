@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { SessionProvider } from 'next-auth/react';
@@ -95,16 +96,26 @@ export default function RootLayout({
       <body
         className={`${geist.variable} ${cocogooes.variable} ${timesNewRoman.variable} text-primary-dark font-[family-name:var(--font-geist)] antialiased`}
       >
-        <SessionProvider>
-          <UserStatsProvider>
-            <SearchJobProvider>
-              <AssessmentSessionProvider>
-                <BottomNavigationProdiver>{children}</BottomNavigationProdiver>
-              </AssessmentSessionProvider>
-            </SearchJobProvider>
-          </UserStatsProvider>
-        </SessionProvider>
-        <Toaster />
+        <Suspense
+          fallback={
+            <div className="flex min-h-screen items-center justify-center text-sm">
+              Loading data, please stand by
+            </div>
+          }
+        >
+          <SessionProvider>
+            <UserStatsProvider>
+              <SearchJobProvider>
+                <AssessmentSessionProvider>
+                  <BottomNavigationProdiver>
+                    {children}
+                  </BottomNavigationProdiver>
+                </AssessmentSessionProvider>
+              </SearchJobProvider>
+            </UserStatsProvider>
+          </SessionProvider>
+          <Toaster />
+        </Suspense>
       </body>
     </html>
   );
