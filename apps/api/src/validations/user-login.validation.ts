@@ -1,4 +1,3 @@
-import { hashedPassword } from '../helpers/bcrypt';
 import { ResponseError } from '../helpers/error';
 import { getUserByEmail } from '../helpers/user.prisma';
 import { UserLogin } from '../interfaces/user.interface';
