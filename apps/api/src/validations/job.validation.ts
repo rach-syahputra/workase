@@ -1,5 +1,4 @@
 import prisma from '../prisma';
-import { Request, Response, NextFunction } from 'express';
 import * as Yup from 'yup';
 
 const validTitle = async (): Promise<string[]> => {
