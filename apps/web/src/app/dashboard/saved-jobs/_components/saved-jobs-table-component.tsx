@@ -61,13 +61,13 @@ export default function SavedJobsTableComponent({
         <TableHeader>
           <TableRow>
             <TableHead className="w-[20%]">Location </TableHead>
-            <TableHead className="w-[20%]">Company Name</TableHead>
-            <TableHead className="w-[26%]" onClick={() => toggleSort('title')}>
+            <TableHead className="w-[14%]">Company Name</TableHead>
+            <TableHead className="w-[32%]" onClick={() => toggleSort('title')}>
               Job Title
               {sortField === 'title' && sortOrder === 'asc' ? (
-                <MdArrowUpward className="ml-1 inline" />
+                <MdArrowUpward className="inline ml-1" />
               ) : (
-                <MdArrowDownward className="ml-1 inline" />
+                <MdArrowDownward className="inline ml-1" />
               )}
             </TableHead>
             <TableHead className="w-[26%]">Category</TableHead>
@@ -85,15 +85,19 @@ export default function SavedJobsTableComponent({
                 )}
                 onClick={() => router.push(`/jobs/${data.job.slug}`)}
               >
-                <TableCell className="font-medium">
+                <TableCell className="overflow-hidden font-medium w-60 overflow-ellipsis whitespace-nowrap">
                   {data.job.company.location}
                 </TableCell>
-                <TableCell>{data.job.company.name}</TableCell>
-                <TableCell>{data.job.title}</TableCell>
+                <TableCell className="overflow-hidden min-w-32 max-w-52 overflow-ellipsis whitespace-nowrap">
+                  {data.job.company.name}
+                </TableCell>
+                <TableCell className="overflow-hidden min-w-32 max-w-52 overflow-ellipsis whitespace-nowrap">
+                  {data.job.title}
+                </TableCell>
                 <TableCell>
                   <div
                     className={cn(
-                      `jutsify-center max-w-[120px] flex-col items-center rounded p-1 text-center ${data.job.category == 'FULL_TIME' ? 'bg-green-400' : data.job.category == 'PART_TIME' ? 'bg-blue-300' : data.job.category == 'FREELANCE' ? 'bg-orange-300' : 'bg-gray-300'}`,
+                      `jutsify-center min-w-fit max-w-[120px] flex-col items-center overflow-hidden overflow-ellipsis whitespace-nowrap rounded p-1 text-center ${data.job.category == 'FULL_TIME' ? 'bg-green-400' : data.job.category == 'PART_TIME' ? 'bg-blue-300' : data.job.category == 'FREELANCE' ? 'bg-orange-300' : 'bg-gray-300'}`,
                     )}
                   >
                     {formatCategory(data.job.category)}
@@ -101,11 +105,11 @@ export default function SavedJobsTableComponent({
                 </TableCell>
                 <TableCell>
                   {' '}
-                  <button className="bg-primary-blue flex h-[38px] items-center justify-center rounded-md text-white hover:bg-blue-500">
+                  <button className="bg-primary-blue flex h-[26px] items-center justify-center rounded-md text-white hover:bg-blue-500">
                     {data?.jobId && (
                       <button
                         onClick={(e) => e.stopPropagation()}
-                        className="h-fit w-full"
+                        className="w-full h-fit"
                       >
                         <DialogApplyJob jobId={data.jobId as string} />
                       </button>
@@ -114,7 +118,7 @@ export default function SavedJobsTableComponent({
                 </TableCell>
                 <TableCell className="">
                   <button
-                    className="flex w-full justify-center p-2"
+                    className="flex justify-center w-full p-2"
                     onClick={(e) => handleDelete(e, data.jobId)}
                   >
                     <MdDelete className="scale-150" />
@@ -127,7 +131,7 @@ export default function SavedJobsTableComponent({
           <TableRow>
             <TableCell colSpan={6}>
               <div className="flex items-center justify-between">
-                <div className="text-muted-foreground text-sm">
+                <div className="text-sm text-muted-foreground">
                   Page {currentPage} of {totalPages || 1}
                 </div>
                 <div className="flex gap-2">

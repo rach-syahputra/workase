@@ -10,6 +10,7 @@ import {
   loginUserWithGoogle,
   refreshCompanyToken,
   refreshUserToken,
+  registerCompanyWithGoogle,
   registerUserWithGoogle,
 } from './lib/apis/authentication';
 import { developerLogin } from './lib/apis/developer';
@@ -110,24 +111,25 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       const { email } = profile as Profile;
       if (user.type == 'user') {
+        let response: AuthCallbackResponse;
         try {
-          const response = await loginUserWithGoogle(email as string);
-          user.accessToken = response.data.data.accessToken;
-          user.refreshToken = response.data.data.refreshToken;
-          user.type = 'user';
+          response = await loginUserWithGoogle(email as string);
+          if (!response) throw new Error();
         } catch (e) {
-          await registerUserWithGoogle(email as string);
+          response = await registerUserWithGoogle(email as string);
         }
-        return true;
+        user.accessToken = response.data.accessToken;
+        user.refreshToken = response.data.refreshToken;
       } else if (user.type == 'company') {
+        let response: AuthCallbackResponse;
         try {
-          const response = await loginCompanyWithGoogle(email as string);
-          user.accessToken = response.data.data.accessToken;
-          user.refreshToken = response.data.data.refreshToken;
-          user.type = 'company';
+          response = await loginCompanyWithGoogle(email as string);
+          if (!response) throw new Error();
         } catch (e) {
-          await registerUserWithGoogle(email as string);
+          response = await registerCompanyWithGoogle(email as string);
         }
+        user.accessToken = response.data.accessToken;
+        user.refreshToken = response.data.refreshToken;
       } else if (user.type == 'developer') {
         return true;
       }

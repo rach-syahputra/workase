@@ -23,9 +23,9 @@ export function NewestJobs({ jobs }: NewestJobsProps) {
     <div className="w-full max-w-[90%] lg:max-w-[90%]">
       {jobs.length > 0 && (
         <>
-          <div className="font-geist mb-[9px] flex items-center justify-center gap-1 text-[12.5px] text-sm font-medium sm:text-[16.0px] md:my-5">
+          <div className="font-geist mb-[9px] flex items-center justify-center gap-1 text-[12.4px] text-sm font-medium sm:text-[16.0px] md:my-5">
             <Sparkles className="scale-75 text-blue-500" />5 Newest Jobs
-            Available For You, <u> Swipe !</u>
+            Available For You, <b> Swipe !</b>
           </div>
           <Carousel
             className=""

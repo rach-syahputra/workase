@@ -118,7 +118,7 @@ const JobCard = ({
         className="border-primary-background-gray block rounded-md border shadow-[0_8px_32px_rgba(0,0,0,0.04)] transition-all duration-300 ease-in-out hover:scale-[1.01] hover:border hover:border-blue-500/50 hover:shadow-[0_4px_20px_rgba(0,0,0,0.08)] md:border-0"
       >
         <Card className="group relative">
-          <CardHeader className="w-[100%] min-w-[500px] gap-1.5">
+          <CardHeader className="w-[100%] gap-1.5">
             <div className="flex items-center justify-between">
               <CardTitle className="font-bold">{title}</CardTitle>
             </div>
@@ -145,7 +145,9 @@ const JobCard = ({
                 >
                   {companyName}
                 </Link>
-                <p className="text-sm">{location}</p>
+                <p className="w-56 overflow-hidden overflow-ellipsis whitespace-nowrap text-sm">
+                  {location}
+                </p>
               </div>
             </div>
           </CardContent>

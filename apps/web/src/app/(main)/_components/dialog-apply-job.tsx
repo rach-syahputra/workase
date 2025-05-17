@@ -19,7 +19,7 @@ import {
   ApplicationSchema,
 } from '@/types/submit-cv-types-and-validation';
 import { FileUpload, SalaryInput } from './dialog-form-component';
-
+import { usePathname, useSearchParams } from 'next/navigation';
 export function DialogApplyJob({
   jobId,
   className,
@@ -27,22 +27,26 @@ export function DialogApplyJob({
 }: DialogApplyJobProps) {
   const { data: session, status } = useSession();
   const { toast } = useToast();
-
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const currentPath = `${pathname}${searchParams.toString() ? '?' + searchParams.toString() : ''}`;
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectedFileName, setSelectedFileName] = useState('');
   const [uploadError, setUploadError] = useState('');
-
   const handleOpenChange = (newOpen: boolean) => {
     if (newOpen && status !== 'authenticated') {
       setOpen(false);
       sessionStorage.setItem('redirectAfterLogin', window.location.pathname);
       toast({
         title: 'Login Required',
-        description: 'You need to login before applying for this job',
+        description:
+          'You need to login before applying for this job. Now, we`ll save this url for you',
         variant: 'destructive',
       });
-      window.location.href = '/users/login';
+      setTimeout(() => {
+        window.location.href = `/users/login?redirect=${encodeURIComponent(currentPath)}`;
+      }, 5000);
       return;
     }
     if (
@@ -68,7 +72,6 @@ export function DialogApplyJob({
       setUploadError('');
     }
   };
-
   const formik = useFormik({
     initialValues: {
       expectedSalary: '',
@@ -76,16 +79,6 @@ export function DialogApplyJob({
     },
     validationSchema: ApplicationSchema,
     onSubmit: async (values) => {
-      if (!session) {
-        toast({
-          title: 'Login Required',
-          description: 'You need to login before applying for this job',
-          variant: 'destructive',
-        });
-        window.location.href = '/users/login';
-        return;
-      }
-
       if (!values.cv) {
         toast({
           title: 'CV Required',
@@ -94,7 +87,6 @@ export function DialogApplyJob({
         });
         return;
       }
-
       try {
         setIsSubmitting(true);
         const formData = new FormData();
@@ -114,12 +106,10 @@ export function DialogApplyJob({
             `Failed to apply for the job: ${response.statusText}`,
           );
         }
-
         toast({
           title: 'Application submitted',
           description: 'Your application has been submitted successfully',
         });
-
         setOpen(false);
         formik.resetForm();
         setSelectedFileName('');

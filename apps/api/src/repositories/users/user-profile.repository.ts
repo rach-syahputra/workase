@@ -1,3 +1,4 @@
+import { userCheckPassword } from '../../validations/user-login.validation';
 import cloudinary, { getPublicId } from '../../helpers/cloudinary';
 import { ResponseError } from '../../helpers/error';
 import { generateHashedPassword } from '../../helpers/utils';
@@ -34,7 +35,8 @@ class updateUserProfileRepository {
   static async updateUserProfile(req: UserRequest) {
     const {
       email,
-      password,
+      newPassword,
+      currentPassword,
       placeOfBirth,
       dateOfBirth,
       gender,
@@ -42,11 +44,23 @@ class updateUserProfileRepository {
       address,
     } = req.body;
     const id = req.user?.id;
+    const yourEmail = req.user?.email;
     const data: Prisma.UserUpdateInput = {};
+    if (currentPassword && yourEmail) {
+      try {
+        await userCheckPassword(yourEmail, currentPassword);
+      } catch (error) {
+        if (error instanceof ResponseError) {
+          throw error;
+        }
+        throw new ResponseError(500, 'Internal Server Error');
+      }
+
+      data.password = await generateHashedPassword(newPassword);
+    }
     if (email) data.email = email;
     if (email) data.slug = email.split('../..')[0];
     if (email) data.isVerified = false;
-    if (password) data.password = await generateHashedPassword(password);
     if (placeOfBirth) data.placeOfBirth = placeOfBirth;
     if (dateOfBirth) data.dateOfBirth = dateOfBirth;
     if (gender) data.gender = gender;
@@ -82,7 +96,7 @@ class updateUserPhotoProfileRepository {
   static async updateUserPhotoProfile(req: UserRequest) {
     const id = req.user?.id;
     const user = await prisma.user.findUnique({ where: { id } });
-//remove image from cloudinary
+    //remove image from cloudinary
     if (user?.profilePhoto) {
       const publicId = getPublicId(user.profilePhoto);
       await cloudinary.uploader.destroy(publicId);

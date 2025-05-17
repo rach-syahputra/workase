@@ -20,7 +20,7 @@ const authProvider = async (authProvider: string, password: string) => {
   return true;
 };
 
-const checkPassword = async (email: string, password: string) => {
+export const companyCheckPassword = async (email: string, password: string) => {
   const user = (await getCompanyByEmail(email)) as UserLogin;
   if (!(await compare(password, user.password as string))) {
     throw new ResponseError(401, 'Invalid password');
@@ -49,7 +49,7 @@ const companyLoginSchema = () => {
         const email = this.parent.email;
         if (value) {
           try {
-            await checkPassword(email, value);
+            await companyCheckPassword(email, value);
             return true;
           } catch (error) {
             return false;
