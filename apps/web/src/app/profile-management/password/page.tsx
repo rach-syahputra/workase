@@ -10,19 +10,19 @@ import * as Yup from 'yup';
 import { useState } from 'react';
 import { Info } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { IResetPasswordForm } from '@/types/reset-password-form';
 const ResetPasswordSchema = Yup.object().shape({
-  password: Yup.string()
+  currentPassword: Yup.string()
+    .required('password is required')
+    .min(8, 'Password must be at least 8 characters'),
+  newPassword: Yup.string()
     .required('password is required')
     .min(8, 'Password must be at least 8 characters'), // password is required
   confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password'), undefined], 'Passwords must match')
+    .oneOf([Yup.ref('newPassword'), undefined], 'Passwords must match')
     .required('please confirm your password'),
 });
 
-interface IResetPasswordForm {
-  password: string;
-  confirmPassword: string;
-}
 const roleUrl = {
   ADMIN: 'companies',
   USER: 'users',
@@ -32,7 +32,8 @@ export default function PasswordSettingsPage() {
   const [showTooltip, setShowTooltip] = useState(false);
   const { data: session } = useSession();
   const initialValues: IResetPasswordForm = {
-    password: '',
+    currentPassword: '',
+    newPassword: '',
     confirmPassword: '',
   };
 
@@ -50,7 +51,8 @@ export default function PasswordSettingsPage() {
       const response = await axiosPublic.patch(
         `/${roleUrl[session?.user?.role as keyof typeof roleUrl]}`,
         {
-          password: values.password,
+          currentPassword: values.currentPassword,
+          newPassword: values.newPassword,
           authProvider: session?.user?.authProvider,
         },
         {
@@ -99,30 +101,32 @@ export default function PasswordSettingsPage() {
         <form
           action=""
           onSubmit={formik.handleSubmit}
-          className="max-w-[1065px] md:px-[30px]"
+          className="max-w-[1065px] md:w-[540px] md:px-[30px]"
         >
           <div className="flex w-full flex-col justify-center pt-[20px] md:pt-0">
             <div className="flex items-center">
-              <div className="pb-[5px] pt-[13px] font-medium">New Password</div>
+              <div className="pb-[5px] pt-[13px] font-medium">
+                Current Password
+              </div>
               <div className="flex w-6 justify-center pb-[5px] pt-[13px] font-medium">
                 <div className="relative flex justify-center">
                   <span
                     onMouseEnter={() => setShowTooltip(true)}
                     onMouseLeave={() => setShowTooltip(false)}
-                    className="inline-flex cursor-help text-gray-500"
+                    className="inline-flex text-gray-500 cursor-help"
                   >
                     <Info size={14} />
                   </span>
                   {showTooltip && (
-                    <div className="absolute bottom-full left-1/2 z-10 mb-2 w-64 -translate-x-1/2 transform rounded bg-gray-800 p-3 text-xs text-white shadow-lg">
+                    <div className="absolute z-10 w-64 p-3 mb-2 text-xs text-white transform -translate-x-1/2 bg-gray-800 rounded shadow-lg bottom-full left-1/2">
                       <div className="mb-1 font-semibold">Attention:</div>
-                      <ul className="list-disc space-y-1 pl-4">
+                      <ul className="pl-4 space-y-1 list-disc">
                         <li>
                           user or company that use thirt-party service cannot
                           reset password
                         </li>
                       </ul>
-                      <div className="absolute bottom-0 left-1/2 h-2 w-2 -translate-x-1/2 translate-y-1/2 rotate-45 transform bg-gray-800"></div>
+                      <div className="absolute bottom-0 w-2 h-2 transform rotate-45 -translate-x-1/2 translate-y-1/2 bg-gray-800 left-1/2"></div>
                     </div>
                   )}
                 </div>
@@ -131,17 +135,35 @@ export default function PasswordSettingsPage() {
             <input
               className="w-full rounded-lg border-[1px] border-gray-300 py-[8px] pl-2 text-[14px] font-medium text-black"
               type="password"
-              value={formik.values.password}
-              name="password"
+              value={formik.values.currentPassword}
+              name="currentPassword"
               onChange={formik.handleChange}
-              id="password"
+              id="currentPassword"
               onBlur={formik.handleBlur}
               placeholder=""
             />
-            {formik.touched.password && formik.errors.password && (
-              <p className="text-sm text-red-500">{formik.errors.password}</p>
+            {formik.touched.newPassword && formik.errors.newPassword && (
+              <p className="text-sm text-red-500">
+                {formik.errors.newPassword}
+              </p>
             )}
-            <div className="pb-[5px] pt-[13px] font-medium">
+            <div className="pb-[5px] pt-[24px] font-medium">New Password</div>
+            <input
+              className="w-full rounded-lg border-[1px] border-gray-300 py-[8px] pl-2 text-[14px] font-medium text-black"
+              type="password"
+              value={formik.values.newPassword}
+              name="newPassword"
+              onChange={formik.handleChange}
+              id="newPassword"
+              onBlur={formik.handleBlur}
+              placeholder=""
+            />
+            {formik.touched.newPassword && formik.errors.newPassword && (
+              <p className="text-sm text-red-500">
+                {formik.errors.newPassword}
+              </p>
+            )}
+            <div className="pb-[5px] pt-[24px] font-medium">
               Confirm New Password
             </div>
             <input
