@@ -42,7 +42,7 @@ export default function Sidebar() {
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       {/* Hamburger Button */}
-      <SheetTrigger className="h-[60px] w-[45px] md:hidden" asChild>
+      <SheetTrigger className="h-[60px] w-[38px] md:hidden" asChild>
         <button
           className="mt-[9.2px] h-[60px] w-[25px]"
           onClick={() => setIsOpen(true)}
