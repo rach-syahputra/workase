@@ -7,6 +7,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { applicationDetail } from '../page';
 import { useToast } from '@/hooks/use-toast';
+import { GoLinkExternal } from 'react-icons/go';
 export interface IDetaiilApplicationProps extends applicationDetail {
   cvUrl: string;
   salaryEstimate: number;
@@ -31,13 +32,13 @@ export default function DetaiilApplication() {
       } catch (err) {
         toast({
           title: 'Error',
-          description: `Error fetching jobs aplications:${err}`,
+          description: `Error fetching jobs aplications`,
           variant: 'destructive',
         });
       }
     }
     fetchData();
-  }, [session, jobId]);
+  }, [session, jobId, toast]);
   return (
     <div>
       <UserDashboardContainer className="min-h-[calc(100svh-108px)]">
@@ -107,8 +108,14 @@ export default function DetaiilApplication() {
             <div className="grid grid-cols-[150px_1fr]">
               <div className="">Submitted CV</div>
               <div className="break-all">
-                <a href={data?.cvUrl} className="text-blue-500">
-                  {data?.cvUrl}
+                <a
+                  href={data?.cvUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 text-blue-500"
+                >
+                  View Your CV
+                  <GoLinkExternal />
                 </a>
               </div>
             </div>
