@@ -1,6 +1,6 @@
 'use client';
 import Container from '@/components/layout/container';
-import { PageType } from '@/types/profile-page';
+import { PageType } from '@/lib/interfaces/profile-page';
 import { usePathname, useRouter } from 'next/navigation';
 import SidebarPage from './_components/sidebar';
 import BottomNavigation from '@/components/layout/bottom-navigation';
@@ -91,7 +91,7 @@ export default function MainLayout({
     router.push(`/profile-management/${page === 'profile' ? '' : page}`);
   };
   return (
-    <div className="flex-col h-screen">
+    <div className="h-screen flex-col">
       <NavigationBar />
       <div className="flex min-h-[calc(100vh-0px-0px)] min-w-[calc(100vw)] bg-gray-50 md:min-h-[calc(100vh-0px-0px)]">
         <aside className="">

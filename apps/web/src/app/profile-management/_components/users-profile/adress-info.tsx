@@ -1,6 +1,6 @@
 import { Button } from '@/components/shadcn-ui/button';
 import { FormikProps } from 'formik';
-import { IUpdateForm } from '@/types/profile';
+import { IUpdateForm } from '@/lib/interfaces/profile';
 
 interface AddressProps {
   formik: FormikProps<IUpdateForm>;

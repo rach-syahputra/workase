@@ -6,7 +6,7 @@ import {
   SelectValue,
 } from '@/components/shadcn-ui/select';
 import { FormikProps } from 'formik';
-import { IUpdateForm } from '@/types/profile';
+import { IUpdateForm } from '@/lib/interfaces/profile';
 import { useSession } from 'next-auth/react';
 
 interface GenderEducationProps {

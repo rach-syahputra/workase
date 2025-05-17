@@ -1,4 +1,4 @@
-import { Pagination } from '@/types/companies';
+import { Pagination } from '@/lib/interfaces/companies';
 import { Job } from '@/context/search-job-context';
 import {
   Tabs,

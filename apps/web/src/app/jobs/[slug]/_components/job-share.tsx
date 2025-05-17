@@ -20,7 +20,7 @@ import { Share, Linkedin, Facebook, Twitter, Send } from 'lucide-react';
 import { Button } from '@/components/shadcn-ui/button';
 
 import { CiShare1 } from 'react-icons/ci';
-import { JobDetail } from '@/types/job-detail';
+import { JobDetail } from '@/lib/interfaces/job-detail';
 import { useToast } from '@/hooks/use-toast';
 
 export function JobShareComponent({ job }: { job: JobDetail }) {
@@ -108,19 +108,19 @@ export function JobShareComponent({ job }: { job: JobDetail }) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem onClick={() => hanldeShareDirect('linkedin')}>
-            <Linkedin className="w-4 h-4 mr-2" />
+            <Linkedin className="mr-2 h-4 w-4" />
             <span>Linkedin</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => hanldeShareDirect('facebook')}>
-            <Facebook className="w-4 h-4 mr-2" />
+            <Facebook className="mr-2 h-4 w-4" />
             <span>Facebook</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => handleShareClick('twitter')}>
-            <Twitter className="w-4 h-4 mr-2" />
+            <Twitter className="mr-2 h-4 w-4" />
             <span>Twitter</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => handleShareClick('whatsapp')}>
-            <Send className="w-4 h-4 mr-2" />
+            <Send className="mr-2 h-4 w-4" />
             <span>Whatsapp</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -138,7 +138,7 @@ export function JobShareComponent({ job }: { job: JobDetail }) {
               value={customMessage}
               onChange={(e) => setCustomMessage(e.target.value)}
               placeholder={`Check out this job opportunity:${job.title} at ${job.company.name}`}
-              className="text-sm min-h-24"
+              className="min-h-24 text-sm"
             />
           </div>
           <DialogFooter className="sm:justify-end">

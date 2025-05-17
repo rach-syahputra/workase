@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { FormikProps } from 'formik';
-import { IUpdateForm } from '@/types/profile';
+import { IUpdateForm } from '@/lib/interfaces/profile';
 
 interface FormValues {
   formik: FormikProps<IUpdateForm>;

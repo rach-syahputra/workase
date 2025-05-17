@@ -1,5 +1,5 @@
 'use client';
-import { IUpdateForm } from '@/types/profile';
+import { IUpdateForm } from '@/lib/interfaces/profile';
 import { FormikProps } from 'formik';
 import { Info } from 'lucide-react';
 import { useState } from 'react';

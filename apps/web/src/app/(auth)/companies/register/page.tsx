@@ -13,7 +13,7 @@ import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
 import { CompanyRegisterSchema } from '@/validations/company-register';
 import { ICompanyRegisterForm } from '@/lib/interfaces/form/company-register';
-import { initialValuesForCompanyRegister } from '@/lib/initial-values/company-register';
+import { initialValuesForCompanyRegister } from '@/lib/interfaces/form/company-register';
 const signInItem = ['User', 'Company'];
 export default function Register() {
   const { toast } = useToast();
@@ -62,12 +62,12 @@ export default function Register() {
     setLoading(false);
   }, 1000);
   return loading ? (
-    <div className="bg-background fixed left-0 top-0 flex min-h-screen w-screen flex-1 items-center justify-center">
+    <div className="fixed top-0 left-0 flex items-center justify-center flex-1 w-screen min-h-screen bg-background">
       <AppLoading size="md" label="Loading data, please stand by..." />
     </div>
   ) : (
     <div className="font-geist mt-[-10px] md:w-[650px]">
-      <div className="flex w-full justify-center">
+      <div className="flex justify-center w-full">
         <div className="w-[420px]">
           <div className="flex flex-col items-center justify-center pb-2">
             <div className="flex items-center gap-3 pb-2 text-[24px] font-semibold">
@@ -167,25 +167,25 @@ export default function Register() {
               })
             }
           >
-            <div className="relative flex w-full items-center justify-center">
+            <div className="relative flex items-center justify-center w-full">
               <Image
                 width={50}
                 height={10}
                 src="/Google.svg"
                 alt="Google Logo"
-                className="absolute left-6 h-4 sm:static sm:px-3"
+                className="absolute h-4 left-6 sm:static sm:px-3"
               />
               <center className="font-medium">Continue with Google</center>
             </div>
           </button>
-          <div className="mt-4 flex gap-2 md:mt-5">
+          <div className="flex gap-2 mt-4 md:mt-5">
             {signInItem.map((item) => (
               <Link
                 key={item}
                 href={`/${item == 'User' ? 'users' : 'companies'}/login`}
                 className="flex h-[45px] w-full items-center rounded-lg border-[1px] border-gray-300 bg-white hover:bg-gray-50"
               >
-                <button className="relative flex w-full items-center justify-center">
+                <button className="relative flex items-center justify-center w-full">
                   <center
                     className={`${item == 'User' ? 'text-primary-blue' : 'text-[#9A6713]'} font-light`}
                   >
