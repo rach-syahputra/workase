@@ -18,7 +18,9 @@ export default function Login() {
           <div className="hidden text-center md:block">
             {session.user.email ? (
               <div className="flex items-center">
-                <div className="mr-1">{session.user.email.split('@')[0]}</div>
+                <div className="w-24 mr-1 overflow-hidden overflow-ellipsis whitespace-nowrap">
+                  {session.user.email.split('@')[0]}
+                </div>
               </div>
             ) : (
               <div className="flex items-center">
@@ -32,7 +34,6 @@ export default function Login() {
       ) : (
         tabs.map((tab) => (
           <div key={tab} className="relative flex items-center">
-
             <Link
               href={
                 tab === 'Sign in'
