@@ -118,10 +118,12 @@ class GetAssessmentRepository {
       skip: skipConfig,
     });
 
-    // Retrieve assessment with at least 25 questions
+    // ACTUAL: Retrieve assessment with at least 25 questions
+    // TEMPORARY: Retrieve assessment with questions less than 25 for presentation purpose
     const filteredAssessments = assessments.filter(
-      (assessment) => assessment.AssessmentQuestion.length >= 25,
+      (assessment) => assessment.AssessmentQuestion.length >= 5,
     );
+
     const totalAssessments = filteredAssessments.length || 0;
 
     return {
