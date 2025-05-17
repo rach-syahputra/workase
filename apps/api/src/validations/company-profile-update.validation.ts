@@ -44,9 +44,32 @@ const companyProfileUpdateSchema = () => {
           return true;
         },
       ),
-    password: Yup.string()
-      .optional()
-      .min(8, 'Password must be at least 8 characters'),
+    currentPassword: Yup.string()
+      .min(8, 'Password must be at least 8 characters')
+      .test(
+        'current-required-if-new',
+        'Current password is required when changing password',
+        function (value) {
+          const newPassword = this.parent.newPassword;
+          if (newPassword && !value) {
+            return false;
+          }
+          return true;
+        },
+      ),
+    newPassword: Yup.string()
+      .min(8, 'Password must be at least 8 characters')
+      .test(
+        'new-required-if-current',
+        'New password is required when current password is filled',
+        function (value) {
+          const currentPassword = this.parent.currentPassword;
+          if (currentPassword && !value) {
+            return false;
+          }
+          return true;
+        },
+      ),
     phoneNumber: Yup.string()
       .optional()
       .min(8, 'Telp must be at least 8 characters')
@@ -62,7 +85,7 @@ const companyProfileUpdateSchema = () => {
         'check-auth-provider',
         'If Auth provider is GOOGLE, the company doesn`t need reset his password',
         async function (value) {
-          const password = this.parent.password;
+          const password = this.parent.currentPassword;
           if (value) {
             try {
               await authProvider(value, password);

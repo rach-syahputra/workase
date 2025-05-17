@@ -1,5 +1,4 @@
 'use client';
-import { auth } from '@/auth';
 import { Button } from '@/components/shadcn-ui/button';
 import { axiosPublic } from '@/lib/axios';
 import { useFormik } from 'formik';
@@ -10,19 +9,19 @@ import * as Yup from 'yup';
 import { useState } from 'react';
 import { Info } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { IResetPasswordForm } from '@/types/reset-password-form';
 const ResetPasswordSchema = Yup.object().shape({
-  password: Yup.string()
+  currentPassword: Yup.string()
+    .required('password is required')
+    .min(8, 'Password must be at least 8 characters'),
+  newPassword: Yup.string()
     .required('password is required')
     .min(8, 'Password must be at least 8 characters'), // password is required
   confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password'), undefined], 'Passwords must match')
+    .oneOf([Yup.ref('newPassword'), undefined], 'Passwords must match')
     .required('please confirm your password'),
 });
 
-interface IResetPasswordForm {
-  password: string;
-  confirmPassword: string;
-}
 const roleUrl = {
   ADMIN: 'companies',
   USER: 'users',
@@ -32,7 +31,8 @@ export default function PasswordSettingsPage() {
   const [showTooltip, setShowTooltip] = useState(false);
   const { data: session } = useSession();
   const initialValues: IResetPasswordForm = {
-    password: '',
+    currentPassword: '',
+    newPassword: '',
     confirmPassword: '',
   };
 
@@ -50,7 +50,8 @@ export default function PasswordSettingsPage() {
       const response = await axiosPublic.patch(
         `/${roleUrl[session?.user?.role as keyof typeof roleUrl]}`,
         {
-          password: values.password,
+          currentPassword: values.currentPassword,
+          newPassword: values.newPassword,
           authProvider: session?.user?.authProvider,
         },
         {
@@ -99,11 +100,13 @@ export default function PasswordSettingsPage() {
         <form
           action=""
           onSubmit={formik.handleSubmit}
-          className="max-w-[1065px] md:px-[30px]"
+          className="max-w-[1065px] md:w-[540px] md:px-[30px]"
         >
           <div className="flex w-full flex-col justify-center pt-[20px] md:pt-0">
             <div className="flex items-center">
-              <div className="pb-[5px] pt-[13px] font-medium">New Password</div>
+              <div className="pb-[5px] pt-[13px] font-medium">
+                Current Password
+              </div>
               <div className="flex w-6 justify-center pb-[5px] pt-[13px] font-medium">
                 <div className="relative flex justify-center">
                   <span
@@ -131,17 +134,35 @@ export default function PasswordSettingsPage() {
             <input
               className="w-full rounded-lg border-[1px] border-gray-300 py-[8px] pl-2 text-[14px] font-medium text-black"
               type="password"
-              value={formik.values.password}
-              name="password"
+              value={formik.values.currentPassword}
+              name="currentPassword"
               onChange={formik.handleChange}
-              id="password"
+              id="currentPassword"
               onBlur={formik.handleBlur}
               placeholder=""
             />
-            {formik.touched.password && formik.errors.password && (
-              <p className="text-sm text-red-500">{formik.errors.password}</p>
+            {formik.touched.newPassword && formik.errors.newPassword && (
+              <p className="text-sm text-red-500">
+                {formik.errors.newPassword}
+              </p>
             )}
-            <div className="pb-[5px] pt-[13px] font-medium">
+            <div className="pb-[5px] pt-[24px] font-medium">New Password</div>
+            <input
+              className="w-full rounded-lg border-[1px] border-gray-300 py-[8px] pl-2 text-[14px] font-medium text-black"
+              type="password"
+              value={formik.values.newPassword}
+              name="newPassword"
+              onChange={formik.handleChange}
+              id="newPassword"
+              onBlur={formik.handleBlur}
+              placeholder=""
+            />
+            {formik.touched.newPassword && formik.errors.newPassword && (
+              <p className="text-sm text-red-500">
+                {formik.errors.newPassword}
+              </p>
+            )}
+            <div className="pb-[5px] pt-[24px] font-medium">
               Confirm New Password
             </div>
             <input

@@ -107,14 +107,14 @@ export default function CompanyPage() {
     <Container className="">
       <div className="flex flex-col items-start w-full justify-normal">
         <div className="flex flex-col items-start w-full justify-normal">
-          <div className="my-2 flex w-full flex-row items-center justify-normal gap-2.5">
+          <div className="mb-2 flex w-full flex-row items-center justify-normal gap-2.5">
             {data?.logoUrl ? (
               <Image
                 src={`${data?.logoUrl || ''}`}
                 alt="Company logo"
                 width={200}
                 height={200}
-                className="object-cover my-1 rounded-full aspect-square w-28"
+                className="object-cover w-20 my-1 rounded-full aspect-square"
               />
             ) : (
               <div className="flex items-center justify-center bg-gray-200 border rounded-full aspect-square w-28">
@@ -125,26 +125,28 @@ export default function CompanyPage() {
               <Link
                 href="#"
                 aria-label="Company detail"
-                className="flex w-full justify-normal px-[1px] py-[2px] text-[30px] font-semibold text-black"
+                className="flex w-full justify-normal px-[1px] py-[2px] text-[20px] font-semibold text-black md:text-[22px]"
               >
                 {data?.name}
               </Link>
-              <div className="flex gap-1 px-[2.5px] text-lg font-light">
-                <p className="">{data?.location}</p>
-                <p className="">·</p>
-                <p>{data?.category}</p>
+              <div className="flex flex-col gap-1 px-[2.5px] text-sm font-light text-gray-500 md:flex-row">
+                <p className="overflow-hidden w-60 overflow-ellipsis whitespace-nowrap md:w-fit">
+                  {data?.location}
+                </p>
+                <p className="hidden md:block">·</p>
+                <p className="">{data?.category}</p>
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-1 md:flex-row md:items-center">
+          <div className="flex flex-col gap-1 md:flex-row md:items-center md:justify-center">
             <div className="flex items-center gap-1">
-              <FiPhone />
-              <div className="">{data?.phoneNumber}</div>
+              <FiPhone className="w-4" />
+              <div className="text-sm md:text-md">{data?.phoneNumber}</div>
             </div>
             <div className="hidden mx-2 md:block">·</div>
             <div className="flex items-center gap-1">
-              <HiOutlineMail />
-              <div className="">{data?.email}</div>
+              <HiOutlineMail className="mt-[1.5px] w-4" />
+              <div className="text-sm md:text-md">{data?.email}</div>
             </div>
           </div>
 

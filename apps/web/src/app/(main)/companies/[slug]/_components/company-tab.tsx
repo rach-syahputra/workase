@@ -26,13 +26,13 @@ const CompanyTab = ({
   return (
     <Tabs defaultValue="overview" className="mt-4 w-full">
       <TabsList className="w-full justify-start">
-        <TabsTrigger value="overview" className="px-8">
+        <TabsTrigger value="overview" className="w-full md:w-auto md:px-8">
           Overview
         </TabsTrigger>
-        <TabsTrigger value="jobPosted" className="px-8">
+        <TabsTrigger value="jobPosted" className="w-full md:w-auto md:px-8">
           Job Posted
         </TabsTrigger>
-        <TabsTrigger value="reviews" className="px-8">
+        <TabsTrigger value="reviews" className="w-full md:w-auto md:px-8">
           Reviews
         </TabsTrigger>
       </TabsList>
