@@ -6,7 +6,7 @@ import { Building2 } from 'lucide-react';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import * as React from 'react';
-import { redirect, useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import AppLoading from '@/components/ui/app-loading';
 import Image from 'next/image';
