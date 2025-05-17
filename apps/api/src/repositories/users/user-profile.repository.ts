@@ -1,4 +1,4 @@
-import { checkPassword } from 'src/validations/user-login.validation';
+import { userCheckPassword } from 'src/validations/user-login.validation';
 import cloudinary, { getPublicId } from '../../helpers/cloudinary';
 import { ResponseError } from '../../helpers/error';
 import { generateHashedPassword } from '../../helpers/utils';
@@ -48,7 +48,7 @@ class updateUserProfileRepository {
     const data: Prisma.UserUpdateInput = {};
     if (currentPassword && yourEmail) {
       try {
-        await checkPassword(yourEmail, currentPassword);
+        await userCheckPassword(yourEmail, currentPassword);
       } catch (error) {
         if (error instanceof ResponseError) {
           throw error;

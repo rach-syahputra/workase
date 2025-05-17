@@ -1,3 +1,4 @@
+import { companyCheckPassword } from 'src/validations/company-login.validation';
 import cloudinary, { getPublicId } from '../../helpers/cloudinary';
 import { ResponseError } from '../../helpers/error';
 import { generateHashedPassword } from '../../helpers/utils';
@@ -10,19 +11,32 @@ class updateCompanyProfileRepository {
     const {
       name,
       email,
-      password,
+      newPassword,
+      currentPassword,
       phoneNumber,
       description,
       category,
       location,
     } = req.body;
     const id = req.user?.id;
+    const yourEmail = req.user?.email;
     const data: Prisma.CompanyUpdateInput = {};
+    if (currentPassword && yourEmail) {
+      try {
+        await companyCheckPassword(yourEmail, currentPassword);
+      } catch (error) {
+        if (error instanceof ResponseError) {
+          throw error;
+        }
+        throw new ResponseError(500, 'Internal Server Error');
+      }
+
+      data.password = await generateHashedPassword(newPassword);
+    }
     if (name) data.name = name;
     if (email) data.email = email;
     if (email) data.slug = email.split('../..')[0];
     if (email) data.isVerified = false;
-    if (password) data.password = await generateHashedPassword(password);
     if (phoneNumber) data.phoneNumber = phoneNumber;
     if (description) data.description = description;
     if (category) data.category = category;
