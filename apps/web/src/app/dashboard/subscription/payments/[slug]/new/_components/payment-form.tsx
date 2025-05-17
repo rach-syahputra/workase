@@ -77,7 +77,7 @@ const PaymentForm = ({ payment }: PaymentFormProps) => {
   return (
     <form
       onSubmit={formik.handleSubmit}
-      className="flex w-full max-w-[500px] flex-1 flex-col justify-between gap-3"
+      className="flex w-full max-w-[500px] flex-1 flex-col justify-between gap-3 pb-16 lg:pb-0"
     >
       <div className="flex flex-col gap-6">
         <div className="flex flex-col justify-center">
