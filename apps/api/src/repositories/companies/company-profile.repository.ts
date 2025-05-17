@@ -1,4 +1,4 @@
-import { companyCheckPassword } from 'src/validations/company-login.validation';
+import { companyCheckPassword } from '../../validations/company-login.validation';
 import cloudinary, { getPublicId } from '../../helpers/cloudinary';
 import { ResponseError } from '../../helpers/error';
 import { generateHashedPassword } from '../../helpers/utils';
