@@ -13,7 +13,6 @@ import { verifyRefreshToken } from '../middlewares/auth.middleware';
 
 export const authRouter = () => {
   const router = Router();
-
   router.post(
     '/register/user',
     validateUserRegistration,

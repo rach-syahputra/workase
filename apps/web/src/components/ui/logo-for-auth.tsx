@@ -10,7 +10,7 @@ export default function Logo() {
           alt="Logo"
           width={600}
           height={122.61}
-          className="w-[190px] md:w-[200px]"
+          className="w-[160px]"
         />
       </div>
     </div>

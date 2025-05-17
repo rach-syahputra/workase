@@ -101,21 +101,21 @@ export default function JobPage() {
     Autoplay({ delay: 5000, stopOnInteraction: true }),
   );
   return loading ? (
-    <div className="bg-background fixed left-0 top-0 flex min-h-screen w-screen flex-1 items-center justify-center">
+    <div className="fixed top-0 left-0 flex items-center justify-center flex-1 w-screen min-h-screen bg-background">
       <AppLoading size="md" label="Loading data, please stand by..." />
     </div>
   ) : (
     <Container className="">
-      <div className="flex w-full flex-col items-start justify-normal">
+      <div className="flex flex-col items-start w-full justify-normal">
         <div className="my-2 flex w-full flex-row items-center justify-normal gap-2.5">
           <Image
             src={`${data?.company.logoUrl || ''}`}
             alt="Company logo"
             width={200}
             height={200}
-            className="my-1 aspect-square w-14 rounded-full object-cover"
+            className="object-cover my-1 rounded-full aspect-square w-14"
           />
-          <div className="flex w-full flex-col justify-center md:items-start">
+          <div className="flex flex-col justify-center w-full md:items-start">
             <Link
               href="#"
               aria-label="Company detail"
@@ -126,13 +126,13 @@ export default function JobPage() {
             <p className="px-[2.5px] text-sm">{data?.company.location}</p>
           </div>
         </div>
-        <div className="text-[36px] font-semibold">{data?.title}</div>
+        <div className="text-[25px] font-semibold">{data?.title}</div>
         <div className="flex flex-wrap gap-2 pb-3 font-medium">
           <CardBadge className="bg-primary-gray-background">
             {formatCategory(data?.category || '')}
           </CardBadge>
         </div>
-        <div className="flex w-full flex-row items-center gap-2 pb-3">
+        <div className="flex flex-row items-center w-full gap-2 pb-3">
           <button className="bg-primary-blue flex h-[38px] w-full items-center justify-center rounded-md text-white hover:bg-blue-500 md:w-[195px]">
             {data?.id && <DialogApplyJob jobId={data.id as string} />}
           </button>
@@ -147,14 +147,14 @@ export default function JobPage() {
           {data && <JobShareComponent job={data as JobDetail} />}
         </div>
         <div className="w-full py-4">
-          <div className="text-[22px] font-bold">Job Description :</div>
+          <div className="text-[18px] font-bold">Job Description :</div>
           <div
-            className="ml-4 text-justify"
+            className="ml-4 text-justify text-[90%]"
             dangerouslySetInnerHTML={{ __html: data?.description || '' }}
           />
         </div>
         <div className="w-full">
-          <div className="pb-2 text-[22px] font-bold">
+          <div className="pb-2 text-[18px] font-bold">
             Other Jobs at {data?.company.name} :
           </div>
           <div className="">
@@ -164,7 +164,7 @@ export default function JobPage() {
               onMouseEnter={plugin.current.stop}
               onMouseLeave={plugin.current.reset}
             >
-              <CarouselContent className="-ml-1 flex w-full gap-6 p-1">
+              <CarouselContent className="flex w-full gap-6 p-1 -ml-1">
                 {Array.from({ length: 5 }).map((_, index: number) => {
                   const job = jobs[index];
                   return job ? (

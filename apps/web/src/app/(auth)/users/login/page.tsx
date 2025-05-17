@@ -30,7 +30,7 @@ export default function Login(props: ILoginProps) {
   const { toast } = useToast();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get('redirect');
+  const callbackUrl = searchParams.get('redirect') || '/';
   const message = searchParams.get('message');
   const [isLogin, setIsLogin] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -85,100 +85,105 @@ export default function Login(props: ILoginProps) {
       <AppLoading size="md" label="Loading data, please stand by..." />
     </div>
   ) : (
-    <div className="font-geist mt-[-10px] md:w-[650px]">
-      <div className="flex flex-col items-center justify-center pb-2">
-        <div className="flex items-center gap-3 pb-2 text-[30px] font-semibold sm:text-[32px] md:text-[36px]">
-          <IoPerson className="w-5 scale-150" />
-          Sign In to Workase
-        </div>{' '}
-        <div className="text-[17px] font-light sm:text-[18px] md:text-[21px]">
-          Log In to Your Personal Account Today.
-        </div>
-      </div>
-      <form action="" onSubmit={formik.handleSubmit}>
-        <div className="pb-[5px] pt-[13px] font-medium">Email Address</div>
-        <input
-          className="h-[45px] w-full rounded-lg border-[1px] border-gray-300 pl-2 font-light md:font-medium"
-          type="text"
-          value={formik.values.email}
-          name="email"
-          onChange={formik.handleChange}
-          id="email"
-          onBlur={formik.handleBlur}
-          placeholder="E.g. Andrew@mail.com"
-        />
-        {formik.touched.email && formik.errors.email && (
-          <p className="text-sm text-red-500">{formik.errors.email}</p>
-        )}
-        <h2 className="pb-[5px] pt-[13px] font-medium">Password</h2>
-        <input
-          className="h-[45px] w-full rounded-lg border-[1px] border-gray-300 pl-2 font-light md:font-medium"
-          type="password"
-          value={formik.values.password}
-          name="password"
-          onChange={formik.handleChange}
-          id="password"
-          onBlur={formik.handleBlur}
-          placeholder="E.g. AndrewP@ssw0rd"
-        />
-        {formik.touched.password && formik.errors.password && (
-          <p className="text-sm text-red-500">{formik.errors.password}</p>
-        )}
-        <div className="pt-[20px]">
-          <Button
-            className="bg-primary-blue text-light my-auto h-[45px] w-full items-center justify-center rounded-lg text-[17px] font-medium text-white"
-            type="submit"
-            disabled={isLogin}
-          >
-            Sign In
-          </Button>
-        </div>
-      </form>
-      <div className="flex w-full items-center justify-center pt-[14px]">
-        <a
-          className="text-primary-blue pt-[5px] text-[15px]"
-          href="/users/forgot-password"
-        >
-          {' '}
-          Forgot Password?
-        </a>
-      </div>
-      <div className="flex items-center py-2">
-        <div className="h-[1px] w-full bg-gray-300"></div>
-        <div className="px-3 text-[18px] text-gray-500">or</div>
-        <div className="h-[1px] w-full bg-gray-300"></div>
-      </div>
-      <button
-        className="flex h-[45px] w-full items-center rounded-lg border-[1px] border-gray-300 bg-white hover:bg-gray-50"
-        onClick={handleGoogleSignIn}
-      >
-        <div className="relative flex w-full items-center justify-center">
-          <Image
-            width={50}
-            height={10}
-            src="/Google.svg"
-            alt="Google Logo"
-            className="absolute left-6 h-5 sm:static sm:px-3"
-          />
-          <center className="font-medium">Continue with Google</center>
-        </div>
-      </button>
-      <div className="mt-4 flex gap-2 md:mt-5">
-        {signUpItem.map((item) => (
-          <Link
-            key={item}
-            href={`/${item == 'User' ? 'users' : 'companies'}/register`}
-            className="flex h-[45px] w-full items-center rounded-lg border-[1px] border-gray-300 bg-white hover:bg-gray-50"
-          >
-            <button className="relative flex w-full items-center justify-center">
-              <center
-                className={`${item == 'User' ? 'text-primary-blue' : 'text-[#9A6713]'} font-light`}
+    <div className="font-geist mt-[-10px] flex-col items-center justify-center md:w-[650px]">
+      <div className="flex w-full justify-center">
+        <div className="w-[420px]">
+          <div className="flex flex-col items-center justify-center pb-2">
+            <div className="flex items-center gap-3 pb-2 text-[24px] font-semibold">
+              <IoPerson className="w-5 scale-110" />
+              Sign In to Workase
+            </div>{' '}
+            <div className="text-[16px] font-light">
+              Log In to Your Personal Account Today.
+            </div>
+          </div>
+
+          <form action="" onSubmit={formik.handleSubmit}>
+            <div className="pb-[5px] pt-[13px] font-medium">Email Address</div>
+            <input
+              className="h-[45px] w-full rounded-lg border-[1px] border-gray-300 pl-2 font-light md:font-medium"
+              type="text"
+              value={formik.values.email}
+              name="email"
+              onChange={formik.handleChange}
+              id="email"
+              onBlur={formik.handleBlur}
+              placeholder="E.g. Andrew@mail.com"
+            />
+            {formik.touched.email && formik.errors.email && (
+              <p className="text-sm text-red-500">{formik.errors.email}</p>
+            )}
+            <h2 className="pb-[5px] pt-[13px] font-medium">Password</h2>
+            <input
+              className="h-[45px] w-full rounded-lg border-[1px] border-gray-300 pl-2 font-light md:font-medium"
+              type="password"
+              value={formik.values.password}
+              name="password"
+              onChange={formik.handleChange}
+              id="password"
+              onBlur={formik.handleBlur}
+              placeholder="E.g. AndrewP@ssw0rd"
+            />
+            {formik.touched.password && formik.errors.password && (
+              <p className="text-sm text-red-500">{formik.errors.password}</p>
+            )}
+            <div className="pt-[20px]">
+              <Button
+                className="bg-primary-blue text-light my-auto h-[45px] w-full items-center justify-center rounded-lg text-[17px] font-medium text-white"
+                type="submit"
+                disabled={isLogin}
               >
-                Sign Up as {item}
-              </center>
-            </button>
-          </Link>
-        ))}
+                Sign In
+              </Button>
+            </div>
+          </form>
+          <div className="flex w-full items-center justify-center pt-[14px]">
+            <a
+              className="text-primary-blue pt-[5px] text-[15px]"
+              href="/users/forgot-password"
+            >
+              {' '}
+              Forgot Password?
+            </a>
+          </div>
+          <div className="flex items-center py-2">
+            <div className="h-[1px] w-full bg-gray-300"></div>
+            <div className="px-3 text-[18px] text-gray-500">or</div>
+            <div className="h-[1px] w-full bg-gray-300"></div>
+          </div>
+          <button
+            className="flex h-[45px] w-full items-center rounded-lg border-[1px] border-gray-300 bg-white hover:bg-gray-50"
+            onClick={handleGoogleSignIn}
+          >
+            <div className="relative flex w-full items-center justify-center">
+              <Image
+                width={50}
+                height={10}
+                src="/Google.svg"
+                alt="Google Logo"
+                className="absolute left-6 h-4 sm:static sm:px-3"
+              />
+              <center className="font-medium">Continue with Google</center>
+            </div>
+          </button>
+          <div className="mt-4 flex gap-2 md:mt-5">
+            {signUpItem.map((item) => (
+              <Link
+                key={item}
+                href={`/${item == 'User' ? 'users' : 'companies'}/register?redirect=${encodeURIComponent(callbackUrl)}`}
+                className="flex h-[45px] w-full items-center rounded-lg border-[1px] border-gray-300 bg-white hover:bg-gray-50"
+              >
+                <button className="relative flex w-full items-center justify-center">
+                  <center
+                    className={`${item == 'User' ? 'text-primary-blue' : 'text-[#9A6713]'} font-light`}
+                  >
+                    Sign Up as {item}
+                  </center>
+                </button>
+              </Link>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

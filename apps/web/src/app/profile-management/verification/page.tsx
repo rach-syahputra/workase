@@ -43,19 +43,22 @@ export default function VaerifivationSettingsPage() {
       </div>
       <div className="my-4 w-full rounded-md border bg-white px-4 pb-[30px] md:py-4 md:pb-[30px]">
         <div className="max-w-[1065px] md:px-[30px]">
-          <div className="flex w-full items-center justify-between gap-2 pt-[20px] md:pt-0 lg:justify-normal">
-            <div className="pb-[5px] pt-[13px] font-medium md:w-fit">
+          <div className="flex w-full items-center justify-between gap-1 pt-[20px] sm:gap-2 md:pt-0 lg:justify-normal">
+            <div className="pb-[5px] pt-[13px] text-[14px] font-medium sm:text-[16px] md:w-fit">
               Verification Status :
             </div>
             {session?.user?.isVerified ? (
-              <div className="flex items-center gap-1 pb-[5px] pt-[13px] md:w-fit">
+              <div className="flex items-center gap-1 pb-[5px] pt-[13px] text-[14px] sm:text-[15px] md:w-fit">
                 <FaCheckCircle className="text-green-500" />
                 Email Verified
               </div>
             ) : (
               <div className="md:w-fit">
                 <div className="flex justify-end pb-[5px] pt-[13px]">
-                  <Button className="w-[140px]" onClick={varificationRequest}>
+                  <Button
+                    className="w-[135px] text-[13.5px] sm:w-[140px] sm:text-[15px]"
+                    onClick={varificationRequest}
+                  >
                     <CiRedo className="" />
                     Resend Again
                   </Button>
