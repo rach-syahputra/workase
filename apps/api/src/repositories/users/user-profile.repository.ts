@@ -1,4 +1,4 @@
-import { userCheckPassword } from 'src/validations/user-login.validation';
+import { userCheckPassword } from '../../validations/user-login.validation';
 import cloudinary, { getPublicId } from '../../helpers/cloudinary';
 import { ResponseError } from '../../helpers/error';
 import { generateHashedPassword } from '../../helpers/utils';
