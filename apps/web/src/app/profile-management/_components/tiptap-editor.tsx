@@ -6,7 +6,7 @@ import ListItem from '@tiptap/extension-list-item';
 import OrderedList from '@tiptap/extension-ordered-list';
 import BulletList from '@tiptap/extension-bullet-list';
 import Underline from '@tiptap/extension-underline';
-import { IUpdateForm } from '@/types/profile';
+import { IUpdateForm } from '@/lib/interfaces/profile';
 import { FormikProps } from 'formik';
 type Props = {
   onChange: (value: string) => void;
@@ -61,11 +61,11 @@ export const TiptapEditor: React.FC<Props> = ({ onChange, formik }: Props) => {
   return (
     <div className="mx-auto space-y-4">
       {/* Toolbar */}
-      <div className="flex flex-wrap items-center gap-2 p-2 border rounded-lg shadow-sm bg-gray-50">
+      <div className="flex flex-wrap items-center gap-2 rounded-lg border bg-gray-50 p-2 shadow-sm">
         {/* Heading Select */}
         <select
           onChange={handleHeadingChange}
-          className="p-1 text-sm transition bg-white border rounded-md hover:bg-gray-100"
+          className="rounded-md border bg-white p-1 text-sm transition hover:bg-gray-100"
           defaultValue={''}
         >
           {' '}
@@ -120,7 +120,7 @@ export const TiptapEditor: React.FC<Props> = ({ onChange, formik }: Props) => {
       </div>
 
       {/* Editor Content*/}
-      <div className="w-full max-w-full overflow-x-auto bg-white border rounded-lg shadow-sm">
+      <div className="w-full max-w-full overflow-x-auto rounded-lg border bg-white shadow-sm">
         <EditorContent
           editor={editor}
           className="min-h-[250px] max-w-full break-words p-4"

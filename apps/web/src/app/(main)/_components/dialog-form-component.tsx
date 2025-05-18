@@ -5,7 +5,7 @@ import { Button } from '@/components/shadcn-ui/button';
 import { FormikProps } from 'formik';
 import { useRef } from 'react';
 import { BsCurrencyDollar } from 'react-icons/bs';
-import { ApplicationFormValues } from '@/types/submit-cv-types-and-validation';
+import { ApplicationFormValues } from '@/lib/interfaces/submit-cv-types-and-validation';
 
 // Salary Input Component
 export function SalaryInput({

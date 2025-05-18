@@ -3,7 +3,7 @@
 import Container from '@/components/layout/container';
 import { Job } from '@/context/search-job-context';
 import { axiosPublic } from '@/lib/axios';
-import { Pagination } from '@/types/companies';
+import { Pagination } from '@/lib/interfaces/companies';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -100,13 +100,13 @@ export default function CompanyPage() {
   };
 
   return loading ? (
-    <div className="fixed top-0 left-0 flex items-center justify-center flex-1 w-screen min-h-screen bg-background">
+    <div className="bg-background fixed left-0 top-0 flex min-h-screen w-screen flex-1 items-center justify-center">
       <AppLoading size="md" label="Loading data, please stand by..." />
     </div>
   ) : (
     <Container className="">
-      <div className="flex flex-col items-start w-full justify-normal">
-        <div className="flex flex-col items-start w-full justify-normal">
+      <div className="flex w-full flex-col items-start justify-normal">
+        <div className="flex w-full flex-col items-start justify-normal">
           <div className="mb-2 flex w-full flex-row items-center justify-normal gap-2.5">
             {data?.logoUrl ? (
               <Image
@@ -114,14 +114,14 @@ export default function CompanyPage() {
                 alt="Company logo"
                 width={200}
                 height={200}
-                className="object-cover w-20 my-1 rounded-full aspect-square"
+                className="my-1 aspect-square w-20 rounded-full object-cover"
               />
             ) : (
-              <div className="flex items-center justify-center bg-gray-200 border rounded-full aspect-square w-28">
+              <div className="flex aspect-square w-28 items-center justify-center rounded-full border bg-gray-200">
                 <span className="text-gray-400"></span>
               </div>
             )}
-            <div className="flex flex-col justify-center w-full md:items-start">
+            <div className="flex w-full flex-col justify-center md:items-start">
               <Link
                 href="#"
                 aria-label="Company detail"
@@ -130,7 +130,7 @@ export default function CompanyPage() {
                 {data?.name}
               </Link>
               <div className="flex flex-col gap-1 px-[2.5px] text-sm font-light text-gray-500 md:flex-row">
-                <p className="overflow-hidden w-60 overflow-ellipsis whitespace-nowrap md:w-fit">
+                <p className="w-60 overflow-hidden overflow-ellipsis whitespace-nowrap md:w-fit">
                   {data?.location}
                 </p>
                 <p className="hidden md:block">·</p>
@@ -141,12 +141,12 @@ export default function CompanyPage() {
           <div className="flex flex-col gap-1 md:flex-row md:items-center md:justify-center">
             <div className="flex items-center gap-1">
               <FiPhone className="w-4" />
-              <div className="text-sm md:text-md">{data?.phoneNumber}</div>
+              <div className="md:text-md text-sm">{data?.phoneNumber}</div>
             </div>
-            <div className="hidden mx-2 md:block">·</div>
+            <div className="mx-2 hidden md:block">·</div>
             <div className="flex items-center gap-1">
               <HiOutlineMail className="mt-[1.5px] w-4" />
-              <div className="text-sm md:text-md">{data?.email}</div>
+              <div className="md:text-md text-sm">{data?.email}</div>
             </div>
           </div>
 

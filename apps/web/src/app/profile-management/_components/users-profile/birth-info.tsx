@@ -1,5 +1,5 @@
 import { FormikProps } from 'formik';
-import { IUpdateForm } from '@/types/profile';
+import { IUpdateForm } from '@/lib/interfaces/profile';
 
 interface BirthInfoProps {
   formik: FormikProps<IUpdateForm>;

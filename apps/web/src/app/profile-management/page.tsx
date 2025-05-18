@@ -15,7 +15,11 @@ import CategoryAndLocation from './_components/companies-profile/category-and-lo
 import { Description } from './_components/companies-profile/description';
 import { useRouter } from 'next/navigation';
 import { SaveButton } from './_components/companies-profile/save-button';
-import { IUpdateForm, roleUrl, UpdateSchema } from '@/types/profile-management';
+import {
+  IUpdateForm,
+  roleUrl,
+  UpdateSchema,
+} from '@/lib/interfaces/profile-management';
 import AppLoading from '@/components/ui/app-loading';
 import { title } from 'process';
 import { useToast } from '@/hooks/use-toast';

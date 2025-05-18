@@ -17,7 +17,7 @@ import { axiosPrivate } from '@/lib/axios';
 import {
   DialogApplyJobProps,
   ApplicationSchema,
-} from '@/types/submit-cv-types-and-validation';
+} from '@/lib/interfaces/submit-cv-types-and-validation';
 import { FileUpload, SalaryInput } from './dialog-form-component';
 import { usePathname, useSearchParams } from 'next/navigation';
 export function DialogApplyJob({

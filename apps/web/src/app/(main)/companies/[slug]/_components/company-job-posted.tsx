@@ -1,4 +1,4 @@
-import { Pagination } from '@/types/companies';
+import { Pagination } from '@/lib/interfaces/companies';
 import { Job } from '@/context/search-job-context';
 import JobCard from '@/app/(main)/_components/card';
 import { CompanyJobsPagination } from './company-jobs-pagination';
