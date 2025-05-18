@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
 
+import { getLocalStorage, setLocalStorage } from '@/hooks/use-local-storage';
 import { ASSESSMENT_SESSION_KEY } from '@/lib/constants/assessment';
 import { scrollToTop } from '@/lib/utils';
 import {
@@ -12,7 +13,6 @@ import {
   ISelectOptionPayload,
   IUserAssessment,
 } from './interface';
-import { getLocalStorage, setLocalStorage } from '@/hooks/use-local-storage';
 
 const AssessmentSessionContext = createContext<
   IAssessmentSessionContext | undefined
@@ -62,7 +62,9 @@ const AssessmentSessionProvider = ({
     const updatedQuestions: IQuestionLocalStorage[] = filteredQuestions
       ? [...filteredQuestions, newQuestion]
       : [newQuestion];
-    const updatedProgress = updatedQuestions.length * 4;
+    const updatedProgress =
+      updatedQuestions.length *
+      (100 / (questions?.length > 0 ? questions?.length : 25));
 
     const updatedAssessmentLocalStorage: IAssessmentSessionLocalStorage = {
       currentPage: page,
