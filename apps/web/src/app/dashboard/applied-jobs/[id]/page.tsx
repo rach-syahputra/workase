@@ -7,6 +7,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { applicationDetail } from '../page';
 import { useToast } from '@/hooks/use-toast';
+import { GoLinkExternal } from 'react-icons/go';
 export interface IDetaiilApplicationProps extends applicationDetail {
   cvUrl: string;
   salaryEstimate: number;
@@ -17,9 +18,11 @@ export default function DetaiilApplication() {
   const [data, setData] = useState<IDetaiilApplicationProps>();
   const params = useParams<{ id: string }>();
   const jobId = params.id;
+
   const { toast } = useToast();
   useEffect(() => {
     async function fetchData() {
+      if (!session?.user?.accessToken) return;
       try {
         const axiosInstance = axiosPrivate(
           session?.user?.accessToken as string,
@@ -31,13 +34,13 @@ export default function DetaiilApplication() {
       } catch (err) {
         toast({
           title: 'Error',
-          description: `Error fetching jobs aplications:${err}`,
+          description: `Error fetching jobs aplications`,
           variant: 'destructive',
         });
       }
     }
     fetchData();
-  }, [session, jobId]);
+  }, [jobId, session?.user?.accessToken, toast]);
   return (
     <div>
       <UserDashboardContainer className="min-h-[calc(100svh-108px)]">
@@ -45,7 +48,7 @@ export default function DetaiilApplication() {
           Application Detail
         </div>
         <div className="my-4 w-full rounded-md border bg-white px-4 pb-[30px] md:py-4 md:pb-[30px]">
-          <div className="flex flex-col gap-2 pt-4 pb-4 border-b md:pt-0">
+          <div className="flex flex-col gap-2 border-b pb-4 pt-4 md:pt-0">
             <div className="text-[20px] font-semibold">Job Information</div>
             <div className="grid grid-cols-[150px_1fr]">
               <div className="">Company</div>
@@ -56,7 +59,7 @@ export default function DetaiilApplication() {
               <div className="break-all">{data?.job.title}</div>
             </div>
           </div>
-          <div className="flex flex-col gap-2 pt-4 pb-4 border-b">
+          <div className="flex flex-col gap-2 border-b pb-4 pt-4">
             <div className="text-[20px] font-semibold">Application Info</div>
             <div className="grid grid-cols-[150px_1fr]">
               <div className="">Applied At</div>
@@ -107,8 +110,14 @@ export default function DetaiilApplication() {
             <div className="grid grid-cols-[150px_1fr]">
               <div className="">Submitted CV</div>
               <div className="break-all">
-                <a href={data?.cvUrl} className="text-blue-500">
-                  {data?.cvUrl}
+                <a
+                  href={data?.cvUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 text-blue-500"
+                >
+                  View Your CV
+                  <GoLinkExternal />
                 </a>
               </div>
             </div>

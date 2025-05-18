@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Pagination as PaginationType } from '@/types/companies';
+import { Pagination as PaginationType } from '@/lib/interfaces/companies';
 import {
   Pagination,
   PaginationContent,

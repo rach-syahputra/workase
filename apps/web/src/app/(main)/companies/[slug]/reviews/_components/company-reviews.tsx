@@ -27,7 +27,7 @@ const CompanyReviews = () => {
       </TabsList>
       <TabsContent value="reviews">
         <div className="flex w-full flex-col items-center justify-center gap-2 md:gap-4">
-          <div className="flex w-full items-center justify-center px-4 md:px-0">
+          <div className="flex w-full items-center justify-center">
             <SearchCompanyReviewsBar />
           </div>
           {!renderWithQ.current &&

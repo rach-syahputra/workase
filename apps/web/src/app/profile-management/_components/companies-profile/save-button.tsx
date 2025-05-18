@@ -1,6 +1,6 @@
 'use client';
 import { Button } from '@/components/shadcn-ui/button';
-import { IUpdateForm } from '@/types/profile';
+import { IUpdateForm } from '@/lib/interfaces/profile';
 import { FormikProps } from 'formik';
 import * as React from 'react';
 interface SaveButtonProps {

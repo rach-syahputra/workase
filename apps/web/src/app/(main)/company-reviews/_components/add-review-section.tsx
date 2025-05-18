@@ -27,7 +27,7 @@ const AddReviewSection = ({ className }: AddReviewSectionProps) => {
                   className="hover:text-primary-blue select-none text-sm font-medium hover:underline"
                 >
                   <Link
-                    href={userCurrentCompany.slug}
+                    href={`/companies/${userCurrentCompany.slug}`}
                     aria-label="Company detail page"
                   >
                     {userCurrentCompany.name}

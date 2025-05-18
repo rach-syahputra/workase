@@ -12,7 +12,7 @@ import {
   IAllCompaniesProps,
   IGetCompany,
   Pagination,
-} from '@/types/companies';
+} from '@/lib/interfaces/companies';
 import { useRouter, useSearchParams } from 'next/navigation';
 import {
   Select,

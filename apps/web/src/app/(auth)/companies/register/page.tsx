@@ -6,14 +6,14 @@ import { Building2 } from 'lucide-react';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import * as React from 'react';
-import { redirect, useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import AppLoading from '@/components/ui/app-loading';
 import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
 import { CompanyRegisterSchema } from '@/validations/company-register';
 import { ICompanyRegisterForm } from '@/lib/interfaces/form/company-register';
-import { initialValuesForCompanyRegister } from '@/lib/initial-values/company-register';
+import { initialValuesForCompanyRegister } from '@/lib/interfaces/form/company-register';
 const signInItem = ['User', 'Company'];
 export default function Register() {
   const { toast } = useToast();
@@ -48,6 +48,7 @@ export default function Register() {
         description: `something went wrong, maybe your email is already registered`,
         variant: 'destructive',
       });
+      setIsLogin(false);
       setIsLogin(false);
     }
   };

@@ -9,7 +9,7 @@ import {
   PaginationPrevious,
 } from '@/components/shadcn-ui/pagination';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Pagination as PaginationType } from '@/types/companies';
+import { Pagination as PaginationType } from '@/lib/interfaces/companies';
 
 export default function CompaniesPagination({
   currentPage,
@@ -61,7 +61,7 @@ export default function CompaniesPagination({
 
   return (
     <div>
-      <div className="flex justify-center mt-8">
+      <div className="mt-8 flex justify-center">
         <Pagination>
           <PaginationContent>
             {/* Previous Button */}

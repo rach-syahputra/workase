@@ -1,4 +1,4 @@
-import { PageType } from '@/types/profile-page';
+import { PageType } from '@/lib/interfaces/profile-page';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
@@ -34,7 +34,7 @@ export function SidebarPage({ activePage, onPageChange }: SidebarProps) {
       case 'user-circle':
         return (
           <svg
-            className="w-5 h-5"
+            className="h-5 w-5"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -52,7 +52,7 @@ export function SidebarPage({ activePage, onPageChange }: SidebarProps) {
       case 'lock-closed':
         return (
           <svg
-            className="w-5 h-5"
+            className="h-5 w-5"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -69,7 +69,7 @@ export function SidebarPage({ activePage, onPageChange }: SidebarProps) {
       case 'check-circle':
         return (
           <svg
-            className="w-5 h-5"
+            className="h-5 w-5"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -91,7 +91,7 @@ export function SidebarPage({ activePage, onPageChange }: SidebarProps) {
     return null;
   }
   return (
-    <div className="relative z-30 hidden w-64 h-full bg-white border-r lg:block">
+    <div className="relative z-30 hidden h-full w-64 border-r bg-white lg:block">
       {/* SIdebar content */}
       <div className="px-4 py-8">
         <nav>

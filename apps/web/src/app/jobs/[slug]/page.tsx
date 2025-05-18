@@ -19,7 +19,7 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import JobShareComponent from './_components/job-share';
 import { useToast } from '@/hooks/use-toast';
-import { JobDetail } from '@/types/job-detail';
+import { JobDetail } from '@/lib/interfaces/job-detail';
 import AppLoading from '@/components/ui/app-loading';
 export default function JobPage() {
   const [jobs, setJobs] = useState<Job[]>([]);

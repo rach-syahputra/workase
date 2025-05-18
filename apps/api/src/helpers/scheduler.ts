@@ -4,7 +4,7 @@ import { sendSubscriptionExpiryReminderEmail } from './emails/subscription-expir
 
 export const subscriptionExpiryReminderEmail = () => {
   cron.schedule(
-    '0 0 * * *',
+    '0 12 * * *',
     async () => {
       // current time
       const now = new Date();

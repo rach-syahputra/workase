@@ -34,7 +34,7 @@ const TopAssessments = () => {
         <ChartNoAxesColumnIncreasing size={21} />
         Top Assessments
       </div>
-      <div className="grid w-full grid-cols-3 justify-between gap-4 gap-x-8">
+      <div className="grid w-full grid-cols-1 justify-between gap-4 gap-x-8 lg:grid-cols-3">
         <ul className="col-span-1 flex flex-col gap-4">
           {topAssessments?.slice(0, 5).map((assessment, index) => (
             <li key={index} className="flex w-full items-start justify-start">
@@ -45,14 +45,14 @@ const TopAssessments = () => {
         <ul className="col-span-1 flex flex-col gap-4">
           {topAssessments?.slice(5, 10).map((assessment, index) => (
             <li key={index} className="flex w-full items-start justify-start">
-              <AssessmentCard number={index + 5} assessment={assessment} />
+              <AssessmentCard number={index + 6} assessment={assessment} />
             </li>
           ))}
         </ul>
         <ul className="col-span-1 flex flex-col gap-4">
           {topAssessments?.slice(10, 15).map((assessment, index) => (
             <li key={index} className="flex w-full items-start justify-start">
-              <AssessmentCard number={index + 10} assessment={assessment} />
+              <AssessmentCard number={index + 11} assessment={assessment} />
             </li>
           ))}
         </ul>

@@ -9,7 +9,7 @@ import * as Yup from 'yup';
 import { useState } from 'react';
 import { Info } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { IResetPasswordForm } from '@/types/reset-password-form';
+import { IResetPasswordForm } from '@/lib/interfaces/reset-password-form';
 const ResetPasswordSchema = Yup.object().shape({
   currentPassword: Yup.string()
     .required('password is required')

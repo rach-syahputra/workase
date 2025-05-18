@@ -10,7 +10,7 @@ import { useFormik } from 'formik';
 import { axiosPublic } from '@/lib/axios';
 import { useSearchJob } from '@/context/search-job-context';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { IGetCompany } from '@/types/companies';
+import { IGetCompany } from '@/lib/interfaces/companies';
 
 interface CompaniesSearchBarProps {
   formik: ReturnType<typeof useFormik<IGetCompany>>;

@@ -20,7 +20,7 @@ import { Share, Linkedin, Facebook, Twitter, Send } from 'lucide-react';
 import { Button } from '@/components/shadcn-ui/button';
 
 import { CiShare1 } from 'react-icons/ci';
-import { JobDetail } from '@/types/job-detail';
+import { JobDetail } from '@/lib/interfaces/job-detail';
 import { useToast } from '@/hooks/use-toast';
 
 export function JobShareComponent({ job }: { job: JobDetail }) {
