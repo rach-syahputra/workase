@@ -12,6 +12,7 @@ import AppLoading from '@/components/ui/app-loading';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
+import { useUserStatsContext } from '@/context/user-stats-context';
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email().required(),
   password: Yup.string()
@@ -32,6 +33,7 @@ export default function Login(props: ILoginProps) {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('redirect') || '/';
   const message = searchParams.get('message');
+  const { setUpdate } = useUserStatsContext();
   const [isLogin, setIsLogin] = useState(false);
   const [loading, setLoading] = useState(true);
   const initialValues: ILoginForm = {
@@ -61,6 +63,7 @@ export default function Login(props: ILoginProps) {
       });
       setIsLogin(false);
     } else {
+      setUpdate(true);
       router.push(callbackUrl || '/');
     }
   };

@@ -9,8 +9,16 @@ export const OPEN_ROUTER_API_KEYS = [
 ];
 export const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET;
 export const BOTTOM_NAVIGATION_HREFS = [
-  '/companies/reviews',
-  '/companies/reviews/saved',
-  '/companies/reviews/new',
+  '/company-reviews',
+  '/company-reviews/saved',
+  '/company-reviews/new',
+  '/dashboard/applied-jobs',
+  '/dashboard/saved-jobs',
+  '/dashboard/assessments',
+  '/dashboard/assessments?tab=discovery',
+  '/dashboard/assessments?tab=history',
+  '/dashboard/subscription',
+  '/dashboard/subscription?tab=overview',
+  '/dashboard/subscription?tab=billing',
   '/w',
 ];

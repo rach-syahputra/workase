@@ -38,7 +38,7 @@ const UserStatsProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   useEffect(() => {
-    // Initiate user stats for the first time
+    // Initiate user stats for the first time or update it when requested
     if (update) {
       setUpdate(false);
       fetchGetUserStats();
