@@ -67,7 +67,9 @@ class GetAssessmentRepository {
         createdAt: assessment.createdAt,
         updatedAt: assessment.updatedAt,
         isDeleted: assessment.isDeleted,
-        totalQuestions: assessment.AssessmentQuestion.length,
+        totalQuestions: assessment.AssessmentQuestion.filter(
+          (question) => question.isDeleted === false,
+        ).length,
         totalEnrollmentCount: assessment.UserAssessment.length,
       })),
       pagination: {
