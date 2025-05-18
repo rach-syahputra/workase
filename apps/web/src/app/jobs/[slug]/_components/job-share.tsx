@@ -108,19 +108,19 @@ export function JobShareComponent({ job }: { job: JobDetail }) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem onClick={() => hanldeShareDirect('linkedin')}>
-            <Linkedin className="mr-2 h-4 w-4" />
+            <Linkedin className="w-4 h-4 mr-2" />
             <span>Linkedin</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => hanldeShareDirect('facebook')}>
-            <Facebook className="mr-2 h-4 w-4" />
+            <Facebook className="w-4 h-4 mr-2" />
             <span>Facebook</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => handleShareClick('twitter')}>
-            <Twitter className="mr-2 h-4 w-4" />
+            <Twitter className="w-4 h-4 mr-2" />
             <span>Twitter</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => handleShareClick('whatsapp')}>
-            <Send className="mr-2 h-4 w-4" />
+            <Send className="w-4 h-4 mr-2" />
             <span>Whatsapp</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -138,7 +138,7 @@ export function JobShareComponent({ job }: { job: JobDetail }) {
               value={customMessage}
               onChange={(e) => setCustomMessage(e.target.value)}
               placeholder={`Check out this job opportunity:${job.title} at ${job.company.name}`}
-              className="min-h-24 text-sm"
+              className="text-sm min-h-24"
             />
           </div>
           <DialogFooter className="sm:justify-end">

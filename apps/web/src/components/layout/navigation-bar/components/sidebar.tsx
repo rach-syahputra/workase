@@ -47,17 +47,17 @@ export default function Sidebar() {
           className="mt-[9.2px] h-[60px] w-[25px]"
           onClick={() => setIsOpen(true)}
         >
-          <Menu className="w-6 h-6" />
+          <Menu className="h-6 w-6" />
         </button>
       </SheetTrigger>
 
       {/* Sidebar Content */}
-      <SheetContent side="right" className="p-0 w-72">
+      <SheetContent side="right" className="w-72 p-0">
         {/* Close Button */}
         <div className="flex justify-end p-5">
           <SheetTrigger asChild>
             <button onClick={() => setIsOpen(false)}>
-              <X className="w-0 h-0" />
+              <X className="h-0 w-0" />
             </button>
           </SheetTrigger>
         </div>

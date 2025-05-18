@@ -24,7 +24,7 @@ export function NewestJobs({ jobs }: NewestJobsProps) {
       {jobs.length > 0 && (
         <>
           <div className="font-geist mb-[9px] flex items-center justify-center gap-1 text-[12.3px] text-sm font-medium sm:text-[16.0px] md:my-5">
-            <Sparkles className="text-blue-500 scale-75" />5 Newest Jobs
+            <Sparkles className="scale-75 text-blue-500" />5 Newest Jobs
             Available For You, <b> Swipe !</b>
           </div>
           <Carousel
@@ -33,7 +33,7 @@ export function NewestJobs({ jobs }: NewestJobsProps) {
             onMouseEnter={plugin.current.stop}
             onMouseLeave={plugin.current.reset}
           >
-            <CarouselContent className="flex w-full gap-6 p-1 -ml-1">
+            <CarouselContent className="-ml-1 flex w-full gap-6 p-1">
               {Array.from({ length: 5 }).map((_, index: number) => {
                 const job = jobs[index];
                 return job ? (
