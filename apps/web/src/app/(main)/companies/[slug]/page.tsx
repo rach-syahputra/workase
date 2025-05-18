@@ -56,7 +56,6 @@ export default function CompanyPage() {
           toast({
             title: 'Error',
             description: `Error fetching data, something went wrong`,
-            description: `Error fetching data, something went wrong`,
             variant: 'destructive',
           });
         });

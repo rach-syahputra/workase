@@ -15,10 +15,6 @@ const ResetPasswordSchema = Yup.object().shape({
     .required('password is required')
     .min(8, 'Password must be at least 8 characters'),
   newPassword: Yup.string()
-  currentPassword: Yup.string()
-    .required('password is required')
-    .min(8, 'Password must be at least 8 characters'),
-  newPassword: Yup.string()
     .required('password is required')
     .min(8, 'Password must be at least 8 characters'), // password is required
   confirmPassword: Yup.string()

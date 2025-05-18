@@ -23,12 +23,7 @@ export default function Register() {
   const searchParams = useSearchParams();
   const redirectUrl = searchParams.get('redirect') || '/';
 
-  const [isLogin, setIsLogin] = useState(false);
-  const searchParams = useSearchParams();
-  const redirectUrl = searchParams.get('redirect') || '/';
-
   const submitRegister = async (values: ICompanyRegisterForm) => {
-    setIsLogin(true);
     setIsLogin(true);
     try {
       const response = await axiosPublic.post('/auth/register/company', {
@@ -58,7 +53,6 @@ export default function Register() {
     }
   };
   const formik = useFormik({
-    initialValues: initialValuesForCompanyRegister,
     initialValues: initialValuesForCompanyRegister,
     validationSchema: CompanyRegisterSchema,
     onSubmit: (values) => {
