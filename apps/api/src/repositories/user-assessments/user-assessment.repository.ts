@@ -75,7 +75,9 @@ class UserAssessmentRepository {
       )
     ).filter((option) => option !== null);
 
-    const score = questionOptions.length * 4;
+    const score =
+      questionOptions?.length *
+      (100 / (questionOptions?.length ? questionOptions.length : 25));
 
     return {
       assessmentResult: {

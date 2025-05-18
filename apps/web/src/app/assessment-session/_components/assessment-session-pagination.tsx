@@ -1,5 +1,3 @@
-import { ChevronLeft, ChevronRight, SprayCan } from 'lucide-react';
-
 import { cn } from '@/lib/utils';
 import { useAssessmentSessionContext } from '@/context/assessment-session-context';
 import { Button } from '@/components/shadcn-ui/button';
@@ -11,7 +9,7 @@ interface AssessmentSessionPaginationProps {
 const AssessmentSessionPagination = ({
   className,
 }: AssessmentSessionPaginationProps) => {
-  const { page, handlePagination } = useAssessmentSessionContext();
+  const { page, questions, handlePagination } = useAssessmentSessionContext();
 
   return (
     <div
@@ -29,7 +27,7 @@ const AssessmentSessionPagination = ({
       </Button>
       <Button
         onClick={() => handlePagination(page + 1)}
-        disabled={page === 25}
+        disabled={page === (questions?.length || 25)}
         className="w-full flex-1 font-bold"
       >
         Next
