@@ -5,7 +5,10 @@ export const UpdateSchema = Yup.object().shape({
     .optional()
     .min(8, 'Telp must be at least 8 characters')
     .max(15, 'Telp must be at most 15 characters')
-    .matches(/^\d+$/, 'Nomor telepon hanya boleh berisi angka'),
+    .matches(
+      /^[\d\s()+-]+$/,
+      'Nomor telepon hanya boleh berisi angka, spasi, (), +, dan -',
+    ),
   category: Yup.string().optional(),
   location: Yup.string().optional(),
   email: Yup.string()
