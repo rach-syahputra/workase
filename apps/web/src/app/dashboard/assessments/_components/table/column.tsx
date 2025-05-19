@@ -67,7 +67,6 @@ export const getAssessmentDiscoveryColumns = ({
     accessorKey: 'action',
     header: 'Action',
     cell: ({ row }) => {
-      // TO DO: retrieve userId from user session
       const status = row.original.status;
       const sessionToken = row.original.sessionToken;
 

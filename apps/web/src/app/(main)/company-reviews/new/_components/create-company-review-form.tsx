@@ -49,7 +49,7 @@ const CreateCompanyReviewForm = () => {
         resetForm();
         firstRenderRef.current = false;
         fetchCompaniesReviews();
-        router.push('/companies/reviews');
+        router.push('/company-reviews');
 
         appToast('SUCCESS', {
           title: 'Review Successfully Posted',
@@ -59,7 +59,6 @@ const CreateCompanyReviewForm = () => {
         });
       } else {
         if (response.code === 'ERR_NETWORK') {
-          // TO DO: add toast action to redirect to the login page
           appToast('ERROR_NETWORK');
         } else if (response.code === 'ERR_UNAUTHENTICATED') {
           appToast('ERROR_UNAUTHENTICATED');

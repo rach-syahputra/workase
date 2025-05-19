@@ -75,7 +75,6 @@ const CreateQuestionForm = ({ assessment }: CreateQuestionFormProps) => {
         });
       } else {
         if (response.code === 'ERR_NETWORK') {
-          // TO DO: add toast action to redirect to the login page
           appToast('ERROR_NETWORK');
         } else if (response.code === 'ERR_UNAUTHENTICATED') {
           appToast('ERROR_UNAUTHENTICATED');
