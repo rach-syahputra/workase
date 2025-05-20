@@ -33,6 +33,15 @@ class registerUsersRepository {
       const accessToken = await putUserAccessToken(undefined, data.email);
 
       await sendEmailVerification(data.email, accessToken.accessToken, 'users');
+    } else {
+      await prisma.user.update({
+        where: {
+          email: data.email,
+        },
+        data: {
+          isVerified: true,
+        },
+      });
     }
   }
 }

@@ -3,13 +3,12 @@ import { Search } from 'lucide-react';
 import { Building2 } from 'lucide-react';
 import { FaLocationDot } from 'react-icons/fa6';
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/shadcn-ui/button';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { useSearchJob } from '@/context/search-job-context';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { set } from 'cypress/types/lodash';
 import { useToast } from '@/hooks/use-toast';
 
 const FilterSchema = Yup.object().shape({
@@ -29,12 +28,11 @@ interface IFilterForm {
   category: string;
   location: string;
 }
-export function SearchBar() {
+export function SearchBar({ isFetch }: { isFetch: boolean }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<string>('Job Title');
-  const [isFetch, setIsFetch] = useState(false);
-  const { toast } = useToast();
+
   const { fetchJobs } = useSearchJob();
   const search = [
     'Job Title',
@@ -48,36 +46,6 @@ export function SearchBar() {
     category: '',
     location: '',
   };
-
-  useEffect(() => {
-    const dateFilterParam = searchParams.get('dateFilter');
-    const sortOrderParam =
-      (searchParams.get('sortOrder') as 'asc' | 'desc') || 'desc';
-    const dateFromParams = searchParams.get('startDate');
-    const dateToParams = searchParams.get('endDate');
-    navigator.geolocation.getCurrentPosition(async (position) => {
-      try {
-        setIsFetch(true);
-        fetchJobs({
-          title: '',
-          category: '',
-          location: position.coords.latitude + ',' + position.coords.longitude,
-          dateFilter: dateFilterParam as any,
-          startDate: dateFromParams ? new Date(dateFromParams) : null,
-          endDate: dateToParams ? new Date(dateToParams) : null,
-          sortOrder: sortOrderParam,
-        });
-      } catch (error) {
-        toast({
-          title: 'Error',
-          description: 'Something went wrong',
-          variant: 'destructive',
-        });
-      } finally {
-        setIsFetch(false);
-      }
-    });
-  }, [fetchJobs, searchParams, toast]);
 
   const sortOrderParam =
     (searchParams.get('sortOrder') as 'asc' | 'desc') || 'desc';

@@ -1,8 +1,6 @@
 'use client';
 
 import * as React from 'react';
-import { useEffect, useRef, useState } from 'react';
-import { useSearchJob } from '@/context/search-job-context';
 import JobCard from '../../_components/card';
 import { useSearchParams, useRouter } from 'next/navigation';
 import {
@@ -13,51 +11,11 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/shadcn-ui/pagination';
+import { JobsResponse } from '@/context/search-job-context';
 
-type SortOrder = 'asc' | 'desc';
-
-export function SearchJobs() {
-  const { jobs, pagination, fetchJobs } = useSearchJob();
+export function SearchJobs({ pagination, jobs }: JobsResponse) {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [query, setQuery] = useState({
-    title: '',
-    category: '',
-    location: '',
-    page: 1,
-  });
-
-  // preventif for re-fetch
-  const lastQueryRef = useRef(query);
-
-  useEffect(() => {
-    const nextQuery = {
-      title: searchParams.get('title') || '',
-      category: searchParams.get('category') || '',
-      location: searchParams.get('location') || '',
-      dateFilter: (searchParams.get('dateFilter') as any) || null,
-      startDate: searchParams.get('startDate')
-        ? new Date(searchParams.get('startDate')!)
-        : null,
-      endDate: searchParams.get('endDate')
-        ? new Date(searchParams.get('endDate')!)
-        : null,
-      sortOrder: (searchParams.get('sortOrder') as SortOrder) || 'desc',
-      page: searchParams.get('page') ? parseInt(searchParams.get('page')!) : 1,
-    };
-
-    const isDifferent =
-      nextQuery.title !== lastQueryRef.current.title ||
-      nextQuery.category !== lastQueryRef.current.category ||
-      nextQuery.location !== lastQueryRef.current.location ||
-      nextQuery.page !== lastQueryRef.current.page;
-
-    if (isDifferent) {
-      setQuery(nextQuery);
-      lastQueryRef.current = nextQuery;
-      fetchJobs(nextQuery);
-    }
-  }, [fetchJobs, searchParams]);
 
   const handlePageChange = (page: number) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -99,7 +57,7 @@ export function SearchJobs() {
             </div>
 
             {/* Implementasi pagination dengan shadcn/ui */}
-            <div className="mt-8 flex justify-center">
+            <div className="flex justify-center mt-8">
               <Pagination>
                 <PaginationContent>
                   {/* Tombol Previous */}
