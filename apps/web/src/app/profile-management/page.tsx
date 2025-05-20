@@ -14,20 +14,20 @@ import NameAndPhoneNumber from './_components/companies-profile/name-and-phone-n
 import CategoryAndLocation from './_components/companies-profile/category-and-location-info';
 import { Description } from './_components/companies-profile/description';
 import { useRouter } from 'next/navigation';
-import { SaveButton } from './_components/companies-profile/save-button';
+import { SaveButton } from './_components/save-button';
 import {
   IUpdateForm,
   roleUrl,
   UpdateSchema,
 } from '@/lib/interfaces/profile-management';
 import AppLoading from '@/components/ui/app-loading';
-import { title } from 'process';
 import { useToast } from '@/hooks/use-toast';
 export default function ProfileSettingPage() {
   const { data: session, status, update } = useSession();
   const router = useRouter();
   const { toast } = useToast();
   const [loading, setLoading] = useState(true);
+  const [savedProcess, setSavedProcess] = useState(false);
   const [initialValues, setInitialValues] = useState<IUpdateForm>({
     name: (session?.user?.name as string) || (undefined as unknown as string),
     phoneNumber:
@@ -90,10 +90,12 @@ export default function ProfileSettingPage() {
           (session?.user?.address as string) ||
           (undefined as unknown as string),
       });
+      setLoading(false);
     }
   }, [session, status]);
   const submitUpdate = async (values: IUpdateForm) => {
     try {
+      setSavedProcess(true);
       if (values.email === session?.user?.email) {
         values.email = '';
       }
@@ -143,6 +145,8 @@ export default function ProfileSettingPage() {
         description: 'Update Failed: Please try again.',
         variant: 'destructive',
       });
+    } finally {
+      setSavedProcess(false);
     }
   };
   const formik = useFormik({
@@ -153,9 +157,7 @@ export default function ProfileSettingPage() {
       submitUpdate(values);
     },
   });
-  const timer = setTimeout(() => {
-    setLoading(false);
-  }, 1000);
+
   return loading ? (
     <div className="bg-background fixed left-0 top-0 flex min-h-screen w-screen flex-1 items-center justify-center lg:pl-[320px]">
       <AppLoading size="md" label="Loading data, please stand by..." />
@@ -176,14 +178,14 @@ export default function ProfileSettingPage() {
             <BirthInfo formik={formik} />
             <GenderEducation formik={formik} />
             <Address formik={formik} />
-            <SaveButton formik={formik} />
+            <SaveButton savedProcess={savedProcess} formik={formik} />
           </form>
         ) : (
           <form onSubmit={formik.handleSubmit}>
             <NameAndPhoneNumber formik={formik} />
             <CategoryAndLocation formik={formik} />
             <Description formik={formik} />
-            <SaveButton formik={formik} />
+            <SaveButton savedProcess={savedProcess} formik={formik} />
           </form>
         )}
       </div>

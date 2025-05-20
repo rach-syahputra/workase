@@ -42,6 +42,15 @@ class registerCompanyRepository {
         accessToken.accessToken,
         'companies',
       );
+    } else {
+      await prisma.company.update({
+        where: {
+          email: data.email,
+        },
+        data: {
+          isVerified: true,
+        },
+      });
     }
   }
 }

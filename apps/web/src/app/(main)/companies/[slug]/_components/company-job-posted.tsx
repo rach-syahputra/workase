@@ -17,7 +17,7 @@ const CompanyJobPosted = ({
   return (
     <div className="flex justify-center py-4">
       <div className="w-full max-w-[90%] pt-[12px] md:pt-0 lg:max-w-[90%]">
-        {jobs.length > 0 && (
+        {jobs.length > 0 ? (
           <>
             <div className="my-4">
               {jobs.length > 0 && (
@@ -46,6 +46,10 @@ const CompanyJobPosted = ({
               />
             )}
           </>
+        ) : (
+          <div className="py-32 text-center">
+            <p>No jobs found</p>
+          </div>
         )}
       </div>
     </div>
