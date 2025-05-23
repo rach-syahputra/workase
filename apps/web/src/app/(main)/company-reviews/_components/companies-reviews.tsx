@@ -54,7 +54,7 @@ const CompaniesReviews = () => {
             ))}
 
           {isLoading && (
-            <div className="mt-2 w-full md:mt-0 md:p-4">
+            <div className="mt-2 w-full p-4">
               <CompanyReviewCardLoading />
             </div>
           )}

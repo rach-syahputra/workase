@@ -104,10 +104,10 @@ export default function CompanyPage() {
       <AppLoading size="md" label="Loading data, please stand by..." />
     </div>
   ) : (
-    <Container className="">
+    <Container className="px-0">
       <div className="flex w-full flex-col items-start justify-normal">
         <div className="flex w-full flex-col items-start justify-normal">
-          <div className="mb-2 flex w-full flex-row items-center justify-normal gap-2.5">
+          <div className="mb-2 flex w-full flex-row items-center justify-normal gap-2.5 px-4">
             {data?.logoUrl ? (
               <Image
                 src={`${data?.logoUrl || ''}`}
@@ -138,7 +138,7 @@ export default function CompanyPage() {
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-1 md:flex-row md:items-center md:justify-center">
+          <div className="flex flex-col gap-1 px-4 md:flex-row md:items-center md:justify-center">
             <div className="flex items-center gap-1">
               <FiPhone className="w-4" />
               <div className="md:text-md text-sm">{data?.phoneNumber}</div>

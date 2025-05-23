@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 
 import { cn } from '@/lib/utils';
 
@@ -33,7 +33,10 @@ const BottomNavigation = ({ items }: BottomNavigationProps) => {
 
 const NavigationItem = ({ item, className }: NavigationItemProps) => {
   const pathname = usePathname();
-  const isActive = item.href === pathname;
+  const searchParams = useSearchParams();
+
+  const currentUrl = `${pathname}${searchParams.toString() ? '?' + searchParams.toString() : ''}`;
+  const isActive = item.href === currentUrl;
 
   return (
     <Link
