@@ -53,13 +53,13 @@ const CompanyRating = () => {
   }, [fetchCompanyRating]);
 
   return (
-    <>
+    <div className="w-full max-md:px-4">
       {isLoading ? (
         <CompanyRatingLoading />
       ) : (
         <CompanyRatingCard rating={rating!} totalReviews={totalReviews} />
       )}
-    </>
+    </div>
   );
 };
 

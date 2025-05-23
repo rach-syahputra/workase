@@ -35,7 +35,7 @@ const PageContent = () => {
         ) : savedReviews && savedReviews.length > 0 ? (
           savedReviews.map((savedReview, index) => (
             <Fragment key={index}>
-              <div className="p-4">
+              <div className="py-4 md:p-4">
                 <CompanyReviewCard
                   review={savedReview.companyReview}
                   disabled={isSaving}
