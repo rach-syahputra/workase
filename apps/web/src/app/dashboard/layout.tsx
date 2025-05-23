@@ -47,9 +47,10 @@ export default async function UserDashboardLayout({
       <NavigationBar />
       <div className="relative flex flex-col items-start justify-start w-full bg-white min-w-screen lg:flex-row">
         <UserSidebar />
-        <div className="flex flex-col flex-1 w-full bg-white lg:ml-sidebar lg:p-4 lg:pl-0">
+        <div className="flex flex-col flex-1 w-full bg-white max-lg:pb-8 lg:ml-sidebar lg:p-4 lg:pl-0">
           <main className="flex-1 w-full rounded-md">
-            {children} <Toaster />
+            {children}
+            <Toaster />
           </main>
         </div>
       </div>
