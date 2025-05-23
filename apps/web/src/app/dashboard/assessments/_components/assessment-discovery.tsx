@@ -1,43 +1,22 @@
 'use client';
 
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
-import { ArrowDown, ArrowUp } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { IAssessment } from '@/lib/interfaces/assessment';
 import { getAssessmentDiscovery } from '@/lib/apis/assessments';
 import { OrderType } from '@/lib/interfaces/api-request/filter';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/shadcn-ui/select';
 import { Card } from '@/components/shadcn-ui/card';
 import { Input } from '@/components/shadcn-ui/input';
 import AppPagination from '@/components/ui/pagination';
 import UserDashboardHeader from '@/components/user-dashboard/user-dashboard-header';
 import AssessmentCardSkeleton from './assessment-card-skeleton';
 import AssessmentCard from './assessment-card';
-
-interface OrderSelectProps {
-  order: OrderType;
-  onOrderChange: Dispatch<SetStateAction<OrderType>>;
-}
+import AssessmentDiscoveryOrderSelect from './assessment-discovery-order-select';
 
 const AssessmentDiscovery = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [page, setPage] = useState<number>(1);
-  const [limit, setLimit] = useState<number>(8);
   const [order, setOrder] = useState<OrderType>('desc');
   const [searchSkill, setSearchSkill] = useState<string>('');
   const [debouncedSearchSkill, setDebouncedSearchSkill] = useState<string>('');
@@ -47,7 +26,7 @@ const AssessmentDiscovery = () => {
     setIsLoading(true);
 
     const response = await getAssessmentDiscovery({
-      limit,
+      limit: 9,
       page,
       order,
       skill: debouncedSearchSkill,
@@ -62,7 +41,7 @@ const AssessmentDiscovery = () => {
     }
 
     setIsLoading(false);
-  }, [page, limit, order, debouncedSearchSkill]);
+  }, [page, order, debouncedSearchSkill]);
 
   useEffect(() => {
     fetchGetAssessmentDiscovery();
@@ -92,7 +71,10 @@ const AssessmentDiscovery = () => {
             value={searchSkill}
             className="w-full md:w-1/2"
           />
-          <OrderSelect order={order} onOrderChange={setOrder} />
+          <AssessmentDiscoveryOrderSelect
+            order={order}
+            onOrderChange={setOrder}
+          />
         </div>
 
         <div className="grid w-full gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -103,77 +85,27 @@ const AssessmentDiscovery = () => {
               <AssessmentCardSkeleton />
             </>
           ) : assessments?.length ? (
-            <>
-              {assessments.map((assessment, index) => (
-                <AssessmentCard key={index} assessment={assessment} />
-              ))}
-              {totalPages > 1 && (
-                <AppPagination
-                  page={page}
-                  disabled={isLoading}
-                  onPageChange={setPage}
-                  totalPages={totalPages}
-                  className="mt-2"
-                />
-              )}
-            </>
+            assessments.map((assessment, index) => (
+              <AssessmentCard key={index} assessment={assessment} />
+            ))
           ) : (
             <div className="text-primary-gray col-span-1 flex h-60 w-full items-center justify-center md:col-span-2 lg:col-span-3">
               No available assessments.
             </div>
           )}
         </div>
+
+        {totalPages > 1 && (
+          <AppPagination
+            page={page}
+            disabled={isLoading}
+            onPageChange={setPage}
+            totalPages={totalPages}
+            className="mt-2"
+          />
+        )}
       </div>
     </Card>
-  );
-};
-
-const OrderSelect = ({ order, onOrderChange }: OrderSelectProps) => {
-  return (
-    <Select
-      onValueChange={(value) => {
-        onOrderChange(value as OrderType);
-      }}
-    >
-      <SelectTrigger className="w-full md:w-[200px]">
-        <SelectValue
-          placeholder={
-            order === 'desc' ? (
-              <div className="flex flex-row items-center justify-center gap-2">
-                <span>Total Enrollment</span>
-                <ArrowDown size={16} />
-              </div>
-            ) : order === 'asc' ? (
-              <div className="flex flex-row items-center justify-center gap-2">
-                <span>Total Enrollment</span>
-                <ArrowUp size={16} />
-              </div>
-            ) : (
-              '-- Total Enrollment --'
-            )
-          }
-          defaultValue="desc"
-          className="w-full"
-        />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectGroup>
-          <SelectLabel>Total Enrollment</SelectLabel>
-          <SelectItem value="asc">
-            <div className="flex flex-row items-center justify-center gap-2">
-              <span>Total Enrollment</span>
-              <ArrowUp size={16} />
-            </div>
-          </SelectItem>
-          <SelectItem value="desc">
-            <div className="flex flex-row items-center justify-center gap-2">
-              <span>Total Enrollment</span>
-              <ArrowDown size={16} />
-            </div>
-          </SelectItem>
-        </SelectGroup>
-      </SelectContent>
-    </Select>
   );
 };
 

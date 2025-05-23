@@ -5,12 +5,6 @@ import { Fragment } from 'react';
 import { useCompanyReviewsContext } from '@/context/company-reviews-context';
 import CompanyReviewCard from '@/components/company/reviews/company-review-card';
 import CompanyReviewCardLoading from '@/components/company/reviews/company-review-card-loading';
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@/components/shadcn-ui/tabs';
 import { Separator } from '@/components/shadcn-ui/separator';
 import SearchCompanyReviewsBar from './search-company-reviews-bar';
 

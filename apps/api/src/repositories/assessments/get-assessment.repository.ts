@@ -83,7 +83,6 @@ class GetAssessmentRepository {
   getAssessmentDiscovery = async (req: GetAssessmentDiscoveryRequest) => {
     const limit = req.limit ? req.limit : 9;
     const page = req.page ? req.page : 1;
-    const skipConfig = (page - 1) * limit;
 
     // Order by assessment enrollment count
     const orderConfig = {
@@ -116,8 +115,6 @@ class GetAssessmentRepository {
         UserAssessment: true,
       },
       orderBy: orderConfig,
-      take: limit,
-      skip: skipConfig,
     });
 
     // ACTUAL: Retrieve assessment with at least 25 questions
@@ -125,11 +122,14 @@ class GetAssessmentRepository {
     const filteredAssessments = assessments.filter(
       (assessment) => assessment.AssessmentQuestion.length >= 5,
     );
-
     const totalAssessments = filteredAssessments.length || 0;
+    const paginatedAssessments = filteredAssessments.slice(
+      (page - 1) * limit,
+      page * limit,
+    );
 
     return {
-      assessments: filteredAssessments.map((assessment) => ({
+      assessments: paginatedAssessments.map((assessment) => ({
         id: assessment.id,
         skill: {
           id: assessment.skill.id,

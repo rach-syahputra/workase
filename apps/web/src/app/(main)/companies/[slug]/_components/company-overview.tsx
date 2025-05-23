@@ -5,7 +5,7 @@ interface CompanyOverviewProps {
 const CompanyOverview = ({ description }: CompanyOverviewProps) => {
   return (
     <div
-      className="py-4 text-justify text-[90%]"
+      className="p-4 text-justify text-[90%]"
       dangerouslySetInnerHTML={{
         __html: description || '',
       }}
