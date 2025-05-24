@@ -24,6 +24,7 @@ import {
   IOption,
 } from './interface';
 import { useAppToast } from '@/hooks/use-app-toast';
+import { useToast } from '@/hooks/use-toast';
 
 interface CompanyReviewsProviderProps {
   slug: string;
@@ -40,6 +41,7 @@ const CompanyReviewsProvider = ({
 }: CompanyReviewsProviderProps) => {
   const searchParams = useSearchParams();
   const { appToast } = useAppToast();
+  const { toast } = useToast();
   const firstRenderRef = useRef(false);
   const renderWithQ = useRef(false);
   const orderParam = searchParams.get('order') as OrderType;
@@ -115,6 +117,11 @@ const CompanyReviewsProvider = ({
               : review,
           ),
         );
+
+        toast({
+          title: 'Review Saved',
+          description: 'Review successfully saved.',
+        });
       }
     } else if (req.action === 'REMOVE') {
       const response = await removeSavedReview(req);
@@ -127,6 +134,11 @@ const CompanyReviewsProvider = ({
               : review,
           ),
         );
+
+        toast({
+          title: 'Review Unsaved',
+          description: 'Review successfully unsaved.',
+        });
       }
     }
 

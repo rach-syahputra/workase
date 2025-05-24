@@ -18,6 +18,7 @@ import {
   removeSavedReview,
 } from '@/lib/apis/company-reviews';
 import { HandleSavedReviewRequest, ISavedReviewsContext } from './interface';
+import { useToast } from '@/hooks/use-toast';
 import { useAppToast } from '@/hooks/use-app-toast';
 import { useCompaniesReviewsContext } from '../companies-reviews-context';
 
@@ -31,6 +32,7 @@ const SavedReviewsContext = createContext<ISavedReviewsContext | undefined>(
 
 const SavedReviewsProvider = ({ children }: SavedReviewsProviderProps) => {
   const { appToast } = useAppToast();
+  const { toast } = useToast();
   const { setReviews } = useCompaniesReviewsContext();
   const firstRenderRef = useRef(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -85,6 +87,11 @@ const SavedReviewsProvider = ({ children }: SavedReviewsProviderProps) => {
               : review,
           ),
         );
+
+        toast({
+          title: 'Review Saved',
+          description: 'Review successfully saved.',
+        });
       }
     } else if (req.action === 'REMOVE') {
       const response = await removeSavedReview(req);
@@ -97,6 +104,11 @@ const SavedReviewsProvider = ({ children }: SavedReviewsProviderProps) => {
               : review,
           ),
         );
+
+        toast({
+          title: 'Review Unsaved',
+          description: 'Review successfully unsaved.',
+        });
       }
     }
 
