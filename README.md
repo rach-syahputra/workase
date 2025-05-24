@@ -1,76 +1,27 @@
-# Purwadhika Final Project Repository
+## About The Project
 
-This project uses React.js with NextJS for the frontend, Express.js for the backend, and TurboRepo for monorepo management, facilitating rapid development of a scalable web application with streamlined collaboration and efficient server-client interactions.
+### Workase: Job Board Web App
 
-## Available Scripts
+Workase is a job board web application that connects job seekers with top companies. It features a powerful CV generator, professional assessments with certifications, company reviews, and a personalized dashboard to manage job applications and subscriptions.
 
-### `npm run dev`
+## Key Features
 
-Runs the app in the development mode.
+- Authentication & Authorization
+- Job & Company Discovery
+- Job Application
+- Subscription
+- Assessment and Certifications
+- CV Generator
+- Company Reviews
 
-Open [http://localhost:5173](http://localhost:5173) to view it in the browser. For API, you can access it in [http://localhost:8000/api](http://localhost:8000/api). The app will reload if you make edits.
+## Technologies Used
 
-### `npm run build`
-
-Builds the app for production to the `dist` folder for each project.
-
-### `npm run serve`
-
-Runs the app in the production mode.
-
-### `npm run <task> --workspace=<app-name>`
-
-Run command on specific app (install package, run test, etc).
-
-### `npm run <task> --workspace=<app-name> -- --<option>`
-
-Run command on specific app with options.
-
-Example : `npm run seqeulize --workspace=api -- --db:migrate`
-
-# Rules
-
-## Commit & Pull Request
-
-- Always use [conventional commit message](https://www.conventionalcommits.org/en/v1.0.0/) when committing changes or creating pull request
-- **"Squash and Merge"** your pull request to main branch
-
-## Naming Convention
-
-### REST API
-
-- Always use [REST API naming convention](https://restfulapi.net/resource-naming/)
-
-### File Naming Conventions:
-
-1. **Use CamelCase for filenames:**
-   - Begin filenames with a lowercase letter.
-   - For multiple words, capitalize the first letter of each subsequent word.
-   - Example: `index.js`, `userModel.js`, `dataAccess.js`
-
-2. **Use Descriptive Names:**
-   - Choose names that accurately describe the file's purpose or content.
-   - Avoid overly generic names like `utils.js` unless the file genuinely contains utility functions.
-
-3. **Follow Naming Conventions for Specific File Types:**
-   - For configuration files, use names like `.env`, `config.js`, or `settings.json`.
-   - Use consistent naming for test files, such as appending `.test.js` or `.spec.js` to the filename being tested.
-   - Use `package.json` for the project's metadata and dependencies.
-
-4. **Separate Concerns with File Naming:**
-   - Follow a modular structure for different concerns (e.g., `userController.js`, `userService.js`, `userModel.js` for a user-related module).
-
-### Folder Naming Conventions:
-
-1. **Use Singular or Plural Naming:**
-   - Choose a consistent convention for naming folders (e.g., `models` or `model`, `routes` or `route`).
-
-2. **Avoid Special Characters and Spaces:**
-   - Use hyphens (`-`) or underscores (`_`) for separating words in folder names, but avoid spaces or special characters.
-
-3. **Use Descriptive Names for Folders:**
-   - Name folders according to their content or purpose (e.g., `controllers`, `services`, `utils`, `tests`, `public`, `views`, etc.).
-
-4. **Nested Folder Structure:**
-   - Create a logical and organized folder structure based on the project's architecture.
-   - For larger projects, consider organizing files by features/modules (Feature-Based Structure) or layer-based (Layered Structure).
+- ![React](https://img.shields.io/badge/react-black?style=for-the-badge&logo=react)
+- ![Next.js](https://img.shields.io/badge/nextjs-black?style=for-the-badge&logo=next.js&logoColor=white)
+- ![Tailwind CSS](https://img.shields.io/badge/tailwind-black?style=for-the-badge&logo=tailwind%20css)
+- ![Shadcn UI](https://img.shields.io/badge/shadcnui-black?style=for-the-badge&logo=shadcnui)
+- ![Express.js](https://img.shields.io/badge/express-black?style=for-the-badge&logo=express&logoColor=white)
+- ![PostgreSQL](https://img.shields.io/badge/postgresql-black?style=for-the-badge&logo=postgresql&logoColor=white)
+- ![Prisma](https://img.shields.io/badge/prisma-black?style=for-the-badge&logo=prisma)
+- ![Supabase](https://img.shields.io/badge/supabase-black?style=for-the-badge&logo=supabase&logoColor=%23006239)
+- ![Cloudinary](https://img.shields.io/badge/cloudinary-black?style=for-the-badge&logo=cloudinary&logoColor=%233448c5)
