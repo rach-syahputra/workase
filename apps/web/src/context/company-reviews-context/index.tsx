@@ -63,7 +63,7 @@ const CompanyReviewsProvider = ({
         order: order || 'desc',
         cursor: option?.cursor,
         q: debouncedQuery,
-        limit: 15,
+        limit: 8,
         slug,
       });
 
