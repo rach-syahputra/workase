@@ -126,6 +126,10 @@ const SavedReviewsProvider = ({ children }: SavedReviewsProviderProps) => {
   }, [query]);
 
   useEffect(() => {
+    firstRenderRef.current = false;
+  }, [page]);
+
+  useEffect(() => {
     if (firstRenderRef.current === true) return;
     firstRenderRef.current = true;
 
