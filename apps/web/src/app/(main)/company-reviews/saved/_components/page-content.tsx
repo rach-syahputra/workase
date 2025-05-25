@@ -64,6 +64,7 @@ const PageContent = () => {
             onPageChange={setPage}
             disabled={isLoading}
             totalPages={totalPages}
+            className="mb-4"
           />
         )}
       </div>

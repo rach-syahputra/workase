@@ -54,7 +54,7 @@ const CompaniesReviews = () => {
             ))}
 
           {isLoading && (
-            <div className="flex w-full flex-col gap-4 px-4">
+            <div className="flex w-full flex-col gap-4 px-4 pb-4">
               <Separator />
               <CompanyReviewCardLoading />
             </div>
