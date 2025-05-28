@@ -36,12 +36,12 @@ export default function CompaniesCard({
   if (!mounted) return null;
 
   return (
-    <div className="group relative">
+    <div className="relative group">
       <Link
         href={`/companies/${slug}`}
         className="border-primary-background-gray block rounded-md border shadow-[0_8px_32px_rgba(0,0,0,0.04)] transition-all duration-300 ease-in-out hover:scale-[1.01] hover:border hover:border-blue-500/50 hover:shadow-[0_4px_20px_rgba(0,0,0,0.08)] md:border-0"
       >
-        <Card className="group relative">
+        <Card className="relative group">
           <CardHeader className="w-full max-w-full gap-1.5">
             <div className="flex w-fit items-center justify-center gap-2.5 pl-2">
               {logoUrl ? (
@@ -50,22 +50,22 @@ export default function CompaniesCard({
                   alt="Company logo"
                   width={100}
                   height={100}
-                  className="aspect-square h-[70px] w-[70px] rounded-full border object-cover"
+                  className="aspect-square h-[55px] w-[55px] rounded-full border object-cover"
                 />
               ) : (
                 <div className="flex aspect-square h-[70px] w-[70px] items-center justify-center rounded-full border bg-gray-200">
                   <span className="text-gray-400"></span>
                 </div>
               )}
-              <div className="flex flex-col gap-1 font-medium">
+              <div className="flex flex-col gap-[1px] font-medium">
                 <Link
                   href="#"
                   aria-label="Company detail"
-                  className="max-w-[190px] overflow-hidden text-ellipsis whitespace-nowrap py-[2px] text-[17px] font-semibold text-black sm:max-w-[210px] md:max-w-[200px]"
+                  className="max-w-[190px] overflow-hidden text-ellipsis whitespace-nowrap py-[2px] text-[16px] font-semibold text-black sm:max-w-[210px] md:max-w-[200px]"
                 >
                   {name}
                 </Link>
-                <p className="max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap text-sm font-light">
+                <p className="max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap text-[13px] font-light">
                   {location}
                 </p>
               </div>
@@ -73,14 +73,14 @@ export default function CompaniesCard({
           </CardHeader>
           <CardContent>
             <div className="flex flex-wrap font-medium">
-              <CardBadge className="bg-primary-gray-background h-[28px] min-w-[71px]">
+              <CardBadge className="bg-primary-gray-background h-[28px] min-w-[56px]">
                 {category}
               </CardBadge>
             </div>
           </CardContent>
           <CardFooter className="flex flex-col">
             <Separator />
-            <div className="font-geist flex w-full items-center justify-between gap-4 font-medium">
+            <div className="flex items-center justify-between w-full gap-4 font-medium font-geist">
               <div className="flex items-center gap-1">
                 <span className="text-primary-blue text-[14px] font-thin">
                   {_count} job openings

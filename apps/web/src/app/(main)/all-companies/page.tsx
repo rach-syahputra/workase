@@ -5,7 +5,6 @@ import CompaniesCard from './_components/companies-card';
 import { useState, useEffect } from 'react';
 import { axiosPublic } from '@/lib/axios';
 import { CompaniesSearchBar } from './_components/companies-searchbar';
-import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import {
   CompaniesResponse,
@@ -26,7 +25,6 @@ import CompaniesPagination from './_components/companies-pagination';
 import AppLoading from '@/components/ui/app-loading';
 import { AllCompaniesFilterSchema } from '@/validations/all-companies';
 import { useToast } from '@/hooks/use-toast';
-import { set } from 'cypress/types/lodash';
 
 export default function AllCompanies() {
   const router = useRouter();
@@ -134,23 +132,26 @@ export default function AllCompanies() {
     }
   }, [fetchCompanies, searchParams, toast]);
   return loading ? (
-    <div className="bg-background fixed left-0 top-0 flex min-h-screen w-screen flex-1 items-center justify-center">
+    <div className="fixed top-0 left-0 flex items-center justify-center flex-1 w-screen min-h-screen bg-background">
       <AppLoading size="md" label="Loading data, please stand by..." />
     </div>
   ) : (
     <Container className="">
-      <div className="flex w-full flex-col items-center justify-center">
+      <div className="flex flex-col items-center justify-center w-full">
         <div className="font-geist mb-[5px] flex h-fit w-full flex-col items-center justify-center">
           <form
             onSubmit={formik.handleSubmit}
-            className="flex w-full items-center justify-center"
+            className="flex items-center justify-center w-full"
           >
             <CompaniesSearchBar formik={formik} isFetch={isFetch} />
           </form>
         </div>
         <div className="font-geist mt-1 flex h-fit w-full max-w-[97%] flex-col items-center justify-center md:max-w-[90%] md:flex-row md:items-center md:justify-between">
-          <div className="hidden text-[21px] font-medium md:block">
-            Explore Companies :
+          <div className="hidden text-[18px] font-medium md:block">
+            <div className="flex">
+              <div className="">Explore Companies</div>{' '}
+              <div className="px-7">:</div>
+            </div>
           </div>
           <div className="h-full w-full md:w-[200px]">
             <Select value={sortOrder} onValueChange={hanlerSortChange}>
