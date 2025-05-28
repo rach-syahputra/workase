@@ -33,7 +33,6 @@ export function SearchJobs({ pagination, jobs }: JobsResponse) {
     }
     return items;
   };
-
   return (
     <div className="w-full max-w-[90%] pt-[12px] md:pt-0 lg:max-w-[90%]">
       <div className="my-4">

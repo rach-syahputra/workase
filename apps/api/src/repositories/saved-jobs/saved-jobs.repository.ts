@@ -55,7 +55,7 @@ class savedJobsRepository {
       take: limit,
       orderBy: {
         job: {
-          [sortField === 'title' ? 'title' : 'title']: sortOrder,
+          [sortField as string]: sortOrder,
         },
       },
       select: {
