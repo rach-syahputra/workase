@@ -5,25 +5,27 @@ import { SearchBar } from './_components/searchbar';
 import { SearchJobs } from './_components/search-jobs';
 import FilterBaseOnTime from './_components/filter-base-on-time';
 import AppLoading from '@/components/ui/app-loading';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { useSearchJob } from '@/context/search-job-context';
 type SortOrder = 'asc' | 'desc';
 export default function AllJobs() {
   const { jobs, pagination, fetchJobs } = useSearchJob();
   const searchParams = useSearchParams();
+  const router = useRouter();
   const [query, setQuery] = useState({
     title: '',
     category: '',
     location: '',
-    page: 1,
+    page: null as number | null,
+    dateFilter: null as string | null,
+    startDate: null as Date | null,
+    endDate: null as Date | null,
+    sortOrder: 'desc' as SortOrder,
   });
 
   // preventif for re-fetch
   const lastQueryRef = useRef(query);
-  useEffect(() => {
-    fetchJobs(query);
-  }, [fetchJobs, query]);
   useEffect(() => {
     const nextQuery = {
       title: searchParams.get('title') || '',
@@ -44,16 +46,31 @@ export default function AllJobs() {
       nextQuery.title !== lastQueryRef.current.title ||
       nextQuery.category !== lastQueryRef.current.category ||
       nextQuery.location !== lastQueryRef.current.location ||
-      nextQuery.page !== lastQueryRef.current.page;
+      nextQuery.page !== lastQueryRef.current.page ||
+      nextQuery.dateFilter !== lastQueryRef.current.dateFilter ||
+      nextQuery.startDate !== lastQueryRef.current.startDate ||
+      nextQuery.endDate !== lastQueryRef.current.endDate ||
+      nextQuery.sortOrder !== lastQueryRef.current.sortOrder;
 
     if (isDifferent) {
+      const params = new URLSearchParams();
+      if (nextQuery.title) params.set('title', nextQuery.title);
+      if (nextQuery.category) params.set('category', nextQuery.category);
+      if (nextQuery.location) params.set('location', nextQuery.location);
+      if (nextQuery.dateFilter) params.set('dateFilter', nextQuery.dateFilter);
+      if (nextQuery.startDate)
+        params.set('startDate', nextQuery.startDate.toString());
+      if (nextQuery.endDate)
+        params.set('endDate', nextQuery.endDate.toString());
+      if (nextQuery.sortOrder) params.set('sortOrder', nextQuery.sortOrder);
+      if (nextQuery.page) params.set('page', nextQuery.page.toString());
+      router.replace(`/all-jobs?${params.toString()}`);
       setQuery(nextQuery);
       lastQueryRef.current = nextQuery;
       fetchJobs(nextQuery);
     }
-  }, [fetchJobs, searchParams]);
-
-  return jobs.length === 0 ? (
+  }, [fetchJobs, router, searchParams]);
+  return jobs === undefined ? (
     <div className="fixed top-0 left-0 flex items-center justify-center flex-1 w-screen min-h-screen bg-background">
       <AppLoading size="md" label="Loading data, please stand by..." />
     </div>
@@ -66,7 +83,15 @@ export default function AllJobs() {
         <div className="font-geist mb-[5px] flex h-fit w-full flex-col items-center justify-center">
           <FilterBaseOnTime></FilterBaseOnTime>
         </div>
-        {pagination && <SearchJobs pagination={pagination} jobs={jobs} />}
+        {jobs.length === 0 ? (
+          <div className="mt-2 flex h-[calc(100vh-440px)] w-full items-center justify-center sm:mt-0 sm:h-[calc(100vh-550px)] md:h-[calc(100vh-370px)]">
+            <div className="">There are no jobs available</div>
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center w-full">
+            {pagination && <SearchJobs pagination={pagination} jobs={jobs} />}
+          </div>
+        )}
       </div>
     </Container>
   );

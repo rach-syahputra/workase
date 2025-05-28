@@ -46,7 +46,6 @@ export function SearchBar() {
     'Company Category',
     'Find Jobs',
   ];
-
   const initialValues: IFilterForm = {
     title: '',
     category: '',
@@ -121,6 +120,7 @@ export function SearchBar() {
         endDate: dateToParams || '',
       }).toString();
       setIsFetch(false);
+      router.replace(`/all-jobs?${query}`);
     },
   });
 
