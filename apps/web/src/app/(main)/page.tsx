@@ -34,7 +34,7 @@ export default function HomePage() {
   const urlMessage = searchParams.get('message');
   const [jobs, setJobs] = useState<Job[]>([]);
   const { toast } = useToast();
-  const [isFetch, setIsFetch] = useState(false);
+
   useEffect(() => {
     setLoading(true);
     const fetchJobs = async () => {
@@ -66,7 +66,6 @@ export default function HomePage() {
     const dateToParams = searchParams.get('endDate');
     navigator.geolocation.getCurrentPosition(async (position) => {
       try {
-        setIsFetch(true);
         fetchJobs({
           title: '',
           category: '',
@@ -82,8 +81,6 @@ export default function HomePage() {
           description: 'Something went wrong',
           variant: 'destructive',
         });
-      } finally {
-        setIsFetch(false);
       }
     });
   }, [fetchJobs, searchParams, toast]);
@@ -112,14 +109,14 @@ export default function HomePage() {
   }, [urlMessage, toast]);
 
   return loading ? (
-    <div className="fixed top-0 left-0 flex items-center justify-center flex-1 w-screen min-h-screen bg-background">
+    <div className="bg-background fixed left-0 top-0 flex min-h-screen w-screen flex-1 items-center justify-center">
       <AppLoading size="md" label="Loading data, please stand by..." />
     </div>
   ) : (
     <Container className="">
-      <div className="flex flex-col items-center justify-center w-full">
+      <div className="flex w-full flex-col items-center justify-center">
         <div className="font-geist mb-[5px] flex h-fit w-full flex-col items-center justify-center">
-          <SearchBar isFetch={isFetch} />
+          <SearchBar />
         </div>
         <NewestJobs jobs={jobs} />
         <NearestJobs />
