@@ -27,51 +27,14 @@ export default function FilterBaseOnTime({
 }: React.HTMLAttributes<HTMLDivElement>) {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { fetchJobs } = useSearchJob();
+
   const [date, setDate] = useState<DateRange | undefined>({
     from: new Date(2025, 0, 20),
     to: addDays(new Date(2026, 0, 20), 20),
   });
   const [dateFilter, setDateFilter] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>(`desc`);
-  useEffect(() => {
-    const title = searchParams.get('title') || '';
-    const category = searchParams.get('category') || '';
-    const location = searchParams.get('location') || '';
-    const dateFilterParam = searchParams.get('dateFilter');
-    const sortOrderParam =
-      (searchParams.get('sortOrder') as 'asc' | 'desc') || 'desc';
-    const page = searchParams.get('page')
-      ? parseInt(searchParams.get('page')!, 10)
-      : undefined;
-    const dateFromParams = searchParams.get('startDate');
-    const dateToParams = searchParams.get('endDate');
-    if (dateFromParams && dateToParams) {
-      setDate({ from: new Date(dateFromParams), to: new Date(dateToParams) });
-    }
-    if (dateFilterParam) setDateFilter(dateFilterParam);
-    if (sortOrderParam) setSortOrder(sortOrderParam);
-    // fetch if there is parameter
-    if (
-      title ||
-      category ||
-      location ||
-      dateFilterParam ||
-      sortOrderParam !== 'desc' ||
-      page
-    ) {
-      fetchJobs({
-        page: typeof page === 'string' ? parseInt(page, 10) : page,
-        title,
-        category,
-        location,
-        dateFilter: dateFilterParam as any,
-        startDate: dateFromParams ? new Date(dateFromParams) : null,
-        endDate: dateToParams ? new Date(dateToParams) : null,
-        sortOrder: sortOrderParam,
-      });
-    }
-  }, [fetchJobs, searchParams]);
+
   const handleDateChange = (newDate: DateRange) => {
     setDate(newDate);
     if (newDate?.from) {
@@ -109,17 +72,7 @@ export default function FilterBaseOnTime({
     if (newSortOrder !== 'desc') params.set('sortOrder', newSortOrder);
     if (date?.from) params.set('startDate', newDate?.from?.toString() || '');
     if (date?.to) params.set('endDate', newDate?.to?.toString() || '');
-    await fetchJobs({
-      page: typeof page === 'string' ? parseInt(page, 10) : page,
-      title,
-      category,
-      location,
-      dateFilter: newDateFilter as any,
-      startDate: newDate?.from || null,
-      endDate: newDate?.to || null,
-      sortOrder: newSortOrder,
-    });
-    router.push(`/all-jobs?${params.toString()}`);
+    router.replace(`/all-jobs?${params.toString()}`);
   };
   return (
     <div className="w-full max-w-[835px] flex-col items-center justify-center gap-1 rounded-md px-[5px] md:flex md:flex-row md:items-center md:justify-around md:px-[0px]">
