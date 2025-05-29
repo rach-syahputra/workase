@@ -21,7 +21,6 @@ import {
   SelectValue,
 } from '@/components/shadcn-ui/select';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useSearchJob } from '@/context/search-job-context';
 export default function FilterBaseOnTime({
   className,
 }: React.HTMLAttributes<HTMLDivElement>) {
