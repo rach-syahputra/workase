@@ -11,7 +11,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/shadcn-ui/popover';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   Select,
   SelectContent,
