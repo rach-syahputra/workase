@@ -10,7 +10,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useSearchJob } from '@/context/search-job-context';
 type SortOrder = 'asc' | 'desc';
 export default function AllJobs() {
-  const { jobs, pagination, fetchJobs } = useSearchJob();
+  const { jobs, pagination, fetchJobs, setLoading } = useSearchJob();
   const searchParams = useSearchParams();
   const router = useRouter();
   const [query, setQuery] = useState({
@@ -53,6 +53,7 @@ export default function AllJobs() {
       nextQuery.sortOrder !== lastQueryRef.current.sortOrder;
 
     if (isDifferent) {
+      setLoading(true);
       const params = new URLSearchParams();
       if (nextQuery.title) params.set('title', nextQuery.title);
       if (nextQuery.category) params.set('category', nextQuery.category);
@@ -64,19 +65,19 @@ export default function AllJobs() {
         params.set('endDate', nextQuery.endDate.toString());
       if (nextQuery.sortOrder) params.set('sortOrder', nextQuery.sortOrder);
       if (nextQuery.page) params.set('page', nextQuery.page.toString());
-      router.replace(`/all-jobs?${params.toString()}`);
+
       setQuery(nextQuery);
       lastQueryRef.current = nextQuery;
       fetchJobs(nextQuery);
     }
-  }, [fetchJobs, router, searchParams]);
-  return jobs === undefined ? (
-    <div className="fixed top-0 left-0 flex items-center justify-center flex-1 w-screen min-h-screen bg-background">
+  }, [fetchJobs, router, searchParams, setLoading]);
+  return jobs.length === undefined ? (
+    <div className="bg-background fixed left-0 top-0 flex min-h-screen w-screen flex-1 items-center justify-center">
       <AppLoading size="md" label="Loading data, please stand by..." />
     </div>
   ) : (
     <Container className="">
-      <div className="flex flex-col items-center justify-center w-full">
+      <div className="flex w-full flex-col items-center justify-center">
         <div className="font-geist mb-[5px] flex h-fit w-full flex-col items-center justify-center">
           <SearchBar />
         </div>
@@ -88,7 +89,7 @@ export default function AllJobs() {
             <div className="">There are no jobs available</div>
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center w-full">
+          <div className="flex w-full flex-col items-center justify-center">
             {pagination && <SearchJobs pagination={pagination} jobs={jobs} />}
           </div>
         )}

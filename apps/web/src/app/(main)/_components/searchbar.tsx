@@ -9,7 +9,6 @@ import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { useSearchJob } from '@/context/search-job-context';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useToast } from '@/hooks/use-toast';
 
 const FilterSchema = Yup.object().shape({
   title: Yup.string()
@@ -28,12 +27,11 @@ interface IFilterForm {
   category: string;
   location: string;
 }
-export function SearchBar({ isFetch }: { isFetch: boolean }) {
+export function SearchBar() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<string>('Job Title');
-
-  const { fetchJobs } = useSearchJob();
+  const { fetchJobs, loading, setLoading } = useSearchJob();
   const search = [
     'Job Title',
     'Company Location',
@@ -56,6 +54,7 @@ export function SearchBar({ isFetch }: { isFetch: boolean }) {
     initialValues,
     validationSchema: FilterSchema,
     onSubmit: (values) => {
+      setLoading(true);
       fetchJobs({
         ...values,
         dateFilter: dateFilterParam as any,
@@ -126,7 +125,7 @@ export function SearchBar({ isFetch }: { isFetch: boolean }) {
                 ref={undefined}
                 type="submit"
                 className={`bg-primary-blue relative h-[44px] w-full px-5 text-[15px] font-medium md:h-[40px] md:w-[110px]`}
-                disabled={isFetch}
+                disabled={loading}
               >
                 {item}
               </Button>
